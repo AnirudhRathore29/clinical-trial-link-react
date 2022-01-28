@@ -10,8 +10,10 @@ html{ font-size: 62.5%;  scroll-behavior: auto !important;}
 
 body { overflow-x: hidden; font-weight: normal; font-size: initial; font-family: 'Colfax'; }
 :root{
+  --PrimaryColor: #4096EE;
+  --LightPrimaryColor: #6B96C2;
+  --SecondaryColor: #CDEB8B;
   --darkText: #232221;
-  --bannerBg: #FCE8D1;
   --whiteColor: #ffffff;
   --blackColor: #000000;
   --greenColor: #0B6623;

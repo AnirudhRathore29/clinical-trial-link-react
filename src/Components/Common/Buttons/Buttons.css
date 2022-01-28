@@ -1,10 +1,11 @@
 .btn{ font-size: 16px; font-weight: 500; padding: 12px 2px; min-width: 17rem; border-radius: 5px; border: 1px solid transparent; }
 .btn:hover .white-icon{transition: 0.3s;}
 .btn:hover .white-icon{filter: none;}
-.btn-green{ background: var(--greenColor); color:  var(--whiteColor); }
-.btn-green:hover{ background: transparent; border-color: var(--greenColor); color:  var(--greenColor); }
-.btn-dark{ background: var(--darkText); color:  var(--whiteColor); }
-.btn-dark:hover{ background: transparent; border-color: var(--darkText); color: var(--darkText); }
+.btn-primary{ background: var(--PrimaryColor); color:  var(--whiteColor); }
+.btn-primary:hover{ background: transparent; border-color: var(--PrimaryColor); color:  var(--PrimaryColor); }
+.btn-green{ background: var(--SecondaryColor); color:  #356AA0; }
+.btn-green:hover{ background: transparent; border-color: var(--SecondaryColor); color: var(--SecondaryColor); }
+
 .btn-red{ background: var(--ThemeColorRed); color:  var(--whiteColor); }
 .btn-red:hover{ background: transparent; border-color: var(--ThemeColorRed); color: var(--ThemeColorRed); }
 .btn-white{ background: var(--whiteColor); color:  var(--darkText); }

@@ -1,9 +1,0 @@
-.tab-outer{text-align: center;}
-.pricing-tabs.nav-tabs{margin-bottom: 5rem;border: 1px solid #FDECDC;display: inline-flex;border-radius: 1rem;overflow: hidden;}
-.pricing-tabs.nav-tabs .nav-link{border: none;margin-bottom: 0;padding: 2rem 3rem;font-size: 2.2rem;color: #c2c2c2;}
-.pricing-tabs.nav-tabs .nav-link.active{background: var(--bannerBg);color: var(--darkText);}
-
-.free-trail-bx{background: var(--bannerBg); padding: 4rem;border-radius: 2rem;display: flex;align-items: center;justify-content: space-between;margin-top: 5rem;}
-.free-trail-bx h2{font-size: 3rem;font-weight: 700;}
-.free-trail-bx p{font-size: 2rem;}
-.contact-info a{color: var(--greenColor);}

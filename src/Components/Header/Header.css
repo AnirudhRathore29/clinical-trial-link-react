@@ -1,19 +1,19 @@
-header.site-header{ padding: 1.5rem 0; -webkit-transition: 0.4s; -moz-transition: 0.4s; -ms-transition: 0.4s; transition: 0.4s; background: var(--bannerBg); }
+header.site-header{position: absolute;top: 0;left: 0;width: 100%; padding: 1.5rem 0; -webkit-transition: 0.4s; -moz-transition: 0.4s; -ms-transition: 0.4s; transition: 0.4s; }
 .home-page header{ padding: 1.5rem 0 0; }
 header.sticky, 
 .home-page header.sticky{ position: fixed; z-index: 5; background: var(--bannerBg); width: 100%; left: 0; top: 0; padding: 1rem 0; box-shadow: rgb(0 0 0 / 25%) 0px 0px 5px 0px; }
 .msingipack-default-navbar{ flex-wrap: nowrap; align-items: flex-start; }
 .sticky .msingipack-default-navbar{ align-items: center; }
-.msingipack-rightNav-side .navbar-nav { margin-top: 2rem; flex-direction: row; justify-content: flex-end; align-items: center; position: relative; z-index: 99; }
+.msingipack-rightNav-side .navbar-nav { flex-direction: row; justify-content: flex-end; align-items: center; position: relative; z-index: 99; }
 .sticky .msingipack-rightNav-side .navbar-nav{ margin-top: 0; }
 .msingipack-rightNav-side .navbar-nav>li:not(.btn-item) { margin: 0 2.5rem; position: relative; }
-.msingipack-rightNav-side .navbar-nav>li:not(.btn-item)>a{ color: var(--darkText); font-size: 16px; font-weight: 500; }
+.msingipack-rightNav-side .navbar-nav>li:not(.btn-item)>a{ color: var(--whiteColor); font-size: 16px; font-weight: 500; }
 .msingipack-rightNav-side .navbar-nav>li:nth-last-child(2)>a{margin-left: 17rem;}
 .msingipack-rightNav-side .navbar-nav>li:not(.btn-item)>a:hover,
-.msingipack-rightNav-side .navbar-nav>li:not(.btn-item)>a.active{ color: var(--greenColor); }
+.msingipack-rightNav-side .navbar-nav>li:not(.btn-item)>a.active{ color: var(--SecondaryColor); }
 .msingipack-rightNav-side .navbar-nav>li.btn-item{ margin-left: 2rem; }
 .msingipack-rightNav-side .navbar-nav>li.btn-item .btn{ min-width: 120px; }
-.navbar-brand img{ position: relative; z-index: 5; -webkit-transition: 0.3s; -moz-transition: 0.3s; -ms-transition: 0.3s; transition: 0.3s; width: 13.4rem; }
+.navbar-brand img{ position: relative; z-index: 5; -webkit-transition: 0.3s; -moz-transition: 0.3s; -ms-transition: 0.3s; transition: 0.3s; width: 34.2rem; }
 .sticky .navbar-brand img{ width: 7rem; }
 
 .dropdown-custom{background: var(--greenColor);border-radius: 1rem;padding: 1rem;position: absolute;top: calc(100% + 1rem); left: 0; min-width: 13rem;box-shadow: 0 0 1rem rgba(0,0,0,0.16);display: none;z-index: 99;}

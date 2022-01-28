@@ -1,10 +1,17 @@
+.home-banner-section{background: url(../../Assets/images/home-banner-bg.svg) bottom center;background-size: cover;min-height: 100vh;padding-top: 18.5rem;}
+.home-banner-caption h1{font-size: 6.4rem;color: var(--whiteColor);}
+.home-banner-caption p{font-size: 3rem;color: var(--whiteColor);margin: 2rem 0;}
+.home-banner-img img{max-height: 65.2vh;margin-right: -4rem;}
 
-/***** What MsingiPack *****/
+.news-bx{padding: 1rem;display: inline-block; background: #2982DC;border-radius: 100px;font-size: 2rem;color: var(--whiteColor);margin-bottom: 2rem;}
+.news-bx span{background: var(--SecondaryColor);border-radius: 50px;padding: 1.2rem 3rem;color: #356AA0;display: inline-block;margin-right: 2rem;}
+
+/***** What Clinical Trial  *****/
 .what-is-msingipack { text-align: center; max-width: 120rem; margin: 0 auto; margin-top: 3rem; font-size: 2rem; }
 .what-is-msingipack p strong{font-weight: 500;}
 .what-is-msingipack p + p{margin-top: 2rem;}
 .what-sec-text{ max-width: 102.6rem; margin:  auto; font-size: 3.2rem; }
-/***** What MsingiPack End *****/
+/***** What Clinical Trial End *****/
 
 .process-section{position: relative;}
 .process-section::after{content: "";width: 100%;height: 100%;position: absolute;left: 0;top: 0;background: var(--lightBg);clip-path: polygon(0 0, 100% 0, 100% 49%, 0% 100%);}
@@ -13,36 +20,21 @@
 .process-item .process-text span{ margin-bottom: 0.5rem; display: block; color: var(--darkText); font-size: 2rem; }
 .process-item .process-text h3{ color: var(--darkText); font-size: 2.2rem; }
 .process-icon{position: relative;}
-.process-icon:after{content: "";width: 4.1rem; height: 2rem;background: url(../../Assets/images/arrow-icon.svg) no-repeat;background-size: cover;position: absolute; right: -2.5rem;top: 50%;transform: translateY(-50%);}
+.process-icon:after{content: "";width: 4.1rem; height: 2rem;background-size: cover;position: absolute; right: -2.5rem;top: 50%;transform: translateY(-50%);}
 .process-section .col-md-3:last-child .process-icon:after{display: none;}
 .process-section .col-md-3:nth-child(2) .process-icon:after{transform: translateY(-50%) rotateX(180deg);}
 
 
-.ready-to-start{background: url(../../Assets/images/kid-flower-vector.svg) no-repeat right bottom;}
+/* .ready-to-start{} */
 
 
-.child-image-bx{background: url(../../Assets/images/children-bg.svg) no-repeat center bottom;min-height: 550px;margin-bottom: -20rem;text-align: center;}
+.child-image-bx{min-height: 550px;margin-bottom: -20rem;text-align: center;}
 
 .why-choose-points{padding: 0;margin: 0;}
 .why-choose-points li{list-style: none;padding-left: 13rem;position: relative;}
 .why-choose-points li + li{margin-top: 5rem;}
-.why-choose-points li::before{content: attr(count);width: 10rem;height: 7.5rem;background: url(../../Assets/images/cricle-shape.svg) no-repeat;background-size: cover;position: absolute;left: 0;top: 0;display: flex;align-items: center;justify-content: center;color: var(--darkText);font-size: 4.2rem;font-weight: 300;}
+.why-choose-points li::before{content: attr(count);width: 10rem;height: 7.5rem;background-size: cover;position: absolute;left: 0;top: 0;display: flex;align-items: center;justify-content: center;color: var(--darkText);font-size: 4.2rem;font-weight: 300;}
 .why-choose-points li h2{font-size: 2.6rem;font-weight: 700;color: var(--darkText);margin-bottom: 1rem;}
 .why-choose-points li p{font-size: 2rem;color: var(--TextColor);}
 
 .our-plans{background: #f1f6e9;}
-/* #content-plans::before {
-    content: '';
-    display: table;
-    height:180px;
-    margin-top: -180px;
-    visibility: hidden;
-    width: 100%;
-  } */
-
-  /* :target {
-    display: block;    
-    position: relative;     
-    top: -100px;
-    visibility: hidden;
-} */
