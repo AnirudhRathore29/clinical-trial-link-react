@@ -1,0 +1,5 @@
+.accordion-item{border: none;}
+.accordion-button{font-size: 2rem;padding: 2rem; border-bottom: 1px solid #EAEFEB!important;}
+.accordion-button:not(.collapsed){background: var(--bannerBg);color: var(--darkText);box-shadow: none!important;}
+.accordion-button::after{width: 2rem; height: 2rem;background-size: 2rem;filter: brightness(0);}
+.accordion-body{font-size: 1.8rem;padding: 3rem;border-bottom: 1px solid #EAEFEB;}

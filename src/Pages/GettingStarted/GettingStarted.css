@@ -1,0 +1,6 @@
+.getstarted-section .container .row + .row{margin-top: 20rem;}
+.getting-started-img{display: inline-block;position: relative;box-shadow: 0 1.5rem 2.5rem rgba(0,0,0,0.1);}
+.getting-started-img::after{content: "";width: 64.4rem;height: 20rem;background: url(../../Assets/images/step-arrow.svg) no-repeat;background-size: cover;right: 99.8%;top: 100%;position: absolute;}
+
+.getstarted-section .container .row:nth-child(even) .getting-started-img::after{right: auto;left: 99.8%;transform: rotateY(180deg);}
+.getstarted-section .container .row:last-child .getting-started-img::after{display: none;}

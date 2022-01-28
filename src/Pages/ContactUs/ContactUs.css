@@ -1,0 +1,5 @@
+.getInTouch-bx{border-radius: 1rem;padding: 3rem;display: block;text-align: center;transition: 0.3s;}
+.getInTouch-bx:hover{transform: translateY(-5px);}
+.getInTouch-bx img{max-width: 9.8rem;}
+.getInTouch-bx h2{font-size: 3rem;color: var(--whiteColor);margin-top: 2rem;}
+.getInTouch-bx p{font-size: 2rem;color: var(--whiteColor);}

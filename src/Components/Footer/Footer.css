@@ -1,0 +1,21 @@
+.msingipack-ftr{background: url(../../Assets/images/ftr-bg.svg) center top;background-size: cover;display: table;width: 100%;padding-bottom: 3.5rem;}
+.ftr-contact-form{padding: 3.3rem 10.6rem;border-radius: 2rem;background: #EAEFEB;margin-top: -16.7rem;}
+.msingipack-ftr-col h2{font-size: 2.2rem;color: var(--whiteColor);font-weight: 500;margin-bottom: 1rem;}
+.msingipack-ftr-col ul{padding: 0;margin: 0;}
+.msingipack-ftr-col ul li{list-style: none;}
+.msingipack-ftr-col ul li + li{margin-top: 1rem;}
+.msingipack-ftr-col ul li a{color: var(--whiteColor);font-size: 1.8rem;}
+.msingipack-ftr-col ul li a:hover{color: var(--blackColor);}
+.msingipack-ftr-col p{display: flex;color: var(--whiteColor);margin-bottom: 2rem;font-size: 1.8rem;}
+.msingipack-ftr-col p a{color: var(--whiteColor);}
+.msingipack-ftr-col p span{min-width: 10rem;}
+.social-links{margin-top: 4rem;}
+.social-links img{max-width: 4rem;}
+.social-links a{display: inline-block;}
+.social-links a + a{margin-left: 2rem;}
+.social-links a:hover{transform: translateY(-5px);}
+.copyright{display: flex;justify-content: space-between;align-items: center;position: relative;}
+.copyright a img{filter: brightness(0) invert(1);max-width: 13.6rem;}
+.copyright p{font-size: 16px;color: var(--whiteColor);position: absolute;left: 50%;top: 50%; transform: translate(-50%, -50%);}
+.payment-method{width: 52.5rem;}
+.payment-method img { max-width: 29.4rem; background: rgba(255, 255, 255,1); padding: 0.5rem 1rem; border-radius: 1rem; }

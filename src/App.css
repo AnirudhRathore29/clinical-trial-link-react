@@ -1,0 +1,91 @@
+/****** Common Css Start ******/
+
+html{ font-size: 62.5%;  scroll-behavior: auto !important;}
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Bold.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Bold.woff') format('woff'); font-weight: bold; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Light.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Light.woff') format('woff'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Black.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Black.woff') format('woff'); font-weight: 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Medium.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Medium.woff') format('woff'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Thin.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Thin.woff') format('woff'); font-weight: 100; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Colfax'; src: url('./Assets/Fonts/Colfax-Regular.woff2') format('woff2'), url('./Assets/Fonts/Colfax-Regular.woff') format('woff'); font-weight: normal; font-style: normal; font-display: swap; }
+
+body { overflow-x: hidden; font-weight: normal; font-size: initial; font-family: 'Colfax'; }
+:root{
+  --darkText: #232221;
+  --bannerBg: #FCE8D1;
+  --whiteColor: #ffffff;
+  --blackColor: #000000;
+  --greenColor: #0B6623;
+  --LightGreenColor: #4EB349;
+  --lightBg: #FCFCFC;
+  --TextColor: #4A4745;
+  --ThemeColorRed: #DB4348;
+  --ThemeColorYellow: #F5BF15;
+}
+img{max-width: 100%;}
+a, 
+button, 
+input[type=reset], 
+input[type=submit], 
+input[type=button] {
+ -webkit-transition: all ease-in-out 0.3s;
+ -moz-transition: all ease-in-out 0.3s;
+ -ms-transition: all ease-in-out 0.3s;
+ -o-transition: all ease-in-out 0.3s;
+ transition: all ease-in-out 0.3s;
+ cursor: pointer;
+}
+a, 
+a:hover, 
+a:focus { text-decoration: none; }
+
+.btn.focus, 
+.btn:focus { outline: 0; box-shadow: none; }
+
+button:hover, 
+button:focus,
+input:hover, 
+input:focus,
+textarea:hover, 
+textarea:focus{ outline: 0 !important; box-shadow: none !important; }
+
+
+
+
+.badge{color: var(--whiteColor);padding: .5rem 1rem;font-weight: 500;min-width: 9rem;text-align: center;}
+
+
+.center-clip { margin-top: -1rem; }
+
+.pad-t-80{ padding-top: 8rem; }
+.pad-b-80{ padding-bottom: 8rem; }
+.pad-t-50{ padding-top: 5rem; }
+.pad-b-50{ padding-bottom: 5rem; }
+.pad-t-30{padding-top: 3rem;}
+.pad-b-30{padding-bottom: 3rem;}
+
+.row{margin: 0 -15px;}
+.row div[class*="col"]{padding: 0 15px;}
+
+.tooltip{font-size: 14px;}
+
+.step-navigation{display: flex;margin-top: 3rem;justify-content: space-between;}
+.step-navigation .btn + .btn{margin-left: 1rem;}
+.v-sub{vertical-align: sub;}
+.white-icon{filter: brightness(0) invert(1);}
+th[align="center"]{text-align: center;}
+
+
+.alert-danger { color: #020202; background-color: #ffe7ea; border-color: #ffbfc2;}
+.alert{font-size: 14px;border-radius: 1rem;}
+
+.breadcrumb{padding: 1rem 2rem; background: #f9f9f9; border-radius: 0.5rem;}
+.breadcrumb-item.active{color: #adadad;}
+.breadcrumb a{color: var(--blackColor);font-weight: 500;}
+
+.table>:not(:first-child){border-top: 2px solid #eef0f8;}
+tbody, td, tfoot, th, thead, tr{border-color: #eef0f8;vertical-align: middle;}
+
+.center-align-table{text-align: center;}
+td[align='left'],
+th[align='left']{text-align: left;}
+/****** Common Css End ******/

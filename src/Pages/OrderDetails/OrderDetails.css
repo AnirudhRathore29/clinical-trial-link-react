@@ -1,0 +1,4 @@
+.qty-input{width: 9rem;padding: 1rem;height: 4rem;text-align: center;margin: 0 auto;}
+.table{border: 1px solid #eef0f8;border-radius: 1rem;}
+.order-total{padding: 2rem;border-radius: 1rem; background: #f9f9f9;max-width: 30rem;margin-left: auto;}
+.order-total p{margin: 0;margin-top: 1.5rem;display: flex;justify-content: space-between;}

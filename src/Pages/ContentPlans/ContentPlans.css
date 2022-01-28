@@ -1,0 +1,73 @@
+.tab-outer{text-align: center;}
+.ContentPlansTabs.nav-tabs{margin:0 -2.2rem;border: none;display: flex;border-radius: 1rem;}
+.ContentPlansTabs.nav-tabs .nav-item{flex: 1 1 auto;padding: 0 2.2rem;}
+.ContentPlansTabs.nav-tabs .nav-link{border: none;border-top: 1rem solid transparent; margin-bottom: 0;padding: 2rem 3rem;font-size: 2.2rem;color: var(--whiteColor);border-radius: 1rem;width: 100%;transition: 0.3s;position: relative;}
+.ContentPlansTabs.nav-tabs .nav-link.active{background: var(--bannerBg);border-top-color: var(--blackColor);box-shadow: 0 1.5rem 3.5rem rgba(0,0,0,0.16)!important;}
+.ContentPlansTabs.nav-tabs .nav-link.active::after{content: "";width: 3.5rem;height: 3rem;position: absolute;top: calc(100% + 5rem);left: 50%; transform: translateX(-50%); clip-path: polygon(50% 0%, 0% 100%, 100% 100%);}
+.ContentPlansTabs.nav-tabs .nav-link img{max-width: 9.8rem;}
+.ContentPlansTabs.nav-tabs .nav-link h2{margin:2rem 0 1rem 0;font-size: 3rem;font-weight: 500;}
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-bronze-plans,
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-bronze-plans::after{background: var(--ThemeColorRed);}
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-silver-plans,
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-silver-plans::after{background: var(--ThemeColorYellow);}
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-gold-plans,
+.ContentPlansTabs.nav-tabs #ContentPlansTabs-tab-gold-plans::after{background: var(--greenColor);}
+
+#ContentPlansTabs-tabpane-bronze-plans.active .contentPlans-bx{border-color: var(--ThemeColorRed); --greenColor: var(--ThemeColorRed);}
+#ContentPlansTabs-tabpane-silver-plans.active .contentPlans-bx{border-color: var(--ThemeColorYellow); --greenColor: var(--ThemeColorYellow);}
+#ContentPlansTabs-tabpane-gold-plans.active .contentPlans-bx{border-color: var(--greenColor);}
+
+#ContentPlansTabs-tabpane-bronze-plans.active .contentPlans-bx::after{background: var(--ThemeColorRed);}
+#ContentPlansTabs-tabpane-silver-plans.active .contentPlans-bx::after{background: var(--ThemeColorYellow);}
+#ContentPlansTabs-tabpane-gold-plans.active .contentPlans-bx::after{background: var(--greenColor);}
+
+.contentPlans-bx{margin-top: 8rem;padding: 7rem 5rem 3rem 5rem;border-radius: 2rem;box-shadow: 0 1.5rem 3.5rem rgba(0,0,0,0.16);position: relative;overflow: hidden ;border: 1px solid transparent;}
+.contentPlans-bx::after{content: attr(offer); width: 25rem; background: #FF0000; color: var(--whiteColor); text-align: center; padding: .8rem; position: absolute; left: -8.2rem; top: 1.9rem; transform: rotate( -40deg);font-weight: 500;font-size: 13px;}
+.contentPlans-col{padding: 2rem;border: 1px solid #EAEFEB;border-radius: 1rem;margin-top: 1rem;}
+.contentPlans-col.active{background: #fffef9;border-color: var(--ThemeColorYellow);}
+/* .contentPlans-col + .contentPlans-col{margin-top: 1rem;} */
+.priceBx{background: #F5F5F5;border-radius: 3rem;}
+.priceBx label{flex: 0 0 33.33%;padding: 0 1.5rem;}
+.priceBx label input{display: none;border-radius: 3rem;}
+.priceBx label span{padding: 1rem;border-radius: 3rem;display: inline-block;cursor: pointer;width: 100%;text-align: center;font-weight: 500;}
+.priceBx label input:checked + span{background: var(--greenColor);color: var(--whiteColor);}
+
+.check-ul{display: flex;flex-wrap: wrap;margin: 0;padding: 0;}
+.check-ul li{list-style: none;width: 33.333%;margin-bottom: 1rem;display: flex;align-items: center;}
+.check-ul li::before{content: "";display: inline-block;width: 2rem;height: 1.5rem;margin-right: 1rem;background: url(../../Assets/images/check-icon.svg);background-size: cover;filter: brightness(0);opacity: 0.5;}
+
+.checkbox2 input{display: none;}
+.checkbox2 span{display: flex;align-items: center;cursor: pointer;}
+.checkbox2 span i{display: flex; align-items: center; justify-content: center; width: 2.4rem;height: 2.4rem;margin-right: 1rem;border-radius: 5px;border: 1px solid #919191;}
+.checkbox2 span i::after{content: "";display: inline-block;width: 1.3rem;height: 1rem;background: url(../../Assets/images/check-icon.svg);background-size: cover;filter: brightness(0) invert(1);}
+.checkbox2 input:checked + span i{background: var(--greenColor);}
+
+.radio-btn input{display: none;}
+.radio-btn span{display: flex;align-items: center;cursor: pointer;}
+.radio-btn span i{display: flex; align-items: center; justify-content: center; width: 2.4rem;height: 2.4rem;border-radius: 50%;margin-right: 1rem;border: 1px solid #919191;position: relative;}
+.radio-btn span i::after{content: "";display: none;width: 1.4rem;height: 1.4rem;background: var(--greenColor);border-radius: 50%;position: absolute;}
+.radio-btn input:checked + span i::after{display: block;}
+
+.select-all-btn{font-size: 1.8rem;color: var(--greenColor);border: none;box-shadow: none;background: transparent;}
+
+.subscription-total{display: flex;justify-content: space-between;padding-top: 3rem;align-items: center;background: var(--whiteColor);padding-bottom: 1rem;position: sticky;bottom: 0;}
+.subscription-total p{margin-bottom: 0%;margin-right: 6rem;font-size: 2rem;color: var(--greenColor);font-weight: 500;}
+.subscription-total p strong{color: var(--blackColor);}
+.grand-total-bx{display: flex;align-items: center;}
+
+
+.subject-price{margin-left: 1rem;display: inline-block;color: var(--greenColor);font-weight: 400;font-size: 14px;line-height: 1.8;}
+
+.num-of-user{display: flex;align-items: center;}
+.num-of-user label{margin-right: 2rem;font-size: 1.8rem;line-height: 1.2;}
+.num-of-user label small{font-size: 13px;display: block;}
+.num-of-user input{width: 100px;height: 40px;border-color: var(--greenColor);}
+
+
+.contentPlans-col-outer{cursor: pointer;display: block;}
+.contentPlans-col-outer + .contentPlans-col-outer{margin-top: 1rem;}
+.contentPlans-col-outer>input{display: none;}
+.contentPlans-col-outer .contentPlans-title i{display: inline-flex; align-items: center; justify-content: center; width: 2.4rem;height: 2.4rem;margin-right: 1rem;border-radius: 5px;border: 1px solid #919191;}
+.contentPlans-col-outer .contentPlans-title i::after{content: "";display: inline-block;width: 1.3rem;height: 1rem;background: url(../../Assets/images/check-icon.svg);background-size: cover;filter: brightness(0) invert(1);}
+.contentPlans-col-outer input:checked + .contentPlans-col .contentPlans-title i{background: var(--greenColor);}
+.contentPlans-col-outer input:checked + .contentPlans-col{background: #fffef9;border-color: var(--ThemeColorYellow);}

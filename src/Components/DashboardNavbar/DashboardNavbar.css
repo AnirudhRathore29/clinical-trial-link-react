@@ -1,0 +1,19 @@
+.dashboard-side-bar{padding: 8rem 1rem 3rem 1rem;transition: 0.3s;position: absolute;left: 0;top: 0;height: 100%;width: 30rem;overflow: auto;background: var(--greenColor);border-radius: 0 0 3rem 0; }
+.dashboard-side-bar nav{height: 100%;overflow: auto;}
+.dashboard-side-bar ul{margin: 0;padding: 0;}
+.dashboard-side-bar ul>li{list-style: none;padding: 0 0;position: relative;overflow: hidden;}
+.dashboard-side-bar ul>li + li{margin-top: 1rem;}
+.dashboard-side-bar ul>li>a,
+.dashboard-side-bar ul>li>button{color: var(--whiteColor);padding: 1.2rem 2rem;display: flex;align-items: center; font-size: 1.7rem;border-radius: 1rem;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;position: relative;background: transparent;border: none;width: 100%;}
+.dashboard-side-bar ul>li>a img,
+.dashboard-side-bar ul>li>button img{width: 2.5rem;margin-right: 2rem;filter: brightness(0) invert(1);}
+.dashboard-side-bar ul>li>a:hover,
+.dashboard-side-bar ul>li>button:hover{background: #25723a;}
+.dashboard-side-bar ul>li>a.active{background: #055219; color: var(--whiteColor);}
+.toggle-link::after{content: "";width: 1.2rem;height: 1.2rem;position: absolute;right: 1.5rem;background: url(../../Assets/images/down-arrow.svg) no-repeat;background-size: cover;top: 50%;transform: translateY(-50%);opacity: 0.8;}
+.dashboard-side-bar ul.submenu{padding:0 2rem 0 3.5rem;display: none;margin-top: 1rem;}
+.dashboard-side-bar ul.submenu li a{color: #8b8b99;padding: 1rem 1.5rem;display: block;font-size: 15px;border-radius: 1rem;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.dashboard-side-bar ul.submenu li a:hover{background: #ececec;}
+.dashboard-side-bar ul.submenu li a.active{background: #e1f0ff; color: #3699ff;}
+.dashboard-side-bar ul.submenu li + li{margin-top: .5rem;}
+.dashboard-side-bar ul li a i.icon{width: 2rem;text-align: center;margin-right: .5rem;color:#3699ff;}
