@@ -1,5 +1,5 @@
 {
-  "name": "msingipack-react",
+  "name": "clinicaltrial-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,7 +13,6 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
-    "react-scroll": "^1.8.4",
     "react-toastify": "^8.1.0",
     "redux-thunk": "^2.4.1",
     "web-vitals": "^1.1.2"
@@ -42,5 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://msingipack.arkasoftwares.in/"
+  "homepage": "http://clinicaltrial.arkasoftwares.in/"
 }

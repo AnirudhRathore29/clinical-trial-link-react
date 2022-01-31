@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Link } from "react-scroll";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import CommonButton from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./Header.css";
 
 const Header = () => {
     const [scroll, setScroll] = useState(false);
-    const [height, setHeight] = useState(0);
+    // const [height, setHeight] = useState(0);
     const navigate = useNavigate();
     const header = useRef(null);
     const UserToken = localStorage.getItem("user-token");
@@ -24,10 +23,10 @@ const Header = () => {
             () => {
                 if (window.scrollY > 5) {
                     setScroll(true);
-                    setHeight(header.current.clientHeight);
+                    // setHeight(header.current.clientHeight);
                 } else {
                     setScroll(false);
-                    setHeight(0);
+                    // setHeight(0);
                 }
             },
             []
@@ -36,18 +35,18 @@ const Header = () => {
 
     return (
         <>
-            <div className="header-placeholder" style={{ height: height }}></div>
+            {/* <div className="header-placeholder" style={{ height: height }}></div> */}
             <header
                 className={scroll ? "site-header sticky" : "site-header"}
                 ref={header}
             >
-                <nav className="navbar msingipack-default-navbar container-fluid">
-                    <div className="msingipack-navLogo-side">
+                <nav className="navbar clinicaltrial-default-navbar container-fluid">
+                    <div className="clinicaltrial-navLogo-side">
                         <Link to="/" className="d-block">
                             <img src="/images/logo.svg" alt="Logo" />
                         </Link>
                     </div>
-                    <div className="navbar-collapse msingipack-rightNav-side">
+                    <div className="navbar-collapse clinicaltrial-rightNav-side">
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <NavLink to="/"> Home </NavLink>
