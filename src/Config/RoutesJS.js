@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Home from '../Pages/Home/Home';
+import Login from '../Pages/Login/Login'
 import PageNotFound from '../Pages/PageNotFound/404';
 
 import ThankYou from '../Pages/ThankYou/ThankYou';
@@ -18,7 +19,8 @@ const RoutesJS = () => {
             <Route path="/:pathName" element={<PageNotFound />} />
             {/* <Route path="/sign-up" exact element={<SignUp />} />
             <Route path="/forgot-password" exact element={<ForgotPassword />} />
-            <Route path="/login" exact element={<Login />} /> */}
+             */}
+            <Route path="/login" exact element={<Login />} />
 
             {/* <Route element={<PrivateRoute />}>
                 <Route path="/my-subscription" exact element={<MySubscription />} />
