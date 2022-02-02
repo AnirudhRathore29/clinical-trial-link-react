@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
 import { InputText } from "../../Components/Common/Inputs/Inputs";
 import CommonButton from "../../Components/Common/Buttons/Buttons";
 import "./Login.css";
@@ -11,6 +10,10 @@ const Login = () => {
         password: "",
     });
 
+    const LoginSubmit = () => {
+        console.log("loginfeild data", loginFieldData);
+    }
+
     /* password show hide */
     const [Password, SetPassword] = useState(false);
     const ShowPassword = () => {
@@ -20,14 +23,13 @@ const Login = () => {
 
     return (
         <>
-            <section className="hero-section authentication-banner">
+            <section className="authentication-section">
                 <div className="container-fluid">
-                    <SectionTitle
-                        CustomClass="text-center pad-b-30"
-                        title="Login"
-                        ShapeImage="heading-clip-1.svg"
-                        SubHeading={<p className="what-sec-text">Welcome back, please login <br/> to your account.</p>}
-                    />
+                    <div className="auth-heading">
+                        {/* <img src="/images/clinical-icon.svg" alt="icon" /> */}
+                        <h1>Login</h1>
+                        <p>Welcome back, please login to your account</p>
+                    </div>
                     <div className="authentication-bx">
                         <InputText
                             type="email"
@@ -37,12 +39,12 @@ const Login = () => {
                             onChange={(e) => {
                                 setLoginFieldData({ ...loginFieldData, email: e.target.value });
                             }}
+                            labelText="Email"
                         />
                         <InputText
                             type={Password ? "text" : "password"}
                             name="password"
                             placeholder="Password"
-                            FormGroupClass="hasicon"
                             value={loginFieldData.password}
                             isPassword="true"
                             onChange={(e) => {
@@ -53,6 +55,7 @@ const Login = () => {
                             }}
                             onClick={ShowPassword}
                             ChangeClass={Password ? "show-hide active" : "show-hide"}
+                            labelText="Password"
                         />
 
                         <div className="forgot-link">
@@ -79,7 +82,7 @@ const Login = () => {
                                 BtnType="submit"
                                 BtnColor="green w-100"
                                 BtnText="Login"
-                                onClick={Login}
+                                onClick={LoginSubmit}
                             />
                         </div>
                         <p className="create-account">

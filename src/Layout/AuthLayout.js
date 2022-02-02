@@ -1,10 +1,10 @@
 import Header from '../Components/Header/Header'
 
-const AuthLayout = (props) =>{
+const AuthLayout = ({children}) =>{
     return (
         <>
-            <Header />
-            {props.children}
+            <Header colorHeader="colorHeader" />
+            {children}
         </>
     )
 }

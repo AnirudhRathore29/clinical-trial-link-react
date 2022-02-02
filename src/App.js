@@ -1,52 +1,44 @@
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Assets/css/responsive.css';
-// import Header from './Components/Header/Header';
-// import Footer from './Components/Footer/Footer';
-// import RoutesJS from './Config/RoutesJS';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
-import { Outlet } from "react-router-dom";
 
 import Home from './Pages/Home/Home';
-import Login from './Pages/Login/Login'
-import PageNotFound from './Pages/PageNotFound/404';
+import Login from './Pages/Login/Login';
+import SignUp from './Pages/SignUp/SignUp';
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
+import SetNewPassword from './Pages/SetNewPassword/SetNewPassword';
+import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
+// import PageNotFound from './Pages/PageNotFound/404';
 
-import ThankYou from './Pages/ThankYou/ThankYou';
+// import ThankYou from './Pages/ThankYou/ThankYou';
+// import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 // Layouts
 import AuthLayout from './Layout/AuthLayout';
 import FrontLayout from './Layout/FrontLayout'
-import { Component } from 'react';
 
-const AppRoute = ({ element: Element, layout: Layout, ...rest }) => (
-  <Route {...rest} render={props => (
-    <Layout><Component {...props}></Component></Layout>
-  )}></Route>
+const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
+    <Route {...rest} render={props => (
+        <Layout><Component {...props}></Component></Layout>
+    )}></Route>
 )
 
 function App() {
-  return (
-    <>
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          <AppRoute path="/" layout={FrontLayout} element={Home} />
-        </Routes>
-        {/* <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/thank-you" exact element={<ThankYou />} />
-            <Route path="/:pathName" element={<PageNotFound />} />
-            <Route path="/login" exact element={<Login />} />
-
-            <Route element={<PrivateRoute />}>
-                <Route path="/my-subscription" exact element={<MySubscription />} />
-                <Route path="/my-profile" exact element={<MyProfile />} />
-            </Route>
-          </Routes> */}
-      </Router>
-    </>
-  );
+    return (
+        <>
+            <Router>
+                <ScrollToTop />
+                <AppRoute path="/" exact layout={FrontLayout} component={Home} />
+                <AppRoute path="/login" exact layout={AuthLayout} component={Login} />
+                <AppRoute path="/sign-up" exact layout={AuthLayout} component={SignUp} />
+                <AppRoute path="/forgot-password" exact layout={AuthLayout} component={ForgotPassword} />
+                <AppRoute path="/new-password" exact layout={AuthLayout} component={SetNewPassword} />
+                <AppRoute path="/verify-email" exact layout={AuthLayout} component={VerifyEmail} />
+            </Router>
+        </>
+    );
 }
 
 export default App;

@@ -1,32 +1,28 @@
-import { useState, useEffect, useRef } from "react";
-import { NavLink, useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import CommonButton from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./Header.css";
 
-const Header = () => {
+const Header = ({colorHeader}) => {
     const [scroll, setScroll] = useState(false);
-    // const [height, setHeight] = useState(0);
-    const navigate = useNavigate();
-    const header = useRef(null);
+    const history = useHistory();
     const UserToken = localStorage.getItem("user-token");
 
     toast.configure();
 
     const logout = () => {
-        navigate("/login");
+        history.push("/login")
     };
 
     useEffect(() => {
         window.addEventListener(
             "scroll",
             () => {
-                if (window.scrollY > 5) {
+                if (window.scrollY > 2) {
                     setScroll(true);
-                    // setHeight(header.current.clientHeight);
                 } else {
                     setScroll(false);
-                    // setHeight(0);
                 }
             },
             []
@@ -36,10 +32,7 @@ const Header = () => {
     return (
         <>
             {/* <div className="header-placeholder" style={{ height: height }}></div> */}
-            <header
-                className={scroll ? "site-header sticky" : "site-header"}
-                ref={header}
-            >
+            <header className={scroll ? "site-header sticky" : `site-header ${colorHeader}`}>
                 <nav className="navbar clinicaltrial-default-navbar container-fluid">
                     <div className="clinicaltrial-navLogo-side">
                         <Link to="/" className="d-block">

@@ -1,11 +1,11 @@
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer';
 
-const FrontLayout = (props) =>{
+const FrontLayout = ({children}) =>{
     return (
         <>
             <Header />
-            {props.children}
+            {children}
             <Footer />
         </>
     )

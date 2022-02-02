@@ -1,39 +1,33 @@
-import { useEffect } from 'react';
-import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
 import { Link } from 'react-router-dom';
+import {useHistory} from 'react-router-dom'
 import CommonButton from "../../Components/Common/Buttons/Buttons";
 import { InputText } from "../../Components/Common/Inputs/Inputs";
-import { useNavigate } from 'react-router-dom';
 import '../Login/Login.css';
 
 const ForgotPassword = () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (localStorage.getItem("user-token")) {
-            navigate("/");
-        }
-    }, []);
+    const history = useHistory();
+    const ForgotPasswordSubmit = () => {
+        history.push("/new-password");
+    }
     return (
         <>
-            <section className="hero-section authentication-banner">
-                <div className="banner-bg">
-                    <img src="/images/banner-top-vector.svg" alt="banner-vectors" />
-                </div>
-                <div className="banner-btm-bg">
-                    <img src="/images/banner-btm-vector.svg" alt="banner-vectors" />
-                </div>
+            <section className="authentication-section">
                 <div className="container-fluid">
-                    <SectionTitle CustomClass="text-center pad-b-30" title="Forgot Password" ShapeImage="heading-clip-1.svg" SubHeading={<p className="what-sec-text">Enter your email address</p>} />
+                    <div className="auth-heading">
+                        <h1>Forgot Password</h1>
+                        <p>Please enter your email below to <br /> receive reset password link</p>
+                    </div>
                     <div className="authentication-bx">
                         <form>
                             <InputText
                                 type="email"
-                                placeholder="Email"
+                                placeholder="Enter Email"
+                                labelText="Email"
                             />
                             <div className="form-group text-center">
-                                <CommonButton isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Send reset password link" />
+                                <CommonButton isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Send reset password link" onClick={ForgotPasswordSubmit} />
                             </div>
-                            <p className="create-account">back to <Link to="/login">Login</Link></p>
+                            <p className="create-account">Back to <Link to="/login">Login</Link></p>
                         </form>
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 .form-group{margin-bottom: 2rem;position: relative;}
+.form-group label{display: block;font-size: 14px;margin-bottom: .5rem;}
 .show-hide{position: absolute;right: 2rem;top: 50%;transform: translateY(-50%);background: transparent;border: none;cursor: pointer;width: 2.4rem;height: 2.4rem;background: url(../../../Assets/images/pass-hide.svg) center center no-repeat;transition: 0s;padding: 0;}
 .show-hide.active{background: url(../../../Assets/images/show-pass.svg) center center no-repeat;}
-.form-control{height: 6rem;background: var(--whiteColor);border-radius: 5px;padding-left: 2rem;font-size: 16px;border: 1px solid #EAEFEB;}
+.form-control{height: 5.4rem;background: var(--whiteColor);border-radius: 5px;padding-left: 2rem;font-size: 15px;border: 1px solid #c8e1fb;}
 select.form-control{background: var(--whiteColor) url(../../../Assets/images/down-arrow.svg) no-repeat 95% center;background-size: 1.1rem;padding-left: 1.5rem;padding-right: 3rem;}
 select.form-control-sm{background-position-x: 90%;}
-.form-control:focus{border-color: var(--darkText);}
+.form-control:focus{border-color: var(--PrimaryColor);}
 .form-control::placeholder{color: #7E8485;}
 textarea.form-control{height: 12rem;resize: none;padding-top: 1rem;}
 .hasicon{position: relative;}

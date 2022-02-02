@@ -1,12 +1,26 @@
 import React from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const PrivateRoute = () => {
     const userToken = localStorage.getItem("user-token");
 
     return (
-        userToken ? <Outlet /> : <Navigate to="/login" />
+        userToken ? null : <Redirect to="/" />
     )
 };
+
+// function PrivateRoute({ children, ...rest }) {
+//     const userToken = localStorage.getItem("user-token");
+//     return (
+//       <Route {...rest} render={({ location }) => {
+//         return userToken === true
+//           ? children
+//           : <Redirect to={{
+//               pathname: '/',
+//               state: { from: location }
+//             }} />
+//       }} />
+//     )
+//   }
 
 export default PrivateRoute;

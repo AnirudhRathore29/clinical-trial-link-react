@@ -1,5 +1,6 @@
 import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
 import {InputText} from '../Common/Inputs/Inputs';
+import {Link} from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
@@ -14,8 +15,8 @@ const Footer = () => {
                         <div className='col-lg-7'>
                             <SectionTitle CustomClass="whiteTxt" title="Download the App Now" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} />
                             <div className="app-download-platform">
-                                <a href="#"><img src="images/play-store-btn.svg" alt="play store" /></a>
-                                <a href="#"><img src="images/app-store-btn.svg" alt="play store" /></a>
+                                <Link to="/"><img src="images/play-store-btn.svg" alt="play store" /></Link>
+                                <Link to="/"><img src="images/app-store-btn.svg" alt="play store" /></Link>
                             </div>
                         </div>
                     </div>
@@ -28,27 +29,27 @@ const Footer = () => {
                                     <img src="/images/logo.svg" alt="clinical trial logo" />
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit  a dolor aliquam pulvinar augue at dictum nibh abitur vel lobortis eros am eu sem lobortis pretium erat sit amet egestas neque at mattis arcu eu dolor blandit.</p>
                                     <div className='social-links'>
-                                        <a href=""><img src="/images/facebook.svg" alt="facebook" /></a>
-                                        <a href=""><img src="/images/insta.svg" alt="facebook" /></a>
-                                        <a href=""><img src="/images/twitter.svg" alt="facebook" /></a>
-                                        <a href=""><img src="/images/linkedin.svg" alt="facebook" /></a>
+                                        <Link to=""><img src="/images/facebook.svg" alt="facebook" /></Link>
+                                        <Link to=""><img src="/images/insta.svg" alt="facebook" /></Link>
+                                        <Link to=""><img src="/images/twitter.svg" alt="facebook" /></Link>
+                                        <Link to=""><img src="/images/linkedin.svg" alt="facebook" /></Link>
                                     </div>
                                 </div>
                                 <div className='col-lg-3 clinicaltrial-ftr-col'>
                                     <h2>Clinical Trial Link</h2>
                                     <ul>
-                                        <li><a href="">About Us</a></li>
-                                        <li><a href="">Ask the Expert</a></li>
-                                        <li><a href="">FAQ's</a></li>
-                                        <li><a href="">Contact Us</a></li>
+                                        <li><Link to="/">About Us</Link></li>
+                                        <li><Link to="/">Ask the Expert</Link></li>
+                                        <li><Link to="/">FAQ's</Link></li>
+                                        <li><Link to="/">Contact Us</Link></li>
                                     </ul>
                                 </div>
                                 <div className='col-lg-3 clinicaltrial-ftr-col'>
                                     <h2>Legal</h2>
                                     <ul>
-                                        <li><a href="">Privacy Policy</a></li>
-                                        <li><a href="">Terms & Conditions</a></li>
-                                        <li><a href="">Site Map</a></li>
+                                        <li><Link to="/">Privacy Policy</Link></li>
+                                        <li><Link to="/">Terms & Conditions</Link></li>
+                                        <li><Link to="/">Site Map</Link></li>
                                     </ul>
                                 </div>
                             </div>
