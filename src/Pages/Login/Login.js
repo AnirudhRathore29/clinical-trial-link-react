@@ -31,60 +31,62 @@ const Login = () => {
                         <p>Welcome back, please login to your account</p>
                     </div>
                     <div className="authentication-bx">
-                        <InputText
-                            type="email"
-                            value={loginFieldData.name}
-                            name="email"
-                            placeholder="Email Address"
-                            onChange={(e) => {
-                                setLoginFieldData({ ...loginFieldData, email: e.target.value });
-                            }}
-                            labelText="Email"
-                        />
-                        <InputText
-                            type={Password ? "text" : "password"}
-                            name="password"
-                            placeholder="Password"
-                            value={loginFieldData.password}
-                            isPassword="true"
-                            onChange={(e) => {
-                                setLoginFieldData({
-                                    ...loginFieldData,
-                                    password: e.target.value,
-                                });
-                            }}
-                            onClick={ShowPassword}
-                            ChangeClass={Password ? "show-hide active" : "show-hide"}
-                            labelText="Password"
-                        />
-
-                        <div className="forgot-link">
-                            <div className="form-checkbox">
-                                <div className="custom-check-block">
-                                    <input
-                                        type="checkbox"
-                                        className="d-none"
-                                        id="remember"
-                                        name="remember"
-                                        defaultValue="Remember me"
-                                    />
-                                    <label className="custom-check-label" htmlFor="remember">
-                                        {" "}
-                                        Remember me{" "}
-                                    </label>
-                                </div>
-                            </div>
-                            <Link to="/forgot-password">Forgot Password?</Link>
-                        </div>
-                        <div className="form-group text-center">
-                            <CommonButton
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="green w-100"
-                                BtnText="Login"
-                                onClick={LoginSubmit}
+                        <form action="" autoComplete="off">
+                            <InputText
+                                type="email"
+                                value={loginFieldData.name}
+                                name="email"
+                                placeholder="Email Address"
+                                onChange={(e) => {
+                                    setLoginFieldData({ ...loginFieldData, email: e.target.value });
+                                }}
+                                labelText="Email"
                             />
-                        </div>
+                            <InputText
+                                type={Password ? "text" : "password"}
+                                name="password"
+                                placeholder="Password"
+                                value={loginFieldData.password}
+                                isPassword="true"
+                                onChange={(e) => {
+                                    setLoginFieldData({
+                                        ...loginFieldData,
+                                        password: e.target.value,
+                                    });
+                                }}
+                                onClick={ShowPassword}
+                                ChangeClass={Password ? "show-hide active" : "show-hide"}
+                                labelText="Password"
+                            />
+
+                            <div className="forgot-link">
+                                <div className="form-checkbox">
+                                    <div className="custom-check-block">
+                                        <input
+                                            type="checkbox"
+                                            className="d-none"
+                                            id="remember"
+                                            name="remember"
+                                            defaultValue="Remember me"
+                                        />
+                                        <label className="custom-check-label" htmlFor="remember">
+                                            {" "}
+                                            Remember me{" "}
+                                        </label>
+                                    </div>
+                                </div>
+                                <Link to="/forgot-password">Forgot Password?</Link>
+                            </div>
+                            <div className="form-group text-center">
+                                <CommonButton
+                                    isButton="true"
+                                    BtnType="submit"
+                                    BtnColor="green w-100"
+                                    BtnText="Login"
+                                    onClick={LoginSubmit}
+                                />
+                            </div>
+                        </form>
                         <p className="create-account">
                             Don't have any account? <Link to="/sign-up">Sign Up</Link>
                         </p>

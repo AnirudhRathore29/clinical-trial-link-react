@@ -4,7 +4,7 @@
 .btn-primary{ background: var(--PrimaryColor); color:  var(--whiteColor); }
 .btn-primary:hover{ background: transparent; border-color: var(--PrimaryColor); color:  var(--PrimaryColor); }
 .btn-green{ background: var(--SecondaryColor); color:  #356AA0; }
-.btn-green:hover{ background: transparent; border-color: var(--SecondaryColor); color: var(--SecondaryColor); }
+.btn-green:hover{ background: transparent; border-color: var(--SecondaryColorDark); color: var(--SecondaryColorDark); }
 
 .btn-red{ background: var(--ThemeColorRed); color:  var(--whiteColor); }
 .btn-red:hover{ background: transparent; border-color: var(--ThemeColorRed); color: var(--ThemeColorRed); }

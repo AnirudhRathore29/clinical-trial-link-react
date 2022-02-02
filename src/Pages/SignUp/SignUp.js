@@ -42,7 +42,7 @@ const SignUp = () => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form>
+                        <form autoComplete="off">
                             <div className="selectUserType">
                                 <label>
                                     <input type="radio" name="use_type" defaultChecked="checked" />

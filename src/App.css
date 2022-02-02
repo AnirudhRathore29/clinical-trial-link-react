@@ -14,6 +14,7 @@ body { overflow-x: hidden; font-weight: normal; font-size: initial; font-family:
   --TextColor: #356AA0;
   --TextColorLight: #6B96C2;
   --SecondaryColor: #CDEB8B;
+  --SecondaryColorDark: #B9D57A;
   --darkText: #232221;
   --whiteColor: #ffffff;
   --blackColor: #000000;

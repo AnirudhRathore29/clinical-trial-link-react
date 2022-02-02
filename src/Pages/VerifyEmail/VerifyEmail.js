@@ -25,7 +25,7 @@ const VerifyEmail = () => {
                             <div className="form-group text-center">
                                 <CommonButton isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Continue" onClick={VerifyEmailSubmit} />
                             </div>
-                            <p className="create-account">Not received Email? <Link to="/login">Resend Email</Link></p>
+                            <p className="create-account">Not received Email? <Link to="/">Resend Email</Link></p>
                         </form>
                     </div>
                 </div>
