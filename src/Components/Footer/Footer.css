@@ -23,6 +23,7 @@
 
 .clinicaltrial-ftr-col .input-group .form-control{border-radius: 5px 0 0 5px;border-color: transparent!important;height: 6rem;}
 .clinicaltrial-ftr-col .input-group label{display: none;}
+.clinicaltrial-ftr-col .input-group .input-group-append .btn{padding: 0;}
 .clinicaltrial-ftr-col .input-group .form-control::placeholder{color: #6DAFF2;}
 .clinicaltrial-ftr-col .input-group .form-group{position: relative; flex: 1 1 auto; width: 1%; min-width: 0;}
 .clinicaltrial-ftr-col .input-group .btn{height: 100%;border-radius: 0 5px 5px 0;width: 9rem;min-width: auto;}

@@ -13,7 +13,7 @@
 .custom-check-block .custom-check-label:after, 
 .custom-check-block .custom-check-label:before{ top: 50%; -webkit-transform: translate(0px, -50%); -moz-transform: translate(0px, -50%); -ms-transform: translate(0px, -50%); transform: translate(0px, -50%); }
 .custom-check-block .custom-check-label:after { height: 2.5rem; width: 2.5rem; border: 1px solid #a9a9a9; background: var(--whiteColor); left: 0; }
-.custom-check-block input:checked ~ .custom-check-label:before { content: "\f00c"; font-family: "Font Awesome 5 Pro"; z-index: 8; left: .4rem; color: var(--whiteColor); }
+.custom-check-block input:checked ~ .custom-check-label:before { content: "\f00c"; font-family: "Font Awesome 5 Pro"; z-index: 8; left: .4rem; color: var(--whiteColor); font-size: 1.6rem; }
 .custom-check-block input:checked ~ .custom-check-label:after { border-color: var(--PrimaryColor); background: var(--PrimaryColor); }
 .forgot-link a { color: var(--PrimaryColor); text-decoration: underline;font-size: 16px;}
 .forgot-link a:hover{ color: var(--PrimaryColor); }
