@@ -1,0 +1,45 @@
+.authentication-section{min-height: calc(100vh);padding: 15rem 0 5rem 0; display: flex;align-items: center;justify-content: center;background: var(--lightBg);}
+.authentication-bx{background: var(--whiteColor); padding: 3rem; border-radius: 2rem; max-width: 50rem;margin: 0 auto;}
+.auth-heading{text-align: center;margin-bottom: 2rem;}
+.auth-heading img{margin-bottom: 2rem;}
+.auth-heading h1{font-size: 4.2rem;font-weight: bold;}
+.auth-heading p{font-size: 2rem;}
+
+.forgot-link { margin: 0 0 3rem 0; -webkit-display: flex; -moz-display: flex; display: flex; justify-content: space-between; }
+.custom-check-block { position: relative; }
+.custom-check-block .custom-check-label { font-size: 16px; padding-left: 3.5rem; margin: 0; font-weight: normal; color: #7E8485; cursor: pointer;}
+.custom-check-block .custom-check-label:after, 
+.custom-check-block .custom-check-label:before { content: ""; position: absolute; border-radius: .5rem; top: .5rem; }
+.custom-check-block .custom-check-label:after, 
+.custom-check-block .custom-check-label:before{ top: 50%; -webkit-transform: translate(0px, -50%); -moz-transform: translate(0px, -50%); -ms-transform: translate(0px, -50%); transform: translate(0px, -50%); }
+.custom-check-block .custom-check-label:after { height: 2.5rem; width: 2.5rem; border: 1px solid #a9a9a9; background: var(--whiteColor); left: 0; }
+.custom-check-block input:checked ~ .custom-check-label:before { content: "\f00c"; font-family: "Font Awesome 5 Pro"; z-index: 8; left: .4rem; color: var(--whiteColor); font-size: 1.6rem; }
+.custom-check-block input:checked ~ .custom-check-label:after { border-color: var(--PrimaryColor); background: var(--PrimaryColor); }
+.forgot-link a { color: var(--PrimaryColor); text-decoration: underline;font-size: 16px;}
+.forgot-link a:hover{ color: var(--PrimaryColor); }
+.create-account{text-align: center;margin-top: 3rem;color: #7E8485;font-size: 16px;margin-bottom: 0;}
+.create-account a{color: var(--PrimaryColor);}
+
+.sign-up-authentication{max-width: 89.5rem;}
+
+
+
+.selectUserType{display: flex;margin: 0 -10px;margin-bottom: 4rem;border: none;}
+.selectUserType li{flex: 0 0 25%;max-width: 25%;padding: 0 10px;}
+.selectUserType li button.nav-link{display: flex;align-items: center;flex-direction: column;justify-content: center; text-align: center; cursor: pointer;padding: 2rem;border-radius: 1rem!important;height: 100%;background: #f7f7f7;transition: 0.3s;position: relative;width: 100%;border: none!important;}
+.selectUserType li button.nav-link i{content: "";position: absolute;right: 1rem;top: 1rem;width: 2.5rem;height: 2.5rem;border-radius: 50%;background: #dddddd;display: flex;align-items: center;justify-content: center;}
+.selectUserType li button.nav-link i::after{content: "";width: 1.4rem;height: 1rem;background: url(../../../assets/images/check-icon.svg); background-size: cover; filter: brightness(0) invert(1); display: none;}
+.selectUserType li button.nav-link img{max-width: 7rem;max-height: 5rem;margin-bottom: 1rem;opacity: 0.5;}
+.selectUserType li button.nav-link h2{color: #7E8485;font-size: 16px;font-weight: 500;}
+.selectUserType li button.nav-link.active{box-shadow: 0 0rem 1.5rem rgba(53, 106, 160, 0.22)!important;background: var(--whiteColor);}
+.selectUserType li button.nav-link.active img{opacity: 1;}
+.selectUserType li button.nav-link.active i{background: var(--PrimaryColor);}
+.selectUserType li button.nav-link.active i::after{display: block;}
+
+
+.airplane-bx{text-align: center;margin-bottom: 3rem;}
+
+
+.gender-row{display: flex;align-items: center;}
+.gender-row>label{flex: 1 1 auto;}
+.gender-row>label + label{margin-left: 2rem;}

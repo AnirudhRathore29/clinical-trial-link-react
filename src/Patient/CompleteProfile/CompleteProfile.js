@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { InputText, SelectBox } from "../../Components/Common/Inputs/Inputs";
-import RadioBtn from "../../Components/Common/RadioBtn/RadioBtn";
-import Button from "../../Components/Common/Buttons/Buttons"
+import { InputText, SelectBox } from "../../views/components/Common/Inputs/Inputs";
+import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
+import Button from "../../views/components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
+import Header from "../../views/components/Header/Header";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../Pages/Login/Login.css";
+import "../../views/pages/Login/Login.css";
 
 const PatientCompleteProfile = () => {
     // const [Formdata, setFormdata] = useState({
@@ -25,6 +26,7 @@ const PatientCompleteProfile = () => {
 
     return (
         <>
+            <Header colorHeader="colorHeader" />
             <section className="authentication-section">
                 <div className="container-fluid">
                     <div className="auth-heading">

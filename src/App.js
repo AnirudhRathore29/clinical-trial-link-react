@@ -1,48 +1,56 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import jwt_decode from 'jwt-decode';
+import store from './app/store';
+import PrivateRoute from './views/private-route/PrivateRoute';
+import { loginUser } from './app/actions/authAction'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import './Assets/css/responsive.css';
+import './assets/css/responsive.css';
 
-import Home from './Pages/Home/Home';
-import Login from './Pages/Login/Login';
-import SignUp from './Pages/SignUp/SignUp';
-import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
-import SetNewPassword from './Pages/SetNewPassword/SetNewPassword';
-import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
-import PatientCompleteProfile from './Patient/CompleteProfile/CompleteProfile';
-// import PageNotFound from './Pages/PageNotFound/404';
+/* Layout */
+const TheLayout = React.lazy(() => import('./containers/TheLayout'));
+const Login = React.lazy(() => import('./views/pages/Login/Login'));
+const SignUp = React.lazy(() => import('./views/pages/SignUp/SignUp'));
+const ForgotPassword = React.lazy(() => import('./views/pages/ForgotPassword/ForgotPassword'));
+const SetNewPassword = React.lazy(() => import('./views/pages/SetNewPassword/SetNewPassword'));
+const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEmail'));
+const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
+const PatientCompleteProfile= React.lazy(() => import('./patient/CompleteProfile/CompleteProfile'));
 
-// import ThankYou from './Pages/ThankYou/ThankYou';
-// import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
+const loading = (
+	<div className="pt-3 text-center">
+		<div className="sk-spinner sk-spinner-pulse"></div>
+	</div>
+);
 
-// Layouts
-import AuthLayout from './Layout/AuthLayout';
-import FrontLayout from './Layout/FrontLayout'
-
-const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
-    <Route {...rest} render={props => (
-        <Layout><Component {...props}></Component></Layout>
-    )}></Route>
-)
+if (localStorage.jwtToken) {
+	const token = localStorage.jwtToken;
+	store.dispatch(loginUser(token));
+}
 
 function App() {
-    return (
-        <>
-            <Router>
-                <ScrollToTop />
-                <AppRoute path="/" exact layout={FrontLayout} component={Home} />
-                <AppRoute path="/login" exact layout={AuthLayout} component={Login} />
-                <AppRoute path="/sign-up" exact layout={AuthLayout} component={SignUp} />
-                <AppRoute path="/forgot-password" exact layout={AuthLayout} component={ForgotPassword} />
-                <AppRoute path="/new-password" exact layout={AuthLayout} component={SetNewPassword} />
-                <AppRoute path="/verify-email" exact layout={AuthLayout} component={VerifyEmail} />
+	return (
+		<Router>
+			<React.Suspense fallback={loading}>
+				<Switch>
+					<Route exact path="/" name="Home" render={(props) => <TheLayout {...props} />} />
+					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
+					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
+					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />
+					<Route exact path="/new-password" name="NewPassword" render={(props) => <SetNewPassword {...props} />} />
+					<Route exact path="/verify-email" name="VerifyEmail" render={(props) => <VerifyEmail {...props} />} />
+					<Route path="/:pathName" element={<PageNotFound />} />
 
-                {/* Patient panel routes */}
-                <AppRoute path="/patient/complete-profile" exact layout={AuthLayout} component={PatientCompleteProfile} />
-            </Router>
-        </>
-    );
+					{/* Patient Routes */}
+					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
+					<Switch>
+						<PrivateRoute path="/home" name="Home" component={(props) => <TheLayout {...props} />} />
+					</Switch>
+				</Switch>
+			</React.Suspense>
+		</Router>
+	);
 }
 
 export default App;

@@ -1,11 +1,11 @@
 /****** Common Css Start ******/
 
 html{ font-size: 62.5%;  scroll-behavior: auto !important;}
-@font-face { font-family: 'AktivGroteskW06'; font-weight: 300; src: local('Aktiv Grotesk W06 Light'), local('AktivGroteskW06-Light'), url('./Assets/Fonts/AktivGroteskW06-Light.woff2') format('woff2'), url('./Assets/Fonts/AktivGroteskW06-Light.woff') format('woff'); font-style: normal; font-display: swap; }
-@font-face { font-family: 'AktivGroteskW06'; font-weight: 500; src: local('Aktiv Grotesk W06 Medium'), local('AktivGroteskW06-Medium'), url('./Assets/Fonts/AktivGroteskW06-Medium.woff2') format('woff2'), url('./Assets/Fonts/AktivGroteskW06-Medium.woff') format('woff'); font-style: normal; font-display: swap; }
-@font-face { font-family: 'AktivGroteskW06'; font-weight: normal; src: local('Aktiv Grotesk W06 Regular'), local('AktivGroteskW06-Regular'), url('./Assets/Fonts/AktivGroteskW06-Regular.woff2') format('woff2'), url('./Assets/Fonts/AktivGroteskW06-Regular.woff') format('woff'); font-style: normal; font-display: swap; }
-@font-face { font-family: 'AktivGroteskW04'; font-weight: 900; src: local('Aktiv Grotesk W04 Black'), local('AktivGroteskW04-Black'), url('./Assets/Fonts/AktivGroteskW04-Black.woff2') format('woff2'), url('./Assets/Fonts/AktivGroteskW04-Black.woff') format('woff'); font-style: normal; font-display: swap; }
-@font-face { font-family: 'AktivGroteskW06'; font-weight: bold; src: local('Aktiv Grotesk W06 Bold'), local('AktivGroteskW06-Bold'), url('./Assets/Fonts/AktivGroteskW06-Bold.woff2') format('woff2'), url('./Assets/Fonts/AktivGroteskW06-Bold.woff') format('woff'); font-style: normal; font-display: swap; }
+@font-face { font-family: 'AktivGroteskW06'; font-weight: 300; src: local('Aktiv Grotesk W06 Light'), local('AktivGroteskW06-Light'), url('./assets/Fonts/AktivGroteskW06-Light.woff2') format('woff2'), url('./assets/Fonts/AktivGroteskW06-Light.woff') format('woff'); font-style: normal; font-display: swap; }
+@font-face { font-family: 'AktivGroteskW06'; font-weight: 500; src: local('Aktiv Grotesk W06 Medium'), local('AktivGroteskW06-Medium'), url('./assets/Fonts/AktivGroteskW06-Medium.woff2') format('woff2'), url('./assets/Fonts/AktivGroteskW06-Medium.woff') format('woff'); font-style: normal; font-display: swap; }
+@font-face { font-family: 'AktivGroteskW06'; font-weight: normal; src: local('Aktiv Grotesk W06 Regular'), local('AktivGroteskW06-Regular'), url('./assets/Fonts/AktivGroteskW06-Regular.woff2') format('woff2'), url('./assets/Fonts/AktivGroteskW06-Regular.woff') format('woff'); font-style: normal; font-display: swap; }
+@font-face { font-family: 'AktivGroteskW04'; font-weight: 900; src: local('Aktiv Grotesk W04 Black'), local('AktivGroteskW04-Black'), url('./assets/Fonts/AktivGroteskW04-Black.woff2') format('woff2'), url('./assets/Fonts/AktivGroteskW04-Black.woff') format('woff'); font-style: normal; font-display: swap; }
+@font-face { font-family: 'AktivGroteskW06'; font-weight: bold; src: local('Aktiv Grotesk W06 Bold'), local('AktivGroteskW06-Bold'), url('./assets/Fonts/AktivGroteskW06-Bold.woff2') format('woff2'), url('./assets/Fonts/AktivGroteskW06-Bold.woff') format('woff'); font-style: normal; font-display: swap; }
 
 
 body { overflow-x: hidden; font-weight: normal; font-size: initial; font-family: 'AktivGroteskW06'; }
@@ -73,7 +73,7 @@ textarea:focus{ outline: 0 !important; box-shadow: none !important; }
 .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header{font-size: 1.5rem!important;}
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range{background: var(--PrimaryColor)!important;}
 .react-datepicker__year-read-view--down-arrow, .react-datepicker__month-read-view--down-arrow, .react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before{border-color: var(--PrimaryColor)!important;top: 12px!important;}
-.react-datepicker__input-container::after{content: "";width: 1.8rem;height: 1.9rem;background: url(./Assets/images/calender-icon.svg) no-repeat; background-size: cover;position: absolute;right: 2rem;top: 50%;transform: translateY(-50%);}
+.react-datepicker__input-container::after{content: "";width: 1.8rem;height: 1.9rem;background: url(./assets/images/calender-icon.svg) no-repeat; background-size: cover;position: absolute;right: 2rem;top: 50%;transform: translateY(-50%);}
 
 .step-navigation{display: flex;margin-top: 3rem;justify-content: space-between;}
 .step-navigation .btn + .btn{margin-left: 1rem;}
