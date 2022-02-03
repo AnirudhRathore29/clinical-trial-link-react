@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
-import CommonButton from '../../Components/Common/Buttons/Buttons';
+import Button from '../../Components/Common/Buttons/Buttons';
 import { InputText, SelectBox } from '../../Components/Common/Inputs/Inputs';
 import './Home.css';
 
@@ -84,7 +84,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="col-lg-6 offset-lg-1">
-                            <SectionTitle title="Patients & Families" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<CommonButton isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
+                            <SectionTitle title="Patients & Families" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<Button isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
                         </div>
                     </div>
                     <div className="row align-items-center">
@@ -94,7 +94,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <SectionTitle title="Trial Clinic & Physicians" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<CommonButton isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
+                            <SectionTitle title="Trial Clinic & Physicians" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<Button isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
                         </div>
                     </div>
                     <div className="row align-items-center">
@@ -104,7 +104,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="col-lg-6 offset-lg-1">
-                            <SectionTitle title="Pharma Companies & CRO" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<CommonButton isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
+                            <SectionTitle title="Pharma Companies & CRO" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} HeadingBtn={<Button isLink="true" URL="/sign-up" BtnColor="primary mt-5" BtnText="Learn More" />} />
                         </div>
                     </div>
                 </div>

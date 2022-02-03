@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import './Buttons.css';
 
-const CommonButton = (props) => {
+const Button = (props) => {
     return (
         <>
             {
@@ -30,4 +30,4 @@ const CommonButton = (props) => {
     );
 }
 
-export default CommonButton;
+export default Button;

@@ -1,4 +1,4 @@
-import CommonButton from "../../Components/Common/Buttons/Buttons";
+import Button from "../../Components/Common/Buttons/Buttons";
 import {Link, useHistory} from 'react-router-dom';
 import '../Login/Login.css';
 
@@ -6,7 +6,7 @@ const VerifyEmail = () => {
     const history = useHistory();
 
     const VerifyEmailSubmit = () => {
-        history.push("/complete-profile")
+        history.push("/patient/complete-profile")
     }
 
     return (
@@ -23,7 +23,7 @@ const VerifyEmail = () => {
                                 <img src="/images/email-verification.svg" height="300" alt="Verify Your Email" />
                             </div>
                             <div className="form-group text-center">
-                                <CommonButton isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Continue" onClick={VerifyEmailSubmit} />
+                                <Button isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Continue" onClick={VerifyEmailSubmit} />
                             </div>
                             <p className="create-account">Not received Email? <Link to="/">Resend Email</Link></p>
                         </form>

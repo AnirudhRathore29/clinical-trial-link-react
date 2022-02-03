@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
-import CommonButton from "../Common/Buttons/Buttons";
+import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./Header.css";
 
@@ -56,7 +56,7 @@ const Header = ({colorHeader}) => {
                             {UserToken ? (
                                 <>
                                     <li className="nav-item btn-item">
-                                        <CommonButton
+                                        <Button
                                             isLink="true"
                                             URL="/my-subscription"
                                             BtnColor="green"
@@ -64,7 +64,7 @@ const Header = ({colorHeader}) => {
                                         />
                                     </li>
                                     <li className="nav-item btn-item">
-                                        <CommonButton
+                                        <Button
                                             isButton="true"
                                             URL="/"
                                             BtnColor="red"
@@ -76,7 +76,7 @@ const Header = ({colorHeader}) => {
                             ) : (
                                 <>
                                     <li className="nav-item btn-item">
-                                        <CommonButton
+                                        <Button
                                             isLink="true"
                                             URL="/login"
                                             BtnColor="green"
@@ -84,7 +84,7 @@ const Header = ({colorHeader}) => {
                                         />
                                     </li>
                                     <li className="nav-item btn-item">
-                                        <CommonButton
+                                        <Button
                                             isLink="true"
                                             URL="/sign-up"
                                             BtnColor="primary"

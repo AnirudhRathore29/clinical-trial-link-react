@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { InputText } from "../../Components/Common/Inputs/Inputs";
-import CommonButton from "../../Components/Common/Buttons/Buttons";
+import Button from "../../Components/Common/Buttons/Buttons";
 import "./Login.css";
 
 const Login = () => {
@@ -48,6 +48,7 @@ const Login = () => {
                                 placeholder="Password"
                                 value={loginFieldData.password}
                                 isPassword="true"
+                                className="password-field"
                                 onChange={(e) => {
                                     setLoginFieldData({
                                         ...loginFieldData,
@@ -78,7 +79,7 @@ const Login = () => {
                                 <Link to="/forgot-password">Forgot Password?</Link>
                             </div>
                             <div className="form-group text-center">
-                                <CommonButton
+                                <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"

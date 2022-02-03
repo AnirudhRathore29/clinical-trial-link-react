@@ -1,5 +1,5 @@
 import { Modal } from 'react-bootstrap';
-import CommonButton from '../Buttons/Buttons';
+import Button from '../Buttons/Buttons';
 import './Modal.css';
 
 const CommonModal = (props) => {
@@ -13,8 +13,8 @@ const CommonModal = (props) => {
                     {props.ModalData}
                 </Modal.Body>
                 <Modal.Footer>
-                    <CommonButton isButton="true" BtnColor="red btn-sm" BtnText="Close" onClick={props.handleClose}/>
-                    <CommonButton isButton="true" BtnColor="green btn-sm" BtnText="Submit" onClick={props.handleClose}/>
+                    <Button isButton="true" BtnColor="red btn-sm" BtnText="Close" onClick={props.handleClose}/>
+                    <Button isButton="true" BtnColor="green btn-sm" BtnText="Submit" onClick={props.handleClose}/>
                 </Modal.Footer>
             </Modal>
         </>

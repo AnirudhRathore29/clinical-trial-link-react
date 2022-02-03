@@ -10,6 +10,7 @@ import SignUp from './Pages/SignUp/SignUp';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 import SetNewPassword from './Pages/SetNewPassword/SetNewPassword';
 import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
+import PatientCompleteProfile from './Patient/CompleteProfile/CompleteProfile';
 // import PageNotFound from './Pages/PageNotFound/404';
 
 // import ThankYou from './Pages/ThankYou/ThankYou';
@@ -36,6 +37,9 @@ function App() {
                 <AppRoute path="/forgot-password" exact layout={AuthLayout} component={ForgotPassword} />
                 <AppRoute path="/new-password" exact layout={AuthLayout} component={SetNewPassword} />
                 <AppRoute path="/verify-email" exact layout={AuthLayout} component={VerifyEmail} />
+
+                {/* Patient panel routes */}
+                <AppRoute path="/patient/complete-profile" exact layout={AuthLayout} component={PatientCompleteProfile} />
             </Router>
         </>
     );

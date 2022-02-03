@@ -24,18 +24,22 @@
 
 
 
-.selectUserType{display: flex;margin: 0 -10px;margin-bottom: 4rem;}
-.selectUserType label{flex: 0 0 25%;max-width: 25%;padding: 0 10px;}
-.selectUserType label span{display: flex;align-items: center;flex-direction: column;justify-content: center; text-align: center; cursor: pointer;padding: 2rem;border-radius: 1rem;height: 100%;background: #f7f7f7;transition: 0.3s;position: relative;}
-.selectUserType label span i{content: "";position: absolute;right: 1rem;top: 1rem;width: 2.5rem;height: 2.5rem;border-radius: 50%;background: #dddddd;display: flex;align-items: center;justify-content: center;}
-.selectUserType label span i::after{content: "";width: 1.4rem;height: 1rem;background: url(../../Assets/images/check-icon.svg); background-size: cover; filter: brightness(0) invert(1); display: none;}
-.selectUserType label img{max-width: 7rem;max-height: 5rem;margin-bottom: 1rem;opacity: 0.5;}
-.selectUserType label h2{color: #7E8485;font-size: 16px;font-weight: 500;}
-.selectUserType label input{display: none;}
-.selectUserType label input:checked + span{box-shadow: 0 0rem 1.5rem rgba(53, 106, 160, 0.22);background: var(--whiteColor);}
-.selectUserType label input:checked + span img{opacity: 1;}
-.selectUserType label input:checked + span i{background: var(--PrimaryColor);}
-.selectUserType label input:checked + span i::after{display: block;}
+.selectUserType{display: flex;margin: 0 -10px;margin-bottom: 4rem;border: none;}
+.selectUserType li{flex: 0 0 25%;max-width: 25%;padding: 0 10px;}
+.selectUserType li button.nav-link{display: flex;align-items: center;flex-direction: column;justify-content: center; text-align: center; cursor: pointer;padding: 2rem;border-radius: 1rem!important;height: 100%;background: #f7f7f7;transition: 0.3s;position: relative;width: 100%;border: none!important;}
+.selectUserType li button.nav-link i{content: "";position: absolute;right: 1rem;top: 1rem;width: 2.5rem;height: 2.5rem;border-radius: 50%;background: #dddddd;display: flex;align-items: center;justify-content: center;}
+.selectUserType li button.nav-link i::after{content: "";width: 1.4rem;height: 1rem;background: url(../../Assets/images/check-icon.svg); background-size: cover; filter: brightness(0) invert(1); display: none;}
+.selectUserType li button.nav-link img{max-width: 7rem;max-height: 5rem;margin-bottom: 1rem;opacity: 0.5;}
+.selectUserType li button.nav-link h2{color: #7E8485;font-size: 16px;font-weight: 500;}
+.selectUserType li button.nav-link.active{box-shadow: 0 0rem 1.5rem rgba(53, 106, 160, 0.22)!important;background: var(--whiteColor);}
+.selectUserType li button.nav-link.active img{opacity: 1;}
+.selectUserType li button.nav-link.active i{background: var(--PrimaryColor);}
+.selectUserType li button.nav-link.active i::after{display: block;}
 
 
 .airplane-bx{text-align: center;margin-bottom: 3rem;}
+
+
+.gender-row{display: flex;align-items: center;}
+.gender-row>label{flex: 1 1 auto;}
+.gender-row>label + label{margin-left: 2rem;}

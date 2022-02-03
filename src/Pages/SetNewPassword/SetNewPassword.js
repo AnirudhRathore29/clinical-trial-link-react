@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CommonButton from "../../Components/Common/Buttons/Buttons";
+import Button from "../../Components/Common/Buttons/Buttons";
 import { InputText } from "../../Components/Common/Inputs/Inputs";
 import '../Login/Login.css';
 
@@ -67,7 +67,7 @@ const SetNewPassword = () => {
                                 }
                             />
                             <div className="form-group text-center mb-0">
-                                <CommonButton isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Submit" />
+                                <Button isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Submit" />
                             </div>
                         </form>
                     </div>

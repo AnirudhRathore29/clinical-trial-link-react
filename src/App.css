@@ -52,9 +52,6 @@ textarea:focus{ outline: 0 !important; box-shadow: none !important; }
 
 .badge{color: var(--whiteColor);padding: .5rem 1rem;font-weight: 500;min-width: 9rem;text-align: center;}
 
-
-.center-clip { margin-top: -1rem; }
-
 .pad-t-80{ padding-top: 8rem; }
 .pad-b-80{ padding-bottom: 8rem; }
 .pad-t-50{ padding-top: 5rem; }
@@ -68,6 +65,15 @@ textarea:focus{ outline: 0 !important; box-shadow: none !important; }
 .row div[class*="col"]{padding: 0 15px;}
 
 .tooltip{font-size: 14px;}
+.react-datepicker{border-color: var(--TextColorLight)!important;border-radius: 1rem!important;}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after{border-bottom-color: #4096ee!important;}
+.react-datepicker__header{background: #cce5ff!important;border-bottom-color: var(--TextColorLight)!important;border-radius: 1rem 1rem 0 0!important;}
+.react-datepicker{font-size: 14px!important;}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name{width: 2.7rem!important;margin: .5rem!important;line-height: 2.7rem!important;}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header{font-size: 1.5rem!important;}
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range{background: var(--PrimaryColor)!important;}
+.react-datepicker__year-read-view--down-arrow, .react-datepicker__month-read-view--down-arrow, .react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before{border-color: var(--PrimaryColor)!important;top: 12px!important;}
+.react-datepicker__input-container::after{content: "";width: 1.8rem;height: 1.9rem;background: url(./Assets/images/calender-icon.svg) no-repeat; background-size: cover;position: absolute;right: 2rem;top: 50%;transform: translateY(-50%);}
 
 .step-navigation{display: flex;margin-top: 3rem;justify-content: space-between;}
 .step-navigation .btn + .btn{margin-left: 1rem;}
