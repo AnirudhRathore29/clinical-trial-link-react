@@ -3,11 +3,12 @@ import { InputText, SelectBox } from "../../views/components/Common/Inputs/Input
 import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
-import Header from "../../views/components/Header/Header";
+import Header from "../../views/components/frontHeader/FrontHeader";
+import { loginUser } from '../../app/actions/authAction'
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 
-const PatientCompleteProfile = () => {
+const PatientCompleteProfile = (props) => {
     // const [Formdata, setFormdata] = useState({
     //     state: "",
     //     zip_code: "",
@@ -21,7 +22,8 @@ const PatientCompleteProfile = () => {
     const [startDate, setStartDate] = useState(new Date());
 
     const CompleteProfileSubmit = () => {
-
+        loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
+        props.history.push('/patient/dashboard')
     }
 
     return (
@@ -66,7 +68,7 @@ const PatientCompleteProfile = () => {
                                 <div className="col-lg-6 form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" />
+                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
                                         <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
                                         <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
                                     </div>
@@ -140,7 +142,7 @@ const PatientCompleteProfile = () => {
                                 <div className="col-lg-4 form-group">
                                     <label>Trials for</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" />
+                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" defaultChecked="true" />
                                         <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Family/Friends" />
                                     </div>
                                 </div>

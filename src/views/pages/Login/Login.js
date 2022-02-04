@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { InputText } from "../../components/Common/Inputs/Inputs";
 import RadioBtn from "../../components/Common/RadioBtn/RadioBtn"
 import Button from "../../components/Common/Buttons/Buttons";
-import Header from "../../components/Header/Header";
+import Header from "../../components/frontHeader/FrontHeader";
+import { loginUser } from '../../../app/actions/authAction'
 import "./Login.css";
 
-const Login = () => {
+const Login = (props) => {
     const [loginFieldData, setLoginFieldData] = useState({
         email: "",
         password: "",
@@ -14,7 +15,13 @@ const Login = () => {
 
     const LoginSubmit = () => {
         console.log("loginfeild data", loginFieldData);
+        loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
+        props.history.push('/patient/dashboard')
     }
+
+	useEffect(() => {
+		localStorage.removeItem("token")
+	})
 
     /* password show hide */
     const [Password, SetPassword] = useState(false);

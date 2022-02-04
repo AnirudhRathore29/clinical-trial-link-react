@@ -9,14 +9,17 @@ import './App.css';
 import './assets/css/responsive.css';
 
 /* Layout */
-const TheLayout = React.lazy(() => import('./containers/TheLayout'));
+const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
+const BackLayout = React.lazy(() => import('./containers/BackLayout'));
+
+/* Pages */
 const Login = React.lazy(() => import('./views/pages/Login/Login'));
 const SignUp = React.lazy(() => import('./views/pages/SignUp/SignUp'));
 const ForgotPassword = React.lazy(() => import('./views/pages/ForgotPassword/ForgotPassword'));
 const SetNewPassword = React.lazy(() => import('./views/pages/SetNewPassword/SetNewPassword'));
 const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEmail'));
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
-const PatientCompleteProfile= React.lazy(() => import('./patient/CompleteProfile/CompleteProfile'));
+const PatientCompleteProfile = React.lazy(() => import('./patient/completeProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -29,24 +32,25 @@ if (localStorage.jwtToken) {
 	store.dispatch(loginUser(token));
 }
 
+
 function App() {
 	return (
 		<Router>
 			<React.Suspense fallback={loading}>
 				<Switch>
-					<Route exact path="/" name="Home" render={(props) => <TheLayout {...props} />} />
+					<Route exact path="/" name="Home" render={(props) => <FrontLayout {...props} />} />
 					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
 					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />
 					<Route exact path="/new-password" name="NewPassword" render={(props) => <SetNewPassword {...props} />} />
 					<Route exact path="/verify-email" name="VerifyEmail" render={(props) => <VerifyEmail {...props} />} />
-					<Route path="/:pathName" element={<PageNotFound />} />
 
 					{/* Patient Routes */}
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
 					<Switch>
-						<PrivateRoute path="/home" name="Home" component={(props) => <TheLayout {...props} />} />
+						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
 					</Switch>
+					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>
 			</React.Suspense>
 		</Router>

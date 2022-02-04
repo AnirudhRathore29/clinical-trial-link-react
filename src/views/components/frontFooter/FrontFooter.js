@@ -1,7 +1,7 @@
-import SectionTitle from "../../components/Common/SectionTitle/SectionTitle";
+import SectionTitle from "../Common/SectionTitle/SectionTitle";
 import { InputText } from '../Common/Inputs/Inputs';
 import {Link} from 'react-router-dom';
-import './Footer.css';
+import './FrontFooter.css';
 
 const Footer = () => {
     return (
@@ -15,8 +15,8 @@ const Footer = () => {
                         <div className='col-lg-7'>
                             <SectionTitle CustomClass="whiteTxt" title="Download the App Now" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} />
                             <div className="app-download-platform">
-                                <Link to="/"><img src="images/play-store-btn.svg" alt="play store" /></Link>
-                                <Link to="/"><img src="images/app-store-btn.svg" alt="play store" /></Link>
+                                <Link to="/"><img src="/images/play-store-btn.svg" alt="play store" /></Link>
+                                <Link to="/"><img src="/images/app-store-btn.svg" alt="play store" /></Link>
                             </div>
                         </div>
                     </div>

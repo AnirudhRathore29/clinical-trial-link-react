@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
-import "./Header.css";
+import "./FrontHeader.css";
 
 const Header = ({colorHeader}) => {
     const [scroll, setScroll] = useState(false);
     const history = useHistory();
-    const UserToken = localStorage.getItem("user-token");
+    const UserToken = localStorage.getItem("jwtToken");
 
     toast.configure();
 
     const logout = () => {
-        history.push("/login")
+        history.push("/login");
     };
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const Header = ({colorHeader}) => {
                                     <li className="nav-item btn-item">
                                         <Button
                                             isLink="true"
-                                            URL="/my-subscription"
+                                            URL="/patient/dashboard"
                                             BtnColor="green"
                                             BtnText="Dashboard"
                                         />
@@ -67,7 +67,7 @@ const Header = ({colorHeader}) => {
                                         <Button
                                             isButton="true"
                                             URL="/"
-                                            BtnColor="red"
+                                            BtnColor="primary"
                                             BtnText="Logout"
                                             onClick={logout}
                                         />

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
 import Button from "../../components/Common/Buttons/Buttons";
 import { InputText } from "../../components/Common/Inputs/Inputs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/frontHeader/FrontHeader";
 import '../Login/Login.css';
 
 const ForgotPassword = () => {

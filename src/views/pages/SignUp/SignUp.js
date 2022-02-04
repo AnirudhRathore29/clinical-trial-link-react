@@ -4,7 +4,7 @@ import Patient from "../../components/SignupForm/Patient";
 import TrialClinic from "../../components/SignupForm/TrialClinic";
 import Physician from "../../components/SignupForm/Physician";
 import PharmaCompanies from "../../components/SignupForm/PharmaCompanies";
-import Header from "../../components/Header/Header";
+import Header from "../../components/frontHeader/FrontHeader";
 import "../Login/Login.css";
 
 const SignUp = () => {
