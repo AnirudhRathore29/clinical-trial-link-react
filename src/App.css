@@ -63,6 +63,9 @@ textarea:focus{ outline: 0 !important; box-shadow: none !important; }
 
 .row{margin: 0 -15px;}
 .row div[class*="col"]{padding: 0 15px;}
+.gutter-size-30{margin: 0 -3rem;}
+.gutter-size-30>div[class*="col"]{padding: 0 3rem;}
+.border-left1px{border-left: 1px solid #ededed;}
 
 .tooltip{font-size: 14px;}
 .react-datepicker{border-color: var(--TextColorLight)!important;border-radius: 1rem!important;}
@@ -99,4 +102,4 @@ th[align='left']{text-align: left;}
 
 
 /* dashboard common css */
-.clinical-dashboard{padding: 14rem 0 5rem 0;background: var(--lightBg);min-height: 100vh;}
+.clinical-dashboard{padding: 12rem 0 5rem 0;background: var(--lightBg);min-height: 100vh;}

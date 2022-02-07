@@ -19,6 +19,8 @@ const ForgotPassword = React.lazy(() => import('./views/pages/ForgotPassword/For
 const SetNewPassword = React.lazy(() => import('./views/pages/SetNewPassword/SetNewPassword'));
 const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEmail'));
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
+
+/* patient panel pages */
 const PatientCompleteProfile = React.lazy(() => import('./patient/completeProfile/CompleteProfile'));
 
 const loading = (
@@ -49,6 +51,7 @@ function App() {
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
 					<Switch>
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
+						<PrivateRoute path="/patient/edit-profile" name="PatientEditProfile" component={(props) => <BackLayout {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>
