@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { InputText, SelectBox } from "../Common/Inputs/Inputs";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -12,14 +12,14 @@ const Header = ({ colorHeader }) => {
     const [scroll, setScroll] = useState(false);
     const [sideMenu, setSideMenu] = useState(false);
     const [rightPanel, setRightPanel] = useState(false);
-    const history = useHistory();
-    const UserToken = localStorage.getItem("user-token");
+    // const history = useHistory();
+    // const UserToken = localStorage.getItem("user-token");
 
     toast.configure();
 
-    const logout = () => {
-        history.push("/login")
-    };
+    // const logout = () => {
+    //     history.push("/login")
+    // };
 
     useEffect(() => {
         window.addEventListener(
@@ -111,7 +111,7 @@ const Header = ({ colorHeader }) => {
                                 <Dropdown.Menu>
                                     <Link to="/patient/edit-profile" className="dropdown-item"><box-icon name='edit-alt'></box-icon> Edit Profile</Link>
                                     <Link to="/" className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
-                                    <Link to="/" className="dropdown-item"><box-icon name='history' ></box-icon> Payment History</Link>
+                                    <Link to="/" className="dropdown-item"><box-icon name='happy-heart-eyes'></box-icon> My Favorites</Link>
                                     <Link to="/" className="dropdown-item"><box-icon name='log-out-circle' ></box-icon> Logout</Link>
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -160,6 +160,7 @@ const Header = ({ colorHeader }) => {
                     <li><Link to=""><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Appointments</Link></li>
                     <li><Link to=""><box-icon name='bank' type='solid' color='#ffffff'></box-icon> Bank Details</Link></li>
                     <li><Link to=""><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                    <li><Link to=""><box-icon name='info-circle' color='#ffffff'></box-icon> About us</Link></li>
                 </ul>
             </div>
         </>

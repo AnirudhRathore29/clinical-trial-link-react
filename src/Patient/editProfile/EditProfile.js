@@ -3,11 +3,10 @@ import { InputText, SelectBox } from "../../views/components/Common/Inputs/Input
 import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
-// import { Tabs, Tab } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 
-const PatientEditProfile = (props) => {
+const PatientEditProfile = () => {
     // const [Formdata, setFormdata] = useState({
     //     state: "",
     //     zip_code: "",
@@ -37,13 +36,6 @@ const PatientEditProfile = (props) => {
                     <div className="repeat-white-bx">
                         <div className="container-smallx">
                             <form autoComplete="off">
-                                {/* <Tabs defaultActiveKey="personal-info" className="common-tabs" id="profile-tabs">
-                                    <Tab eventKey="personal-info" title="Personal Info">
-                                    </Tab>
-                                    <Tab eventKey="other-info" title="Other Info">
-                                        asd
-                                    </Tab>
-                                </Tabs> */}
                                 <div className="row gutter-size-30">
                                     <div className="col-lg-6">
                                         <h2 className="section-title">Personal Info</h2>

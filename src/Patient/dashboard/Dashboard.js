@@ -1,8 +1,16 @@
 
 
 import { Link } from 'react-router-dom';
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
 
 const PatientDashboard = () => {
+    const options = {
+        items: 1,
+        loop: true,
+        nav: false,
+        dots: true
+    };
 
     return (
         <>
@@ -11,13 +19,13 @@ const PatientDashboard = () => {
                     <div className="heading-bx">
                         <h1>Dashboard</h1>
                     </div>
-                    
-                    <div className='repeat-white-bx welcome-msg-bx mb-5'>
+
+                    <div className='repeat-white-bx welcome-msg-bx dashboard-col'>
                         <h2>Welcome to Clinical Trial Link <img src="/images/confetti-icon.svg" alt="confetti" width={50} /></h2>
                         <p>Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.</p>
                     </div>
 
-                    <div className="row">
+                    <div className="row dashboard-col">
                         <div className="col-lg-4">
                             <div className="dashboard-info-bx secondaryColor">
                                 <Link to="">
@@ -59,9 +67,78 @@ const PatientDashboard = () => {
                         </div>
                     </div>
 
-                    <div className='row'>
-                        <div className='co-lg-6'>
-                            
+                    <div className='row dashboard-col'>
+                        <div className='col-lg-6'>
+                            <div className="heading-bx">
+                                <h1>Recommended Trials</h1>
+                            </div>
+                            <OwlCarousel {...options}>
+                                <div className='item'>
+                                    <Link to="/patient/trial-clinic-details">
+                                        <div className='product-list-bx'>
+                                            <div className='product-img'>
+                                                <img src="/images/clinic-img1.jpg" alt="clinic-img" />
+                                            </div>
+                                            <div className='product-info'>
+                                                <h2>Barnes Jewish Hospital</h2>
+                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <span className="away-from">5000.52 Mi</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className='item'>
+                                    <Link to="/patient/trial-clinic-details">
+                                        <div className='product-list-bx'>
+                                            <div className='product-img'>
+                                                <img src="/images/clinic-img1.jpg" alt="clinic-img" />
+                                            </div>
+                                            <div className='product-info'>
+                                                <h2>Barnes Jewish Hospital</h2>
+                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <span className="away-from">5000.52 Mi</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className='item'>
+                                    <Link to="/patient/trial-clinic-details">
+                                        <div className='product-list-bx'>
+                                            <div className='product-img'>
+                                                <img src="/images/clinic-img1.jpg" alt="clinic-img" />
+                                            </div>
+                                            <div className='product-info'>
+                                                <h2>Barnes Jewish Hospital</h2>
+                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <span className="away-from">5000.52 Mi</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </OwlCarousel>
+                        </div>
+
+                        <div className='col-lg-6 offers-slider'>
+                            <div className="heading-bx">
+                                <h1>Offers</h1>
+                            </div>
+                            <OwlCarousel {...options}>
+                                <div className='item'>
+                                    <Link to="/">
+                                        <img src="/images/offers-img1.jpg" alt="offers" />
+                                    </Link>
+                                </div>
+                                <div className='item'>
+                                    <Link to="/">
+                                        <img src="/images/offers-img1.jpg" alt="offers" />
+                                    </Link>
+                                </div>
+                                <div className='item'>
+                                    <Link to="/">
+                                        <img src="/images/offers-img1.jpg" alt="offers" />
+                                    </Link>
+                                </div>
+                            </OwlCarousel>
                         </div>
                     </div>
                 </div>

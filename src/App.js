@@ -52,6 +52,8 @@ function App() {
 					<Switch>
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/edit-profile" name="PatientEditProfile" component={(props) => <BackLayout {...props} />} />
+						<PrivateRoute path="/patient/trial-clinic-details" name="TrialClinicDetails" component={(props) => <BackLayout {...props} />} />
+						<PrivateRoute path="/patient/clinic-trial-details" name="PatientClinicalTrialDetails" component={(props) => <BackLayout {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>

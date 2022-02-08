@@ -12,8 +12,9 @@
 .btn-white:hover{ background: transparent; border-color: var(--whiteColor); color: var(--whiteColor); }
 .btn-purple{ background: var(--ThemeColorYellow); color:  var(--darkText); }
 
-.btn-action{border: none;padding: 0;width: 3.5rem;height: 3.5rem;border-radius: 5px;line-height: 0;display: inline-flex;align-items: center;justify-content: center;}
+.btn-action{border: none;padding: 0;width: 5rem;height: 5rem;border-radius: 5px;line-height: 0;display: inline-flex;align-items: center;justify-content: center;}
 .btn-action img{width: 1.7rem;filter: brightness(0) invert(1);}
+.btn-action.btn-primary:hover{background: var(--TextColor);}
 
 .btn-xs{font-size: 14px;min-width: auto;padding: 7px 20px;}
 .btn-sm{font-size: 1.6rem;min-width: auto;padding: 1rem 3rem;}

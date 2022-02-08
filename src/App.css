@@ -19,6 +19,7 @@ body { overflow-x: hidden; font-weight: normal; font-size: initial; font-family:
   --whiteColor: #ffffff;
   --blackColor: #000000;
   --lightBg: #F0F6FF;
+  --DangerColor: #ff6262;
 }
 img{max-width: 100%;}
 a, 
@@ -103,3 +104,6 @@ th[align='left']{text-align: left;}
 
 /* dashboard common css */
 .clinical-dashboard{padding: 12rem 0 5rem 0;background: var(--lightBg);min-height: 100vh;}
+.badge{padding: .6rem 1rem;font-size: 12px;color: var(--TextColor);display: inline-flex;align-items: center;border-radius: 5rem;justify-content: center;}
+.badge-success{background: var(--SecondaryColor);}
+.badge-danger{background: var(--DangerColor);color: var(--whiteColor);}
