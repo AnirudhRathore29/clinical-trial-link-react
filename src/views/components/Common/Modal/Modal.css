@@ -5,3 +5,9 @@
 .modal-header{padding: 1rem 2rem;border-bottom-color: #C3D9FF;}
 .modal-body{padding: 2rem;}
 .modal-footer{padding: 1rem 2rem;}
+.modal-footer .btn + .btn{margin-left: 1rem;}
+
+
+.clnicaltrial-detail-ftr{margin-top: 3rem;display: flex;align-items: center;}
+.clnicaltrial-detail-ftr .btn{flex: 1 1 auto;}
+.clnicaltrial-detail-ftr>* + *{margin-left: 1rem;}

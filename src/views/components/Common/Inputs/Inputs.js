@@ -63,3 +63,23 @@ export const SelectBox = (props) => {
         </div>
     );
 }
+
+export const TextArea = (props) => {
+    return (
+        <div className={`form-group ${props.FormGroupClass}`}>
+            <label>
+                {props.labelText}
+                {
+                    props.required &&
+                    <span className="text-danger"> *</span>
+                }
+            </label>
+            <textarea
+                name={props.name}
+                id={props.id}
+                className={`form-control ${props.className}`}
+                placeholder={props.placeholder}
+            ></textarea>
+        </div>
+    );
+}

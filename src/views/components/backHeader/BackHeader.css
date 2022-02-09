@@ -10,10 +10,10 @@
 .search-bx{position: relative;}
 .search-bx .form-group>label{display: none;}
 .search-bx .form-group{margin-bottom: 0;}
-.search-bx .form-control{height: 46px;min-width: 36rem;border: none;border-radius: 0.8rem;padding: 0 4.5rem;background: var(--TextColor);color: var(--whiteColor);}
+.search-bx .form-control{height: 46px;min-width: 36rem;border: none;border-radius: 0.8rem;padding-right: 4.5rem;background: var(--TextColor);color: var(--whiteColor);}
 .search-bx .form-control::placeholder{color: var(--whiteColor);}
-.search-bx>.search-icon{position: absolute;left: 1rem;top: 50%;transform: translateY(-50%);display: flex; align-items: center; justify-content: center;}
-.search-bx .filter-btn{position: absolute;right: .4rem;top: 50%;transform: translateY(-50%);background: var(--whiteColor);border: none;display: flex; align-items: center; justify-content: center;width: 4rem;height: 4rem;border-radius: .5rem;}
+.search-bx>.search-icon{position: absolute;right: 1rem;top: 50%;transform: translateY(-50%);display: flex; align-items: center; justify-content: center;}
+
 
 .user-info{display: flex;align-items: center;color: var(--whiteColor);padding: 0;}
 .user-info::after{display: none;}
@@ -65,39 +65,16 @@
 /* dashboard common css */
 .heading-bx{margin-bottom: 3rem;display: flex;align-items: center;justify-content: space-between;}
 .heading-bx h1{font-size: 3.4rem;font-weight: 700;color: var(--TextColor);margin-bottom: 0;}
-.dashboard-info-bx{padding: 3rem;position: relative;border-radius: 1.5rem;background: var(--whiteColor);}
-.dashboard-info-bx>a{display: flex;color: var(--whiteColor);align-items: center;}
-.dashboard-info-bx>a>span{width: 7.4rem;height: 7.4rem;border-radius: .2rem 1.5rem 1.5rem 1.5rem;display: flex;align-items: center;justify-content: center;margin-right: 2rem;}
-.dashboard-info-bx>a h2{font-size: 3.6rem;font-weight: bold;}
-.dashboard-info-bx>a p{display: block;font-size: 2.4rem;font-weight: 300;margin: 0;}
-.primaryColor{background: var(--PrimaryColor);}
-.secondaryColor{background: var(--SecondaryColor);}
-.thirdColor{background: var(--TextColor);}
-.secondaryColor.dashboard-info-bx>a>span{background: #B1CB79;}
-.thirdColor.dashboard-info-bx>a>span{background: #2A5682;}
-.primaryColor.dashboard-info-bx>a>span{background: #3A7BBE;}
 
 .repeat-white-bx{background: var(--whiteColor);border-radius: 1rem;padding: 3rem;}
 .container-small{max-width: 75rem;margin: 0 auto;}
 
 .section-title{margin-bottom: 2rem;}
 
-
-
-.welcome-msg-bx>h2{font-size: 3.5rem;font-weight: bold;display: flex;align-items: center;color: #343434;}
-.welcome-msg-bx p{margin: 0;font-size: 1.8rem;opacity: 0.8;}
-.welcome-msg-bx>h2 img{margin-left: 1rem;}
-
 .dashboard-col + .dashboard-col{margin-top: 5rem;}
 
-.product-list-bx{display: flex;align-items: center; background: var(--whiteColor);border-radius: 1rem;overflow: hidden;width: 100%;border: 1px solid #C3D9FF;}
-.product-img{flex: 0 0 23.4rem;max-width: 23.4rem;}
-.product-img img{width: 100%;height: 18rem;object-fit: cover;}
-.product-info{padding: 2rem;}
-.product-info h2{color: var(--TextColor);font-size: 2.2rem;margin-bottom: 1rem;}
-.product-info p{color: var(--TextColor);font-size: 1.7rem;display: flex;align-items: center;margin-bottom: 2rem;}
-.product-info p box-icon{margin-right: .2rem;}
-.away-from{padding: 1rem 2rem;background: #F3F8FF;border: 1px solid #C3D9FF;border-radius: 1rem;color: var(--TextColor);}
+.info-bx { display: flex; align-items: center; color: var(--TextColor); padding: 2rem 0; border-top: 1px solid #C3D9FF; }
+.info-bx box-icon{margin-right: 1rem;}
 
 .owl-dots{text-align: center;margin-top: 1rem;}
 .owl-dots button{width: 2rem;height: .5rem;background: var(--PrimaryColor)!important;border-radius: 3rem;opacity: 0.5;}
@@ -105,4 +82,14 @@
 .owl-dots button.active{opacity: 1;}
 
 
-.offers-slider .owl-item img{height: 18rem;object-fit: cover;border-radius: 1rem;}
+.congrats-bx{text-align: center;color: var(--TextColor);}
+.congrats-bx h2{font-size: 3rem;font-weight: 700;}
+.congrats-bx img{margin: 2rem 0;}
+.congrats-bx p{margin-bottom: 2rem;}
+
+
+/* tabs css */
+.tab-outer{text-align: center;}
+.pricing-tabs.nav-tabs{margin-bottom: 5rem;border: 1px solid #C3D9FF;display: inline-flex;border-radius: 5rem;overflow: hidden;background: #F3F8FF;padding: 1rem;}
+.pricing-tabs.nav-tabs .nav-link{border: none;margin-bottom: 0;padding: 1rem 2rem;font-size: 2rem;color: #b8d6ff;border-radius: 5rem;font-weight: 500;min-width: 15rem;}
+.pricing-tabs.nav-tabs .nav-link.active{background: var(--SecondaryColor);color: var(--TextColor);}

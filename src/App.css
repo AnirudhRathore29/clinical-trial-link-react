@@ -99,6 +99,9 @@ tbody, td, tfoot, th, thead, tr{border-color: #eef0f8;vertical-align: middle;}
 .center-align-table{text-align: center;}
 td[align='left'],
 th[align='left']{text-align: left;}
+
+
+.custom-size-modal .modal-dialog{max-width: 610px!important;}
 /****** Common Css End ******/
 
 
@@ -107,3 +110,4 @@ th[align='left']{text-align: left;}
 .badge{padding: .6rem 1rem;font-size: 12px;color: var(--TextColor);display: inline-flex;align-items: center;border-radius: 5rem;justify-content: center;}
 .badge-success{background: var(--SecondaryColor);}
 .badge-danger{background: var(--DangerColor);color: var(--whiteColor);}
+.badge-primary{background: var(--PrimaryColor);color: var(--whiteColor);}

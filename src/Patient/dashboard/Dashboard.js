@@ -3,6 +3,8 @@
 import { Link } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
+import './Dashboard.css'
+import '../clinicListing/ClinicListing.css'
 
 const PatientDashboard = () => {
     const options = {
@@ -70,18 +72,19 @@ const PatientDashboard = () => {
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
                             <div className="heading-bx">
-                                <h1>Recommended Trials</h1>
+                                <h1>Recommended Clinics</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
                                     <Link to="/patient/trial-clinic-details">
-                                        <div className='product-list-bx'>
-                                            <div className='product-img'>
+                                        <div className='clinic-list-bx'>
+                                            <div className='clinic-img'>
                                                 <img src="/images/clinic-img1.jpg" alt="clinic-img" />
                                             </div>
-                                            <div className='product-info'>
+                                            <div className='clinic-info'>
                                                 <h2>Barnes Jewish Hospital</h2>
-                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,</p>
                                                 <span className="away-from">5000.52 Mi</span>
                                             </div>
                                         </div>
@@ -89,13 +92,14 @@ const PatientDashboard = () => {
                                 </div>
                                 <div className='item'>
                                     <Link to="/patient/trial-clinic-details">
-                                        <div className='product-list-bx'>
-                                            <div className='product-img'>
+                                        <div className='clinic-list-bx'>
+                                            <div className='clinic-img'>
                                                 <img src="/images/clinic-img1.jpg" alt="clinic-img" />
                                             </div>
-                                            <div className='product-info'>
+                                            <div className='clinic-info'>
                                                 <h2>Barnes Jewish Hospital</h2>
-                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,</p>
                                                 <span className="away-from">5000.52 Mi</span>
                                             </div>
                                         </div>
@@ -103,13 +107,14 @@ const PatientDashboard = () => {
                                 </div>
                                 <div className='item'>
                                     <Link to="/patient/trial-clinic-details">
-                                        <div className='product-list-bx'>
-                                            <div className='product-img'>
+                                        <div className='clinic-list-bx'>
+                                            <div className='clinic-img'>
                                                 <img src="/images/clinic-img1.jpg" alt="clinic-img" />
                                             </div>
-                                            <div className='product-info'>
+                                            <div className='clinic-info'>
                                                 <h2>Barnes Jewish Hospital</h2>
-                                                <p><box-icon name='map' color="#356AA0" size="20px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> Atlanta, Georgia, United States</p>
+                                                <p className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,</p>
                                                 <span className="away-from">5000.52 Mi</span>
                                             </div>
                                         </div>
