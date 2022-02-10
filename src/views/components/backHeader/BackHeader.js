@@ -103,7 +103,7 @@ const Header = ({ colorHeader }) => {
 
                                 <Dropdown.Menu>
                                     <Link to="/patient/edit-profile" className="dropdown-item"><box-icon name='edit-alt'></box-icon> Edit Profile</Link>
-                                    <Link to="//patient/my-chats" className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
+                                    <Link to="/patient/my-chats" className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
                                     <Link to="/patient/my-favorites" className="dropdown-item"><box-icon name='happy-heart-eyes'></box-icon> My Favorites</Link>
                                     <Link to="/" className="dropdown-item"><box-icon name='log-out-circle' ></box-icon> Logout</Link>
                                 </Dropdown.Menu>

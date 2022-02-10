@@ -69,7 +69,7 @@
 .repeat-white-bx{background: var(--whiteColor);border-radius: 1rem;padding: 3rem;}
 .container-small{max-width: 75rem;margin: 0 auto;}
 
-.section-title{margin-bottom: 2rem;}
+.section-title{margin-bottom: 2rem;color: var(--TextColor);font-weight: 700;}
 
 .dashboard-col + .dashboard-col{margin-top: 5rem;}
 

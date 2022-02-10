@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
+import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './TrialClinicDetails.css'
 import '../myFavorites/MyFavorites.css'
@@ -98,50 +99,30 @@ const TrialClinicDetails = () => {
                             <div className="trialClinic-info-bx mt-5">
                                 <h2>Clinical Trials</h2>
                                 <OwlCarousel {...options2}>
-                                    <div className='item clinicalTrial-bx' onClick={handleShow}>
-                                        <h2>Depression Associated with Bipolar Disorder</h2>
-                                        <p>Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a...</p>
-                                        <div className='clinicalTrial-bx-ftr'>
-                                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                            <div>
-                                                <button className='icon-btn'><box-icon name='heart' color="#ffffff"></box-icon></button>
-                                                <button className='icon-btn'><box-icon name='share-alt' color="#ffffff"></box-icon></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='item clinicalTrial-bx' onClick={handleShow}>
-                                        <h2>Study Seeking Patients with Bipolar Depression</h2>
-                                        <p>A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose...</p>
-                                        <div className='clinicalTrial-bx-ftr'>
-                                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                            <div>
-                                                <button className='icon-btn'><box-icon name='heart' color="#ffffff"></box-icon></button>
-                                                <button className='icon-btn'><box-icon name='share-alt' color="#ffffff"></box-icon></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='item clinicalTrial-bx' onClick={handleShow}>
-                                        <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                        <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                        <div className='clinicalTrial-bx-ftr'>
-                                            <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                            <div>
-                                                <button className='icon-btn'><box-icon name='heart' color="#ffffff"></box-icon></button>
-                                                <button className='icon-btn'><box-icon name='share-alt' color="#ffffff"></box-icon></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='item clinicalTrial-bx' onClick={handleShow}>
-                                        <h2>Depression Associated with Bipolar Disorder</h2>
-                                        <p>Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a...</p>
-                                        <div className='clinicalTrial-bx-ftr'>
-                                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                            <div>
-                                                <button className='icon-btn'><box-icon name='heart' color="#ffffff"></box-icon></button>
-                                                <button className='icon-btn'><box-icon name='heart' color="#ffffff"></box-icon></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <ClinicTrial
+                                        onClick={handleShow}
+                                        title="Depression Associated with Bipolar Disorder"
+                                        description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
+                                        status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
+                                    />
+                                    <ClinicTrial
+                                        onClick={handleShow}
+                                        title="Study Seeking Patients with Bipolar Depression"
+                                        description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
+                                        status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
+                                    />
+                                    <ClinicTrial
+                                        onClick={handleShow}
+                                        title="Bipolar Depression Study with 6 Month Open Label Therapy"
+                                        description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
+                                        status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                    />
+                                    <ClinicTrial
+                                        onClick={handleShow}
+                                        title="Depression Associated with Bipolar Disorder"
+                                        description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
+                                        status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                    />
                                 </OwlCarousel>
                             </div>
                         </div>
@@ -154,7 +135,18 @@ const TrialClinicDetails = () => {
                 </div>
             </div>
 
-            <PatientBookingProcess show={show} handleClose={handleClose} show2={show2} handleClose2={handleClose2} handleShow2={handleShow2} show3={show3} handleClose3={handleClose3} handleShow3={handleShow3} />
+            <PatientBookingProcess
+                show={show}
+                handleClose={handleClose}
+                show2={show2}
+
+                handleClose2={handleClose2}
+                handleShow2={handleShow2}
+                show3={show3}
+
+                handleClose3={handleClose3}
+                handleShow3={handleShow3}
+            />
         </>
     );
 };

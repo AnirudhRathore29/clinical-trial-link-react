@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
+import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
 import './MyFavorites.css';
 
 const PatientMyFavorites = () => {
@@ -35,108 +36,92 @@ const PatientMyFavorites = () => {
 
                     <div className='row'>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Depression Associated with Bipolar Disorder"
+                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
+                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Study Seeking Patients with Bipolar Depression"
+                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
+                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
+                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
+                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Depression Associated with Bipolar Disorder"
+                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
+                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Study Seeking Patients with Bipolar Depression"
+                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
+                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
+                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
+                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Depression Associated with Bipolar Disorder"
+                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
+                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                         <div className='col-lg-6'>
-                            <div className='clinicalTrial-bx mb-4' onClick={handleShow}>
-                                <h2>Bipolar Depression Study with 6 Month Open Label Therapy</h2>
-                                <p>If you or someone you know suffers from bipolar depression, you may be eligible to participate in a...</p>
-                                <div className='clinicalTrial-bx-ftr'>
-                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    <div>
-                                        <button className='icon-btn'><box-icon name='heart' type="solid" color="#356AA0"></box-icon></button>
-                                        <button className='icon-btn'><box-icon name='share-alt' color="#356AA0"></box-icon></button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ClinicTrial
+                                className="mb-4"
+                                onClick={handleShow}
+                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
+                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
+                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
+                                iconType="solid"
+                                iconColor="#356AA0"
+                            />
                         </div>
                     </div>
                 </div>
