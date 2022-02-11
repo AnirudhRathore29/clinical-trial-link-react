@@ -6,7 +6,7 @@ import PrivateRoute from './views/private-route/PrivateRoute';
 import { loginUser } from './app/actions/authAction'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import './assets/css/responsive.css';
+import './Assets/css/responsive.css';
 
 /* Layout */
 const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
@@ -21,7 +21,7 @@ const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEma
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 
 /* patient panel pages */
-const PatientCompleteProfile = React.lazy(() => import('./patient/completeProfile/CompleteProfile'));
+const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -57,6 +57,8 @@ function App() {
 						<PrivateRoute path="/patient/clinic-listing" name="PatientClinicListing" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/my-favorites" name="PatientMyFavorites" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/my-chats" name="PatientMyChats" component={(props) => <BackLayout {...props} />} />
+						<PrivateRoute path="/patient/payment-history" name="PatientPaymentHistory" component={(props) => <BackLayout {...props} />} />
+						<PrivateRoute path="/patient/trial-listing" name="PatientTrialListing" component={(props) => <BackLayout {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>

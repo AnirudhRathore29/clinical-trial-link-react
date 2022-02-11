@@ -13,7 +13,7 @@
 .clinicaltrial-ftr-col.about-col p{margin-top: 4rem;max-width: 46rem;}
 
 .ftr-row{margin-top: 10rem;}
-.download-app-bx{max-width: 164.2rem;margin-left: auto;padding: 4rem 13.3rem;border-radius: 50rem 0 0 50rem;background: var(--PrimaryColor) url(../../../assets/images/download-app-bg.svg) bottom center no-repeat;margin-top: -35rem;position: relative;z-index: 1;overflow: hidden;}
+.download-app-bx{max-width: 164.2rem;margin-left: auto;padding: 4rem 13.3rem;border-radius: 50rem 0 0 50rem;background: var(--PrimaryColor) url(../../../Assets/images/download-app-bg.svg) bottom center no-repeat;margin-top: -35rem;position: relative;z-index: 1;overflow: hidden;}
 .download-app-bx::after{content: ""; width: 58.8rem;height: 58.8rem;border: 1px solid #74B1F5;position: absolute;left: 11.7rem; top: -30.4rem;border-radius: 50%;}
 .download-app-bx>.row{position: relative;z-index: 1;}
 .app-download-platform{margin-top: 4rem;}

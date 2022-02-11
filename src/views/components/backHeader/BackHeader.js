@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { InputText } from "../Common/Inputs/Inputs";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -9,14 +9,14 @@ import "./BackHeader.css";
 const Header = ({ colorHeader }) => {
     const [scroll, setScroll] = useState(false);
     const [sideMenu, setSideMenu] = useState(false);
-    // const history = useHistory();
-    // const UserToken = localStorage.getItem("user-token");
+    const history = useHistory();
 
     toast.configure();
 
-    // const logout = () => {
-    //     history.push("/login")
-    // };
+    const logout = () => {
+        localStorage.removeItem("jwtToken")
+        history.push("/login")
+    };
 
     useEffect(() => {
         window.addEventListener(
@@ -105,7 +105,7 @@ const Header = ({ colorHeader }) => {
                                     <Link to="/patient/edit-profile" className="dropdown-item"><box-icon name='edit-alt'></box-icon> Edit Profile</Link>
                                     <Link to="/patient/my-chats" className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
                                     <Link to="/patient/my-favorites" className="dropdown-item"><box-icon name='happy-heart-eyes'></box-icon> My Favorites</Link>
-                                    <Link to="/" className="dropdown-item"><box-icon name='log-out-circle' ></box-icon> Logout</Link>
+                                    <Link to="/" className="dropdown-item" onClick={logout}><box-icon name='log-out-circle' ></box-icon> Logout</Link>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>
@@ -117,8 +117,7 @@ const Header = ({ colorHeader }) => {
                 <ul>
                     <li><Link to="/patient/dashboard" className="active"><box-icon type='solid' name='dashboard' color='#ffffff'></box-icon> Dashboard</Link></li>
                     <li><Link to="/patient/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Appointments</Link></li>
-                    <li><Link to=""><box-icon name='bank' type='solid' color='#ffffff'></box-icon> Bank Details</Link></li>
-                    <li><Link to=""><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                    <li><Link to="/patient/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
                     <li><Link to=""><box-icon name='info-circle' color='#ffffff'></box-icon> About us</Link></li>
                 </ul>
             </div>

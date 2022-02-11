@@ -9,11 +9,71 @@
 .clinic-info .description{margin-bottom: 1rem;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
 .away-from{padding: 1rem 2rem;background: #F3F8FF;border: 1px solid #C3D9FF;border-radius: 1rem;color: var(--TextColor);display: inline-block;}
 
-.filter-sidebar{background: var(--whiteColor);padding: 2rem;border-radius: 1rem;}
-.filter-sidebar>h2{font-size: 2.5rem;color: var(--TextColor);display: flex;align-items: center;justify-content: space-between;margin-bottom: 2rem;}
-.filter-btn{background: transparent;border: none;}
 
-.filter-sidebar{position: sticky;top: 9rem;}
 .main-clinic-listing .clinic-list-bx{padding: 1rem;margin-bottom: 2rem;}
 .main-clinic-listing .clinic-img{flex: 0 0 28rem;max-width: 28rem;}
 .main-clinic-listing .clinic-img img{border-radius: 1rem;}
+
+.wrap {
+    display: grid;
+    grid-template-rows: -webkit-max-content 1em;
+    grid-template-rows: max-content 1em;
+    overflow: hidden;
+    position: relative;
+    margin: 1em auto;
+    width: 20em;
+    background: linear-gradient(0deg, #ccc 1em, transparent 0);
+  }
+  
+  .sr-only {
+    position: absolute;
+    -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+  }
+  
+  input[type=range] {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    background: none;
+    /* get rid of white Chrome background */
+    color: #000;
+    font: inherit;
+    /* fix too small font-size in both Chrome & Firefox */
+    pointer-events: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track, input[type=range]::-webkit-slider-thumb, input[type=range] {
+    -webkit-appearance: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 100%;
+    background: none;
+    /* get rid of Firefox track background */
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 100%;
+    background: none;
+    /* get rid of Firefox track background */
+  }
+  input[type=range]::-webkit-slider-thumb {
+    border: none;
+    /* get rid of Firefox thumb border */
+    width: 1em;
+    height: 1em;
+    border-radius: 0;
+    /* get rid of Firefox corner rounding */
+    background: currentcolor;
+    pointer-events: auto;
+  }
+  input[type=range]::-moz-range-thumb {
+    border: none;
+    /* get rid of Firefox thumb border */
+    width: 1em;
+    height: 1em;
+    border-radius: 0;
+    /* get rid of Firefox corner rounding */
+    background: currentcolor;
+    pointer-events: auto;
+  }

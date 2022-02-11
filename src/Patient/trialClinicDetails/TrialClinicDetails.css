@@ -3,7 +3,7 @@
 
 .trialClinic-img img{width: 100%;border-radius: 1rem;max-height: 50rem;object-fit: cover;}
 
-.trialClinic-info-bx>h2{margin-bottom: 1rem;font-size: 2.3rem;font-weight: 500;color: var(--TextColor);}
+.trialClinic-info-bx>h2{margin-bottom: 1rem;font-size: 2.3rem;font-weight: 500;color: var(--TextColor);display: flex;align-items: center;justify-content: space-between;}
 .trialClinic-info-bx>p{color: var(--TextColor);line-height: 1.8;font-weight: 300;}
 .trialClinic-info-bx ul{display: flex;flex-wrap: wrap;margin: 0;padding: 0;}
 .trialClinic-info-bx ul li{width: 50%;margin-bottom: 1.5rem;font-size: 1.7rem;list-style: none;display: flex;align-items: center;color: var(--TextColor);}

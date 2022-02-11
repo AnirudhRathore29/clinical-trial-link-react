@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './Dashboard.css'
-import '../clinicListing/ClinicListing.css'
+import '../ClinicListing/ClinicListing.css'
 
 const PatientDashboard = () => {
     const options = {

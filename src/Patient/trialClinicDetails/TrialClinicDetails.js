@@ -2,6 +2,7 @@ import { useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
 import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
+import Button from '../../views/components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './TrialClinicDetails.css'
 import '../myFavorites/MyFavorites.css'
@@ -97,7 +98,14 @@ const TrialClinicDetails = () => {
                                 </OwlCarousel>
                             </div>
                             <div className="trialClinic-info-bx mt-5">
-                                <h2>Clinical Trials</h2>
+                                <h2>Clinical Trials 
+                                <Button
+                                    isLink="true"
+                                    URL="/patient/trial-listing"
+                                    BtnColor="green btn-sm"
+                                    BtnText="View All"
+                                />
+                                </h2>
                                 <OwlCarousel {...options2}>
                                     <ClinicTrial
                                         onClick={handleShow}

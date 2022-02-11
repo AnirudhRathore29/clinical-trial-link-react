@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { InputText, SelectBox } from '../../views/components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/components/Common/Buttons/Buttons';
+// import { Range } from 'react-range';
 import './ClinicListing.css';
 
 const PatientClinicListing = () => {

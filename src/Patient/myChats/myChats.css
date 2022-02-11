@@ -1,7 +1,7 @@
 .chat-container {
     background-color: var(--whiteColor);
     height: 79rem;
-    border-radius: 3rem;
+    border-radius: 1rem;
     overflow: hidden;
     display: flex;
   }
@@ -175,6 +175,8 @@
   .chat-container main .top-bar .user-info .status:after {
     content: "online";
   }
+  .chat-container main .top-bar .user-info .status.offline::after{content: "offline";}
+  .chat-container main .top-bar .user-info .status.away::after{content: "away";}
   .chat-container main .top-bar .buttons svg {
     height: 2.5rem;
     fill: #c0c2c3;
@@ -214,7 +216,6 @@
     margin-left: 2rem;
   }
   .chat-container main .messages .message {
-    display: flex;
     margin: 2rem;
     position: relative;
   }
@@ -231,9 +232,6 @@
     color: #626c76;
     font-size: 15px;
   }
-  .chat-container main .messages .message.fromme {
-    flex-direction: row-reverse;
-  }
   .chat-container main .messages .message.fromme:after {
     border-width: 1.5rem 2rem 0 0;
     border-color: var(--TextColor) transparent transparent transparent;
@@ -244,6 +242,7 @@
     border-radius: 3rem 0px 3rem 3rem;
     background-color: var(--PrimaryColor);
     color: #fff;
+    margin-left: auto;
   }
   .chat-container main .bottom-bar {
     background-color: #ffffff;
@@ -345,4 +344,5 @@
     padding-left: 4rem;
   }
 
-  .message-time{color: var();}
+  .message-time{opacity: 0.5;flex: 0 0 100%;font-size: 14px;margin-left: 2rem;margin-top: .3rem;}
+  .message.fromme .message-time{margin-right: 2rem;margin-left: auto;text-align: right;}
