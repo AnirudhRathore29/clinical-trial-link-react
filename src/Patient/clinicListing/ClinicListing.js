@@ -2,11 +2,9 @@ import { Link } from 'react-router-dom';
 import { InputText, SelectBox } from '../../views/components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/components/Common/Buttons/Buttons';
-// import { Range } from 'react-range';
 import './ClinicListing.css';
 
 const PatientClinicListing = () => {
-
     return (
         <>
             <div className="clinical-dashboard main-clinic-listing">
@@ -24,11 +22,26 @@ const PatientClinicListing = () => {
                                     optionData={
                                         <>
                                             <option>Select</option>
-                                            <option>Conidtion 1</option>
-                                            <option>Conidtion 2</option>
+                                            <option>Condition 1</option>
+                                            <option>Condition 2</option>
                                         </>
                                     }
                                 />
+                                <div className='form-group'>
+                                    <label>Age Range</label>
+                                    <div className='age-range'>
+                                        <div className='age-range-bix'>
+                                            <span>Min</span>
+                                            <InputText type="number" placeholder="Min Age" min="18" />
+                                        </div>
+                                        <div className='p-3'>-</div>
+                                        <div className='age-range-bix'>
+                                            <span>Max</span>
+                                            <InputText type="number" placeholder="Max Age" max="60" />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">

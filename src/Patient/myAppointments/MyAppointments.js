@@ -5,7 +5,7 @@ import CommonModal from '../../views/components/Common/Modal/Modal'
 import Button from '../../views/components/Common/Buttons/Buttons';
 // import PendingAppointments from "../myAppointments/PendingAppointments"
 import './MyAppointments.css';
-import '../ClinicListing/ClinicListing.css'
+import '../clinicListing/ClinicListing.css'
 
 const PatientMyAppointments = () => {
 

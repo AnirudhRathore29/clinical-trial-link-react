@@ -10,7 +10,7 @@ const loading = (
 	</div>
 );
 
-const TheContent = () => {
+function TheContent () {
 	return (
 		<main className="main-content">
 			<Suspense fallback={loading}>

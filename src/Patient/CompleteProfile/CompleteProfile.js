@@ -103,9 +103,9 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="IFSC_code"
-                                        placeholder="Enter IFSC Code"
-                                        labelText="IFSC Code"
+                                        name="routing_number"
+                                        placeholder="Enter Routing Number"
+                                        labelText="Routing Number"
                                     />
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">

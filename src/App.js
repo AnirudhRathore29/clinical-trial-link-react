@@ -21,7 +21,8 @@ const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEma
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 
 /* patient panel pages */
-const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
+const PatientCompleteProfile = React.lazy(() => import('./patient/completeProfile/CompleteProfile'));
+const TrialClinicCompleteProfile = React.lazy(() => import('./trialClinic/completeProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -49,6 +50,9 @@ function App() {
 
 					{/* Patient Routes */}
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
+
+					{/* trial clinic Routes */}
+					<Route exact path="/trial-clinic/complete-profile" name="TrialClinicCompleteProfile" render={(props) => <TrialClinicCompleteProfile {...props} />} />
 					<Switch>
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/edit-profile" name="PatientEditProfile" component={(props) => <BackLayout {...props} />} />

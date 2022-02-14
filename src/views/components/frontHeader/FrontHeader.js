@@ -12,6 +12,7 @@ const Header = ({colorHeader}) => {
     toast.configure();
 
     const logout = () => {
+        localStorage.removeItem("jwtToken");
         history.push("/login");
     };
 

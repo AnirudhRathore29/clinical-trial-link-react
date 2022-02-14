@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { InputText, SelectBox } from "../../components/Common/Inputs/Inputs";
-import RadioBtn from "../../components/Common/RadioBtn/RadioBtn";
-import Button from "../../components/Common/Buttons/Buttons"
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../Pages/Login/Login.css";
+import React from "react";
+import { InputText, SelectBox, TextArea } from "../../views/components/Common/Inputs/Inputs";
+import Button from "../../views/components/Common/Buttons/Buttons"
+import Header from "../../views/components/frontHeader/FrontHeader";
+import { loginUser } from '../../app/actions/authAction'
+import 'boxicons';
+import "../../views/pages/Login/Login.css";
 
-const SignUp = () => {
+const TrialClinicCompleteProfile = (props) => {
     // const [Formdata, setFormdata] = useState({
     //     state: "",
     //     zip_code: "",
@@ -17,14 +17,15 @@ const SignUp = () => {
     //     account_holder_name: "",
     //     t_c: "",
     // });
-    const [startDate, setStartDate] = useState(new Date());
 
     const CompleteProfileSubmit = () => {
-
+        loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
+        props.history.push('/patient/dashboard')
     }
 
     return (
         <>
+            <Header colorHeader="colorHeader" />
             <section className="authentication-section">
                 <div className="container-fluid">
                     <div className="auth-heading">
@@ -35,6 +36,59 @@ const SignUp = () => {
                         <form autoComplete="off">
                             <div className="row">
                                 <div className="col-lg-6">
+                                    <InputText
+                                        type="text"
+                                        name="zip_code"
+                                        placeholder="Enter Clinic Name"
+                                        labelText="Clinic Name"
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <SelectBox
+                                        name="clinical_practice"
+                                        labelText="Clinical Practice"
+                                        optionData={
+                                            <>
+                                                <option value="">Select Clinical Practice</option>
+                                                <option value="">Option 1</option>
+                                                <option value="">Option 2</option>
+                                                <option value="">Option 3</option>
+                                                <option value="">Option 4</option>
+                                            </>
+                                        }
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <SelectBox
+                                        name="specialty"
+                                        labelText="Specialty"
+                                        optionData={
+                                            <>
+                                                <option value="">Select Specialty</option>
+                                                <option value="">Specialty 1</option>
+                                                <option value="">Specialty 2</option>
+                                                <option value="">Specialty 3</option>
+                                                <option value="">Specialty 4</option>
+                                            </>
+                                        }
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <SelectBox
+                                        name="condition"
+                                        labelText="Condition"
+                                        optionData={
+                                            <>
+                                                <option value="">Select Condition</option>
+                                                <option value="">Condition 1</option>
+                                                <option value="">Condition 2</option>
+                                                <option value="">Condition 3</option>
+                                                <option value="">Condition 4</option>
+                                            </>
+                                        }
+                                    />
+                                </div>
+                                <div className="col-lg-4">
                                     <SelectBox
                                         name="state"
                                         labelText="State"
@@ -49,7 +103,15 @@ const SignUp = () => {
                                         }
                                     />
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-lg-4">
+                                    <InputText
+                                        type="text"
+                                        name="address"
+                                        placeholder="Enter Address"
+                                        labelText="Address"
+                                    />
+                                </div>
+                                <div className="col-lg-4">
                                     <InputText
                                         type="text"
                                         name="zip_code"
@@ -57,20 +119,44 @@ const SignUp = () => {
                                         labelText="Zip Code"
                                     />
                                 </div>
-                                <div className="col-lg-6 form-group">
-                                    <label>Date Of Birth</label>
-                                    <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                <div className="col-lg-12 mt-3 mb-3">
+                                    <h2>Share Principal Investigator Details</h2>
                                 </div>
-                                <div className="col-lg-6 form-group">
-                                    <label>Gender</label>
-                                    <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
-                                    </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="name"
+                                        name="text"
+                                        placeholder="Enter Name"
+                                        labelText="Name"
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="email"
+                                        name="email"
+                                        placeholder="Enter Email"
+                                        labelText="Email"
+                                    />
+                                </div>
+                                <div className="col-lg-12">
+                                    <TextArea
+                                        name="brief_intro"
+                                        placeholder="Enter Brief Intro"
+                                        labelText="Brief Intro"
+                                    />
+                                </div>
+                                <div className="col-lg-12 form-group">
+                                    <label>Upload Clinic Document</label>
+                                    <label className="upload-document">
+                                        <input type="file" />
+                                        <div>
+                                            <h4>No File Uploaded</h4>
+                                            <h3>Tap Here to Upload your File</h3>
+                                        </div>
+                                    </label>
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Add Bank Details</h2>
+                                    <h2>Receive Payments from Sponsors/CRO</h2>
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
@@ -99,75 +185,16 @@ const SignUp = () => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="IFSC_code"
-                                        placeholder="Enter IFSC Code"
-                                        labelText="IFSC Code"
+                                        name="routing_number"
+                                        placeholder="Enter Routing Number"
+                                        labelText="Routing Number"
                                     />
                                 </div>
-                                <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Trial Information</h2>
-                                </div>
-                                <div className="col-lg-4">
-                                    <SelectBox
-                                        name="seeking_trial_for"
-                                        labelText="Seeking Trials for"
-                                        optionData={
-                                            <>
-                                                <option value="">Select</option>
-                                                <option value="">Option1</option>
-                                                <option value="">Option2</option>
-                                                <option value="">Option3</option>
-                                            </>
-                                        }
-                                    />
-                                </div>
-                                <div className="col-lg-4">
-                                    <SelectBox
-                                        name="health_condition"
-                                        labelText="Mental Health Condition"
-                                        optionData={
-                                            <>
-                                                <option value="">Select</option>
-                                                <option value="">Option1</option>
-                                                <option value="">Option2</option>
-                                                <option value="">Option3</option>
-                                            </>
-                                        }
-                                    />
-                                </div>
-                                <div className="col-lg-4 form-group">
-                                    <label>Trials for</label>
-                                    <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" />
-                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Family/Friends" />
+
+                                <div className="col-lg-12">
+                                    <div className='info-bx br-none p-0 mb-4'>
+                                        <box-icon type='solid' name='info-circle' color="#4096EE" size="27px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
                                     </div>
-                                </div>
-                                <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Share Your Physician Details <small>(if any)</small></h2>
-                                </div>
-                                <div className="col-lg-4">
-                                    <InputText
-                                        type="text"
-                                        name="name"
-                                        placeholder="Enter Name"
-                                        labelText="Name"
-                                    />
-                                </div>
-                                <div className="col-lg-4">
-                                    <InputText
-                                        type="email"
-                                        name="email"
-                                        placeholder="Enter Email"
-                                        labelText="Email"
-                                    />
-                                </div>
-                                <div className="col-lg-4">
-                                    <InputText
-                                        type="number"
-                                        name="phone_number"
-                                        placeholder="Enter Phone Number"
-                                        labelText="Phone Number"
-                                    />
                                 </div>
 
                                 <div className="mt-5 text-center">
@@ -188,4 +215,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default TrialClinicCompleteProfile;

@@ -26,6 +26,8 @@ export const InputText = (props) => {
                 disabled={props.isDisabled}
                 required={props.required}
                 autoComplete="off"
+                min={props.min}
+                max={props.max}
             />
             {
                 props.isPassword &&

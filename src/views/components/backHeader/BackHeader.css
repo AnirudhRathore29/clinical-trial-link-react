@@ -73,9 +73,6 @@
 
 .dashboard-col + .dashboard-col{margin-top: 5rem;}
 
-.info-bx { display: flex; align-items: center; color: var(--TextColor); padding: 2rem 0; border-top: 1px solid #C3D9FF; }
-.info-bx box-icon{margin-right: 1rem;}
-
 .owl-dots{text-align: center;margin-top: 1rem;}
 .owl-dots button{width: 2rem;height: .5rem;background: var(--PrimaryColor)!important;border-radius: 3rem;opacity: 0.5;}
 .owl-dots button + button{margin-left: .5rem;}
