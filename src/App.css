@@ -107,6 +107,11 @@ th[align='left']{text-align: left;}
 
 .info-bx { display: flex; align-items: center; color: var(--TextColor); padding: 2rem 0; border-top: 1px solid #C3D9FF; }
 .info-bx box-icon{margin-right: 1rem;}
+
+.btn-group-custom{display: flex;}
+.btn-group-custom .btn + .btn{margin-left: 1rem;}
+
+.no-wrap{white-space: nowrap;}
 /****** Common Css End ******/
 
 

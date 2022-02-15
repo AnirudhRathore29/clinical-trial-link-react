@@ -13,3 +13,10 @@ textarea.form-control{height: 12rem;resize: none;padding-top: 1rem;}
 .hasicon .form-control{padding-right: 6rem;}
 .required{position: relative;}
 .required::after{content: "*";position: absolute;left: 1.2rem;top: 50%;transform: translateY(-50%);margin-top: -.5rem; color: var(--ThemeColorRed);font-size: 2rem;line-height: 1;}
+
+.upload-document{display: inline-block!important;}
+.upload-document input{display: none;}
+.upload-document div{padding: 2rem;border-radius: 1rem;border: dashed 1px  #C3D9FF;text-align: center;background: var(--lightBg);cursor: pointer;transition: 0.3s;}
+.upload-document div:hover{border-color: var(--TextColor);}
+.upload-document div h4{color: #6DAFF2;}
+.upload-document div h3{color: var(--TextColor);font-size: 1.8rem;}

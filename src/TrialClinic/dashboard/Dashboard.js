@@ -6,8 +6,7 @@ import DashboardInfoBx from '../../views/components/dashboardInfoBx/DashboardInf
 import ListBox from '../../views/components/listBox/ListBox';
 import WelcomeBx from '../../views/components/welcomeBx/WelcomeBx';
 import 'owl.carousel/dist/assets/owl.carousel.css';
-import './Dashboard.css';
-import '../clinicListing/ClinicListing.css';
+import '../../patient/dashboard/Dashboard.css';
 
 const PatientDashboard = () => {
     const options = {
@@ -28,31 +27,22 @@ const PatientDashboard = () => {
                     <WelcomeBx />
 
                     <div className="row dashboard-col">
-                        <div className="col-lg-4">
+                        <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="secondaryColor"
-                                URL="/patient/payment-history"
-                                icon={<box-icon name='money' size="40px" color="#ffffff"></box-icon>}
-                                title="Total Compensation"
-                                info="$555.00"
+                                URL="/trial-clinic/trial-requests"
+                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
+                                title="New Trials Patient Appointment Request"
+                                info="20"
                             />
                         </div>
-                        <div className="col-lg-4">
+                        <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="thirdColor"
-                                URL="/patient/my-appointments"
-                                icon={<box-icon name='calendar' type='solid' size="40px" color="#ffffff"></box-icon>}
-                                title="My Appointments"
-                                info="25"
-                            />
-                        </div>
-                        <div className="col-lg-4">
-                            <DashboardInfoBx
-                                className="primaryColor"
                                 URL=""
-                                icon={<box-icon name='money' size="40px" color="#ffffff"></box-icon>}
-                                title="Total Compensation"
-                                info="$555.00"
+                                icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
+                                title="Requests Approved by the Trial Sponsors/CRO"
+                                info="10"
                             />
                         </div>
                     </div>
@@ -60,13 +50,24 @@ const PatientDashboard = () => {
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
                             <div className="heading-bx">
-                                <h1>Recommended Clinics</h1>
+                                <h1>Trial Sponsors/CRO</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
-                                    <Link to="/patient/trial-clinic-details">
+                                    <Link to="/trial-clinic/sponsors-details">
                                         <ListBox
-                                            imgUrl="clinic-img1.jpg"
+                                            imgUrl="clinic-img3.jpg"
+                                            title="ABF Pharmaceutical"
+                                            location="San Diego, CA, United States"
+                                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
+                                            distance="5000.52 Mi"
+                                        />
+                                    </Link>
+                                </div>
+                                <div className='item'>
+                                    <Link to="/trial-clinic/sponsors-details">
+                                        <ListBox
+                                            imgUrl="clinic-img2.jpg"
                                             title="Barnes Jewish Hospital"
                                             location="Atlanta, Georgia, United States"
                                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
@@ -75,18 +76,7 @@ const PatientDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='item'>
-                                    <Link to="/patient/trial-clinic-details">
-                                        <ListBox
-                                            imgUrl="clinic-img1.jpg"
-                                            title="Barnes Jewish Hospital"
-                                            location="Atlanta, Georgia, United States"
-                                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                            distance="5000.52 Mi"
-                                        />
-                                    </Link>
-                                </div>
-                                <div className='item'>
-                                    <Link to="/patient/trial-clinic-details">
+                                    <Link to="/trial-clinic/sponsors-details">
                                         <ListBox
                                             imgUrl="clinic-img1.jpg"
                                             title="Barnes Jewish Hospital"

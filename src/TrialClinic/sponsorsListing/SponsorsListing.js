@@ -1,57 +1,43 @@
 import { Link } from 'react-router-dom';
 import { InputText, SelectBox } from '../../views/components/Common/Inputs/Inputs';
-import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/components/Common/Buttons/Buttons';
 import ListBox from '../../views/components/listBox/ListBox';
-import './ClinicListing.css';
+import '../../patient/clinicListing/ClinicListing.css';
 
-const PatientClinicListing = () => {
+const ClinicSponsorsListing = () => {
     return (
         <>
             <div className="clinical-dashboard main-clinic-listing">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Clinics</h1>
+                        <h1>Trial Sponsors/CRO</h1>
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
                             <div className="filter-sidebar">
                                 <h2>Filter</h2>
                                 <SelectBox
+                                    name="specialty"
+                                    labelText="Specialty"
+                                    optionData={
+                                        <>
+                                            <option>Select Specialty</option>
+                                            <option>Specialty 1</option>
+                                            <option>Specialty 2</option>
+                                        </>
+                                    }
+                                />
+                                <SelectBox
                                     name="condition"
                                     labelText="Condition"
                                     optionData={
                                         <>
-                                            <option>Select</option>
+                                            <option>Select Condition</option>
                                             <option>Condition 1</option>
                                             <option>Condition 2</option>
                                         </>
                                     }
                                 />
-                                <div className='form-group'>
-                                    <label>Age Range</label>
-                                    <div className='age-range'>
-                                        <div className='age-range-bix'>
-                                            <span>Min</span>
-                                            <InputText type="number" placeholder="Min Age" min="18" />
-                                        </div>
-                                        <div className='p-3'>-</div>
-                                        <div className='age-range-bix'>
-                                            <span>Max</span>
-                                            <InputText type="number" placeholder="Max Age" max="60" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Gender</label>
-                                    <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
-                                    </div>
-                                </div>
-                                <InputText type="text" labelText="Zip Code" placeholder="Enter zip code" />
                                 <InputText type="search" labelText="Keywords" placeholder="Enter Keywords" />
                                 <Button
                                     isButton="true"
@@ -62,16 +48,16 @@ const PatientClinicListing = () => {
                             </div>
                         </div>
                         <div className='col-lg-8'>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img1.jpg"
-                                    title="Barnes Jewish Hospital"
+                                    title="ABF Pharmaceutical"
                                     location="Atlanta, Georgia, United States"
                                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
                                     distance="5000.52 Mi"
                                 />
                             </Link>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img2.jpg"
                                     title="University of California"
@@ -80,7 +66,7 @@ const PatientClinicListing = () => {
                                     distance="5000.52 Mi"
                                 />
                             </Link>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img3.jpg"
                                     title="UC Health"
@@ -89,7 +75,7 @@ const PatientClinicListing = () => {
                                     distance="5000.52 Mi"
                                 />
                             </Link>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img1.jpg"
                                     title="Bayou City Research"
@@ -98,7 +84,7 @@ const PatientClinicListing = () => {
                                     distance="5000.52 Mi"
                                 />
                             </Link>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img2.jpg"
                                     title="University of California"
@@ -107,7 +93,7 @@ const PatientClinicListing = () => {
                                     distance="5000.52 Mi"
                                 />
                             </Link>
-                            <Link to="/patient/trial-clinic-details">
+                            <Link to="/trial-clinic/sponsors-details">
                                 <ListBox
                                     imgUrl="clinic-img2.jpg"
                                     title="University of California"
@@ -132,4 +118,4 @@ const PatientClinicListing = () => {
     );
 };
 
-export default PatientClinicListing;
+export default ClinicSponsorsListing;

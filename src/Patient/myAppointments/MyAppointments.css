@@ -1,5 +1,5 @@
-.my-appointment-section .clinic-img img{height: 20rem;}
-.my-appointment-section .clinic-list-bx{text-align: left;cursor: pointer;}
+.my-appointment-section .my-appointment-img img{height: 20rem;}
+.my-appointment-section .my-appointment-bx{text-align: left;cursor: pointer;}
 
 .appointment-detail{display: flex;align-items: center; padding: 1rem; border: 1px solid #C3D9FF;border-radius: 1rem;margin-bottom: 2rem;color: var(--TextColor);}
 .appointment-detail img{flex: 0 0 20rem;height: 12rem;margin-right: 2rem;border-radius: 1rem;}

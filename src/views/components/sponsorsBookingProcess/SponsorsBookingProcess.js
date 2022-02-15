@@ -1,14 +1,12 @@
-import { useState } from 'react';
 import CommonModal from '../Common/Modal/Modal'
-import DatePicker from "react-datepicker";
 import Button from '../Common/Buttons/Buttons';
 import { Link } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
+import { TextArea } from '../Common/Inputs/Inputs';
 
-const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3}) => {
-    const [startDate, setStartDate] = useState(new Date());
+const ClinicSponsorsBookingProcess = ({ show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3 }) => {
 
-    return(
+    return (
         <>
             <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
                 ModalTitle={
@@ -24,27 +22,29 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
                 ModalData={
                     <>
                         <div className='sponser-price-info'>
-                            <div className='sponser-price-row'>
-                                <div className='sponser-price-icon'>
-                                    <box-icon name='user' size="30px" color="#356AA0"></box-icon>
-                                </div>
-                                <div>
-                                    <h4>Sponsor</h4>
-                                    <h2>CNS Medical Director</h2>
-                                </div>
-                            </div>
-                            <div className='sponser-price-row'>
+                            <div className='sponser-price-row w-100 br-none'>
                                 <div className='sponser-price-icon'>
                                     <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
                                 </div>
                                 <div>
-                                    <h4>Trial Compensation</h4>
-                                    <h2>$50.00</h2>
+                                    <h4>To be Decided by Company</h4>
+                                    <h2>Trial Reimbursement</h2>
                                 </div>
                             </div>
                         </div>
                         <div className='info-bx'>
-                            <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
+                            <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Lorem ipsum dolor sit amet consectetur adipiscing eli am porta nunc eu nibh dignissim sit amet viverra.
+                        </div>
+                        <div className='clnicaltrial-description'>
+                            <h2>Condition</h2>
+                            <ul className='condition-ul'>
+                                <li>Opioid Use Disorder</li>
+                                <li>Hemorrhoids</li>
+                                <li>Dementia</li>
+                                <li>Bipolar Disorder</li>
+                                <li>Alzheimer’s Disease</li>
+                                <li>Depression</li>
+                            </ul>
                         </div>
                         <div className='clnicaltrial-description'>
                             <h2>Description</h2>
@@ -55,55 +55,39 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
                                 isButton="true"
                                 BtnType="submit"
                                 BtnColor="green"
-                                BtnText="Book Now"
+                                BtnText="Apply for Trial"
                                 onClick={handleShow2}
                             />
-                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                            <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                            <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                         </div>
                     </>
                 }
             />
 
             <CommonModal show={show2} onHide={handleClose2} keyboard={false} size="md"
-                ModalTitle="Book your Appointment"
+                ModalTitle="Apply for Trial"
                 onClick={handleClose2}
                 ModalData={
                     <>
-                        <div className='calender-outer'>
-                            <DatePicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                                inline
+                        <div className="col-lg-12 form-group">
+                            <label>Upload Clinic Document</label>
+                            <label className="upload-document w-100">
+                                <input type="file" />
+                                <div>
+                                    <h4>No File Uploaded</h4>
+                                    <h3>Tap Here to Upload your File</h3>
+                                </div>
+                            </label>
+                        </div>
+                        <div className='info-bx br-none p-0 form-group'>
+                            <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Upload your Trial Document as the main requirement to Apply for a Trial
+                        </div>
+                        <div className="col-lg-12">
+                            <TextArea
+                                name="brief_intro"
+                                placeholder="Enter Brief Intro"
+                                labelText="Brief Intro"
                             />
-                        </div>
-                        <div className='available-time'>
-                            <h2>Available Time</h2>
-                            <div className='time-row'>
-                                <label>
-                                    <input type="radio" name='available_time' defaultChecked="true" />
-                                    <span>09:00 AM - 11:00 AM</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name='available_time' />
-                                    <span>11:00 AM - 01:00 PM</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name='available_time' />
-                                    <span>01:00 PM - 03:00 PM</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name='available_time' />
-                                    <span>03:00 PM - 05:00 PM</span>
-                                </label>
-                                <label>
-                                    <input type="radio" name='available_time' />
-                                    <span>05:00 PM - 07:00 PM</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className='info-bx'>
-                            <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
                         </div>
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -121,19 +105,19 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
             <CommonModal show={show3} onHide={handleClose3} keyboard={false} size="md"
                 onClick={handleClose3}
                 ModalData={
-                    <>  
+                    <>
                         <button type="button" className="btn-close" aria-label="Close" onClick={handleClose3}></button>
                         <div className='congrats-bx'>
                             <h2>Congratulations!</h2>
                             <img src="/images/congrats.svg" alt="Congratulations" />
-                            <p>You booked an appointment with <br /> <strong>Barnes Jewish Hospital</strong> on <br /> <strong>Jan 20, 2022 (09:00 AM to 11:00 AM)</strong></p>
+                            <p>You applied an Trial with <strong>ABF Pharmaceutical</strong> <br /> for <strong>Depression Associated with Bipolar</strong> <br /> Disorder</p>
                         </div>
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isLink="true"
-                                URL="/patient/my-appointments"
+                                URL="/trial-clinic/trial-applications"
                                 BtnColor="primary w-100"
-                                BtnText="Go to My Appointments"
+                                BtnText="Go to Trial Applications"
                             />
                         </div>
                     </>
@@ -143,4 +127,4 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
     );
 }
 
-export default PatientBookingProcess;
+export default ClinicSponsorsBookingProcess;

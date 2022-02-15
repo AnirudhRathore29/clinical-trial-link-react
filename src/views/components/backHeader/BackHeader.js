@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { InputText } from "../Common/Inputs/Inputs";
 import { toast } from "react-toastify";
@@ -6,8 +6,8 @@ import { Dropdown } from 'react-bootstrap';
 import 'boxicons';
 import "./BackHeader.css";
 
-const Header = ({ colorHeader }) => {
-    const [scroll, setScroll] = useState(false);
+const Header = ({ colorHeader, headerColor }) => {
+    //const [scroll, setScroll] = useState(false);
     const [sideMenu, setSideMenu] = useState(false);
     const history = useHistory();
 
@@ -18,19 +18,19 @@ const Header = ({ colorHeader }) => {
         history.push("/login")
     };
 
-    useEffect(() => {
-        window.addEventListener(
-            "scroll",
-            () => {
-                if (window.scrollY > 2) {
-                    setScroll(true);
-                } else {
-                    setScroll(false);
-                }
-            },
-            []
-        );
-    });
+    // useEffect(() => {
+    //     window.addEventListener(
+    //         "scroll",
+    //         () => {
+    //             if (window.scrollY > 2) {
+    //                 setScroll(true);
+    //             } else {
+    //                 setScroll(false);
+    //             }
+    //         },
+    //         []
+    //     );
+    // });
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -38,7 +38,7 @@ const Header = ({ colorHeader }) => {
 
     return (
         <>
-            <header className={scroll ? "dashboard-header sticky" : `dashboard-header ${colorHeader}`}>
+            <header className={`dashboard-header ${colorHeader} ${headerColor}`}>
                 <div className="hamburger" onClick={ToggleSidemenu}><img src={sideMenu ? "/images/close.svg" : "/images/hamburger.svg"} alt="icon" /></div>
                 <div className="dashboard-logo">
                     <Link to="/" className="d-block">

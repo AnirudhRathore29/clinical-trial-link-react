@@ -11,6 +11,14 @@ const PatientMyChats = React.lazy(() => import('./patient/myChats/myChats'));
 const PatientPaymentHistory = React.lazy(() => import('./patient/paymentHistory/PaymentHistory'));
 const PatientTrialListing = React.lazy(() => import('./patient/trialListing/TrialListing'));
 
+
+const ClinicDashboard = React.lazy(() => import('./trialClinic/dashboard/Dashboard'));
+const ClinicTrialRequests = React.lazy(() => import('./trialClinic/trialRequests/TrialRequests'));
+const ClinicSponsorsListing = React.lazy(() => import('./trialClinic/sponsorsListing/SponsorsListing'));
+const ClinicSponsorsDetails = React.lazy(() => import('./trialClinic/sponsorsDetails/SponsorsDetails'));
+const ClinicSponsorsTrialListing = React.lazy(() => import('./trialClinic/sponsorsTrialListing/SponsorsTrialListing'));
+const ClinicTrialApplication = React.lazy(() => import('./trialClinic/trialApplications/trialApplications'));
+
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
@@ -21,7 +29,14 @@ const routes = [
 	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites },
 	{ path: '/patient/my-chats', exact: true, name: 'PatientMyChats', component: PatientMyChats },
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory },
-	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing }
+	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing },
+
+	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard },
+	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
+	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },
+	{ path: '/trial-clinic/sponsors-details', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails },
+	{ path: '/trial-clinic/sponsors-trial-listing', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing },
+	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication },
 ];
 
 export default routes;

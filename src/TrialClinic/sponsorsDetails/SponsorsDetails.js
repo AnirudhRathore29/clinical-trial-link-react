@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
+import ClinicSponsorsBookingProcess from '../../views/components/sponsorsBookingProcess/SponsorsBookingProcess';
 import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
-import SponsorsBx from '../../views/components/sponsorsBx/SponsorsBx';
 import Button from '../../views/components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
-import './TrialClinicDetails.css'
-import '../myFavorites/MyFavorites.css'
+import '../../patient/trialClinicDetails/TrialClinicDetails.css'
+import '../../patient/myFavorites/MyFavorites.css'
 
-const TrialClinicDetails = () => {
+const ClinicSponsorsDetails = () => {
 
     const options2 = {
         items: 3,
@@ -48,13 +47,13 @@ const TrialClinicDetails = () => {
                     <div className="row">
                         <div className="col-lg-8">
                             <div className="trialClinic-detail-bx">
-                                <h1>Barnes Jewish Hospital <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                <h1>ABF Pharmaceutical <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
                                 <div className="trialClinic-location">
                                     <span><box-icon name='map' color="#356AA0"></box-icon> Atlanta, Georgia, United States</span>
                                     <span><box-icon name='map-alt' color="#356AA0"></box-icon> 5000.52 Mi</span>
                                 </div>
                                 <div className='trialClinic-img'>
-                                    <img src="/images/trial-clinic-img.jpg" alt="Barnes Jewish Hospital" />
+                                    <img src="/images/sponsors-img.jpg" alt="Barnes Jewish Hospital" />
                                 </div>
                             </div>
                             <div className="trialClinic-info-bx mt-5">
@@ -76,12 +75,11 @@ const TrialClinicDetails = () => {
                                 <h2>Description</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat vitae urna nec hendrerit. Vivamus eu aliquet metus, eget eleifend massa. Suspendisse potenti. Curabitur eu est in erat semper maximus a ut felis. Sed libero nunc, volutpat non imperdiet vel, pretium at erat. Sed cursus tincidunt ultricies. Aenean blandit posuere lorem ac hendrerit. Nam nisl lacus, posuere eget sollicitudin a, pharetra et sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus lacinia dictum ante, porttitor rhoncus augue vehicula non. Praesent pretium placerat turpis nec fringilla. Vestibulum hendrerit lorem et nulla malesuada, sed luctus ante varius. Duis quis dolor lacinia, aliquam nisi ut, vestibulum magna. Sed pellentesque ornare ex nec vestibulum. Donec facilisis quam sit amet bibendum volutpat. Maecenas turpis lectus, sodales eu ligula nec, aliquam viverra erat. Proin scelerisque nulla quis tortor fringilla tempor. Vestibulum accumsan pretium lobortis. Sed ac neque id risus cursus pretium. Aliquam in mollis sem. Proin congue ante non eros interdum ultricies. Pellentesque in lacinia sapien.</p>
                             </div>
-                            <SponsorsBx />
                             <div className="trialClinic-info-bx mt-5">
                                 <h2>Clinical Trials 
                                 <Button
                                     isLink="true"
-                                    URL="/patient/trial-listing"
+                                    URL="/trial-clinic/sponsors-trial-listing"
                                     BtnColor="green btn-sm"
                                     BtnText="View All"
                                 />
@@ -116,14 +114,14 @@ const TrialClinicDetails = () => {
                         </div>
                         <div className="col-lg-4">
                             <div className="trialClinic-side-bx Clinic-map-view">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199449.42991383024!2d-90.561729281034!3d38.63974312559989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d8cb73a8250543%3A0xa331c23a38649978!2sBarnes%20Jewish%20Hospital!5e0!3m2!1sen!2sin!4v1644306553902!5m2!1sen!2sin" title="myFrame" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.4412110851426!2d16.296517715649095!3d48.14029857922361!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476da8613ddc04c5%3A0xaf19e87ed948c0f7!2sABF%20Pharmaceutical%20Services%20GmbH!5e0!3m2!1sen!2sin!4v1644922065756!5m2!1sen!2sin" title="myFrame" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <PatientBookingProcess
+            <ClinicSponsorsBookingProcess
                 show={show}
                 handleClose={handleClose}
                 show2={show2}
@@ -139,4 +137,4 @@ const TrialClinicDetails = () => {
     );
 };
 
-export default TrialClinicDetails;
+export default ClinicSponsorsDetails;

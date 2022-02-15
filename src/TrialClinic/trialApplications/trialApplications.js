@@ -1,42 +1,25 @@
 import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { SelectBox, TextArea } from '../../views/components/Common/Inputs/Inputs';
 import CommonModal from '../../views/components/Common/Modal/Modal'
 import Button from '../../views/components/Common/Buttons/Buttons';
 import MyAppointmentBx from '../../views/components/myAppointmentBx/MyAppointmentBx';
-// import PendingAppointments from "../myAppointments/PendingAppointments"
-import './MyAppointments.css';
-import '../clinicListing/ClinicListing.css'
+import '../../patient/myAppointments/MyAppointments.css';
+import '../../patient/clinicListing/ClinicListing.css';
+import '../../patient/myFavorites/MyFavorites.css'
 
-const PatientMyAppointments = () => {
+const ClinicTrialApplication = () => {
 
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
-    const [show2, setShow2] = useState(false);
-
-    const handleShow2 = () => {
-        setShow2(true);
-        handleClose();
-    }
-    const handleClose2 = () => setShow2(false);
-
-    const [show3, setShow3] = useState(false);
-
-    const handleShow3 = () => {
-        setShow3(true);
-        handleClose2();
-    }
-    const handleClose3 = () => setShow3(false);
-
     return (
         <>
             <div className="clinical-dashboard my-appointment-section">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>My Appointments</h1>
+                        <h1>Trial Applications</h1>
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>
@@ -47,7 +30,7 @@ const PatientMyAppointments = () => {
                                             <MyAppointmentBx
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
-                                                title="Barnes Jewish Hospital"
+                                                title="ABF Pharmaceutical"
                                                 status="Pending"
                                                 statusClass="primary"
                                                 visitNumber="25632156"
@@ -204,107 +187,58 @@ const PatientMyAppointments = () => {
             </div>
 
             <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
-                ModalTitle="Appointment Details"
+                ModalTitle={
+                    <>
+                        <h2>Depression Associated with Bipolar Disorder</h2>
+                        <div className="trialClinic-location">
+                            <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on November 23, 2020</span>
+                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                        </div>
+                    </>
+                }
                 onClick={handleClose}
                 ModalData={
                     <>
-                        <div className='appointment-detail'>
-                            <img src="/images/clinic-img1.jpg" alt="clinic-img" />
-                            <div className=''>
-                                <h2>Barnes Jewish Hospital</h2>
-                                <span className='badge badge-primary d-inline-block mb-3'>Eligible</span>
-                                <p><strong>Visit Number :</strong> 25632156</p>
+                        <div className='sponser-price-info'>
+                            <div className='sponser-price-row w-100 br-none'>
+                                <div className='sponser-price-icon'>
+                                    <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
+                                </div>
+                                <div>
+                                    <h4>To be Decided by Company</h4>
+                                    <h2>Trial Reimbursement</h2>
+                                </div>
                             </div>
                         </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Date & Time</h2>
-                            <p>Jan 20, 2022 (09:00 AM to 11:00 AM)</p>
+                        <div className='info-bx'>
+                            <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Lorem ipsum dolor sit amet consectetur adipiscing eli am porta nunc eu nibh dignissim sit amet viverra.
                         </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Clinic Address</h2>
-                            <p>Atlanta, Georgia, United States</p>
+                        <div className='clnicaltrial-description'>
+                            <h2>Condition</h2>
+                            <ul className='condition-ul'>
+                                <li>Opioid Use Disorder</li>
+                                <li>Hemorrhoids</li>
+                                <li>Dementia</li>
+                                <li>Bipolar Disorder</li>
+                                <li>Alzheimer’s Disease</li>
+                                <li>Depression</li>
+                            </ul>
                         </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Trial for</h2>
-                            <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
+                        <div className='clnicaltrial-description'>
+                            <h2>Description</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed. nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae exasd</p>
                         </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Trial Compensation</h2>
-                            <p>To be Decided at Clinic</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Sponsor</h2>
-                            <p>CNS Medical Director</p>
+                        <div className='clnicaltrial-description'>
+                            <h2>Cancellation Reason</h2>
+                            <p>Not Eligible</p>
                         </div>
                         <div className='clnicaltrial-detail-ftr'>
                             <Button
                                 isButton="true"
                                 BtnType="submit"
                                 BtnColor="primary w-100"
-                                BtnText="Cancel Appointment"
-                                onClick={handleShow2}
-                            />
-                        </div>
-                    </>
-                }
-            />
-
-            <CommonModal show={show2} onHide={handleClose2} keyboard={false}
-                ModalTitle="Cancel Appointment"
-                onClick={handleClose2}
-                ModalData={
-                    <>
-                        <SelectBox
-                            labelText="Reason for Cancellation"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Select Cancellation Reason</option>
-                                    <option value="">Cancellation Reason 1</option>
-                                    <option value="">Cancellation Reason 2</option>
-                                    <option value="">Cancellation Reason 3</option>
-                                    <option value="">Cancellation Reason 4</option>
-                                </>
-                            }
-                        />
-
-                        <TextArea
-                            placeholder="Enter Cancellation Details"
-                            labelText="Cancellation Details"
-                        />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-100"
-                                BtnText="Confirm"
-                                onClick={handleShow3}
-                            />
-                        </div>
-                    </>
-                }
-            />
-
-            <CommonModal show={show3} onHide={handleClose3} keyboard={false} size="md"
-                onClick={handleClose3}
-                ModalData={
-                    <>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={handleClose3}></button>
-                        <div className='congrats-bx'>
-                            <h2 className='mb-5'>Confirm Cancellation!</h2>
-                            <p>Are you sure you want to cancel your Appointment <br /> <strong>with Centers for Disease Control and Prevention</strong> <br /> <strong>on Jan 20, 2022 (09:00 AM to 11:00 AM)</strong></p>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr'>
-                            <Button
-                                isButton="true"
-                                BtnColor="green w-50"
-                                BtnText="No"
-                                onClick={handleClose3}
-                            />
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-50"
-                                BtnText="Yes"
-                                onClick={handleClose3}
+                                BtnText="Start Recruiting"
+                                onClick={handleClose}
                             />
                         </div>
                     </>
@@ -314,4 +248,4 @@ const PatientMyAppointments = () => {
     );
 };
 
-export default PatientMyAppointments;
+export default ClinicTrialApplication;

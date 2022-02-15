@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/components/Common/Buttons/Buttons';
-import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
+import ClinicSponsorsBookingProcess from '../../views/components/sponsorsBookingProcess/SponsorsBookingProcess';
 import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
-import '../myFavorites/MyFavorites.css';
-import './TrialListing.css';
+import '../../patient/myFavorites/MyFavorites.css';
+import '../../patient/trialListing/TrialListing.css';
 
-const PatientTrialListing = () => {
+const ClinicSponsorsTrialListing = () => {
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
@@ -33,7 +33,7 @@ const PatientTrialListing = () => {
             <div className="clinical-dashboard main-trial-listing">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Clinic Trials</h1>
+                        <h1>Sponsors Trials</h1>
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
@@ -146,9 +146,20 @@ const PatientTrialListing = () => {
                 </div>
             </div>
 
-            <PatientBookingProcess show={show} handleClose={handleClose} show2={show2} handleClose2={handleClose2} handleShow2={handleShow2} show3={show3} handleClose3={handleClose3} handleShow3={handleShow3} />
+            <ClinicSponsorsBookingProcess
+                show={show}
+                handleClose={handleClose}
+                show2={show2}
+
+                handleClose2={handleClose2}
+                handleShow2={handleShow2}
+                show3={show3}
+
+                handleClose3={handleClose3}
+                handleShow3={handleShow3}
+            />
         </>
     );
 };
 
-export default PatientTrialListing;
+export default ClinicSponsorsTrialListing;

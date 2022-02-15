@@ -34,5 +34,9 @@
 .available-time label span{padding: 1rem 2rem;background: var(--lightBg);border: 1px solid #C3D9FF;border-radius: .8rem;color: var(--TextColor);display: block;text-align: center;}
 .available-time label input:checked + span{background: var(--PrimaryColor);color: var(--whiteColor);border-color: transparent;}
 
-.my-favorites-section .clinicalTrial-bx{background: var(--whiteColor);color: var(--TextColor);}
-.my-favorites-section .clinicalTrial-bx:hover{border-color: var(--TextColor);}
+.clinicalTrial-bx.white-trial-bx{background: var(--whiteColor);color: var(--TextColor);}
+.clinicalTrial-bx.white-trial-bx:hover{border-color: var(--TextColor);}
+
+ul.condition-ul{display: flex;flex-wrap: wrap;margin: 0;padding: 0;}
+ul.condition-ul li{width: 50%;margin-bottom: 1.5rem;font-size: 1.7rem;list-style: none;display: flex;align-items: center;color: var(--TextColor);}
+ul.condition-ul li::before{content: "";width: .8rem;height: .8rem;border-radius: 50%;display: inline-block;background: var(--TextColor);margin-right: 1rem;box-shadow: 0 0 0 .3rem rgba( 53 106 160 / 50%);}
