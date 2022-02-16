@@ -11,7 +11,7 @@ const PatientMyChats = React.lazy(() => import('./patient/myChats/myChats'));
 const PatientPaymentHistory = React.lazy(() => import('./patient/paymentHistory/PaymentHistory'));
 const PatientTrialListing = React.lazy(() => import('./patient/trialListing/TrialListing'));
 
-
+/* clinic pages */
 const ClinicDashboard = React.lazy(() => import('./trialClinic/dashboard/Dashboard'));
 const ClinicTrialRequests = React.lazy(() => import('./trialClinic/trialRequests/TrialRequests'));
 const ClinicSponsorsListing = React.lazy(() => import('./trialClinic/sponsorsListing/SponsorsListing'));
@@ -34,6 +34,7 @@ const routes = [
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory },
 	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing },
 
+	/* clinic routes */
 	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard },
 	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
 	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },

@@ -51,7 +51,7 @@ function App() {
 					{/* Patient Routes */}
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
 
-					{/* trial clinic Routes */}
+					{/* clinic Routes */}
 					<Route exact path="/trial-clinic/complete-profile" name="ClinicCompleteProfile" render={(props) => <ClinicCompleteProfile {...props} />} />
 					<Switch>
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
@@ -64,7 +64,7 @@ function App() {
 						<PrivateRoute path="/patient/payment-history" name="PatientPaymentHistory" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/trial-listing" name="PatientTrialListing" component={(props) => <BackLayout {...props} />} />
 
-						{/* trial clinic private Routes */}
+						{/* clinic private Routes */}
 						<PrivateRoute path="/trial-clinic/dashboard" name="ClinicDashboard" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/trial-requests" name="ClinicTrialRequests" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-listing" name="ClinicSponsorsListing" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
