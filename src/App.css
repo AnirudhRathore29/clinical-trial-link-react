@@ -109,9 +109,12 @@ th[align='left']{text-align: left;}
 .info-bx box-icon{margin-right: 1rem;}
 
 .btn-group-custom{display: flex;}
-.btn-group-custom .btn + .btn{margin-left: 1rem;}
+.btn-group-custom>[class*="btn"]{width: 50%;}
+.btn-group-custom>[class*="btn"] + [class*="btn"]{margin-left: 1rem;}
 
 .no-wrap{white-space: nowrap;}
+
+iframe[style*="fixed"]{display: none;}
 /****** Common Css End ******/
 
 

@@ -37,7 +37,7 @@ const PatientMyFavorites = () => {
                     <div className='row'>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Depression Associated with Bipolar Disorder"
                                 description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
@@ -48,7 +48,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Study Seeking Patients with Bipolar Depression"
                                 description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
@@ -59,7 +59,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Bipolar Depression Study with 6 Month Open Label Therapy"
                                 description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
@@ -70,7 +70,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Depression Associated with Bipolar Disorder"
                                 description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
@@ -81,7 +81,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Study Seeking Patients with Bipolar Depression"
                                 description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
@@ -92,7 +92,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Bipolar Depression Study with 6 Month Open Label Therapy"
                                 description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
@@ -103,7 +103,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Depression Associated with Bipolar Disorder"
                                 description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
@@ -114,7 +114,7 @@ const PatientMyFavorites = () => {
                         </div>
                         <div className='col-lg-6'>
                             <ClinicTrial
-                                className="mb-4"
+                                className="mb-4 white-trial-bx"
                                 onClick={handleShow}
                                 title="Bipolar Depression Study with 6 Month Open Label Therapy"
                                 description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."

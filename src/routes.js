@@ -18,6 +18,9 @@ const ClinicSponsorsListing = React.lazy(() => import('./trialClinic/sponsorsLis
 const ClinicSponsorsDetails = React.lazy(() => import('./trialClinic/sponsorsDetails/SponsorsDetails'));
 const ClinicSponsorsTrialListing = React.lazy(() => import('./trialClinic/sponsorsTrialListing/SponsorsTrialListing'));
 const ClinicTrialApplication = React.lazy(() => import('./trialClinic/trialApplications/trialApplications'));
+const ClinicMyAppointments = React.lazy(() => import('./trialClinic/myAppointments/MyAppointments'));
+const ClinicPatientList = React.lazy(() => import('./trialClinic/patientList/PatientList'));
+const ClinicPatientListPast = React.lazy(() => import('./trialClinic/patientList/PatientListPast'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
@@ -37,6 +40,9 @@ const routes = [
 	{ path: '/trial-clinic/sponsors-details', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails },
 	{ path: '/trial-clinic/sponsors-trial-listing', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing },
 	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication },
+	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments },
+	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList },
+	{ path: '/trial-clinic/patient-list-past', exact: true, name: 'ClinicPatientListPast', component: ClinicPatientListPast },
 ];
 
 export default routes;

@@ -6,3 +6,5 @@
 .appointment-detail-col{padding: 1.5rem 0;color: var(--TextColor);}
 .appointment-detail-col + .appointment-detail-col{border-top: 1px solid #C3D9FF;}
 .appointment-detail-col p{font-weight: 300;margin: 0;}
+
+.patient-appointment-details img{max-width: 10rem; width: 10rem;height: 10rem;min-width: 10rem;border-radius: 50%;}

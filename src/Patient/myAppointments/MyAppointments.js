@@ -58,7 +58,7 @@ const PatientMyAppointments = () => {
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Pending"
                                                 statusClass="primary"
@@ -67,7 +67,31 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Pending"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Pending"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
@@ -79,10 +103,34 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Pending"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Pending"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Pending"
                                                 statusClass="primary"
@@ -98,7 +146,7 @@ const PatientMyAppointments = () => {
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img3.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Eligible"
                                                 statusClass="primary"
@@ -119,7 +167,43 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Eligible"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Eligible"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Eligible"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
@@ -131,10 +215,22 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Eligible"
+                                                statusClass="primary"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Eligible"
                                                 statusClass="primary"
@@ -150,7 +246,7 @@ const PatientMyAppointments = () => {
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Cancel"
                                                 statusClass="danger"
@@ -162,7 +258,7 @@ const PatientMyAppointments = () => {
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img3.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="completed"
                                                 statusClass="success"
@@ -171,10 +267,10 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="completed"
                                                 statusClass="success"
@@ -183,10 +279,58 @@ const PatientMyAppointments = () => {
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
                                             />
                                         </div>
-                                        <div className='col-lg-6 mb-4'>
+                                        <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
                                                 onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Cancel"
+                                                statusClass="danger"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Cancel"
+                                                statusClass="danger"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="completed"
+                                                statusClass="success"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="completed"
+                                                statusClass="success"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow}
+                                                imgUrl="clinic-img3.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="Cancel"
                                                 statusClass="danger"

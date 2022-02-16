@@ -6,7 +6,7 @@ import { loginUser } from '../../app/actions/authAction'
 import 'boxicons';
 import "../../views/pages/Login/Login.css";
 
-const TrialClinicCompleteProfile = (props) => {
+const ClinicCompleteProfile = (props) => {
     // const [Formdata, setFormdata] = useState({
     //     state: "",
     //     zip_code: "",
@@ -215,4 +215,4 @@ const TrialClinicCompleteProfile = (props) => {
     );
 };
 
-export default TrialClinicCompleteProfile;
+export default ClinicCompleteProfile;

@@ -22,7 +22,7 @@ const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 
 /* patient panel pages */
 const PatientCompleteProfile = React.lazy(() => import('./patient/completeProfile/CompleteProfile'));
-const TrialClinicCompleteProfile = React.lazy(() => import('./trialClinic/completeProfile/CompleteProfile'));
+const ClinicCompleteProfile = React.lazy(() => import('./trialClinic/completeProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -52,7 +52,7 @@ function App() {
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
 
 					{/* trial clinic Routes */}
-					<Route exact path="/trial-clinic/complete-profile" name="TrialClinicCompleteProfile" render={(props) => <TrialClinicCompleteProfile {...props} />} />
+					<Route exact path="/trial-clinic/complete-profile" name="ClinicCompleteProfile" render={(props) => <ClinicCompleteProfile {...props} />} />
 					<Switch>
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/edit-profile" name="PatientEditProfile" component={(props) => <BackLayout {...props} />} />
@@ -71,6 +71,9 @@ function App() {
 						<PrivateRoute path="/trial-clinic/sponsors-details" name="ClinicSponsorsDetails" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-trial-listing" name="ClinicSponsorsDetails" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/trial-applications" name="ClinicTrialApplication" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/my-appointments" name="ClinicMyAppointments" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/patient-list" name="ClinicPatientList" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/patient-list-past" name="ClinicPatientListPast" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>
