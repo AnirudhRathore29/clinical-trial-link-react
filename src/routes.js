@@ -12,15 +12,15 @@ const PatientPaymentHistory = React.lazy(() => import('./patient/paymentHistory/
 const PatientTrialListing = React.lazy(() => import('./patient/trialListing/TrialListing'));
 
 /* clinic pages */
-const ClinicDashboard = React.lazy(() => import('./trialClinic/dashboard/Dashboard'));
-const ClinicTrialRequests = React.lazy(() => import('./trialClinic/trialRequests/TrialRequests'));
-const ClinicSponsorsListing = React.lazy(() => import('./trialClinic/sponsorsListing/SponsorsListing'));
-const ClinicSponsorsDetails = React.lazy(() => import('./trialClinic/sponsorsDetails/SponsorsDetails'));
-const ClinicSponsorsTrialListing = React.lazy(() => import('./trialClinic/sponsorsTrialListing/SponsorsTrialListing'));
-const ClinicTrialApplication = React.lazy(() => import('./trialClinic/trialApplications/trialApplications'));
-const ClinicMyAppointments = React.lazy(() => import('./trialClinic/myAppointments/MyAppointments'));
-const ClinicPatientList = React.lazy(() => import('./trialClinic/patientList/PatientList'));
-const ClinicPatientListPast = React.lazy(() => import('./trialClinic/patientList/PatientListPast'));
+const ClinicDashboard = React.lazy(() => import('./TrialClinic/dashboard/Dashboard'));
+const ClinicTrialRequests = React.lazy(() => import('./TrialClinic/trialRequests/TrialRequests'));
+const ClinicSponsorsListing = React.lazy(() => import('./TrialClinic/sponsorsListing/SponsorsListing'));
+const ClinicSponsorsDetails = React.lazy(() => import('./TrialClinic/sponsorsDetails/SponsorsDetails'));
+const ClinicSponsorsTrialListing = React.lazy(() => import('./TrialClinic/sponsorsTrialListing/SponsorsTrialListing'));
+const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/trialApplications/trialApplications'));
+const ClinicMyAppointments = React.lazy(() => import('./TrialClinic/myAppointments/MyAppointments'));
+const ClinicPatientList = React.lazy(() => import('./TrialClinic/patientList/PatientList'));
+const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/patientList/PatientListPast'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
