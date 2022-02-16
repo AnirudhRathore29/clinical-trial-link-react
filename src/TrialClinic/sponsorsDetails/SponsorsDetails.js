@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import ClinicSponsorsBookingProcess from '../../views/components/sponsorsBookingProcess/SponsorsBookingProcess';
-import ClinicTrial from '../../views/components/ClinicTrial/ClinicTrial'
+import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
 import Button from '../../views/components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../patient/trialClinicDetails/TrialClinicDetails.css'

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/components/Common/Buttons/Buttons';
 import ClinicSponsorsBookingProcess from '../../views/components/sponsorsBookingProcess/SponsorsBookingProcess';
-import ClinicTrial from '../../views/components/ClinicTrial/ClinicTrial'
+import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
 import '../../patient/myFavorites/MyFavorites.css';
 import '../../patient/trialListing/TrialListing.css';
 
