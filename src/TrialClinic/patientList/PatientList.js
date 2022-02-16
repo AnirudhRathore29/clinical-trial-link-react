@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../../views/components/Common/Buttons/Buttons';
 import CommonModal from '../../views/components/Common/Modal/Modal'
 import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
-import { InputText, SelectBox } from '../../views/components/Common/Inputs/Inputs';
+import { InputText, SelectBox, TextArea } from '../../views/components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
 import '../../patient/dashboard/Dashboard.css';
 import '../trialRequests/TrialRequests.css';
@@ -350,10 +350,15 @@ const ClinicPatientList = () => {
                 ModalData={
                     <>
                         <div className='update-status'>
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Approved" defaultChecked="true" />
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Not Attended" />
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Not Eligible" />
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Appointment Completed" />
+                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Cash" defaultChecked="true" />
+                            <TextArea
+                                placeholder="Enter Cancellation Details"
+                                labelText="Cancellation Details"
+                            />
+                        </div>
+                        <div className='update-status'>
+                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Bank" defaultChecked="true" />
+                            
                         </div>
                         <div className='clnicaltrial-detail-ftr'>
                             <Button
