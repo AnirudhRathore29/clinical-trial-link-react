@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
-import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
+import ClinicTrial from '../../views/components/ClinicTrial/ClinicTrial'
 import './MyFavorites.css';
 
 const PatientMyFavorites = () => {
