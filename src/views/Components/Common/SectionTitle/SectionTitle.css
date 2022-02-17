@@ -1,0 +1,6 @@
+
+.sec-title{color: var(--TextColor);}
+.sec-title.whiteTxt{color: var(--whiteColor);}
+.sec-title .h2{ font-size: 5.2rem; margin-bottom: 0; font-weight: bold; }
+.sec-title h4{font-size: 3rem;color: var(--TextColor);margin: 3rem 0;}
+.what-sec-text{ max-width: 102.6rem; margin:  auto; font-size: 3.2rem; }
