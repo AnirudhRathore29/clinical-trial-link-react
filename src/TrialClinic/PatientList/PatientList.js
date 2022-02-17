@@ -89,7 +89,7 @@ const ClinicPatientList = () => {
                             <tr>
                                 <td>
                                     <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
+                                        <img src="/images/profile-img3.jpg" alt="patient" />
                                     </div>
                                 </td>
                                 <td>
@@ -115,7 +115,7 @@ const ClinicPatientList = () => {
                             <tr>
                                 <td>
                                     <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
+                                        <img src="/images/profile-img1.jpg" alt="patient" />
                                     </div>
                                 </td>
                                 <td>
@@ -141,7 +141,7 @@ const ClinicPatientList = () => {
                             <tr>
                                 <td>
                                     <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
+                                        <img src="/images/profile-img2.jpg" alt="patient" />
                                     </div>
                                 </td>
                                 <td>
@@ -167,7 +167,7 @@ const ClinicPatientList = () => {
                             <tr>
                                 <td>
                                     <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
+                                        <img src="/images/profile-img3.jpg" alt="patient" />
                                     </div>
                                 </td>
                                 <td>
@@ -193,7 +193,7 @@ const ClinicPatientList = () => {
                             <tr>
                                 <td>
                                     <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
+                                        <img src="/images/profile-img4.jpg" alt="patient" />
                                     </div>
                                 </td>
                                 <td>

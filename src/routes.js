@@ -21,6 +21,9 @@ const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/TrialAppli
 const ClinicMyAppointments = React.lazy(() => import('./TrialClinic/MyAppointments/MyAppointments'));
 const ClinicPatientList = React.lazy(() => import('./TrialClinic/PatientList/PatientList'));
 const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/PatientList/PatientListPast'));
+const ClinicPaymentHistory = React.lazy(() => import('./TrialClinic/PaymentHistory/PaymentHistory'));
+const ClinicEditProfile = React.lazy(() => import('./TrialClinic/EditProfile/EditProfile'));
+const ClinicManagePatient = React.lazy(() => import('./TrialClinic/ManagePatient/ManagePatient'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
@@ -44,6 +47,9 @@ const routes = [
 	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments },
 	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList },
 	{ path: '/trial-clinic/patient-list-past', exact: true, name: 'ClinicPatientListPast', component: ClinicPatientListPast },
+	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory },
+	{ path: '/trial-clinic/edit-profile', exact: true, name: 'ClinicEditProfile', component: ClinicEditProfile },
+	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient },
 ];
 
 export default routes;

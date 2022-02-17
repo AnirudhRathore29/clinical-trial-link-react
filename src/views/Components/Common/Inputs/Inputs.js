@@ -83,7 +83,7 @@ export const TextArea = (props) => {
                 id={props.id}
                 className={`form-control ${props.className}`}
                 placeholder={props.placeholder}
-            ></textarea>
+            >{props.defaultData}</textarea>
         </div>
     );
 }

@@ -27,7 +27,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$50.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -36,7 +36,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632780</span> <span className='amount'>$150.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -45,7 +45,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$350.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -54,7 +54,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$90.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -63,7 +63,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$50.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -72,7 +72,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632780</span> <span className='amount'>$150.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -81,7 +81,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$350.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                         <div className='payment-history'>
@@ -90,7 +90,7 @@ const PatientPaymentHistory = () => {
                                             </div>
                                             <div className='payment-history-details'>
                                                 <h2><span><strong>Visit Number :</strong> 25632160</span> <span className='amount'>$90.00</span></h2>
-                                                <p>Nov 30, 202 (11:00 AM)</p>
+                                                <p>Nov 30, 2022 (11:00 AM)</p>
                                             </div>
                                         </div>
                                     </div>

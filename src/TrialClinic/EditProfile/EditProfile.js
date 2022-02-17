@@ -1,22 +1,14 @@
 import { useState } from "react";
-import { InputText, SelectBox } from "../../views/Components/Common/Inputs/Inputs";
-import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
+import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 
-const PatientEditProfile = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [trialFor, setTrialFor] = useState(true)
+const ClinicEditProfile = () => {
     const [Formdata, setFormdata] = useState({
         password: "",
         confirm_password: "",
     });
-
-    const trialsFor = () => {
-        setTrialFor(!trialFor);
-    }
 
     /* Password show hide */
     const [Password, SetPassword] = useState(false);
@@ -58,27 +50,18 @@ const PatientEditProfile = () => {
                                         <div className="col-lg-6">
                                             <InputText
                                                 type="text"
-                                                name="first_name"
-                                                placeholder="First Name"
-                                                defaultValue="Amanda"
-                                                labelText="First Name"
-                                            />
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <InputText
-                                                type="text"
-                                                name="last_name"
-                                                placeholder="Last Name"
-                                                defaultValue="Smith"
-                                                labelText="Last Name"
+                                                name="clinic_name"
+                                                placeholder="Enter Clinic Name"
+                                                defaultValue="UC Health"
+                                                labelText="Clinic Name"
                                             />
                                         </div>
                                         <div className="col-lg-6">
                                             <InputText
                                                 type="number"
-                                                name="phone_no"
+                                                name="phone_number"
+                                                placeholder="Enter Phone Number"
                                                 defaultValue="+01 987 654 3210"
-                                                placeholder="Phone Number"
                                                 labelText="Phone Number"
                                             />
                                         </div>
@@ -100,40 +83,43 @@ const PatientEditProfile = () => {
                                         <div className="col-lg-6">
                                             <InputText
                                                 type="text"
+                                                name="address"
+                                                placeholder="Enter Address"
+                                                labelText="Address"
+                                            />
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="text"
                                                 name="zip_code"
                                                 placeholder="Enter zip code"
                                                 labelText="Zip Code"
                                             />
                                         </div>
-                                        <div className="col-lg-6 form-group">
-                                            <label>Date Of Birth</label>
-                                            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
-                                        </div>
-                                        <div className="col-lg-6 form-group">
-                                            <label>Gender</label>
-                                            <div className="gender-row mt-4">
-                                                <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                                <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                                <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
-                                            </div>
-                                        </div>
                                     </div>
                                     <h2 className="section-title mt-4">Other Info</h2>
                                     <div className="row">
-                                        <div className="col-lg-12 form-group">
-                                            <label>Trials for</label>
-                                            <div className="gender-row w-50 mt-4">
-                                                <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" defaultChecked="true" onChange={trialsFor} />
-                                                <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Family/Friends" onChange={trialsFor} />
-                                            </div>
+                                        <div className="col-lg-6">
+                                            <SelectBox
+                                                name="clinical_practice"
+                                                labelText="Clinical Practice"
+                                                optionData={
+                                                    <>
+                                                        <option defaultValue="">Select Clinical Practice</option>
+                                                        <option defaultValue="">Cardiology</option>
+                                                        <option defaultValue="">Option2</option>
+                                                        <option defaultValue="">Option3</option>
+                                                    </>
+                                                }
+                                            />
                                         </div>
                                         <div className="col-lg-6">
                                             <SelectBox
-                                                name="seeking_trial_for"
-                                                labelText="Seeking Trials for"
+                                                name="orthopedics"
+                                                labelText="Orthopedics"
                                                 optionData={
                                                     <>
-                                                        <option defaultValue="">Select</option>
+                                                        <option defaultValue="">Select Orthopedics</option>
                                                         <option defaultValue="">Option1</option>
                                                         <option defaultValue="">Option2</option>
                                                         <option defaultValue="">Option3</option>
@@ -143,12 +129,12 @@ const PatientEditProfile = () => {
                                         </div>
                                         <div className="col-lg-6">
                                             <SelectBox
-                                                name="health_condition"
-                                                labelText="Mental Health Condition"
+                                                name="Condition"
+                                                labelText="Condition"
                                                 optionData={
                                                     <>
-                                                        <option defaultValue="">Select</option>
-                                                        <option defaultValue="">Option1</option>
+                                                        <option defaultValue="">Select Condition</option>
+                                                        <option defaultValue="">Opioid Use Disorder</option>
                                                         <option defaultValue="">Option2</option>
                                                         <option defaultValue="">Option3</option>
                                                     </>
@@ -156,49 +142,44 @@ const PatientEditProfile = () => {
                                             />
                                         </div>
                                     </div>
-                                    {
-                                        trialFor
-                                            ?
-                                            <>
-                                                <h2 className="section-title mt-4">Your Primary Physician Details</h2>
-                                                <div className="row">
-                                                    <div className="col-lg-6">
-                                                        <InputText
-                                                            type="text"
-                                                            name="first_name"
-                                                            placeholder="First Name"
-                                                            defaultValue="Amanda"
-                                                            labelText="First Name"
-                                                        />
-                                                    </div>
-                                                    <div className="col-lg-6">
-                                                        <InputText
-                                                            type="text"
-                                                            name="last_name"
-                                                            placeholder="Last Name"
-                                                            defaultValue="Smith"
-                                                            labelText="Last Name"
-                                                        />
-                                                    </div>
-                                                    <div className="col-lg-6">
-                                                        <InputText
-                                                            type="number"
-                                                            name="phone_no"
-                                                            defaultValue="+01 987 654 3210"
-                                                            placeholder="Phone Number"
-                                                            labelText="Phone Number"
-                                                        />
-                                                    </div>
-                                                    <div className="col-lg-6">
-                                                        <div className='info-bx br-none'>
-                                                            <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Optional for your Physician to Receive Notifications About your Participation in a Clinical Trial.
-                                                        </div>
-                                                    </div>
+                                    <h2 className="section-title mt-4">Share Principal Investigator Details</h2>
+                                    <div className="row">
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="text"
+                                                name="investigator_name"
+                                                placeholder="Enter Name"
+                                                defaultValue="Dr Aikenhead"
+                                                labelText="Name"
+                                            />
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="email"
+                                                name="last_name"
+                                                placeholder="Enter email"
+                                                defaultValue="dr_aikenhead@gmail.com"
+                                                labelText="Email"
+                                            />
+                                        </div>
+                                        <div className="col-lg-12">
+                                            <TextArea
+                                                placeholder="Enter Brief Intro"
+                                                labelText="Brief Intro"
+                                                defaultData="Lorem ipsum dolor sit amet, consecte adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagitt. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius."
+                                            />
+                                        </div>
+                                        <div className="col-lg-12 form-group">
+                                            <label>Upload Clinic Document</label>
+                                            <label className="upload-document">
+                                                <input type="file" />
+                                                <div>
+                                                    <h4>File Name Here.pdf</h4>
+                                                    <h3>Tap Here to Upload your new File</h3>
                                                 </div>
-                                            </>
-                                            :
-                                            null
-                                    }
+                                            </label>
+                                        </div>
+                                    </div>
                                     <h2 className="section-title mt-4">Bank Details</h2>
                                     <div className="row">
                                         <div className="col-lg-6">
@@ -233,6 +214,11 @@ const PatientEditProfile = () => {
                                                 labelText="Routing Number"
                                             />
                                         </div>
+                                        <div className="col-lg-12">
+                                            <div className='info-bx br-none p-0 mb-5'>
+                                                <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Add your bank details to get payment from the pharma companies/CRO.
+                                            </div>
+                                        </div>
                                     </div>
                                     <Button
                                         isButton="true"
@@ -250,7 +236,7 @@ const PatientEditProfile = () => {
                                 <InputText
                                     type={oldPassword ? "text" : "password"}
                                     name="password"
-                                    value={Formdata.oldPassword}
+                                    defaultValue={Formdata.oldPassword}
                                     placeholder="Enter old password"
                                     labelText="Old Password"
                                     className="password-field"
@@ -264,7 +250,7 @@ const PatientEditProfile = () => {
                                 <InputText
                                     type={Password ? "text" : "password"}
                                     name="password"
-                                    value={Formdata.password}
+                                    defaultValue={Formdata.password}
                                     placeholder="Enter New Password"
                                     labelText="New Password"
                                     className="password-field"
@@ -278,7 +264,7 @@ const PatientEditProfile = () => {
                                 <InputText
                                     type={confirmPassword ? "text" : "password"}
                                     name="confirm_password"
-                                    value={Formdata.confirm_password}
+                                    defaultValue={Formdata.confirm_password}
                                     placeholder="Confirm Password"
                                     labelText="Confirm Password"
                                     className="password-field"
@@ -309,4 +295,4 @@ const PatientEditProfile = () => {
     );
 };
 
-export default PatientEditProfile;
+export default ClinicEditProfile;

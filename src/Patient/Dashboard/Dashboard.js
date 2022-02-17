@@ -51,7 +51,7 @@ const PatientDashboard = () => {
                                 className="primaryColor"
                                 URL="/patient/my-favorites"
                                 icon={<box-icon type='solid' size="40px" color="#ffffff" name='happy-heart-eyes'></box-icon>}
-                                title="My Favorites"
+                                title="My Favorites Trials"
                                 info="15"
                             />
                         </div>
