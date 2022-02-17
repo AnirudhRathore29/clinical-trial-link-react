@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import Button from '../../components/Common/Buttons/Buttons';
+import Button from '../../Components/Common/Buttons/Buttons';
 import './404.css';
 
 const PageNotFound = () => {

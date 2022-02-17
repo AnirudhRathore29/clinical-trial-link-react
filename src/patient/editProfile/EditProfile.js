@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { InputText, SelectBox } from "../../views/components/Common/Inputs/Inputs";
-import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
-import Button from "../../views/components/Common/Buttons/Buttons"
+import { InputText, SelectBox } from "../../views/Components/Common/Inputs/Inputs";
+import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
+import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";

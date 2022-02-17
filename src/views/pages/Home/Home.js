@@ -1,7 +1,7 @@
 import React from 'react';
-import SectionTitle from "../../components/Common/SectionTitle/SectionTitle";
-import Button from "../../components/Common/Buttons/Buttons";
-import { InputText, SelectBox } from "../../components/Common/Inputs/Inputs";
+import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
+import Button from "../../Components/Common/Buttons/Buttons";
+import { InputText, SelectBox } from "../../Components/Common/Inputs/Inputs";
 import './Home.css';
 
 const Home = () => {

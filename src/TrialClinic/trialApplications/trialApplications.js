@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import CommonModal from '../../views/components/Common/Modal/Modal'
-import Button from '../../views/components/Common/Buttons/Buttons';
-import MyAppointmentBx from '../../views/components/myAppointmentBx/MyAppointmentBx';
-import '../../patient/myAppointments/MyAppointments.css';
-import '../../patient/clinicListing/ClinicListing.css';
-import '../../patient/myFavorites/MyFavorites.css'
+import CommonModal from '../../views/Components/Common/Modal/Modal'
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
+import '../../Patient/MyAppointments/MyAppointments.css';
+import '../../Patient/ClinicListing/ClinicListing.css';
+import '../../Patient/MyFavorites/MyFavorites.css'
 
 const ClinicTrialApplication = () => {
 

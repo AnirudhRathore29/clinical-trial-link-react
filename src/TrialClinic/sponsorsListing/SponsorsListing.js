@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { InputText, SelectBox } from '../../views/components/Common/Inputs/Inputs';
-import Button from '../../views/components/Common/Buttons/Buttons';
-import ListBox from '../../views/components/listBox/ListBox';
-import '../../patient/clinicListing/ClinicListing.css';
+import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import ListBox from '../../views/Components/ListBox/ListBox';
+import '../../Patient/ClinicListing/ClinicListing.css';
 
 const ClinicSponsorsListing = () => {
     return (

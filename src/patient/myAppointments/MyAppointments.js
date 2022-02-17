@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { SelectBox, TextArea } from '../../views/components/Common/Inputs/Inputs';
-import CommonModal from '../../views/components/Common/Modal/Modal'
-import Button from '../../views/components/Common/Buttons/Buttons';
-import MyAppointmentBx from '../../views/components/myAppointmentBx/MyAppointmentBx';
+import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import CommonModal from '../../views/Components/Common/Modal/Modal'
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
 // import PendingAppointments from "../myAppointments/PendingAppointments"
 import './MyAppointments.css';
-import '../clinicListing/ClinicListing.css'
+import '../ClinicListing/ClinicListing.css'
 
 const PatientMyAppointments = () => {
 

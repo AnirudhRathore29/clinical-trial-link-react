@@ -1,1 +1,9 @@
-FallbackResource ./index.html
+<ifModule mod_rewrite.c>
+  Options +FollowSymLinks
+  IndexIgnore */*
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !\/$
+  RewriteRule ^(.*) /
+</ifModule>

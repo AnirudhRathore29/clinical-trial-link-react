@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { InputText } from "../../components/Common/Inputs/Inputs";
-import RadioBtn from "../../components/Common/RadioBtn/RadioBtn"
-import Button from "../../components/Common/Buttons/Buttons";
-import Header from "../../components/frontHeader/FrontHeader";
+import { InputText } from "../../Components/Common/Inputs/Inputs";
+import RadioBtn from "../../Components/Common/RadioBtn/RadioBtn"
+import Button from "../../Components/Common/Buttons/Buttons";
+import Header from "../../Components/FrontHeader/FrontHeader";
 import { loginUser } from '../../../app/actions/authAction'
 import "./Login.css";
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Button from "../../components/Common/Buttons/Buttons";
-import { InputText } from "../../components/Common/Inputs/Inputs";
-import Header from "../../components/frontHeader/FrontHeader";
+import Button from "../../Components/Common/Buttons/Buttons";
+import { InputText } from "../../Components/Common/Inputs/Inputs";
+import Header from "../../Components/FrontHeader/FrontHeader";
 import '../Login/Login.css';
 
 const SetNewPassword = () => {

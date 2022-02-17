@@ -2,12 +2,12 @@
 
 import { Link } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
-import DashboardInfoBx from '../../views/components/dashboardInfoBx/DashboardInfoBx'
-import ListBox from '../../views/components/listBox/ListBox';
-import WelcomeBx from '../../views/components/welcomeBx/WelcomeBx';
+import DashboardInfoBx from '../../views/Components/DashboardInfoBx/DashboardInfoBx'
+import ListBox from '../../views/Components/ListBox/ListBox';
+import WelcomeBx from '../../views/Components/WelcomeBx/WelcomeBx';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './Dashboard.css';
-import '../clinicListing/ClinicListing.css';
+import '../ClinicListing/ClinicListing.css';
 
 const PatientDashboard = () => {
     const options = {

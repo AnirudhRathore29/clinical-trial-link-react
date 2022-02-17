@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
-import Button from '../../views/components/Common/Buttons/Buttons';
-import ClinicSponsorsBookingProcess from '../../views/components/sponsorsBookingProcess/SponsorsBookingProcess';
-import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
-import '../../patient/myFavorites/MyFavorites.css';
-import '../../patient/trialListing/TrialListing.css';
+import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import ClinicSponsorsBookingProcess from '../../views/Components/SponsorsBookingProcess/SponsorsBookingProcess';
+import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
+import '../../Patient/MyFavorites/MyFavorites.css';
+import '../../Patient/TrialListing/TrialListing.css';
 
 const ClinicSponsorsTrialListing = () => {
     const [show, setShow] = useState(false);

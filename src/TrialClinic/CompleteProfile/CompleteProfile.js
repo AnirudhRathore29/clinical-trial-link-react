@@ -1,7 +1,7 @@
 import React from "react";
-import { InputText, SelectBox, TextArea } from "../../views/components/Common/Inputs/Inputs";
-import Button from "../../views/components/Common/Buttons/Buttons"
-import Header from "../../views/components/frontHeader/FrontHeader";
+import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
+import Button from "../../views/Components/Common/Buttons/Buttons"
+import Header from "../../views/Components/FrontHeader/FrontHeader";
 import { loginUser } from '../../app/actions/authAction'
 import 'boxicons';
 import "../../views/pages/Login/Login.css";

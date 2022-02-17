@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import RadioBtn from '../../views/components/Common/RadioBtn/RadioBtn';
-import Button from '../../views/components/Common/Buttons/Buttons';
-import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
-import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
-import '../myFavorites/MyFavorites.css';
+import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
+import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
+import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
 
 const PatientTrialListing = () => {

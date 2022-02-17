@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../views/components/Common/Buttons/Buttons';
-import CommonModal from '../../views/components/Common/Modal/Modal'
-import RadioBtn from "../../views/components/Common/RadioBtn/RadioBtn";
-import { InputText, SelectBox, TextArea } from '../../views/components/Common/Inputs/Inputs';
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import CommonModal from '../../views/Components/Common/Modal/Modal'
+import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
+import { InputText, SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
-import '../../patient/dashboard/Dashboard.css';
-import '../trialRequests/TrialRequests.css';
-import '../../patient/myAppointments/MyAppointments.css';
+import '../../Patient/Dashboard/Dashboard.css';
+import '../TrialRequests/TrialRequests.css';
+import '../../Patient/MyAppointments/MyAppointments.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClinicPatientList = () => {

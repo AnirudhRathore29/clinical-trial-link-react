@@ -1,7 +1,7 @@
-import '../../views/components/Common/Buttons/Buttons.css'
-import '../../patient/dashboard/Dashboard.css';
-import '../trialRequests/TrialRequests.css';
-import '../../patient/myAppointments/MyAppointments.css';
+import '../../views/Components/Common/Buttons/Buttons.css'
+import '../../Patient/Dashboard/Dashboard.css';
+import '../TrialRequests/TrialRequests.css';
+import '../../Patient/MyAppointments/MyAppointments.css';
 
 const ClinicPatientListPast = () => {
     return (

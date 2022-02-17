@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
-import MyAppointmentBx from '../../views/components/myAppointmentBx/MyAppointmentBx';
-import '../../patient/myAppointments/MyAppointments.css';
-import '../../patient/clinicListing/ClinicListing.css'
+import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
+import '../../Patient/MyAppointments/MyAppointments.css';
+import '../../Patient/ClinicListing/ClinicListing.css'
 
 const ClinicMyAppointments = () => {
     return (

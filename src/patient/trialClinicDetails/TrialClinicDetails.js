@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import PatientBookingProcess from '../../views/components/bookingProcess/BookingProcess';
-import ClinicTrial from '../../views/components/clinicTrial/ClinicTrial'
-import SponsorsBx from '../../views/components/sponsorsBx/SponsorsBx';
-import Button from '../../views/components/Common/Buttons/Buttons';
+import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
+import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
+import SponsorsBx from '../../views/Components/SponsorsBx/SponsorsBx';
+import Button from '../../views/Components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './TrialClinicDetails.css'
-import '../myFavorites/MyFavorites.css'
+import '../MyFavorites/MyFavorites.css'
 
 const TrialClinicDetails = () => {
 

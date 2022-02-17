@@ -1,26 +1,26 @@
 import React from 'react';
 
 const Home = React.lazy(() => import('./views/pages/Home/Home'));
-const PatientDashboard = React.lazy(() => import('./patient/dashboard/Dashboard'));
-const PatientEditProfile = React.lazy(() => import('./patient/editProfile/EditProfile'));
-const PatientTrialClinicDetails = React.lazy(() => import('./patient/trialClinicDetails/TrialClinicDetails'));
-const PatientMyAppointments = React.lazy(() => import('./patient/myAppointments/MyAppointments'));
-const PatientClinicListing = React.lazy(() => import('./patient/clinicListing/ClinicListing'));
-const PatientMyFavorites = React.lazy(() => import('./patient/myFavorites/MyFavorites'));
-const PatientMyChats = React.lazy(() => import('./patient/myChats/myChats'));
-const PatientPaymentHistory = React.lazy(() => import('./patient/paymentHistory/PaymentHistory'));
-const PatientTrialListing = React.lazy(() => import('./patient/trialListing/TrialListing'));
+const PatientDashboard = React.lazy(() => import('./Patient/Dashboard/Dashboard'));
+const PatientEditProfile = React.lazy(() => import('./Patient/EditProfile/EditProfile'));
+const PatientTrialClinicDetails = React.lazy(() => import('./Patient/TrialClinicDetails/TrialClinicDetails'));
+const PatientMyAppointments = React.lazy(() => import('./Patient/MyAppointments/MyAppointments'));
+const PatientClinicListing = React.lazy(() => import('./Patient/ClinicListing/ClinicListing'));
+const PatientMyFavorites = React.lazy(() => import('./Patient/MyFavorites/MyFavorites'));
+const PatientMyChats = React.lazy(() => import('./Patient/MyChats/myChats'));
+const PatientPaymentHistory = React.lazy(() => import('./Patient/PaymentHistory/PaymentHistory'));
+const PatientTrialListing = React.lazy(() => import('./Patient/TrialListing/TrialListing'));
 
 /* clinic pages */
-const ClinicDashboard = React.lazy(() => import('./TrialClinic/dashboard/Dashboard'));
-const ClinicTrialRequests = React.lazy(() => import('./TrialClinic/trialRequests/TrialRequests'));
-const ClinicSponsorsListing = React.lazy(() => import('./TrialClinic/sponsorsListing/SponsorsListing'));
-const ClinicSponsorsDetails = React.lazy(() => import('./TrialClinic/sponsorsDetails/SponsorsDetails'));
-const ClinicSponsorsTrialListing = React.lazy(() => import('./TrialClinic/sponsorsTrialListing/SponsorsTrialListing'));
-const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/trialApplications/trialApplications'));
-const ClinicMyAppointments = React.lazy(() => import('./TrialClinic/myAppointments/MyAppointments'));
-const ClinicPatientList = React.lazy(() => import('./TrialClinic/patientList/PatientList'));
-const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/patientList/PatientListPast'));
+const ClinicDashboard = React.lazy(() => import('./TrialClinic/Dashboard/Dashboard'));
+const ClinicTrialRequests = React.lazy(() => import('./TrialClinic/TrialRequests/TrialRequests'));
+const ClinicSponsorsListing = React.lazy(() => import('./TrialClinic/SponsorsListing/SponsorsListing'));
+const ClinicSponsorsDetails = React.lazy(() => import('./TrialClinic/SponsorsDetails/SponsorsDetails'));
+const ClinicSponsorsTrialListing = React.lazy(() => import('./TrialClinic/SponsorsTrialListing/SponsorsTrialListing'));
+const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/TrialApplications/trialApplications'));
+const ClinicMyAppointments = React.lazy(() => import('./TrialClinic/MyAppointments/MyAppointments'));
+const ClinicPatientList = React.lazy(() => import('./TrialClinic/PatientList/PatientList'));
+const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/PatientList/PatientListPast'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },

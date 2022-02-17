@@ -1,6 +1,6 @@
-import Button from "../../components/Common/Buttons/Buttons";
+import Button from "../../Components/Common/Buttons/Buttons";
 import {Link, useHistory} from 'react-router-dom';
-import Header from "../../components/frontHeader/FrontHeader";
+import Header from "../../Components/FrontHeader/FrontHeader";
 import '../Login/Login.css';
 
 const VerifyEmail = () => {

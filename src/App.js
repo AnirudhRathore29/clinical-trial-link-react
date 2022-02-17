@@ -21,7 +21,7 @@ const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEma
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 
 /* patient panel pages */
-const PatientCompleteProfile = React.lazy(() => import('./patient/CompleteProfile/CompleteProfile'));
+const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
 const ClinicCompleteProfile = React.lazy(() => import('./TrialClinic/CompleteProfile/CompleteProfile'));
 
 const loading = (

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Tabs, Tab } from 'react-bootstrap';
-import Patient from "../../components/SignupForm/Patient";
-import TrialClinic from "../../components/SignupForm/TrialClinic";
-import Physician from "../../components/SignupForm/Physician";
-import PharmaCompanies from "../../components/SignupForm/PharmaCompanies";
-import Header from "../../components/frontHeader/FrontHeader";
+import Patient from "../../Components/SignupForm/Patient";
+import TrialClinic from "../../Components/SignupForm/TrialClinic";
+import Physician from "../../Components/SignupForm/Physician";
+import PharmaCompanies from "../../Components/SignupForm/PharmaCompanies";
+import Header from "../../Components/FrontHeader/FrontHeader";
 import "../Login/Login.css";
 
 const SignUp = () => {

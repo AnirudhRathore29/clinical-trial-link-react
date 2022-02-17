@@ -1,5 +1,5 @@
-import Button from '../../views/components/Common/Buttons/Buttons';
-import '../../patient/dashboard/Dashboard.css';
+import Button from '../../views/Components/Common/Buttons/Buttons';
+import '../../Patient/Dashboard/Dashboard.css';
 import './TrialRequests.css'
 
 const ClinicSponsorsListing = () => {
