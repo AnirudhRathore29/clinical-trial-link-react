@@ -1,0 +1,17 @@
+.patient-list-table{width: 100%;color: var(--TextColor);}
+.patient-list-table .patient-img img{width: 8rem;min-width: 8rem;height: 8rem;border-radius: 50%;object-fit: cover;border: 1px solid #C3D9FF;margin: 0 auto;display: block;}
+.patient-list-table tr{background: var(--whiteColor);border-bottom: 10px solid var(--lightBg);}
+.patient-list-table th,
+.patient-list-table td{padding: 2.5rem 2rem;}
+.patient-list-table td{font-weight: 300;}
+.patient-list-table h2{font-weight: bold;}
+.patient-list-table p{margin: 0;}
+.patient-list-table p strong{font-weight: 500;}
+.patient-list-table p span{display: inline-block;}
+.patient-list-table p span + span{margin-left: 1rem;}
+
+
+.update-status .radio-check-btn{display: block;padding: 2rem 0;}
+.update-status .radio-check-btn + .radio-check-btn{border-top: 1px solid #C3D9FF;}
+.update-status .radio-check-btn span{position: relative;}
+.update-status .radio-check-btn input:checked + span::after{content: "";width: 2rem;height: 2rem;border-radius: 50%;background: var(--PrimaryColor) url(../../Assets/images/check-icon.svg) center center;background-repeat: no-repeat; background-size: 10px;position: absolute;right: 0;}
