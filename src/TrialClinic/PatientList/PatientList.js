@@ -3,25 +3,28 @@ import { Link } from 'react-router-dom';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
-import { InputText, SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
+import OtpInput from 'react-otp-input';
 import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClinicPatientList = () => {
+    /* popup show hide */
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const [show4, setShow4] = useState(false);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
-    const [show2, setShow2] = useState(false);
 
     const handleShow2 = () => setShow2(true);
     const handleClose2 = () => setShow2(false);
 
-    const [show3, setShow3] = useState(false);
 
     const handleShow3 = () => {
         setShow3(true);
@@ -29,16 +32,32 @@ const ClinicPatientList = () => {
     }
     const handleClose3 = () => setShow3(false);
 
-    const [show4, setShow4] = useState(false);
 
     const handleShow4 = () => {
         setShow4(true);
         handleClose3();
     }
     const handleClose4 = () => setShow4(false);
+    /* popup show hide */
 
+    /* datetime */
     const [startDate, setStartDate] = useState(new Date());
+    /* datetime */
 
+    /* payment option popup */
+    const [otpSent, setOtpSent] = useState(false);
+    const [paymentOption, setPaymentOption] = useState(false);
+
+    const OtpSent = () => {
+        setOtpSent(true);
+    }
+
+    const PaymentOption = () => {
+        setPaymentOption(!paymentOption);
+    }
+    /* payment option popup */
+
+    const [otp, setOtp] = useState();
     return (
         <>
             <div className="clinical-dashboard">
@@ -344,28 +363,107 @@ const ClinicPatientList = () => {
             />
 
             <CommonModal show={show4} onHide={handleClose4} keyboard={false}
-                ModalTitle="Appointment Status"
+                ModalTitle="Choose Payment Option"
                 onClick={handleClose4}
                 size="md"
                 ModalData={
                     <>
                         <div className='update-status'>
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Cash" defaultChecked="true" />
-                            <TextArea
-                                placeholder="Enter Cancellation Details"
-                                labelText="Cancellation Details"
-                            />
+                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Cash" defaultChecked="true" onChange={PaymentOption} />
+                            {
+                                paymentOption ?
+                                    null
+                                    :
+                                    <>
+                                        {
+                                            otpSent ?
+                                                null
+                                                :
+                                                <div className='send-otp mb-4'>
+                                                    <InputText
+                                                        type="number"
+                                                        labelText="Patient Phone Number"
+                                                        placeholder="Enter Patient Phone Number"
+                                                    />
+                                                    <Button
+                                                        isButton="true"
+                                                        BtnType="submit"
+                                                        BtnColor="primary"
+                                                        BtnText="Send OTP"
+                                                        onClick={OtpSent}
+                                                    />
+                                                </div>
+                                        }
+                                        {
+                                            otpSent ?
+                                                <div className='from-group otp-bx-outer mb-4'>
+                                                    <label>Enter OTP</label>
+                                                    <OtpInput
+                                                        containerStyle="otp-bx"
+                                                        value={otp}
+                                                        name="otp"
+                                                        onChange={setOtp}
+                                                        isInputNum="true"
+                                                        numInputs={4}
+                                                        inputStyle="form-control"
+                                                        shouldAutoFocus={true}
+                                                    />
+                                                    <div className='resend-otp'>
+                                                        <button>Resend OTP?</button>
+                                                    </div>
+                                                </div>
+                                                :
+                                                null
+                                        }
+                                    </>
+                            }
                         </div>
                         <div className='update-status'>
-                            <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Bank" defaultChecked="true" />
-                            
+                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Bank" onChange={PaymentOption} />
+                            {
+                                paymentOption ?
+                                    <>
+                                        <InputText
+                                            type="text"
+                                            name="bank_name"
+                                            placeholder="Enter Bank Name"
+                                            labelText="Name of Bank"
+                                        />
+                                        <InputText
+                                            type="text"
+                                            name="account_holder_name"
+                                            placeholder="Enter Name"
+                                            labelText="Account Holder Name"
+                                        />
+                                        <InputText
+                                            type="text"
+                                            name="account_number"
+                                            placeholder="Enter Account Number"
+                                            labelText="Account Number"
+                                        />
+                                        <InputText
+                                            type="text"
+                                            name="routing_number"
+                                            placeholder="Enter Routing Number"
+                                            labelText="Routing Number"
+                                        />
+                                    </>
+                                    :
+                                    null
+                            }
+                            <InputText
+                                type="text"
+                                name="amount"
+                                placeholder="Enter Amount"
+                                labelText="Amount ($)"
+                            />
                         </div>
                         <div className='clnicaltrial-detail-ftr'>
                             <Button
                                 isButton="true"
                                 BtnType="submit"
                                 BtnColor="primary w-100"
-                                BtnText="Update Status"
+                                BtnText="Paid"
                                 onClick={handleClose4}
                             />
                         </div>

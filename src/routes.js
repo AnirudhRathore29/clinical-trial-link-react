@@ -17,7 +17,7 @@ const ClinicTrialRequests = React.lazy(() => import('./TrialClinic/TrialRequests
 const ClinicSponsorsListing = React.lazy(() => import('./TrialClinic/SponsorsListing/SponsorsListing'));
 const ClinicSponsorsDetails = React.lazy(() => import('./TrialClinic/SponsorsDetails/SponsorsDetails'));
 const ClinicSponsorsTrialListing = React.lazy(() => import('./TrialClinic/SponsorsTrialListing/SponsorsTrialListing'));
-const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/TrialApplications/trialApplications'));
+const ClinicTrialApplication = React.lazy(() => import('./TrialClinic/TrialApplications/TrialApplications'));
 const ClinicMyAppointments = React.lazy(() => import('./TrialClinic/MyAppointments/MyAppointments'));
 const ClinicPatientList = React.lazy(() => import('./TrialClinic/PatientList/PatientList'));
 const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/PatientList/PatientListPast'));

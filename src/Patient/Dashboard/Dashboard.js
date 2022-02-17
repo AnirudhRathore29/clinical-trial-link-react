@@ -33,7 +33,7 @@ const PatientDashboard = () => {
                                 className="secondaryColor"
                                 URL="/patient/payment-history"
                                 icon={<box-icon name='money' size="40px" color="#ffffff"></box-icon>}
-                                title="Total Compensation"
+                                title="Compensation Received"
                                 info="$555.00"
                             />
                         </div>
@@ -49,10 +49,10 @@ const PatientDashboard = () => {
                         <div className="col-lg-4">
                             <DashboardInfoBx
                                 className="primaryColor"
-                                URL=""
-                                icon={<box-icon name='money' size="40px" color="#ffffff"></box-icon>}
-                                title="Total Compensation"
-                                info="$555.00"
+                                URL="/patient/my-favorites"
+                                icon={<box-icon type='solid' size="40px" color="#ffffff" name='happy-heart-eyes'></box-icon>}
+                                title="My Favorites"
+                                info="15"
                             />
                         </div>
                     </div>

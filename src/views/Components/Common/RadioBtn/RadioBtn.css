@@ -9,7 +9,7 @@
 .radio-btn input:checked + span i::after{transform: scale(1)}
 
 .checkbox-btn span i{width: 2.5rem;height: 2.5rem;display: flex;align-items: center;justify-content: center;margin-right: 1rem;border: 1px solid var(--TextColorLight);border-radius: .5rem;}
-.checkbox-btn input:checked + span i{content: "";background: var(--PrimaryColor) url(../../../../Assets/images/check-icon.svg) no-repeat center center;background-size: 15px;border-color: var(--PrimaryColor);}
+.checkbox-btn input:checked + span i{content: "";background: var(--PrimaryColor) url(../../../../Assets/images/check-icon.svg) no-repeat center center;background-size: 1.5rem;border-color: var(--PrimaryColor);}
 
 .gender-row{display: flex;align-items: center;}
 .gender-row>label{flex: 1 1 auto;}
