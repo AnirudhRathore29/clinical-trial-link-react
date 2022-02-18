@@ -41,7 +41,7 @@ const SponsorsClinicDetails = () => {
                             <div className='mt-5'>
                                 <Button
                                     isLink="true"
-                                    URL="/trial-clinic/my-chats"
+                                    URL="/trial-sponsors/my-chats"
                                     BtnColor="green"
                                     BtnText="Message"
                                 />
