@@ -18,7 +18,6 @@
 .what-is-clinicaltrial { text-align: center; max-width: 120rem; margin: 0 auto; margin-top: 3rem; font-size: 1.8rem; color: var(--TextColorLight);}
 .what-is-clinicaltrial p strong{font-weight: 500;}
 .what-is-clinicaltrial p + p{margin-top: 2rem;}
-.what-sec-text{ max-width: 102.6rem; margin:  auto; font-size: 3.2rem; }
 /***** What Clinical Trial End *****/
 
 .clinical-info-section{background: var(--lightBg);}

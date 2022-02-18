@@ -115,6 +115,7 @@ th[align='left']{text-align: left;}
 .no-wrap{white-space: nowrap;}
 
 iframe[style*="fixed"]{display: none;}
+.w-20{min-width: auto!important;max-width: 15rem;}
 /****** Common Css End ******/
 
 

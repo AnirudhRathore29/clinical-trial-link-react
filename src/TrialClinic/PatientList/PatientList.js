@@ -108,7 +108,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -134,7 +134,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -160,7 +160,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -186,7 +186,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -212,7 +212,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -238,7 +238,7 @@ const ClinicPatientList = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>

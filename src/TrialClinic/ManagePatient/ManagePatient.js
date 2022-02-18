@@ -1,12 +1,18 @@
+import { useState } from 'react';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import PatientListBx from '../../views/Components/PatientListBx/PatientListBx';
-import '../../Patient/Dashboard/Dashboard.css';
-import '../TrialRequests/TrialRequests.css'
+import CommonModal from '../../views/Components/Common/Modal/Modal';
+import PatientDetail from '../../views/Components/PatientDetail/PatientDetail';
 import '../../Patient/ClinicListing/ClinicListing.css';
 
 const ClinicManagePatient = () => {
+    const [show, setShow] = useState(false);
+
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -74,30 +80,123 @@ const ClinicManagePatient = () => {
                         <div className='col-lg-8'>
                             <div className='row'>
                                 <div className='col-lg-6'>
-                                    <PatientListBx 
+                                    <PatientListBx
                                         imgUrl="profile-img1.jpg"
                                         patientName="David Smith"
                                         statusClass="primary"
                                         status="Approved"
                                         description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
                                     />
                                 </div>
                                 <div className='col-lg-6'>
-                                    <PatientListBx 
+                                    <PatientListBx
                                         imgUrl="profile-img2.jpg"
                                         patientName="David Smith"
                                         statusClass="success"
                                         status="Completed"
                                         description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
                                     />
                                 </div>
                                 <div className='col-lg-6'>
-                                    <PatientListBx 
+                                    <PatientListBx
                                         imgUrl="profile-img3.jpg"
                                         patientName="David Smith"
                                         statusClass="danger"
                                         status="Cancelled"
                                         description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img1.jpg"
+                                        patientName="David Smith"
+                                        statusClass="primary"
+                                        status="Approved"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img2.jpg"
+                                        patientName="David Smith"
+                                        statusClass="success"
+                                        status="Completed"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img3.jpg"
+                                        patientName="David Smith"
+                                        statusClass="danger"
+                                        status="Cancelled"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img1.jpg"
+                                        patientName="David Smith"
+                                        statusClass="primary"
+                                        status="Approved"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img2.jpg"
+                                        patientName="David Smith"
+                                        statusClass="success"
+                                        status="Completed"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img3.jpg"
+                                        patientName="David Smith"
+                                        statusClass="danger"
+                                        status="Cancelled"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img1.jpg"
+                                        patientName="David Smith"
+                                        statusClass="primary"
+                                        status="Approved"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img2.jpg"
+                                        patientName="David Smith"
+                                        statusClass="success"
+                                        status="Completed"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
+                                    />
+                                </div>
+                                <div className='col-lg-6'>
+                                    <PatientListBx
+                                        imgUrl="profile-img2.jpg"
+                                        patientName="David Smith"
+                                        statusClass="success"
+                                        status="Completed"
+                                        description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                                        onClick={handleShow}
                                     />
                                 </div>
                             </div>
@@ -113,6 +212,35 @@ const ClinicManagePatient = () => {
                     </div>
                 </div>
             </div>
+
+            <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
+                ModalTitle="Patient Details"
+                onClick={handleClose}
+                ModalData={
+                    <>
+                        <PatientListBx
+                            imgUrl="profile-img3.jpg"
+                            patientName="David Smith"
+                            statusClass="danger"
+                            status="Cancelled"
+                            description="Adolescents with ADHD and a Parent with Bipolar Disorder"
+                        />
+                        <PatientDetail 
+                            phoneNumber="+01 987 654 3210" 
+                            gender="Male" 
+                            state="California" 
+                            zipCode="90210" 
+                            dob="March 26, 1991" 
+                            trialFor="Myself" 
+                            seekingTrialsFor="Psychiatry" 
+                            condition="Bipolar Disorder" 
+                            doctorProfileImg="avatar2.svg" 
+                            doctorName="Dr Aikenhead Smith" 
+                            doctorPhoneNumber="+01 235 652 4589"
+                        />
+                    </>
+                }
+            />
         </>
     );
 };

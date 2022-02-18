@@ -1,4 +1,4 @@
-const ClinicTrial = ({ onClick, title, description, status, iconType, iconColor, className }) => {
+const ClinicTrial = ({ onClick, title, description, status, iconType, iconColor, className, ShareFav }) => {
     return (
         <>
             <div className={`item clinicalTrial-bx ${className}`} onClick={onClick}>
@@ -6,10 +6,15 @@ const ClinicTrial = ({ onClick, title, description, status, iconType, iconColor,
                 <p>{description}</p>
                 <div className='clinicalTrial-bx-ftr'>
                     {status}
-                    <div>
-                        <button className='icon-btn'><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>
-                        <button className='icon-btn'><box-icon name='share-alt' color={iconColor}></box-icon></button>
-                    </div>
+                    {
+                        ShareFav ?
+                        null
+                        :
+                        <div>
+                            <button className='icon-btn'><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>
+                            <button className='icon-btn'><box-icon name='share-alt' color={iconColor}></box-icon></button>
+                        </div>
+                    }
                 </div>
             </div>
         </>

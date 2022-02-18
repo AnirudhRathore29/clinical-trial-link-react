@@ -23,6 +23,7 @@ const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 /* patient panel pages */
 const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
 const ClinicCompleteProfile = React.lazy(() => import('./TrialClinic/CompleteProfile/CompleteProfile'));
+const SponsorsCompleteProfile = React.lazy(() => import('./TrialSponsors/CompleteProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -53,7 +54,10 @@ function App() {
 
 					{/* clinic Routes */}
 					<Route exact path="/trial-clinic/complete-profile" name="ClinicCompleteProfile" render={(props) => <ClinicCompleteProfile {...props} />} />
+
+					<Route exact path="/trial-sponsors/complete-profile" name="SponsorsCompleteProfile" render={(props) => <SponsorsCompleteProfile {...props} />} />
 					<Switch>
+						{/* Patient private Routes */}
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/edit-profile" name="PatientEditProfile" component={(props) => <BackLayout {...props} />} />
 						<PrivateRoute path="/patient/trial-clinic-details" name="TrialClinicDetails" component={(props) => <BackLayout {...props} />} />
@@ -77,6 +81,14 @@ function App() {
 						<PrivateRoute path="/trial-clinic/payment-history" name="ClinicPaymentHistory" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/edit-profile" name="ClinicEditProfile" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/manage-patient" name="ClinicManagePatient" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/my-chats" name="ClinicMyChats" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+
+						{/* sponsor private Routes */}
+						<PrivateRoute path="/trial-sponsors/dashboard" name="SponsorsDashboard" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/trial-requests" name="SponsorsTrialRequests" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/trials" name="SponsorsTrials" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/clinic-listing" name="SponsorsClinicListing" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/clinic-details" name="SponsorsClinicDetails" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>

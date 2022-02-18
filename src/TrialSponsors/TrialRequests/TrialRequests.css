@@ -1,0 +1,27 @@
+.patient-list-table{width: 100%;color: var(--TextColor);}
+.patient-list-table .patient-img img{width: 7rem;min-width: 7rem;height: 7rem;border-radius: 50%;object-fit: cover;border: 1px solid #C3D9FF;margin: 0 auto;display: block;}
+.patient-list-table tr{background: var(--whiteColor);border-bottom: 10px solid var(--lightBg);}
+.patient-list-table th{white-space: nowrap;}
+.patient-list-table th,
+.patient-list-table td{padding: 2.5rem 2rem;}
+.patient-list-table td{font-weight: 300;}
+.patient-list-table h2{font-weight: bold;}
+.patient-list-table p{margin: 0;}
+.patient-list-table p strong{font-weight: 500;}
+.patient-list-table p span{display: inline-block;}
+.patient-list-table p span + span{margin-left: 1rem;}
+
+
+.update-status + .update-status{border-top: 1px solid #C3D9FF;}
+.update-status .radio-check-btn{display: block;padding: 2rem 0;}
+.update-status .radio-check-btn + .radio-check-btn{border-top: 1px solid #C3D9FF;}
+.update-status .radio-check-btn span{position: relative;}
+.update-status .radio-check-btn input:checked + span::after{content: "";width: 2rem;height: 2rem;border-radius: 50%;background: var(--PrimaryColor) url(../../Assets/images/check-icon.svg) center center;background-repeat: no-repeat; background-size: 10px;position: absolute;right: 0;}
+
+.patientChartInfo{position: sticky;top: 9rem;background: var(--whiteColor);border-radius: 1rem;overflow: hidden;text-align: center;}
+.patientChartInfo>h2{font-size: 2rem;color: var(--TextColor);padding: 2rem 2rem 0 2rem;font-weight: 700;text-align: left;margin-bottom: -3rem;position: relative;z-index: 2;}
+
+.chart-legends{padding: 0 2rem;margin-top: -4rem;position: relative;z-index: 1;margin-bottom: 2rem;color: var(--TextColor);display: inline-block;}
+.chart-legends span{display: flex;align-items: center;}
+.chart-legends span::before{content: ""; background: #CDEB8B;width: 1.5rem;height: 1.5rem;display: inline-block;margin-right: 1rem;border-radius: 50%;}
+.chart-legends span:last-child::before{background: #4096EE;}

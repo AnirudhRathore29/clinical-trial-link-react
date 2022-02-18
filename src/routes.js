@@ -1,5 +1,5 @@
 import React from 'react';
-
+/* patient pages */
 const Home = React.lazy(() => import('./views/pages/Home/Home'));
 const PatientDashboard = React.lazy(() => import('./Patient/Dashboard/Dashboard'));
 const PatientEditProfile = React.lazy(() => import('./Patient/EditProfile/EditProfile'));
@@ -24,6 +24,14 @@ const ClinicPatientListPast = React.lazy(() => import('./TrialClinic/PatientList
 const ClinicPaymentHistory = React.lazy(() => import('./TrialClinic/PaymentHistory/PaymentHistory'));
 const ClinicEditProfile = React.lazy(() => import('./TrialClinic/EditProfile/EditProfile'));
 const ClinicManagePatient = React.lazy(() => import('./TrialClinic/ManagePatient/ManagePatient'));
+const ClinicMyChats = React.lazy(() => import('./TrialClinic/MyChats/MyChats'));
+
+/* sponsors pages */
+const SponsorsDashboard = React.lazy(() => import('./TrialSponsors/Dashboard/Dashboard'));
+const SponsorsTrialRequests = React.lazy(() => import('./TrialSponsors/TrialRequests/TrialRequests'));
+const SponsorsTrials = React.lazy(() => import('./TrialSponsors/Trials/Trials'));
+const SponsorsClinicListing = React.lazy(() => import('./TrialSponsors/ClinicListing/ClinicListing'));
+const SponsorsClinicDetails = React.lazy(() => import('./TrialSponsors/TrialClinicDetails/TrialClinicDetails'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
@@ -50,6 +58,14 @@ const routes = [
 	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory },
 	{ path: '/trial-clinic/edit-profile', exact: true, name: 'ClinicEditProfile', component: ClinicEditProfile },
 	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient },
+	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats },
+
+	/* sponsors routes */
+	{ path: '/trial-sponsors/dashboard', exact: true, name: 'SponsorsDashboard', component: SponsorsDashboard },
+	{ path: '/trial-sponsors/trial-requests', exact: true, name: 'SponsorsTrialRequests', component: SponsorsTrialRequests },
+	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
+	{ path: '/trial-sponsors/clinic-listing', exact: true, name: 'SponsorsClinicListing', component: SponsorsClinicListing },
+	{ path: '/trial-sponsors/clinic-details', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails },
 ];
 
 export default routes;

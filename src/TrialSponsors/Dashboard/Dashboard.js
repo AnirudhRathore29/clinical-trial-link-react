@@ -8,7 +8,7 @@ import WelcomeBx from '../../views/Components/WelcomeBx/WelcomeBx';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../Patient/Dashboard/Dashboard.css';
 
-const ClinicDashboard = () => {
+const SponsorsDashboard = () => {
     const options = {
         items: 1,
         loop: true,
@@ -30,9 +30,9 @@ const ClinicDashboard = () => {
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="secondaryColor"
-                                URL="/trial-clinic/trial-requests"
+                                URL="/trial-sponsors/trial-requests"
                                 icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
-                                title="New Trials Patient Appointment Request"
+                                title="New Trials Request from Trial Clinics"
                                 info="20"
                             />
                         </div>
@@ -41,7 +41,7 @@ const ClinicDashboard = () => {
                                 className="thirdColor"
                                 URL=""
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
-                                title="Requests Approved by the Trial Sponsors/CRO"
+                                title="Available Trials and Create New Trial"
                                 info="10"
                             />
                         </div>
@@ -50,7 +50,7 @@ const ClinicDashboard = () => {
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
                             <div className="heading-bx">
-                                <h1>Trial Sponsors/CRO</h1>
+                                <h1>Trial Clinics</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
@@ -118,4 +118,4 @@ const ClinicDashboard = () => {
     );
 };
 
-export default ClinicDashboard;
+export default SponsorsDashboard;

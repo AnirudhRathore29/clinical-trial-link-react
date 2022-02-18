@@ -38,24 +38,9 @@ const ClinicCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="clinic_name"
-                                        placeholder="Enter Clinic Name"
-                                        labelText="Clinic Name"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <SelectBox
-                                        name="clinical_practice"
-                                        labelText="Clinical Practice"
-                                        optionData={
-                                            <>
-                                                <option value="">Select Clinical Practice</option>
-                                                <option value="">Option 1</option>
-                                                <option value="">Option 2</option>
-                                                <option value="">Option 3</option>
-                                                <option value="">Option 4</option>
-                                            </>
-                                        }
+                                        name="sponsors_name"
+                                        placeholder="Enter Sponsor Name"
+                                        labelText="Sponsor Name"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -88,7 +73,7 @@ const ClinicCompleteProfile = (props) => {
                                         }
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
                                     <SelectBox
                                         name="state"
                                         labelText="State"
@@ -103,7 +88,7 @@ const ClinicCompleteProfile = (props) => {
                                         }
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
                                     <InputText
                                         type="text"
                                         name="address"
@@ -111,31 +96,12 @@ const ClinicCompleteProfile = (props) => {
                                         labelText="Address"
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
                                     <InputText
                                         type="text"
                                         name="zip_code"
                                         placeholder="Enter zip code"
                                         labelText="Zip Code"
-                                    />
-                                </div>
-                                <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Share Principal Investigator Details</h2>
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="name"
-                                        name="text"
-                                        placeholder="Enter Name"
-                                        labelText="Name"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="email"
-                                        name="email"
-                                        placeholder="Enter Email"
-                                        labelText="Email"
                                     />
                                 </div>
                                 <div className="col-lg-12">
@@ -145,18 +111,8 @@ const ClinicCompleteProfile = (props) => {
                                         labelText="Brief Intro"
                                     />
                                 </div>
-                                <div className="col-lg-12 form-group">
-                                    <label>Upload Clinic Document</label>
-                                    <label className="upload-document">
-                                        <input type="file" />
-                                        <div>
-                                            <h4>No File Uploaded</h4>
-                                            <h3>Tap Here to Upload your File</h3>
-                                        </div>
-                                    </label>
-                                </div>
                                 <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Receive Payments from Sponsors/CRO</h2>
+                                    <h2>Add Bank Details</h2>
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
@@ -193,7 +149,7 @@ const ClinicCompleteProfile = (props) => {
 
                                 <div className="col-lg-12">
                                     <div className='info-bx br-none p-0 mb-4'>
-                                        <box-icon type='solid' name='info-circle' color="#4096EE" size="27px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
+                                        <box-icon type='solid' name='info-circle' color="#4096EE" size="27px"></box-icon> Add your bank details for send payment to Trial Clinics.
                                     </div>
                                 </div>
 

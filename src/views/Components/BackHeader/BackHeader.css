@@ -98,6 +98,6 @@
 
 
 /* trial clinic css */
-.dashboard-header.trialClinic{background: var(--TextColor);}
+/* .dashboard-header.trialClinic{background: var(--TextColor);}
 .dashboard-header.trialClinic .search-bx .form-control{background: var(--PrimaryColor);}
-.dashboard-header.trialClinic + .side-menu{background: var(--TextColor);}
+.dashboard-header.trialClinic + .side-menu{background: var(--TextColor);} */
