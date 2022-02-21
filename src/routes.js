@@ -32,6 +32,12 @@ const SponsorsTrialRequests = React.lazy(() => import('./TrialSponsors/TrialRequ
 const SponsorsTrials = React.lazy(() => import('./TrialSponsors/Trials/Trials'));
 const SponsorsClinicListing = React.lazy(() => import('./TrialSponsors/ClinicListing/ClinicListing'));
 const SponsorsClinicDetails = React.lazy(() => import('./TrialSponsors/TrialClinicDetails/TrialClinicDetails'));
+const SponsorsMyAppointments = React.lazy(() => import('./TrialSponsors/MyAppointments/MyAppointments'));
+const SponsorsAppointmentsClinics = React.lazy(() => import('./TrialSponsors/AppointmentsClinics/AppointmentsClinics'));
+const SponsorsPatientList = React.lazy(() => import('./TrialSponsors/PatientList/PatientList'));
+const SponsorsPatientListPast = React.lazy(() => import('./TrialSponsors/PatientList/PatientListPast'));
+const SponsorsPaymentHistory = React.lazy(() => import('./TrialSponsors/PaymentHistory/PaymentHistory'));
+const SponsorsEditProfile = React.lazy(() => import('./TrialSponsors/EditProfile/EditProfile'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
@@ -66,6 +72,12 @@ const routes = [
 	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
 	{ path: '/trial-sponsors/clinic-listing', exact: true, name: 'SponsorsClinicListing', component: SponsorsClinicListing },
 	{ path: '/trial-sponsors/clinic-details', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails },
+	{ path: '/trial-sponsors/my-appointments', exact: true, name: 'SponsorsMyAppointments', component: SponsorsMyAppointments },
+	{ path: '/trial-sponsors/appointments-clinics', exact: true, name: 'SponsorsAppointmentsClinics', component: SponsorsAppointmentsClinics },
+	{ path: '/trial-sponsors/patient-list', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList },
+	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast },
+	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory },
+	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile },
 ];
 
 export default routes;

@@ -1,6 +1,6 @@
 .patient-list-bx{display: flex;align-items: center; background: var(--whiteColor);padding: 1rem;border-radius: 1rem;border: 1px solid #C3D9FF;color: var(--TextColor);cursor: pointer;transition: 0.3s;margin-bottom: 2rem;}
 .patient-list-bx:hover{border-color: var(--TextColor);}
-.patient-list-bx .patient-img img{min-width: 10rem; width: 10rem;height: 10rem;object-fit: cover;border-radius: 50%;margin-right: 2rem;}
+.patient-list-bx .patient-img img{min-width: 8rem; width: 8rem;height: 8rem;object-fit: cover;border-radius: 50%;margin-right: 2rem;}
 .patient-list-bx .patient-details h2{font-weight: 600;}
 .patient-list-bx .patient-details p{margin: 0;margin-top: .5rem;}
 .patient-list-bx .patient-details .badge{font-size: 12px;}

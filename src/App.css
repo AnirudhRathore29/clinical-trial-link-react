@@ -116,6 +116,9 @@ th[align='left']{text-align: left;}
 
 iframe[style*="fixed"]{display: none;}
 .w-20{min-width: auto!important;max-width: 15rem;}
+
+.hasIcon-p{display: flex;align-items: center;}
+.hasIcon-p>box-icon{margin-right: .5rem;}
 /****** Common Css End ******/
 
 
