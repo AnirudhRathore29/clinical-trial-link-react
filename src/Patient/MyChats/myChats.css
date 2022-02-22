@@ -263,6 +263,7 @@
     border: 0;
     flex: 1;
     outline: none;
+    resize: none;
   }
   .chat-container main .bottom-bar .msg-input::placeholder {
     color: #c6c6c6;

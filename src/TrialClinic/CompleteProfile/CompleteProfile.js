@@ -20,7 +20,7 @@ const ClinicCompleteProfile = (props) => {
 
     const CompleteProfileSubmit = () => {
         loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
-        props.history.push('/patient/dashboard')
+        props.history.push('/trial-clinic/dashboard')
     }
 
     return (

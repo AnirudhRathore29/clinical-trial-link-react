@@ -16,7 +16,7 @@ function TheContent () {
 			<Suspense fallback={loading}>
 				<Switch>
 					{routes.map((route, idx) => {
-						console.log(route,'sdfsd')
+						// console.log(route,'sdfsd')
 						return (
 							route.component && (
 								<Route

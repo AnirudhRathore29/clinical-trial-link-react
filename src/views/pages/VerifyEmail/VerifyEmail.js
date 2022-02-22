@@ -5,9 +5,21 @@ import '../Login/Login.css';
 
 const VerifyEmail = () => {
     const history = useHistory();
+    const validateUser = localStorage.getItem("userType")
 
     const VerifyEmailSubmit = () => {
-        history.push("/patient/complete-profile")
+        if(validateUser === "Patient"){
+            history.push("/patient/complete-profile")
+        }
+        if(validateUser === "Trial_Clinic"){
+            history.push("/trial-clinic/complete-profile")
+        }
+        if(validateUser === "Physician"){
+            history.push("/physician/complete-profile")
+        }
+        if(validateUser === "Pharmaceutical_Companies"){
+            history.push("/trial-sponsors/complete-profile")
+        }
     }
 
     return (

@@ -8,7 +8,7 @@ import WelcomeBx from '../../views/Components/WelcomeBx/WelcomeBx';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../Patient/Dashboard/Dashboard.css';
 
-const SponsorsDashboard = () => {
+const PhysicianDashboard = () => {
     const options = {
         items: 1,
         loop: true,
@@ -30,18 +30,18 @@ const SponsorsDashboard = () => {
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="secondaryColor"
-                                URL="/trial-sponsors/trial-requests"
-                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
-                                title="New Trials Request from Trial Clinics"
+                                URL="/trial-clinic/trial-requests"
+                                icon={<box-icon name='user' size="40px" color="#ffffff"></box-icon>}
+                                title="Total Patients"
                                 info="20"
                             />
                         </div>
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="thirdColor"
-                                URL="/trial-sponsors/trials"
+                                URL=""
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
-                                title="Available Trials and Create New Trial"
+                                title="Requests Approved by the Trial Sponsors/CRO"
                                 info="10"
                             />
                         </div>
@@ -50,14 +50,14 @@ const SponsorsDashboard = () => {
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
                             <div className="heading-bx">
-                                <h1>Trial Clinics</h1>
+                                <h1>Recommended Trials</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/physician/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img3.jpg"
-                                            title="ABF Pharmaceutical"
+                                            title="Barnes Jewish Hospital"
                                             location="San Diego, CA, United States"
                                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
                                             distance="5000.52 Mi"
@@ -65,7 +65,7 @@ const SponsorsDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/physician/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img2.jpg"
                                             title="Barnes Jewish Hospital"
@@ -76,7 +76,7 @@ const SponsorsDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/physician/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img1.jpg"
                                             title="Barnes Jewish Hospital"
@@ -118,4 +118,4 @@ const SponsorsDashboard = () => {
     );
 };
 
-export default SponsorsDashboard;
+export default PhysicianDashboard;

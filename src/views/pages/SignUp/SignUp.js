@@ -6,8 +6,15 @@ import Physician from "../../Components/SignupForm/Physician";
 import PharmaCompanies from "../../Components/SignupForm/PharmaCompanies";
 import Header from "../../Components/FrontHeader/FrontHeader";
 import "../Login/Login.css";
+import { useState } from "react";
 
 const SignUp = () => {
+    const [tabKey, setTabKey] = useState("Patient")
+
+    const handleSelect = (key) =>{
+        setTabKey(key);
+        localStorage.setItem("userType", key)
+    }
     
     return (
         <>
@@ -20,7 +27,7 @@ const SignUp = () => {
                     </div>
                     <div className="authentication-bx sign-up-authentication">
                         <form autoComplete="off">
-                            <Tabs defaultActiveKey="Patient" id="uncontrolled-tab-example" className="selectUserType">
+                            <Tabs defaultActiveKey="Patient" id="uncontrolled-tab-example" className="selectUserType" onSelect={handleSelect}>
                                 <Tab eventKey="Patient"
                                     title={
                                         <>

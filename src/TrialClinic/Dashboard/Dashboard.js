@@ -39,7 +39,7 @@ const ClinicDashboard = () => {
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="thirdColor"
-                                URL=""
+                                URL="/trial-clinic/my-appointments"
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
                                 title="Requests Approved by the Trial Sponsors/CRO"
                                 info="10"

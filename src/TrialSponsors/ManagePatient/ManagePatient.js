@@ -7,7 +7,7 @@ import CommonModal from '../../views/Components/Common/Modal/Modal';
 import PatientDetail from '../../views/Components/PatientDetail/PatientDetail';
 import '../../Patient/ClinicListing/ClinicListing.css';
 
-const ClinicManagePatient = () => {
+const SponsorsManagePatient = () => {
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
@@ -250,4 +250,4 @@ const ClinicManagePatient = () => {
     );
 };
 
-export default ClinicManagePatient;
+export default SponsorsManagePatient;

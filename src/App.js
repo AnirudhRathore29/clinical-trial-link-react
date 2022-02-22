@@ -24,6 +24,7 @@ const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
 const ClinicCompleteProfile = React.lazy(() => import('./TrialClinic/CompleteProfile/CompleteProfile'));
 const SponsorsCompleteProfile = React.lazy(() => import('./TrialSponsors/CompleteProfile/CompleteProfile'));
+const PhysicianCompleteProfile = React.lazy(() => import('./Physician/CompleteProfile/CompleteProfile'));
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -55,7 +56,11 @@ function App() {
 					{/* clinic Routes */}
 					<Route exact path="/trial-clinic/complete-profile" name="ClinicCompleteProfile" render={(props) => <ClinicCompleteProfile {...props} />} />
 
+					{/* sponsors Routes */}
 					<Route exact path="/trial-sponsors/complete-profile" name="SponsorsCompleteProfile" render={(props) => <SponsorsCompleteProfile {...props} />} />
+
+					{/* physician Routes */}
+					<Route exact path="/physician/complete-profile" name="PhysicianCompleteProfile" render={(props) => <PhysicianCompleteProfile {...props} />} />
 					<Switch>
 						{/* Patient private Routes */}
 						<PrivateRoute path="/patient/dashboard" name="PatientDashboard" component={(props) => <BackLayout {...props} />} />
@@ -95,6 +100,18 @@ function App() {
 						<PrivateRoute path="/trial-sponsors/patient-list-past" name="SponsorsPatientListPast" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/payment-history" name="SponsorsPaymentHistory" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/edit-profile" name="SponsorsEditProfile" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/manage-clinics" name="SponsorsManageClinics" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/manage-patient" name="SponsorsManagePatient" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/my-chats" name="SponsorsMyChats" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+
+						{/* sponsor private Routes */}
+						<PrivateRoute path="/physician/dashboard" name="PhysicianDashboard" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/clinic-listing" name="PhysicianClinicListing" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/clinic-details" name="PhysicianClinicDetails" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/trial-listing" name="PhysicianTrialListing" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/manage-patient" name="PhysicianManagePatient" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/my-chats" name="PhysicianMyChats" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/physician/edit-profile" name="PhysicianEditProfile" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 					</Switch>
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>

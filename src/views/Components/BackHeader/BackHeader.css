@@ -10,7 +10,8 @@
 .search-bx{position: relative;}
 .search-bx .form-group>label{display: none;}
 .search-bx .form-group{margin-bottom: 0;}
-.search-bx .form-control{height: 46px;min-width: 36rem;border: none;border-radius: 0.8rem;padding-right: 4.5rem;background: var(--TextColor);color: var(--whiteColor);}
+.search-bx .form-control{height: 46px;min-width: 36rem;border: none;border-radius: 0.8rem;padding-right: 4.5rem;background: var(--TextColor);box-shadow: inset 0 0 0 10rem var(--TextColor)!important; color: var(--whiteColor);}
+.search-bx .form-control:-webkit-autofill{ -webkit-text-fill-color: var(--whiteColor) !important; }
 .search-bx .form-control::placeholder{color: var(--whiteColor);}
 .search-bx>.search-icon{position: absolute;right: 1rem;top: 50%;transform: translateY(-50%);display: flex; align-items: center; justify-content: center;}
 

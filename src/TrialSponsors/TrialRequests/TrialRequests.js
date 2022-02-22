@@ -267,7 +267,7 @@ const SponsorTrialRequests = () => {
                             <div className=''>
                                 <h2>Barnes Jewish Hospital</h2>
                                 <p className='mb-0'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                <p className='mb-0'><strong>Visit Number :</strong> 25632156</p>
+                                <p className='mb-0'><strong>Address :</strong> Atlanta, Georgia, United States</p>
                             </div>
                         </div>
                         <div className='appointment-detail-col'>
@@ -275,8 +275,8 @@ const SponsorTrialRequests = () => {
                             <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
                         </div>
                         <div className='appointment-detail-col'>
-                            <h2>Address </h2>
-                            <p>Atlanta, Georgia, United States</p>
+                            <h2>Principal Investigator</h2>
+                            <p>Dr Aikenhead</p>
                         </div>
                         <div className='appointment-detail-col'>
                             <h2>Document</h2>

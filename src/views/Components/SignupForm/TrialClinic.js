@@ -19,6 +19,7 @@ const TrialClinic = () => {
 
     const SignUPSubmit = () => {
         console.log("Formdata", Formdata);
+
         history.push("/verify-email");
     };
 

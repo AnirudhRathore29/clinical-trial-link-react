@@ -38,9 +38,22 @@ const SponsorsPatientList = React.lazy(() => import('./TrialSponsors/PatientList
 const SponsorsPatientListPast = React.lazy(() => import('./TrialSponsors/PatientList/PatientListPast'));
 const SponsorsPaymentHistory = React.lazy(() => import('./TrialSponsors/PaymentHistory/PaymentHistory'));
 const SponsorsEditProfile = React.lazy(() => import('./TrialSponsors/EditProfile/EditProfile'));
+const SponsorsManageClinics = React.lazy(() => import('./TrialSponsors/ManageClinics/ManageClinics'));
+const SponsorsManagePatient = React.lazy(() => import('./TrialSponsors/ManagePatient/ManagePatient'));
+const SponsorsMyChats = React.lazy(() => import('./TrialSponsors/MyChats/MyChats'));
+
+/* sponsors pages */
+const PhysicianDashboard = React.lazy(() => import('./Physician/Dashboard/Dashboard'));
+const PhysicianClinicListing = React.lazy(() => import('./Physician/ClinicListing/ClinicListing'));
+const PhysicianClinicDetails = React.lazy(() => import('./Physician/ClinicDetails/ClinicDetails'));
+const PhysicianTrialListing = React.lazy(() => import('./Physician/TrialListing/TrialListing'));
+const PhysicianManagePatient = React.lazy(() => import('./Physician/ManagePatient/ManagePatient'));
+const PhysicianMyChats = React.lazy(() => import('./Physician/MyChats/MyChats'));
+const PhysicianEditProfile = React.lazy(() => import('./Physician/EditProfile/EditProfile'));
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
+	/* Patient routes */
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },
 	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails },
@@ -78,6 +91,18 @@ const routes = [
 	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast },
 	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory },
 	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile },
+	{ path: '/trial-sponsors/manage-clinics', exact: true, name: 'SponsorsManageClinics', component: SponsorsManageClinics },
+	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient },
+	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats },
+
+	/* physician routes */
+	{ path: '/physician/dashboard', exact: true, name: 'PhysicianDashboard', component: PhysicianDashboard },
+	{ path: '/physician/clinic-listing', exact: true, name: 'PhysicianClinicListing', component: PhysicianClinicListing },
+	{ path: '/physician/clinic-details', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails },
+	{ path: '/physician/trial-listing', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing },
+	{ path: '/physician/manage-patient', exact: true, name: 'PhysicianManagePatient', component: PhysicianManagePatient },
+	{ path: '/physician/my-chats', exact: true, name: 'PhysicianMyChats', component: PhysicianMyChats },
+	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile },
 ];
 
 export default routes;

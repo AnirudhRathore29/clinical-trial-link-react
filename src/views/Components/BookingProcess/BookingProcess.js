@@ -5,10 +5,10 @@ import Button from '../Common/Buttons/Buttons';
 import { Link } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 
-const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3}) => {
+const PatientBookingProcess = ({ show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat }) => {
     const [startDate, setStartDate] = useState(new Date());
 
-    return(
+    return (
         <>
             <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
                 ModalTitle={
@@ -51,15 +51,29 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed. nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae exasd</p>
                         </div>
                         <div className='clnicaltrial-detail-ftr'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="green"
-                                BtnText="Book Now"
-                                onClick={handleShow2}
-                            />
-                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                            <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                            {
+                                onlyChat ?
+                                <>
+                                    <Button
+                                        isLink="true"
+                                        URL="/physician/my-chats"
+                                        BtnColor="primary"
+                                        BtnText="Chat Now"
+                                    />
+                                </>
+                                :
+                                <>
+                                    <Button
+                                        isButton="true"
+                                        BtnType="submit"
+                                        BtnColor="green"
+                                        BtnText="Book Now"
+                                        onClick={handleShow2}
+                                    />
+                                    <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                    <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                </>
+                            }
                         </div>
                     </>
                 }
@@ -121,7 +135,7 @@ const PatientBookingProcess = ({show, handleClose, show2, handleClose2, handleSh
             <CommonModal show={show3} onHide={handleClose3} keyboard={false} size="md"
                 onClick={handleClose3}
                 ModalData={
-                    <>  
+                    <>
                         <button type="button" className="btn-close" aria-label="Close" onClick={handleClose3}></button>
                         <div className='congrats-bx'>
                             <h2>Congratulations!</h2>

@@ -54,7 +54,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -77,7 +77,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -100,7 +100,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -123,7 +123,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -146,7 +146,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -166,10 +166,9 @@ const SponsorsAppointmentsClinics = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
-
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -198,6 +197,14 @@ const SponsorsAppointmentsClinics = () => {
                         <div className='appointment-detail-col'>
                             <h2>Address </h2>
                             <p>Atlanta, Georgia, United States</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Trial Compensation </h2>
+                            <p>To be Decided by Company</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Principal Investigator</h2>
+                            <p>Dr Aikenhead</p>
                         </div>
                         <div className='appointment-detail-col'>
                             <h2>Document</h2>
