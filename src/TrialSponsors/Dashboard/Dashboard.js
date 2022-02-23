@@ -54,7 +54,7 @@ const SponsorsDashboard = () => {
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/trial-sponsors/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img3.jpg"
                                             title="ABF Pharmaceutical"
@@ -65,7 +65,7 @@ const SponsorsDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/trial-sponsors/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img2.jpg"
                                             title="Barnes Jewish Hospital"
@@ -76,7 +76,7 @@ const SponsorsDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='item'>
-                                    <Link to="/trial-clinic/sponsors-details">
+                                    <Link to="/trial-sponsors/clinic-details">
                                         <ListBox
                                             imgUrl="clinic-img1.jpg"
                                             title="Barnes Jewish Hospital"

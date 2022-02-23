@@ -1,36 +1,23 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { InputText } from "../Common/Inputs/Inputs";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
+import SearchBx from '../SearchBx/SearchBx'
 import 'boxicons';
 import "./BackHeader.css";
 
 const Header = ({ colorHeader, headerColor }) => {
-    //const [scroll, setScroll] = useState(false);
     const [sideMenu, setSideMenu] = useState(false);
+    const validateUser = localStorage.getItem("userType")
     const history = useHistory();
 
     toast.configure();
 
-    const logout = () => {
-        localStorage.removeItem("jwtToken")
+    const Logout = () => {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("userType");
         history.push("/login")
     };
-
-    // useEffect(() => {
-    //     window.addEventListener(
-    //         "scroll",
-    //         () => {
-    //             if (window.scrollY > 2) {
-    //                 setScroll(true);
-    //             } else {
-    //                 setScroll(false);
-    //             }
-    //         },
-    //         []
-    //     );
-    // });
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -48,10 +35,11 @@ const Header = ({ colorHeader, headerColor }) => {
                 <nav className="dashboard-rightNav">
                     <ul>
                         <li>
-                            <div className="search-bx">
-                                <InputText type="search" placeholder="Search for Trial" />
-                                <span className="search-icon"><box-icon name='search' color='#CDEB8B' ></box-icon></span>
-                            </div>
+                            <SearchBx
+                                placeholder={
+                                    validateUser === "Patient" ? "Search for Trial" : validateUser === "Trial_Clinic" ? "Search for Sponsor" : validateUser === "Physician" ? "Search for Trial" : validateUser === "Pharmaceutical_Companies" ? "Search for Clinics" : null
+                                }
+                            />
                         </li>
                         <li className="notification-li">
                             <Dropdown>
@@ -102,10 +90,14 @@ const Header = ({ colorHeader, headerColor }) => {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Link to="/patient/edit-profile" className="dropdown-item"><box-icon name='edit-alt'></box-icon> Edit Profile</Link>
-                                    <Link to="/patient/my-chats" className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
-                                    <Link to="/patient/my-favorites" className="dropdown-item"><box-icon name='happy-heart-eyes'></box-icon> My Favorites</Link>
-                                    <Link to="/" className="dropdown-item" onClick={logout}><box-icon name='log-out-circle' ></box-icon> Logout</Link>
+                                    <Link to={`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/edit-profile`} className="dropdown-item"><box-icon name='edit-alt'></box-icon> Edit Profile</Link>
+                                    <Link to={`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/my-chats`} className="dropdown-item"><box-icon name='message-rounded-dots' ></box-icon> My Chats</Link>
+                                    {validateUser === "Patient" ?
+                                        <Link to="/patient/my-favorites" className="dropdown-item"><box-icon name='happy-heart-eyes'></box-icon> My Favorites</Link>
+                                        :
+                                        null
+                                    }
+                                    <button to="/" className="dropdown-item" onClick={Logout}><box-icon name='log-out-circle' ></box-icon> Logout</button>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>
@@ -115,10 +107,44 @@ const Header = ({ colorHeader, headerColor }) => {
 
             <div className={sideMenu ? "side-menu active" : "side-menu"}>
                 <ul>
-                    <li><Link to="/patient/dashboard" className="active"><box-icon type='solid' name='dashboard' color='#ffffff'></box-icon> Dashboard</Link></li>
-                    <li><Link to="/patient/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Appointments</Link></li>
-                    <li><Link to="/patient/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
-                    <li><Link to=""><box-icon name='info-circle' color='#ffffff'></box-icon> About us</Link></li>
+                    <li><Link to={`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/dashboard`} className="active"><box-icon type='solid' name='dashboard' color='#ffffff'></box-icon> Dashboard</Link></li>
+                    {validateUser === "Patient" ?
+                        <>
+                            <li><Link to="/patient/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Appointments</Link></li>
+                            <li><Link to="/patient/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                        </>
+                        :
+                        null
+                    }
+
+                    {validateUser === "Trial_Clinic" ?
+                        <>
+                            <li><Link to="/trial-clinic/manage-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
+                            <li><Link to="/trial-clinic/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Trial Applications</Link></li>
+                            <li><Link to="/trial-clinic/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                        </>
+                        :
+                        null
+                    }
+
+                    {validateUser === "Physician" ?
+                        <>
+                            <li><Link to="/physician/manage-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
+                        </>
+                        :
+                        null
+                    }
+
+                    {validateUser === "Pharmaceutical_Companies" ?
+                        <>
+                            <li><Link to="/trial-sponsors/manage-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
+                            <li><Link to="/trial-sponsors/manage-clinics"><box-icon name='plus-medical' color='#ffffff'></box-icon> Manage Clinics</Link></li>
+                            <li><Link to="/trial-sponsors/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> My Appointments</Link></li>
+                            <li><Link to="/trial-sponsors/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                        </>
+                        :
+                        null
+                    }
                 </ul>
             </div>
         </>

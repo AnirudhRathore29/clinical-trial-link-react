@@ -8,11 +8,13 @@ const Header = ({colorHeader}) => {
     const [scroll, setScroll] = useState(false);
     const history = useHistory();
     const UserToken = localStorage.getItem("jwtToken");
+    const validateUser = localStorage.getItem("userType")
 
     toast.configure();
 
-    const logout = () => {
+    const Logout = () => {
         localStorage.removeItem("jwtToken");
+        localStorage.removeItem("userType");
         history.push("/login");
     };
 
@@ -32,7 +34,6 @@ const Header = ({colorHeader}) => {
 
     return (
         <>
-            {/* <div className="header-placeholder" style={{ height: height }}></div> */}
             <header className={scroll ? "site-header sticky" : `site-header ${colorHeader}`}>
                 <nav className="navbar clinicaltrial-default-navbar container-fluid">
                     <div className="clinicaltrial-navLogo-side">
@@ -59,7 +60,7 @@ const Header = ({colorHeader}) => {
                                     <li className="nav-item btn-item">
                                         <Button
                                             isLink="true"
-                                            URL="/patient/dashboard"
+                                            URL={`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/dashboard`}
                                             BtnColor="green"
                                             BtnText="Dashboard"
                                         />
@@ -70,7 +71,7 @@ const Header = ({colorHeader}) => {
                                             URL="/"
                                             BtnColor="primary"
                                             BtnText="Logout"
-                                            onClick={logout}
+                                            onClick={Logout}
                                         />
                                     </li>
                                 </>

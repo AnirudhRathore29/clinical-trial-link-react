@@ -53,7 +53,7 @@ const PhysicianEditProfile = React.lazy(() => import('./Physician/EditProfile/Ed
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
-	/* Patient routes */
+	/* Patient Routes */
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },
 	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails },
@@ -64,7 +64,7 @@ const routes = [
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory },
 	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing },
 
-	/* clinic routes */
+	/* Clinic Routes */
 	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard },
 	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
 	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },
@@ -79,7 +79,7 @@ const routes = [
 	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient },
 	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats },
 
-	/* sponsors routes */
+	/* Sponsors Routes */
 	{ path: '/trial-sponsors/dashboard', exact: true, name: 'SponsorsDashboard', component: SponsorsDashboard },
 	{ path: '/trial-sponsors/trial-requests', exact: true, name: 'SponsorsTrialRequests', component: SponsorsTrialRequests },
 	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
@@ -95,7 +95,7 @@ const routes = [
 	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient },
 	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats },
 
-	/* physician routes */
+	/* Physician Routes */
 	{ path: '/physician/dashboard', exact: true, name: 'PhysicianDashboard', component: PhysicianDashboard },
 	{ path: '/physician/clinic-listing', exact: true, name: 'PhysicianClinicListing', component: PhysicianClinicListing },
 	{ path: '/physician/clinic-details', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails },

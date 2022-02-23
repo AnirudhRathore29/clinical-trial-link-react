@@ -8,18 +8,7 @@ const VerifyEmail = () => {
     const validateUser = localStorage.getItem("userType")
 
     const VerifyEmailSubmit = () => {
-        if(validateUser === "Patient"){
-            history.push("/patient/complete-profile")
-        }
-        if(validateUser === "Trial_Clinic"){
-            history.push("/trial-clinic/complete-profile")
-        }
-        if(validateUser === "Physician"){
-            history.push("/physician/complete-profile")
-        }
-        if(validateUser === "Pharmaceutical_Companies"){
-            history.push("/trial-sponsors/complete-profile")
-        }
+        history.push(`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/complete-profile`)
     }
 
     return (

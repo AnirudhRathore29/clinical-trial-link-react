@@ -30,7 +30,7 @@ const PhysicianDashboard = () => {
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="secondaryColor"
-                                URL="/trial-clinic/trial-requests"
+                                URL="/physician/manage-patient"
                                 icon={<box-icon name='user' size="40px" color="#ffffff"></box-icon>}
                                 title="Total Patients"
                                 info="20"
