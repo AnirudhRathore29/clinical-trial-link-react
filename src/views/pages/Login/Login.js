@@ -17,6 +17,7 @@ const Login = (props) => {
         console.log("loginfeild data", loginFieldData);
         loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
         props.history.push('/patient/dashboard')
+        localStorage.setItem("userType", "Patient")
     }
 
 	useEffect(() => {
@@ -41,10 +42,10 @@ const Login = (props) => {
                         <p>Welcome back, please login to your account</p>
                     </div>
                     <div className="authentication-bx">
-                        <form action="" autoComplete="off">
+                        <form action="">
                             <InputText
                                 type="email"
-                                value={loginFieldData.name}
+                                value={loginFieldData.email}
                                 name="email"
                                 placeholder="Email Address"
                                 onChange={(e) => {

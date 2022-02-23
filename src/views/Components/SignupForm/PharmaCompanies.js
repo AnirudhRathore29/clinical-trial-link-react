@@ -8,8 +8,6 @@ const PharmaCompanies = () => {
     const history = useHistory();
 
     const [Formdata, setFormdata] = useState({
-        first_name: "",
-        last_name: "",
         email: "",
         phone_no: "",
         password: "",
