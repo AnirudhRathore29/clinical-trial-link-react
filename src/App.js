@@ -44,6 +44,7 @@ function App() {
 			<React.Suspense fallback={loading}>
 				<Switch>
 					<Route exact path="/" name="Home" render={(props) => <FrontLayout {...props} />} />
+					<Route exact path="/contact-us" name="ContactUs" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
 					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />

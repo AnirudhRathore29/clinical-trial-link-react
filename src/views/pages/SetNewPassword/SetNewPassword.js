@@ -23,7 +23,7 @@ const SetNewPassword = () => {
     /* Password show hide */
     return (
         <>
-            <Header colorHeader="colorHeader" />
+            <Header className="innerPageHeader" />
             <section className="authentication-section">
                 <div className="container-fluid">
                     <div className="auth-heading">

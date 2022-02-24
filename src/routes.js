@@ -1,6 +1,7 @@
 import React from 'react';
 /* patient pages */
 const Home = React.lazy(() => import('./views/pages/Home/Home'));
+const ContactUs = React.lazy(() => import('./views/pages/ContactUs/ContactUs'));
 const PatientDashboard = React.lazy(() => import('./Patient/Dashboard/Dashboard'));
 const PatientEditProfile = React.lazy(() => import('./Patient/EditProfile/EditProfile'));
 const PatientTrialClinicDetails = React.lazy(() => import('./Patient/TrialClinicDetails/TrialClinicDetails'));
@@ -53,6 +54,7 @@ const PhysicianEditProfile = React.lazy(() => import('./Physician/EditProfile/Ed
 
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
+	{ path: '/contact-us', exact: true, name: 'ContactUs', component: ContactUs },
 	/* Patient Routes */
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },

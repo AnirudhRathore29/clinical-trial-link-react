@@ -1,0 +1,93 @@
+<svg id="inner-banner-bg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="580" viewBox="0 0 1920 580">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Rectangle_7686" data-name="Rectangle 7686" d="M0,0H1470a0,0,0,0,1,0,0V40A540,540,0,0,1,930,580H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" fill="#4096ee"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_7594" data-name="Rectangle 7594" width="1920" height="580" fill="#4096ee"/>
+  <g id="Mask_Group_5" data-name="Mask Group 5" clip-path="url(#clip-path)">
+    <g id="Group_44664" data-name="Group 44664" transform="translate(-349 -138.863)">
+      <ellipse id="Shape" cx="174.5" cy="175" rx="174.5" ry="175" transform="translate(195 508.863)" fill="rgba(109,175,242,0.4)"/>
+      <g id="Shape-2" data-name="Shape" transform="translate(249 562.863)" fill="rgba(109,175,242,0)" stroke="rgba(195,217,255,0.4)" stroke-width="1">
+        <circle cx="121" cy="121" r="121" stroke="none"/>
+        <circle cx="121" cy="121" r="121.5" fill="none"/>
+      </g>
+      <g id="Shape-3" data-name="Shape" transform="translate(0 -0.137)" fill="rgba(109,175,242,0)" stroke="rgba(195,217,255,0.4)" stroke-width="1">
+        <circle cx="121" cy="121" r="121" stroke="none"/>
+        <circle cx="121" cy="121" r="121.5" fill="none"/>
+      </g>
+      <g id="Shape-4" data-name="Shape" transform="translate(1251 55.863)" fill="rgba(109,175,242,0)" stroke="rgba(195,217,255,0.4)" stroke-width="1">
+        <circle cx="177.5" cy="177.5" r="177.5" stroke="none"/>
+        <circle cx="177.5" cy="177.5" r="178" fill="none"/>
+      </g>
+    </g>
+  </g>
+  <g id="Group_44662" data-name="Group 44662" transform="translate(59.335 471.5)">
+    <ellipse id="Op_component_1" data-name="Op component 1" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(95.91) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_2" data-name="Op component 2" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(80.581) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_3" data-name="Op component 3" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(65.251) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_4" data-name="Op component 4" d="M0,1.966a1.983,1.983,0,0,1,3.966.007v.049A1.983,1.983,0,0,1,0,2.016Z" transform="translate(49.948 0.002) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_5" data-name="Op component 5" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(95.91 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_6" data-name="Op component 6" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(80.581 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_7" data-name="Op component 7" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(65.251 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_8" data-name="Op component 8" d="M0,1.968a1.983,1.983,0,0,1,3.966.008v.04A1.983,1.983,0,0,1,0,2.017Z" transform="translate(49.948 15.345) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_9" data-name="Op component 9" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(95.91 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_10" data-name="Op component 10" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(80.581 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_11" data-name="Op component 11" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(65.251 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_12" data-name="Op component 12" d="M0,1.969a1.983,1.983,0,0,1,3.966,0v.047A1.983,1.983,0,0,1,0,2.014Z" transform="translate(49.948 30.689) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_13" data-name="Op component 13" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(95.91 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_14" data-name="Op component 14" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(80.581 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_15" data-name="Op component 15" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(65.251 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_16" data-name="Op component 16" d="M0,1.968a1.983,1.983,0,0,1,3.966,0v.049A1.983,1.983,0,0,1,0,2.017Z" transform="translate(49.948 46.033) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_17" data-name="Op component 17" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(34.616) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_18" data-name="Op component 18" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(19.287) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_19" data-name="Op component 19" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(3.957) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_20" data-name="Op component 20" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(34.616 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_21" data-name="Op component 21" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(19.287 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_22" data-name="Op component 22" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(3.957 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_23" data-name="Op component 23" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(34.616 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_24" data-name="Op component 24" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(19.287 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_25" data-name="Op component 25" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(3.957 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_26" data-name="Op component 26" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(34.616 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_27" data-name="Op component 27" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(19.287 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_28" data-name="Op component 28" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(3.957 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_1-2" data-name="Op component 1" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(111.33) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_5-2" data-name="Op component 5" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(111.33 15.343) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_9-2" data-name="Op component 9" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(111.33 30.688) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_13-2" data-name="Op component 13" cx="1.985" cy="1.979" rx="1.985" ry="1.979" transform="translate(111.33 46.03) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+  </g>
+  <g id="Group_44663" data-name="Group 44663" transform="translate(1730.891 400.473)">
+    <ellipse id="Op_component_1-3" data-name="Op component 1" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(136.244) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_2-2" data-name="Op component 2" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(114.468) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_3-2" data-name="Op component 3" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(92.692) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_4-2" data-name="Op component 4" d="M0,2.793a2.817,2.817,0,0,1,5.634.01v.069A2.817,2.817,0,0,1,0,2.864Z" transform="translate(70.953 0.003) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_5-3" data-name="Op component 5" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(136.244 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_6-2" data-name="Op component 6" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(114.468 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_7-2" data-name="Op component 7" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(92.692 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_8-2" data-name="Op component 8" d="M0,2.8a2.817,2.817,0,0,1,5.634.012v.057A2.817,2.817,0,0,1,0,2.865Z" transform="translate(70.953 21.799) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_9-3" data-name="Op component 9" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(136.244 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_10-2" data-name="Op component 10" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(114.468 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_11-2" data-name="Op component 11" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(92.692 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_12-2" data-name="Op component 12" d="M0,2.8A2.817,2.817,0,0,1,5.634,2.8V2.87A2.817,2.817,0,0,1,0,2.861Z" transform="translate(70.953 43.595) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_13-3" data-name="Op component 13" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(136.244 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_14-2" data-name="Op component 14" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(114.468 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_15-2" data-name="Op component 15" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(92.692 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <path id="Op_component_16-2" data-name="Op component 16" d="M0,2.8A2.817,2.817,0,0,1,5.634,2.8v.07A2.817,2.817,0,0,1,0,2.865Z" transform="translate(70.953 65.391) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_17-2" data-name="Op component 17" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(49.173) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_18-2" data-name="Op component 18" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(27.397) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_19-2" data-name="Op component 19" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(5.621) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_20-2" data-name="Op component 20" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(49.173 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_21-2" data-name="Op component 21" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(27.397 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_22-2" data-name="Op component 22" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(5.621 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_23-2" data-name="Op component 23" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(49.173 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_24-2" data-name="Op component 24" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(27.397 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_25-2" data-name="Op component 25" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(5.621 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_26-2" data-name="Op component 26" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(49.173 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_27-2" data-name="Op component 27" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(27.397 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_28-2" data-name="Op component 28" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(5.621 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_1-4" data-name="Op component 1" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(158.147) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_5-4" data-name="Op component 5" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(158.147 21.795) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_9-4" data-name="Op component 9" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(158.147 43.593) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+    <ellipse id="Op_component_13-4" data-name="Op component 13" cx="2.82" cy="2.811" rx="2.82" ry="2.811" transform="translate(158.147 65.387) rotate(90)" fill="rgba(195,217,255,0.4)"/>
+  </g>
+</svg>

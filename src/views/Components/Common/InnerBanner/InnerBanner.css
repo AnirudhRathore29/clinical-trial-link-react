@@ -1,0 +1,4 @@
+.inner-banner-section{background: var(--PrimaryColor);text-align: center;}
+.inner-banner-section{background: url(../../../../Assets/images/inner-banner-bg.svg) bottom center;background-size: cover;padding-top: 18.5rem;padding-bottom: 10rem;}
+.inner-banner-caption h1{font-size: 6.4rem;color: var(--whiteColor);font-weight: bold;line-height: 1.4;}
+.inner-banner-caption p{font-size: 3rem;color: var(--whiteColor);margin: 2rem 0;}

@@ -4,7 +4,7 @@ import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./FrontHeader.css";
 
-const Header = ({colorHeader}) => {
+const Header = (props) => {
     const [scroll, setScroll] = useState(false);
     const history = useHistory();
     const UserToken = localStorage.getItem("jwtToken");
@@ -34,7 +34,7 @@ const Header = ({colorHeader}) => {
 
     return (
         <>
-            <header className={scroll ? "site-header sticky" : `site-header ${colorHeader}`}>
+            <header className={scroll ? "site-header sticky" : `site-header ${props.className}`}>
                 <nav className="navbar clinicaltrial-default-navbar container-fluid">
                     <div className="clinicaltrial-navLogo-side">
                         <Link to="/" className="d-block">
@@ -53,7 +53,7 @@ const Header = ({colorHeader}) => {
                                 <NavLink to="/ask">Ask the Expert</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/contact">Contact Us</NavLink>
+                                <NavLink to="/contact-us">Contact Us</NavLink>
                             </li>
                             {UserToken ? (
                                 <>
