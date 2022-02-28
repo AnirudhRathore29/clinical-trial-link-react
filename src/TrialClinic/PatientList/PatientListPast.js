@@ -52,7 +52,7 @@ const ClinicPatientListPast = () => {
             <div className="clinical-dashboard">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Patients List Past <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
+                        <h1>Past Patient List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
                     </div>
 
                     <div className='row'>

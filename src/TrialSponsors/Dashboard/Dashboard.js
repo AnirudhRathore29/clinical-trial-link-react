@@ -10,7 +10,8 @@ import '../../Patient/Dashboard/Dashboard.css';
 
 const SponsorsDashboard = () => {
     const options = {
-        items: 1,
+        items: 2,
+        margin: 30,
         loop: true,
         nav: false,
         dots: true
@@ -32,7 +33,7 @@ const SponsorsDashboard = () => {
                                 className="secondaryColor"
                                 URL="/trial-sponsors/trial-requests"
                                 icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
-                                title="New Trials Request from Trial Clinics"
+                                title="New Trials Requested from Clinical Trial Sites"
                                 info="20"
                             />
                         </div>
@@ -48,7 +49,7 @@ const SponsorsDashboard = () => {
                     </div>
 
                     <div className='row dashboard-col'>
-                        <div className='col-lg-6'>
+                        <div className='col-lg-12'>
                             <div className="heading-bx">
                                 <h1>Trial Clinics</h1>
                             </div>
@@ -84,29 +85,6 @@ const SponsorsDashboard = () => {
                                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
                                             distance="5000.52 Mi"
                                         />
-                                    </Link>
-                                </div>
-                            </OwlCarousel>
-                        </div>
-
-                        <div className='col-lg-6 offers-slider'>
-                            <div className="heading-bx">
-                                <h1>Offers</h1>
-                            </div>
-                            <OwlCarousel {...options}>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
-                                    </Link>
-                                </div>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
-                                    </Link>
-                                </div>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
                                     </Link>
                                 </div>
                             </OwlCarousel>

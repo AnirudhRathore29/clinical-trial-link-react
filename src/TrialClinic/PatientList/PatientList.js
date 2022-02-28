@@ -63,7 +63,7 @@ const ClinicPatientList = () => {
             <div className="clinical-dashboard">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Patients List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
+                        <h1>Patient List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
                         <Button
                             isButton="true"
                             BtnType="submit"

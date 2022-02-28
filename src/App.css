@@ -112,6 +112,8 @@ th[align='left']{text-align: left;}
 .btn-group-custom>[class*="btn"]{width: 50%;}
 .btn-group-custom>[class*="btn"] + [class*="btn"]{margin-left: 1rem;}
 
+.btn-group-custom.auto-width>*{width: auto;}
+
 .no-wrap{white-space: nowrap;}
 
 iframe[style*="fixed"]{display: none;}
@@ -119,6 +121,7 @@ iframe[style*="fixed"]{display: none;}
 
 .hasIcon-p{display: flex;align-items: center;}
 .hasIcon-p>box-icon{margin-right: .5rem;}
+
 /****** Common Css End ******/
 
 

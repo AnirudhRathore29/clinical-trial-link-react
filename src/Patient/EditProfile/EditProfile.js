@@ -238,6 +238,11 @@ const PatientEditProfile = () => {
                                                 labelText="Routing Number"
                                             />
                                         </div>
+                                        <div className="col-lg-12">
+                                            <div className='info-bx br-none p-0 mb-5'>
+                                                <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Optional for your Physician to Receive Notifications About your Participation in a Clinical Trial.
+                                            </div>
+                                        </div>
                                     </div>
                                     <Button
                                         isButton="true"

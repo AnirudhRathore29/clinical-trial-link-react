@@ -28,7 +28,7 @@ const PatientClinicListing = () => {
                                         </>
                                     }
                                 />
-                                <div className='form-group'>
+                                {/* <div className='form-group'>
                                     <label>Age Range</label>
                                     <div className='age-range'>
                                         <div className='age-range-bix'>
@@ -41,7 +41,7 @@ const PatientClinicListing = () => {
                                             <InputText type="number" placeholder="Max Age" max="60" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="form-group">
                                     <label>Gender</label>

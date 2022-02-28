@@ -33,7 +33,7 @@ const SponsorsTrialRequests = React.lazy(() => import('./TrialSponsors/TrialRequ
 const SponsorsTrials = React.lazy(() => import('./TrialSponsors/Trials/Trials'));
 const SponsorsClinicListing = React.lazy(() => import('./TrialSponsors/ClinicListing/ClinicListing'));
 const SponsorsClinicDetails = React.lazy(() => import('./TrialSponsors/TrialClinicDetails/TrialClinicDetails'));
-const SponsorsMyAppointments = React.lazy(() => import('./TrialSponsors/MyAppointments/MyAppointments'));
+const SponsorsMyStudies = React.lazy(() => import('./TrialSponsors/MyStudies/MyStudies'));
 const SponsorsAppointmentsClinics = React.lazy(() => import('./TrialSponsors/AppointmentsClinics/AppointmentsClinics'));
 const SponsorsPatientList = React.lazy(() => import('./TrialSponsors/PatientList/PatientList'));
 const SponsorsPatientListPast = React.lazy(() => import('./TrialSponsors/PatientList/PatientListPast'));
@@ -43,7 +43,7 @@ const SponsorsManageClinics = React.lazy(() => import('./TrialSponsors/ManageCli
 const SponsorsManagePatient = React.lazy(() => import('./TrialSponsors/ManagePatient/ManagePatient'));
 const SponsorsMyChats = React.lazy(() => import('./TrialSponsors/MyChats/MyChats'));
 
-/* sponsors pages */
+/* physician pages */
 const PhysicianDashboard = React.lazy(() => import('./Physician/Dashboard/Dashboard'));
 const PhysicianClinicListing = React.lazy(() => import('./Physician/ClinicListing/ClinicListing'));
 const PhysicianClinicDetails = React.lazy(() => import('./Physician/ClinicDetails/ClinicDetails'));
@@ -87,7 +87,7 @@ const routes = [
 	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
 	{ path: '/trial-sponsors/clinic-listing', exact: true, name: 'SponsorsClinicListing', component: SponsorsClinicListing },
 	{ path: '/trial-sponsors/clinic-details', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails },
-	{ path: '/trial-sponsors/my-appointments', exact: true, name: 'SponsorsMyAppointments', component: SponsorsMyAppointments },
+	{ path: '/trial-sponsors/my-studies', exact: true, name: 'SponsorsMyStudies', component: SponsorsMyStudies },
 	{ path: '/trial-sponsors/appointments-clinics', exact: true, name: 'SponsorsAppointmentsClinics', component: SponsorsAppointmentsClinics },
 	{ path: '/trial-sponsors/patient-list', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList },
 	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast },

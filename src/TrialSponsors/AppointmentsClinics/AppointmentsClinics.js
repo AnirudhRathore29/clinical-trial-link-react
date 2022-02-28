@@ -20,7 +20,7 @@ const SponsorsAppointmentsClinics = () => {
             <div className="clinical-dashboard">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Clinics List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
+                        <h1>Clinic List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
                     </div>
 
                     <table className='patient-list-table'>

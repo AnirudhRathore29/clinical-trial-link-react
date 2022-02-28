@@ -33,7 +33,7 @@ const PatientTrialListing = () => {
             <div className="clinical-dashboard main-trial-listing">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Clinic Trials</h1>
+                        <h1>Clinical Trials</h1>
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>

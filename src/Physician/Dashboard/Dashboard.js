@@ -41,7 +41,7 @@ const PhysicianDashboard = () => {
                                 className="thirdColor"
                                 URL=""
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
-                                title="Requests Approved by the Trial Sponsors/CRO"
+                                title="Requests Approved by the clinical trial site"
                                 info="10"
                             />
                         </div>
@@ -91,7 +91,7 @@ const PhysicianDashboard = () => {
 
                         <div className='col-lg-6 offers-slider'>
                             <div className="heading-bx">
-                                <h1>Offers</h1>
+                                <h1>Related Clinical Trials</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>

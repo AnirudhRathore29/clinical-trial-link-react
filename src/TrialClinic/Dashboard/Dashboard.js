@@ -32,7 +32,7 @@ const ClinicDashboard = () => {
                                 className="secondaryColor"
                                 URL="/trial-clinic/trial-requests"
                                 icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
-                                title="New Trials Patient Appointment Request"
+                                title="New Appointment Requests"
                                 info="20"
                             />
                         </div>
@@ -91,7 +91,7 @@ const ClinicDashboard = () => {
 
                         <div className='col-lg-6 offers-slider'>
                             <div className="heading-bx">
-                                <h1>Offers</h1>
+                                <h1>Related Clinical Trials</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>

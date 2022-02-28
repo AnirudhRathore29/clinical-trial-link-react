@@ -10,7 +10,7 @@ const ClinicMyAppointments = () => {
             <div className="clinical-dashboard my-appointment-section">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>My Appointments</h1>
+                        <h1>My Appointments <span></span> </h1>
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>
@@ -21,7 +21,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="Emerson Resources"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -33,7 +33,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img2.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="ABF Pharmaceutical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -45,7 +45,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img3.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="Cambridge Biomedical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -57,7 +57,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img2.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="ABF Pharmaceutical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -69,7 +69,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="Emerson Resources"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -81,7 +81,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img2.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="Cambridge Biomedical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -93,7 +93,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img3.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="ABF Pharmaceutical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"
@@ -105,7 +105,7 @@ const ClinicMyAppointments = () => {
                                             <Link to="/trial-clinic/patient-list">
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img2.jpg"
-                                                    title="Barnes Jewish Hospital"
+                                                    title="ABF Pharmaceutical"
                                                     status="Recruiting"
                                                     statusClass="primary"
                                                     location="Atlanta, Georgia, United States"

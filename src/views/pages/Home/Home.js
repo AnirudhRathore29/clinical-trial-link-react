@@ -16,7 +16,7 @@ const Home = () => {
                                 <span>News</span> Lorem ipsum dolor amet consectetur adipiscing elit.
                             </div>
                             <h1> Finding Clinical Trials for Patients </h1>
-                            <p> Type the disease name for which you seek the clinical trials and hit the button to search. </p>
+                            <p> Search for mental health clinical trials. </p>
                             <form action="" className='searchTrial-form-bx'>
                                 <div className='row align-items-center'>
                                     <div className='col search-from-col'>

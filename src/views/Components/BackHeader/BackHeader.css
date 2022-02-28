@@ -72,6 +72,7 @@
 .container-small{max-width: 75rem;margin: 0 auto;}
 
 .section-title{margin-bottom: 2rem;color: var(--TextColor);font-weight: 700;}
+.section-title.with-btn{display: flex;align-items: center;justify-content: space-between;}
 
 .dashboard-col + .dashboard-col{margin-top: 5rem;}
 
@@ -89,6 +90,9 @@
 .filter-sidebar{background: var(--whiteColor);padding: 2rem;border-radius: 1rem;position: sticky;top: 9rem;}
 .filter-sidebar>h2{font-size: 2.5rem;color: var(--TextColor);display: flex;align-items: center;justify-content: space-between;margin-bottom: 2rem;}
 .filter-btn{background: transparent;border: none;}
+
+.sharing-disable{opacity: 0.5;pointer-events: none;}
+.info-btn{background: transparent;border: none;}
 
 
 /* tabs css */

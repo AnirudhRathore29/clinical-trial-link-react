@@ -137,7 +137,7 @@ const SponsorsEditProfile = () => {
                                             />
                                         </div>
                                     </div>
-                                    <h2 className="section-title mt-4">Bank Details</h2>
+                                    <h2 className="section-title mt-4">Bank Details <small>(Optional)</small> </h2>
                                     <div className="row">
                                         <div className="col-lg-6">
                                             <InputText

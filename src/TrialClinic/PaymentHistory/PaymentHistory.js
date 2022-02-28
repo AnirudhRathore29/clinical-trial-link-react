@@ -18,7 +18,7 @@ const ClinicPaymentHistory = () => {
                                         <div className='row text-start'>
                                             <div className='col-lg-4'>
                                                 <div className='total-compensation'>
-                                                    <h4>Total Compensation Received </h4>
+                                                    <h4>Total Compensation Received from Sponsors </h4>
                                                     <h2>$555.00</h2>
                                                 </div>
                                             </div>

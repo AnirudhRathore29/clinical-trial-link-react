@@ -101,7 +101,7 @@ const PatientDashboard = () => {
 
                         <div className='col-lg-6 offers-slider'>
                             <div className="heading-bx">
-                                <h1>Offers</h1>
+                                <h1>Related Clinical Trials</h1>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>

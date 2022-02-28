@@ -3,6 +3,7 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import '../../Patient/MyAppointments/MyAppointments.css';
 import './TrialRequests.css'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const SponsorTrialRequests = () => {
     const [show, setShow] = useState(false);
@@ -41,18 +42,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -69,18 +61,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -97,18 +80,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -125,18 +99,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -153,18 +118,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -181,18 +137,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -209,18 +156,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
@@ -237,18 +175,9 @@ const SponsorTrialRequests = () => {
                                 <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
                                 <td>Atlanta, Georgia, United States</td>
                                 <td>
-                                    <div className='btn-group-custom'>
+                                    <div className='btn-group-custom auto-width'>
                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
+                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
                                 </td>
                             </tr>
