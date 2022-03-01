@@ -139,7 +139,7 @@ const Header = ({ colorHeader, headerColor }) => {
                         <>
                             <li><Link to="/trial-sponsors/manage-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
                             <li><Link to="/trial-sponsors/manage-clinics"><box-icon name='plus-medical' color='#ffffff'></box-icon> Manage Clinics</Link></li>
-                            <li><Link to="/trial-sponsors/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> My Appointments</Link></li>
+                            <li><Link to="/trial-sponsors/my-studies"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> My Appointments</Link></li>
                             <li><Link to="/trial-sponsors/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
                         </>
                         :
