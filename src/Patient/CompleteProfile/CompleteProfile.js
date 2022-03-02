@@ -149,7 +149,7 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-12 mt-3 mb-3">
                                     <h2>Share Your Physician Details <small>(if any)</small></h2>
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
                                     <InputText
                                         type="text"
                                         name="name"
@@ -157,7 +157,15 @@ const PatientCompleteProfile = (props) => {
                                         labelText="Name"
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="text"
+                                        name="last_name"
+                                        placeholder="Last Name"
+                                        labelText="Last Name"
+                                    />
+                                </div>
+                                <div className="col-lg-6">
                                     <InputText
                                         type="email"
                                         name="email"
@@ -165,7 +173,7 @@ const PatientCompleteProfile = (props) => {
                                         labelText="Email"
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-6">
                                     <InputText
                                         type="number"
                                         name="phone_number"
