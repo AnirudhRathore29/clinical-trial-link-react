@@ -1,6 +1,11 @@
 import React from 'react';
-/* patient pages */
 const Home = React.lazy(() => import('./views/pages/Home/Home'));
+const ClinicListing = React.lazy(() => import('./views/pages/ClinicListing/ClinicListing'));
+const ClinicDetails = React.lazy(() => import('./views/pages/ClinicDetails/ClinicDetails'));
+const TrialListing = React.lazy(() => import('./views/pages/TrialListing/TrialListing'));
+const AboutUs = React.lazy(() => import('./views/pages/AboutUs/AboutUS'));
+
+/* patient pages */
 const ContactUs = React.lazy(() => import('./views/pages/ContactUs/ContactUs'));
 const PatientDashboard = React.lazy(() => import('./Patient/Dashboard/Dashboard'));
 const PatientEditProfile = React.lazy(() => import('./Patient/EditProfile/EditProfile'));
@@ -55,6 +60,11 @@ const PhysicianEditProfile = React.lazy(() => import('./Physician/EditProfile/Ed
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Home },
 	{ path: '/contact-us', exact: true, name: 'ContactUs', component: ContactUs },
+	{ path: '/clinic-listing', exact: true, name: 'ClinicListing', component: ClinicListing },
+	{ path: '/clinic-details', exact: true, name: 'ClinicDetails', component: ClinicDetails },
+	{ path: '/trial-listing', exact: true, name: 'TrialListing', component: TrialListing },
+	{ path: '/about-us', exact: true, name: 'AboutUs', component: AboutUs },
+
 	/* Patient Routes */
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },

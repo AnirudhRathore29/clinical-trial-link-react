@@ -45,6 +45,10 @@ function App() {
 				<Switch>
 					<Route exact path="/" name="Home" render={(props) => <FrontLayout {...props} />} />
 					<Route exact path="/contact-us" name="ContactUs" render={(props) => <FrontLayout className="inner-header" {...props} />} />
+					<Route exact path="/clinic-listing" name="ClinicListing" render={(props) => <FrontLayout className="inner-header" {...props} />} />
+					<Route exact path="/clinic-details" name="ClinicDetails" render={(props) => <FrontLayout className="inner-header" {...props} />} />
+					<Route exact path="/trial-listing" name="TrialListing" render={(props) => <FrontLayout className="inner-header" {...props} />} />
+					<Route exact path="/about-us" name="AboutUS" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
 					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />

@@ -4,7 +4,11 @@ import Button from "../../Components/Common/Buttons/Buttons";
 import { InputText, SelectBox } from "../../Components/Common/Inputs/Inputs";
 import './Home.css';
 
-const Home = () => {
+const Home = (props) => {
+
+    const SearchSubmit = () => {
+        props.history.push("/clinic-listing")
+    }
 
     return (
         <>
@@ -51,7 +55,7 @@ const Home = () => {
                                         />
                                     </div>
                                     <div className='col search-btn-col'>
-                                        <button><img src="/images/search-icon.svg" alt="icon" /></button>
+                                        <button onClick={SearchSubmit}><img src="/images/search-icon.svg" alt="icon" /></button>
                                     </div>
                                 </div>
                             </form>

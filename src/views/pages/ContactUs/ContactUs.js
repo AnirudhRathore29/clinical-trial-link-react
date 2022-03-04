@@ -12,8 +12,6 @@ const ContactUs = (props) => {
 
     const ContactSubmit = () => {
         console.log("contact form data", Formdata);
-        props.history.push('/patient/dashboard')
-        localStorage.setItem("userType", "Patient")
     }
 
     return (

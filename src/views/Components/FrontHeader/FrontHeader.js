@@ -47,7 +47,7 @@ const Header = (props) => {
                                 <NavLink to="/"> Home </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/about">About Us</NavLink>
+                                <NavLink to="/about-us">About Us</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/ask">Ask the Expert</NavLink>
@@ -55,7 +55,8 @@ const Header = (props) => {
                             <li className="nav-item">
                                 <NavLink to="/contact-us">Contact Us</NavLink>
                             </li>
-                            {UserToken ? (
+                            {UserToken
+                                ?
                                 <>
                                     <li className="nav-item btn-item">
                                         <Button
@@ -75,7 +76,7 @@ const Header = (props) => {
                                         />
                                     </li>
                                 </>
-                            ) : (
+                                :
                                 <>
                                     <li className="nav-item btn-item">
                                         <Button
@@ -94,7 +95,7 @@ const Header = (props) => {
                                         />
                                     </li>
                                 </>
-                            )}
+                            }
                         </ul>
                     </div>
                 </nav>

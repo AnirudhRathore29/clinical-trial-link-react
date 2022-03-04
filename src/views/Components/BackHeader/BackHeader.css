@@ -81,16 +81,6 @@
 .owl-dots button + button{margin-left: .5rem;}
 .owl-dots button.active{opacity: 1;}
 
-
-.congrats-bx{text-align: center;color: var(--TextColor);}
-.congrats-bx h2{font-size: 3rem;font-weight: 700;}
-.congrats-bx img{margin: 2rem 0;}
-.congrats-bx p{margin-bottom: 2rem;}
-
-.filter-sidebar{background: var(--whiteColor);padding: 2rem;border-radius: 1rem;position: sticky;top: 9rem;}
-.filter-sidebar>h2{font-size: 2.5rem;color: var(--TextColor);display: flex;align-items: center;justify-content: space-between;margin-bottom: 2rem;}
-.filter-btn{background: transparent;border: none;}
-
 .sharing-disable{opacity: 0.5;pointer-events: none;}
 .info-btn{background: transparent;border: none;}
 

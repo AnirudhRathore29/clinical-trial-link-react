@@ -8,6 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 const PatientBookingProcess = ({ show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat }) => {
     const [startDate, setStartDate] = useState(new Date());
 
+    const isAuthenticate = localStorage.getItem("jwtToken");
+
+
     return (
         <>
             <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
@@ -63,15 +66,31 @@ const PatientBookingProcess = ({ show, handleClose, show2, handleClose2, handleS
                                 </>
                                 :
                                 <>
-                                    <Button
-                                        isButton="true"
-                                        BtnType="submit"
-                                        BtnColor="green"
-                                        BtnText="Book Now"
-                                        onClick={handleShow2}
-                                    />
-                                    <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                    <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                    {isAuthenticate
+                                        ?
+                                        <>
+                                            <Button
+                                                isButton="true"
+                                                BtnType="submit"
+                                                BtnColor="green"
+                                                BtnText="Book Now"
+                                                onClick={handleShow2}
+                                            />
+                                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                            <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        </>
+                                        :
+                                        <>
+                                            <Button
+                                                isLink="true"
+                                                URL="/login"
+                                                BtnColor="green"
+                                                BtnText="Book Now"
+                                            />
+                                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                            <Link to="/login" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                        </>
+                                    }
                                 </>
                             }
                         </div>
