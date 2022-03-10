@@ -31,7 +31,7 @@ const PhysicianDashboard = () => {
                             <DashboardInfoBx
                                 className="secondaryColor"
                                 URL="/physician/manage-patient"
-                                icon={<box-icon name='user' size="40px" color="#ffffff"></box-icon>}
+                                icon={<box-icon name='user' size="40px" color="#356AA0"></box-icon>}
                                 title="Total Patients"
                                 info="20"
                             />

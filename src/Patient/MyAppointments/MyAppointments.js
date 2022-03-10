@@ -4,7 +4,7 @@ import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
-// import PendingAppointments from "../myAppointments/PendingAppointments"
+import { Link } from 'react-router-dom';
 import './MyAppointments.css';
 import '../ClinicListing/ClinicListing.css'
 
@@ -31,6 +31,10 @@ const PatientMyAppointments = () => {
     }
     const handleClose3 = () => setShow3(false);
 
+    const [show4, setShow4] = useState(false);
+
+    const handleShow4 = () => setShow4(true);
+    const handleClose4 = () => setShow4(false);
     return (
         <>
             <div className="clinical-dashboard my-appointment-section">
@@ -245,10 +249,10 @@ const PatientMyAppointments = () => {
                                     <div className='row'>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 visitNumber="25632156"
                                                 location="Atlanta, Georgia, United States"
@@ -257,34 +261,10 @@ const PatientMyAppointments = () => {
                                         </div>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
-                                                imgUrl="clinic-img3.jpg"
-                                                title="Barnes Jewish Hospital"
-                                                status="completed"
-                                                statusClass="success"
-                                                visitNumber="25632156"
-                                                location="Atlanta, Georgia, United States"
-                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                            />
-                                        </div>
-                                        <div className='col-lg-6 mb-5'>
-                                            <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="completed"
-                                                statusClass="success"
-                                                visitNumber="25632156"
-                                                location="Atlanta, Georgia, United States"
-                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                            />
-                                        </div>
-                                        <div className='col-lg-6 mb-5'>
-                                            <MyAppointmentBx
-                                                onClick={handleShow}
-                                                imgUrl="clinic-img3.jpg"
-                                                title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Rejected"
                                                 statusClass="danger"
                                                 visitNumber="25632156"
                                                 location="Atlanta, Georgia, United States"
@@ -293,10 +273,34 @@ const PatientMyAppointments = () => {
                                         </div>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="completed"
+                                                statusClass="success"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="completed"
+                                                statusClass="success"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow4}
+                                                imgUrl="clinic-img3.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 visitNumber="25632156"
                                                 location="Atlanta, Georgia, United States"
@@ -305,7 +309,19 @@ const PatientMyAppointments = () => {
                                         </div>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
+                                                imgUrl="clinic-img2.jpg"
+                                                title="Barnes Jewish Hospital"
+                                                status="Cancelled"
+                                                statusClass="danger"
+                                                visitNumber="25632156"
+                                                location="Atlanta, Georgia, United States"
+                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                            />
+                                        </div>
+                                        <div className='col-lg-6 mb-5'>
+                                            <MyAppointmentBx
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img3.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="completed"
@@ -317,7 +333,7 @@ const PatientMyAppointments = () => {
                                         </div>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img2.jpg"
                                                 title="Barnes Jewish Hospital"
                                                 status="completed"
@@ -329,10 +345,10 @@ const PatientMyAppointments = () => {
                                         </div>
                                         <div className='col-lg-6 mb-5'>
                                             <MyAppointmentBx
-                                                onClick={handleShow}
+                                                onClick={handleShow4}
                                                 imgUrl="clinic-img3.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 visitNumber="25632156"
                                                 location="Atlanta, Georgia, United States"
@@ -346,6 +362,51 @@ const PatientMyAppointments = () => {
                     </div>
                 </div>
             </div>
+
+            <CommonModal className="custom-size-modal" show={show4} onHide={handleClose4} keyboard={false}
+                ModalTitle="Appointment Details"
+                onClick={handleClose4}
+                ModalData={
+                    <>
+                        <div className='appointment-detail'>
+                            <img src="/images/clinic-img1.jpg" alt="clinic-img" />
+                            <div className=''>
+                                <h2>Barnes Jewish Hospital</h2>
+                                <span className='badge badge-primary d-inline-block mb-3'>Eligible</span>
+                                <p><strong>Visit Number :</strong> 25632156</p>
+                            </div>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Date & Time</h2>
+                            <p>Jan 20, 2022 (09:00 AM to 11:00 AM)</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Clinic Address</h2>
+                            <p>Atlanta, Georgia, United States</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Trial for</h2>
+                            <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Trial Compensation</h2>
+                            <p>To be Decided at Clinic</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Sponsor</h2>
+                            <p>CNS Medical Director</p>
+                        </div>
+                        <div className='appointment-detail-col'>
+                            <h2>Rejection Reason</h2>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
+                        </div>
+                        <div className='clnicaltrial-detail-ftr justify-content-center'>
+                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                            <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                        </div>
+                    </>
+                }
+            />
 
             <CommonModal className="custom-size-modal" show={show} onHide={handleClose} keyboard={false}
                 ModalTitle="Appointment Details"
@@ -384,10 +445,12 @@ const PatientMyAppointments = () => {
                             <Button
                                 isButton="true"
                                 BtnType="submit"
-                                BtnColor="primary w-100"
+                                BtnColor="green w-100"
                                 BtnText="Cancel Appointment"
                                 onClick={handleShow2}
                             />
+                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                            <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                         </div>
                     </>
                 }

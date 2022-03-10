@@ -122,7 +122,7 @@ const ClinicMyAppointments = () => {
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
                                                     title="Barnes Jewish Hospital"
-                                                    status="Cancel"
+                                                    status="Cancelled"
                                                     statusClass="danger"
                                                     location="Atlanta, Georgia, United States"
                                                     description="Bipolar Depression Study with 6 Month Open Label Therapy"
@@ -158,7 +158,7 @@ const ClinicMyAppointments = () => {
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
                                                     title="Barnes Jewish Hospital"
-                                                    status="Cancel"
+                                                    status="Cancelled"
                                                     statusClass="danger"
                                                     location="Atlanta, Georgia, United States"
                                                     description="Bipolar Depression Study with 6 Month Open Label Therapy"
@@ -170,7 +170,7 @@ const ClinicMyAppointments = () => {
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
                                                     title="Barnes Jewish Hospital"
-                                                    status="Cancel"
+                                                    status="Cancelled"
                                                     statusClass="danger"
                                                     location="Atlanta, Georgia, United States"
                                                     description="Bipolar Depression Study with 6 Month Open Label Therapy"
@@ -206,7 +206,7 @@ const ClinicMyAppointments = () => {
                                                 <MyAppointmentBx
                                                     imgUrl="clinic-img1.jpg"
                                                     title="Barnes Jewish Hospital"
-                                                    status="Cancel"
+                                                    status="Cancelled"
                                                     statusClass="danger"
                                                     location="Atlanta, Georgia, United States"
                                                     description="Bipolar Depression Study with 6 Month Open Label Therapy"

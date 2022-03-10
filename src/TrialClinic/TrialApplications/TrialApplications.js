@@ -215,7 +215,7 @@ const ClinicTrialApplication = () => {
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 location="Atlanta, Georgia, United States"
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
@@ -248,7 +248,7 @@ const ClinicTrialApplication = () => {
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 location="Atlanta, Georgia, United States"
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
@@ -259,7 +259,7 @@ const ClinicTrialApplication = () => {
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 location="Atlanta, Georgia, United States"
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
@@ -292,7 +292,7 @@ const ClinicTrialApplication = () => {
                                                 onClick={handleShow}
                                                 imgUrl="clinic-img1.jpg"
                                                 title="Barnes Jewish Hospital"
-                                                status="Cancel"
+                                                status="Cancelled"
                                                 statusClass="danger"
                                                 location="Atlanta, Georgia, United States"
                                                 time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
@@ -351,6 +351,37 @@ const ClinicTrialApplication = () => {
                         <div className='clnicaltrial-description'>
                             <h2>Cancellation Reason</h2>
                             <p>Not Eligible</p>
+                        </div>
+                        <div className='clnicaltrial-description'>
+                            <h2>Select Recruiting Time</h2>
+                            <div className='available-time'>
+                                <div className='time-row'>
+                                    <label>
+                                        <input type="checkbox" name='available_time' defaultChecked="true" />
+                                        <span>09:00 AM - 11:00 AM</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name='available_time' />
+                                        <span>11:00 AM - 01:00 PM</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name='available_time' />
+                                        <span>01:00 PM - 03:00 PM</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name='available_time' />
+                                        <span>03:00 PM - 05:00 PM</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name='available_time' />
+                                        <span>05:00 PM - 07:00 PM</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name='available_time' />
+                                        <span>05:00 PM - 07:00 PM</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div className='clnicaltrial-detail-ftr'>
                             <Button

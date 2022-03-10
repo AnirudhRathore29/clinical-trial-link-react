@@ -4,11 +4,12 @@
 .dashboard-info-bx>a h2{font-size: 3.6rem;font-weight: bold;}
 .dashboard-info-bx>a p{display: block;font-size: 2.4rem;font-weight: 300;margin: 0;}
 .primaryColor{background: var(--PrimaryColor);}
-.secondaryColor{background: var(--SecondaryColor);}
+.secondaryColor{background: var(--SecondaryColor);color: var(--TextColor);}
 .thirdColor{background: var(--TextColor);}
 .secondaryColor.dashboard-info-bx>a>span{background: #B1CB79;}
 .thirdColor.dashboard-info-bx>a>span{background: #2A5682;}
 .primaryColor.dashboard-info-bx>a>span{background: #3A7BBE;}
+.dashboard-info-bx.secondaryColor>a{color: var(--TextColor);}
 
 .welcome-msg-bx>h2{font-size: 3.5rem;font-weight: bold;display: flex;align-items: center;color: #343434;}
 .welcome-msg-bx p{margin: 0;font-size: 1.8rem;opacity: 0.8;}

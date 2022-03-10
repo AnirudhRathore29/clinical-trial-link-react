@@ -32,7 +32,7 @@ const SponsorsDashboard = () => {
                             <DashboardInfoBx
                                 className="secondaryColor"
                                 URL="/trial-sponsors/trial-requests"
-                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
+                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#356AA0"></box-icon>}
                                 title="New Trials Requested from Clinical Trial Sites"
                                 info="20"
                             />

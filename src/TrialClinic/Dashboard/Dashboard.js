@@ -31,7 +31,7 @@ const ClinicDashboard = () => {
                             <DashboardInfoBx
                                 className="secondaryColor"
                                 URL="/trial-clinic/trial-requests"
-                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#ffffff"></box-icon>}
+                                icon={<box-icon type='solid' name='file-plus' size="40px" color="#356AA0"></box-icon>}
                                 title="New Appointment Requests"
                                 info="20"
                             />

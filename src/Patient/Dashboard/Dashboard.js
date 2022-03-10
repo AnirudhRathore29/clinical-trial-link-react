@@ -30,20 +30,20 @@ const PatientDashboard = () => {
                     <div className="row dashboard-col">
                         <div className="col-lg-4">
                             <DashboardInfoBx
-                                className="secondaryColor"
-                                URL="/patient/payment-history"
-                                icon={<box-icon name='money' size="40px" color="#ffffff"></box-icon>}
-                                title="Compensation Received"
-                                info="$555.00"
-                            />
-                        </div>
-                        <div className="col-lg-4">
-                            <DashboardInfoBx
                                 className="thirdColor"
                                 URL="/patient/my-appointments"
                                 icon={<box-icon name='calendar' type='solid' size="40px" color="#ffffff"></box-icon>}
                                 title="My Appointments"
                                 info="25"
+                            />
+                        </div>
+                        <div className="col-lg-4">
+                            <DashboardInfoBx
+                                className="secondaryColor"
+                                URL="/patient/payment-history"
+                                icon={<box-icon name='money' size="40px" color="#356AA0"></box-icon>}
+                                title="Compensation Received"
+                                info="$555.00"
                             />
                         </div>
                         <div className="col-lg-4">

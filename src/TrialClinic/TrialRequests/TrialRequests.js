@@ -1,7 +1,16 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../views/Components/Common/Buttons/Buttons';
+import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import CommonModal from '../../views/Components/Common/Modal/Modal';
 import './TrialRequests.css'
 
 const ClinicTrialRequests = () => {
+    const [show, setShow] = useState(false);
+
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -42,10 +51,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -74,10 +85,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -106,10 +119,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -138,10 +153,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -170,10 +187,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -202,10 +221,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -234,10 +255,12 @@ const ClinicTrialRequests = () => {
                                 <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
                                 <td>
                                     <div className='btn-group-custom'>
+                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                         <Button
                                             isButton="true"
                                             BtnColor="green btn-sm"
                                             BtnText="Reject"
+                                            onClick={handleShow}
                                         />
                                         <Button
                                             isButton="true"
@@ -251,6 +274,41 @@ const ClinicTrialRequests = () => {
                     </table>
                 </div>
             </div>
+
+            <CommonModal show={show} onHide={handleClose} keyboard={false}
+                ModalTitle="Reject Request"
+                onClick={handleClose}
+                ModalData={
+                    <>
+                        <SelectBox
+                            labelText="Reason for Rejection"
+                            optionData=
+                            {
+                                <>
+                                    <option value="">Select Cancellation Reason</option>
+                                    <option value="">Cancellation Reason 1</option>
+                                    <option value="">Cancellation Reason 2</option>
+                                    <option value="">Cancellation Reason 3</option>
+                                    <option value="">Cancellation Reason 4</option>
+                                </>
+                            }
+                        />
+
+                        <TextArea
+                            placeholder="Enter Rejection Details"
+                            labelText="Rejection Details"
+                        />
+                        <div className='clnicaltrial-detail-ftr mt-0'>
+                            <Button
+                                isButton="true"
+                                BtnColor="primary w-100"
+                                BtnText="Confirm"
+                                onClick={handleClose}
+                            />
+                        </div>
+                    </>
+                }
+            />
         </>
     );
 };
