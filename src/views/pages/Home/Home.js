@@ -20,7 +20,7 @@ const Home = (props) => {
                                 <span>News</span> Lorem ipsum dolor amet consectetur adipiscing elit.
                             </div>
 
-                            <object type="image/svg+xml" data="https://api.housie.live/image/anyline-cat.svg" />
+                            {/* <object type="image/svg+xml" data="https://api.housie.live/image/anyline-cat.svg" />
                             <object type="image/svg+xml" data="https://api.housie.live/image/full-ticket-cat.svg" />
                             <object type="image/svg+xml" data="https://api.housie.live/image/early13-cat.svg" />
                             <object type="image/svg+xml" data="https://api.housie.live/image/six-corners-cat.svg" />
@@ -28,7 +28,7 @@ const Home = (props) => {
                             <object type="image/svg+xml" data="images/cat/anyline-cat.svg" />
                             <object type="image/svg+xml" data="images/cat/full-ticket-cat.svg" />
                             <object type="image/svg+xml" data="images/cat/early13-cat.svg" />
-                            <object type="image/svg+xml" data="images/cat/six-corners-cat.svg" />
+                            <object type="image/svg+xml" data="images/cat/six-corners-cat.svg" /> */}
 
                             <h1> Finding Clinical Trials for Patients </h1>
                             <p> Search for mental health clinical trials. </p>
