@@ -8,15 +8,17 @@ import Header from "../../Components/FrontHeader/FrontHeader";
 import "../Login/Login.css";
 
 const SignUp = () => {
-    localStorage.setItem("userType", "Patient")
+    
 
-    const handleSelect = (key) =>{
+    const handleSelect = (key) => {
+        console.log("key", key)
         localStorage.setItem("userType", key)
     }
-    
+
     return (
         <>
             <Header className="innerPageHeader" />
+
             <section className="authentication-section">
                 <div className="container-fluid">
                     <div className="auth-heading">
@@ -35,7 +37,7 @@ const SignUp = () => {
                                         </>
                                     }
                                 >
-                                    <Patient/>
+                                    <Patient />
                                 </Tab>
 
                                 <Tab eventKey="Trial_Clinic"
@@ -49,6 +51,7 @@ const SignUp = () => {
                                 >
                                     <TrialClinic />
                                 </Tab>
+
                                 <Tab eventKey="Physician"
                                     title={
                                         <>
@@ -60,6 +63,7 @@ const SignUp = () => {
                                 >
                                     <Physician />
                                 </Tab>
+
                                 <Tab eventKey="Pharmaceutical_Companies"
                                     title={
                                         <>
