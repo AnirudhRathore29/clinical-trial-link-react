@@ -4,7 +4,7 @@ import { InputText } from "../../Components/Common/Inputs/Inputs";
 import RadioBtn from "../../Components/Common/RadioBtn/RadioBtn"
 import Button from "../../Components/Common/Buttons/Buttons";
 import Header from "../../Components/FrontHeader/FrontHeader";
-import { loginUser } from '../../../app/actions/authAction'
+import { loginUser } from '../../../redux/actions/authAction'
 import "./Login.css";
 
 const Login = (props) => {

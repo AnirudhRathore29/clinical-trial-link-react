@@ -4,7 +4,7 @@ import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
 import Header from "../../views/Components/FrontHeader/FrontHeader";
-import { loginUser } from '../../app/actions/authAction'
+import { loginUser } from '../../redux/actions/authAction'
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 

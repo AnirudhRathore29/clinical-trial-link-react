@@ -4,7 +4,7 @@ import './Inputs.css';
 export const InputText = (props) => {
     return (
         <div className={`form-group ${props.FormGroupClass}`}>
-            <label>
+            <label htmlFor={props.id}>
                 {props.labelText}
                 {
                     props.required &&

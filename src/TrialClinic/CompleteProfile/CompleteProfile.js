@@ -2,7 +2,7 @@ import React from "react";
 import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import Header from "../../views/Components/FrontHeader/FrontHeader";
-import { loginUser } from '../../app/actions/authAction'
+import { loginUser } from '../../redux/actions/authAction'
 import 'boxicons';
 import "../../views/pages/Login/Login.css";
 
