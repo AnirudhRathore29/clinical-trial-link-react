@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import jwt_decode from 'jwt-decode';
-import store from './app/store';
+import store from './redux/store';
 import PrivateRoute from './views/private-route/PrivateRoute';
-import { loginUser } from './app/actions/authAction'
+import { loginUser } from './redux/actions/authAction'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Assets/css/responsive.css';
@@ -33,8 +32,8 @@ const loading = (
 );
 
 if (localStorage.jwtToken) {
-	const token = localStorage.jwtToken;
-	store.dispatch(loginUser(token));
+	// const token = localStorage.jwtToken;
+	// store.dispatch(loginUser(token));
 }
 
 
