@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { InputText } from "../Common/Inputs/Inputs";
 import Button from "../Common/Buttons/Buttons";
 import RadioBtn from "../Common/RadioBtn/RadioBtn";
 import { SignupAction } from "./../../../redux/actions/authAction"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
 const Patient = (props) => {
     const dispatch = useDispatch()
+    let history = useHistory();
     const patientSelector = useSelector(state => state)
-    console.log("patientSelector", patientSelector)
+    const [submitClick, setSubmitClick] = useState(false);
     const [Formdata, setFormdata] = useState({
         first_name: "",
         last_name: "",
@@ -32,6 +37,21 @@ const Patient = (props) => {
         SetConfirmPassword(!confirmPassword);
     };
     /* Password show hide */
+
+    useEffect(() => {
+        if (submitClick === true) {
+            if (Object.keys(patientSelector.auth.user).length !== 0 && patientSelector.auth.loading === false) {
+                toast.success(patientSelector.auth.user.data.message, { theme: "colored" })
+                history.push({
+                	pathname: '/verify-email',
+                	state: patientSelector.auth.user.data.data
+                });
+            } else if(Object.keys(patientSelector.auth.error).length !== 0 && patientSelector.auth.loading === false){
+                let err = patientSelector.auth?.error?.message;
+                toast.error(err, { theme: "colored" });
+            }
+        }
+    }, [patientSelector]);
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
@@ -64,11 +84,11 @@ const Patient = (props) => {
             confirm_password: Formdata.confirm_password,
             T_C: Formdata.T_C
         }
+        setSubmitClick(true)
         dispatch(SignupAction(regData))
     };
-    // onSubmit={handleSignUPSubmit} 
     return (
-        <form autoComplete="off" onSubmit={handleSignUPSubmit} >
+        <Form onSubmit={handleSignUPSubmit} autoComplete="off">
             <div className="row">
                 <div className="col-lg-6">
                     <InputText
@@ -157,17 +177,18 @@ const Patient = (props) => {
                     labelText={<p>I agree to the <Link to="/">Terms &amp; Conditions</Link> of Clinic Trial Link. <span className="text-danger">*</span></p>}
                 />
             </div>
-            
+
             <div className="form-group text-center">
                 <Button
                     isButton="true"
-                    // BtnType="submit"
+                    BtnType="submit"
                     BtnColor="green w-50"
                     BtnText="Sign Up"
-                    // onClick={handleSignUPSubmit}
+                    hasSpinner={patientSelector.auth.loading}
+                    disabled={patientSelector.auth.loading}
                 />
             </div>
-        </form>
+        </Form>
     )
 }
 
