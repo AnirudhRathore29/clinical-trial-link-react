@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Buttons.css';
+import LoaderSpinner from '../Loader/LoaderSpinner';
 
 const Button = (props) => {
     return (
@@ -21,9 +22,10 @@ const Button = (props) => {
                     type={props.BtnType}
                     className={`btn btn-${props.BtnColor}`}
                     onClick={props.onClick}
+                    disabled={props.disabled}
                 >
                     {props.BtnText}
-                    {props.hasIconImg && <img src={`/images/${props.IconImgPath}`} className="white-icon v-sub ms-2" width="23" alt="icon" />}
+                    {props.hasSpinner && <LoaderSpinner />}
                 </button>
             }
         </>
