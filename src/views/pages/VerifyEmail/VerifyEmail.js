@@ -31,7 +31,7 @@ const VerifyEmail = (props) => {
     }, [verifyEmailSelector]);
 
     const HandleResendEmail = () => {
-        dispatch(ResendEmailAction({email: props.location.state.email}))
+        dispatch(ResendEmailAction({ email: props.location.state.email }))
         setSubmitClick(true)
     }
     return (
@@ -65,6 +65,8 @@ const VerifyEmail = (props) => {
                                     BtnColor="sm btn-text p-0 ms-1"
                                     BtnText="Resend Email"
                                     onClick={HandleResendEmail}
+                                    hasSpinner={verifyEmailSelector.auth.loading}
+                                    disabled={verifyEmailSelector.auth.loading}
                                 />
                             </p>
                         </form>
