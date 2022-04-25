@@ -3,7 +3,8 @@ import {Link, useHistory} from 'react-router-dom';
 import Header from "../../Components/FrontHeader/FrontHeader";
 import '../Login/Login.css';
 
-const VerifyEmail = () => {
+const VerifyEmail = (props) => {
+    console.log("props", props.location.state)
     const history = useHistory();
     const validateUser = localStorage.getItem("userType")
 
