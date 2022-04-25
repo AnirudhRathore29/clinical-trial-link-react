@@ -19,3 +19,4 @@
 
 .btn-xs{font-size: 14px;min-width: auto;padding: 7px 20px;}
 .btn-sm{font-size: 1.6rem;min-width: auto;padding: 1rem 3rem;}
+.btn-text{color: var(--PrimaryColor); font-weight: normal; font-size: 16px;}
