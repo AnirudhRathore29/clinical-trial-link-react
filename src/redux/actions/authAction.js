@@ -1,12 +1,8 @@
 import axios from "axios";
-import { SET_CURRENT_USER, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR } from './types';
+import { SET_CURRENT_USER, AUTH_LOADING, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR } from './types';
 import store from "./../store";
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
-
-// export const APIService = {
-//     SignupAction
-// }
 
 export const loginUser = (decode_token) => {
     localStorage.setItem("jwtToken", decode_token);
@@ -16,6 +12,12 @@ export const loginUser = (decode_token) => {
             payload: decode_token
         })
     )
+}
+
+export function authRequest() {
+    return {
+        type: AUTH_LOADING
+    };
 }
 
 export function signUpSuccess(response) {
@@ -33,6 +35,7 @@ export function signUpError(message) {
 }
 
 export const SignupAction = (data) => async (dispatch) => {
+    dispatch(authRequest());
     axios
         .post(getCurrentHost() + "/user-register", data, {
             headers: authHeader(true),
@@ -40,10 +43,8 @@ export const SignupAction = (data) => async (dispatch) => {
         .then(response => {
             console.log("response", response)
             dispatch(signUpSuccess(response));
-            // history.push("/verify-email")
         })
         .catch(error => {
-            console.log("error", error)
-            dispatch(signUpError(error.response));
+            dispatch(signUpError(error.response.data));
         });
 }
