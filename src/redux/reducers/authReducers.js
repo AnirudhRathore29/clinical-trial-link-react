@@ -4,12 +4,14 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_ERROR,
 	SIGNUP_SUCCESS,
-	SIGNUP_ERROR
+	SIGNUP_ERROR,
+	RESEND_EMAIL_SUCCESS
 } from './../actions/types';
 const isEmpty = require('is-empty');
 const initialState = {
 	isAuthenticated: false,
 	user: {},
+	error: {},
 	loading: false
 };
 export default function authReducer(state = initialState, action) {
@@ -38,7 +40,26 @@ export default function authReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				error: action.payload,
+				user: {},
 			};
+		case SIGNUP_SUCCESS:
+			return {
+				...state,
+				user: action.payload,
+				loading: false
+			};
+		case SIGNUP_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+				user: {},
+			};
+		case RESEND_EMAIL_SUCCESS:
+			return {
+				user: action.payload,
+				loading: false
+			}
 		default:
 			return state;
 	}
