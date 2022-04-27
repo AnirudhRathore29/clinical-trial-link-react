@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 import { InputText } from "../Common/Inputs/Inputs";
 import Button from "../Common/Buttons/Buttons";
 import RadioBtn from "../Common/RadioBtn/RadioBtn";
+import { SignupAction } from "./../../../redux/actions/authAction"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Physician = () => {
-    const history = useHistory();
-
+    const dispatch = useDispatch()
+    let history = useHistory();
+    const physicianSelector = useSelector(state => state)
+    const [submitClick, setSubmitClick] = useState(false);
     const [Formdata, setFormdata] = useState({
         email: "",
-        phone_no: "",
+        phone_number: "",
         password: "",
         confirm_password: "",
-        t_c: "",
+        T_C: "",
     });
-
-    const SignUPSubmit = () => {
-        console.log("Formdata", Formdata);
-        history.push("/verify-email");
-    };
-
 
     /* Password show hide */
     const [Password, SetPassword] = useState(false);
@@ -32,8 +33,58 @@ const Physician = () => {
         SetConfirmPassword(!confirmPassword);
     };
     /* Password show hide */
+
+
+    useEffect(() => {
+        if (submitClick === true) {
+            if (Object.keys(physicianSelector.auth.user).length !== 0 && physicianSelector.auth.loading === false) {
+                toast.success(physicianSelector.auth.user.data.message, { theme: "colored" })
+                history.push({
+                	pathname: '/verify-email',
+                	state: physicianSelector.auth.user.data.data
+                });
+            } else if(Object.keys(physicianSelector.auth.error).length !== 0 && physicianSelector.auth.loading === false){
+                let err = physicianSelector.auth?.error?.message;
+                toast.error(err, { theme: "colored" });
+            }
+        }
+    }, [physicianSelector]);
+
+    const onChange = (e) => {
+        const { name, checked, value } = e.target;
+        if (name === "T_C") {
+            setFormdata((preValue) => {
+                return {
+                    ...preValue,
+                    [name]: checked
+                };
+            });
+        } else {
+            setFormdata((preValue) => {
+                return {
+                    ...preValue,
+                    [name]: value
+                };
+            });
+        }
+    };
+
+    const handleSignUPSubmit = (event) => {
+        event.preventDefault();
+        const regData = {
+            role: "4",
+            email: Formdata.email,
+            phone_number: Formdata.phone_number,
+            password: Formdata.password,
+            confirm_password: Formdata.confirm_password,
+            T_C: Formdata.T_C
+        }
+        setSubmitClick(true)
+        dispatch(SignupAction(regData))
+    };
+
     return (
-        <>
+        <Form onSubmit={handleSignUPSubmit} autoComplete="off">
             <div className="row">
                 <div className="col-lg-6">
                     <InputText
@@ -43,22 +94,18 @@ const Physician = () => {
                         placeholder="Email Address"
                         required="required"
                         labelText="Email"
-                        onChange={(e) => {
-                            setFormdata({ ...Formdata, email: e.target.value });
-                        }}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="col-lg-6">
                     <InputText
                         type="number"
-                        name="phone_no"
-                        value={Formdata.phone_no}
+                        name="phone_number"
+                        value={Formdata.phone_number}
                         placeholder="Phone Number"
                         required="required"
                         labelText="Phone Number"
-                        onChange={(e) => {
-                            setFormdata({ ...Formdata, phone_no: e.target.value });
-                        }}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="col-lg-6">
@@ -70,9 +117,7 @@ const Physician = () => {
                         required="required"
                         labelText="Password"
                         className="password-field"
-                        onChange={(e) => {
-                            setFormdata({ ...Formdata, password: e.target.value });
-                        }}
+                        onChange={onChange}
                         isPassword="true"
                         onClick={ShowPassword}
                         ChangeClass={Password ? "show-hide active" : "show-hide"}
@@ -87,12 +132,7 @@ const Physician = () => {
                         required="required"
                         labelText="Confirm Password"
                         className="password-field"
-                        onChange={(e) => {
-                            setFormdata({
-                                ...Formdata,
-                                confirm_password: e.target.value,
-                            });
-                        }}
+                        onChange={onChange}
                         isPassword="true"
                         onClick={ShowConfirmPassword}
                         ChangeClass={
@@ -105,13 +145,8 @@ const Physician = () => {
                 <RadioBtn
                     className="checkbox-btn"
                     type="checkbox"
-                    name="t_c"
-                    onChange={(e) => {
-                        setFormdata({
-                            ...Formdata,
-                            t_c: e.target.value,
-                        });
-                    }}
+                    name="T_C"
+                    onChange={onChange}
                     labelText={<p>I agree to the <Link to="/">Terms &amp; Conditions</Link> of Clinic Trial Link. <span className="text-danger">*</span></p>}
                 />
             </div>
@@ -121,10 +156,11 @@ const Physician = () => {
                     BtnType="submit"
                     BtnColor="green w-50"
                     BtnText="Sign Up"
-                    onClick={SignUPSubmit}
+                    hasSpinner={physicianSelector.auth.loading}
+                    disabled={physicianSelector.auth.loading}
                 />
             </div>
-        </>
+        </Form>
     )
 }
 

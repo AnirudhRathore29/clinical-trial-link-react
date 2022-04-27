@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { InputText } from "../Common/Inputs/Inputs";
 import Button from "../Common/Buttons/Buttons";
 import RadioBtn from "../Common/RadioBtn/RadioBtn";
