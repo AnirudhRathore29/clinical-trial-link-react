@@ -48,7 +48,7 @@ const Physician = () => {
                 toast.error(err, { theme: "colored" });
             }
         }
-    }, [physicianSelector]);
+    }, [physicianSelector, submitClick, history]);
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;

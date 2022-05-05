@@ -48,7 +48,7 @@ const PharmaCompanies = () => {
                 toast.error(err, { theme: "colored" });
             }
         }
-    }, [pharmaSelector]);
+    }, [pharmaSelector, submitClick, history]);
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;

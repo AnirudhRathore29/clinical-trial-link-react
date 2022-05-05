@@ -50,7 +50,7 @@ const Patient = (props) => {
                 toast.error(err, { theme: "colored" });
             }
         }
-    }, [patientSelector]);
+    }, [patientSelector, submitClick, history]);
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;

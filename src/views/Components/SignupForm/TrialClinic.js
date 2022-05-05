@@ -48,7 +48,7 @@ const TrialClinic = () => {
                 toast.error(err, { theme: "colored" });
             }
         }
-    }, [trialClinicSelector]);
+    }, [trialClinicSelector, submitClick, history]);
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
