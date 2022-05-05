@@ -28,7 +28,7 @@ const VerifyEmail = (props) => {
                 toast.error(err, { theme: "colored" });
             }
         }
-    }, [verifyEmailSelector]);
+    }, [verifyEmailSelector, submitClick]);
 
     const HandleResendEmail = () => {
         dispatch(ResendEmailAction({ email: props.location.state.email }))
