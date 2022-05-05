@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, Tab } from 'react-bootstrap';
 import Patient from "../../Components/SignupForm/Patient";
@@ -6,13 +7,19 @@ import Physician from "../../Components/SignupForm/Physician";
 import PharmaCompanies from "../../Components/SignupForm/PharmaCompanies";
 import Header from "../../Components/FrontHeader/FrontHeader";
 import "../Login/Login.css";
+import { connect } from "react-redux";
 
-const SignUp = () => {
+const SignUp = (props) => {
 
+    //Check user is logged in or not
+    useEffect(() => {
+        if (props.auth.isAuthenticated) {
+            props.history.push('/');
+        }
+    }, [props]);
 
     const handleSelect = (key) => {
-        console.log("key", key)
-        localStorage.setItem("userType", key)
+        // console.log("key", key)
     }
 
     return (
@@ -85,4 +92,7 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => ({
+	auth: state.auth
+});
+export default connect(mapStateToProps)(SignUp);
