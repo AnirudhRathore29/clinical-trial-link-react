@@ -5,10 +5,12 @@ export const AUTH_LOADING = 'AUTH_LOADING';
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGOUT_ACTION = "LOGOUT_ACTION";
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 
 export const RESEND_EMAIL_SUCCESS = 'RESEND_EMAIL_SUCCESS';
 
-
+export const FORGOT_SUCCESS = 'FORGOT_SUCCESS';
+export const FORGOT_ERROR = 'FORGOT_ERROR';
