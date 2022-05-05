@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
 import SearchBx from '../SearchBx/SearchBx'
@@ -9,15 +9,8 @@ import "./BackHeader.css";
 const Header = ({ colorHeader, headerColor }) => {
     const [sideMenu, setSideMenu] = useState(false);
     const validateUser = localStorage.getItem("userType")
-    const history = useHistory();
 
     toast.configure();
-
-    const Logout = () => {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userType");
-        history.push("/login")
-    };
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -97,7 +90,7 @@ const Header = ({ colorHeader, headerColor }) => {
                                         :
                                         null
                                     }
-                                    <button to="/" className="dropdown-item" onClick={Logout}><box-icon name='log-out-circle' ></box-icon> Logout</button>
+                                    <Link to="/logout" className="dropdown-item"><box-icon name='log-out-circle' ></box-icon> Logout</Link>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>

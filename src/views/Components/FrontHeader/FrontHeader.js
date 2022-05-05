@@ -1,22 +1,15 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./FrontHeader.css";
 
 const Header = (props) => {
     const [scroll, setScroll] = useState(false);
-    const history = useHistory();
     const UserToken = localStorage.getItem("jwtToken");
     const validateUser = localStorage.getItem("userType")
 
     toast.configure();
-
-    const Logout = () => {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userType");
-        history.push("/login");
-    };
 
     useEffect(() => {
         window.addEventListener(
@@ -68,11 +61,10 @@ const Header = (props) => {
                                     </li>
                                     <li className="nav-item btn-item">
                                         <Button
-                                            isButton="true"
-                                            URL="/"
+                                            isLink="true"
+                                            URL="/logout"
                                             BtnColor="primary"
                                             BtnText="Logout"
-                                            onClick={Logout}
                                         />
                                     </li>
                                 </>
