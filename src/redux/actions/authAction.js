@@ -1,18 +1,9 @@
 import axios from "axios";
-import { SET_CURRENT_USER, AUTH_LOADING, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR, RESEND_EMAIL_SUCCESS } from './types';
+import { SET_CURRENT_USER, AUTH_LOADING, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR, RESEND_EMAIL_SUCCESS, LOGOUT_ACTION, FORGOT_SUCCESS, FORGOT_ERROR } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 var jwt = require('jsonwebtoken');
 const JWT_SECRET = "clinical57586xYtrial"
-
-// export const loginUser = (decode_token) => {
-//     return (
-//         store.dispatch({
-//             type: SET_CURRENT_USER,
-//             payload: decode_token
-//         })
-//     )
-// }
 
 export const setCurrentUser = (decoded) => {
     return {
@@ -118,13 +109,74 @@ export const LoginAction = (data) => async (dispatch) => {
             }
             var token = jwt.sign(payload, JWT_SECRET);
             localStorage.setItem("auth_security" , token)
-            dispatch(loginSuccess(response));
-
             var decoded = jwt.verify(token, JWT_SECRET);
-            dispatch(setCurrentUser(decoded));
+            dispatch(loginSuccess(response), setCurrentUser(decoded));
+
         })
         .catch(error => {
             dispatch(loginError(error.response.data));
         });
 }
 
+export function ForgotPassSuccess(response) {
+    return {
+        type: FORGOT_SUCCESS,
+        payload: response,
+    };
+}
+
+export function ForgotPassError(message) {
+    return {
+        type: FORGOT_ERROR,
+        payload: message,
+    };
+}
+
+export const ForgotPasswordAction = (data) => async (dispatch) => {
+    dispatch(authRequest());
+    axios
+        .post(getCurrentHost() + "/forgot-password", data, {
+            headers: authHeader(true),
+        })
+        .then(response => {
+            dispatch(ForgotPassSuccess(response));
+        })
+        .catch(error => {
+            dispatch(ForgotPassError(error.response.data));
+        });
+}
+
+export const CreateNewPassAction = (data) => async (dispatch) => {
+    dispatch(authRequest());
+    axios
+        .post(getCurrentHost() + "/reset-password", data, {
+            headers: authHeader(true),
+        })
+        .then(response => {
+            dispatch(ForgotPassSuccess(response));
+        })
+        .catch(error => {
+            dispatch(ForgotPassError(error.response.data));
+        });
+}
+
+export function LogoutSuccess(response) {
+    return {
+        type: LOGOUT_ACTION,
+        payload: response,
+    };
+}
+export const LogoutAction = (data) => async (dispatch) => {
+    dispatch(setCurrentUser({}));
+    localStorage.removeItem("auth_security");
+    axios
+        .post(getCurrentHost() + "/logout", data, {
+            headers: authHeader(),
+        })
+        .then(response => {
+            dispatch(LogoutSuccess(response));
+        })
+        .catch(error => {
+            console.log("error", error)
+        });
+}
