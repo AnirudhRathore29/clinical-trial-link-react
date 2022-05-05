@@ -1,3 +1,6 @@
+var jwt = require('jsonwebtoken');
+const JWT_SECRET = "clinical57586xYtrial"
+
 export function authHeader(unAuth = null) {
     if (unAuth) {
         return {
@@ -5,11 +8,13 @@ export function authHeader(unAuth = null) {
             "Content-Type": "application/json",
         };
     } else {
-        let token = localStorage.getItem('jwtToken');
+        let authToken = localStorage.getItem('auth_security');
+        let authLocalData = jwt.verify(authToken, JWT_SECRET)
+
         return {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + token
+            Authorization: 'Bearer ' + authLocalData.security_token
             // Authorization: token
         };
     }
