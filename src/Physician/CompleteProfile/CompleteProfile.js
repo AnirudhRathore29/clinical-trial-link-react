@@ -3,7 +3,7 @@ import { InputText, SelectBox, TextArea } from "../../views/Components/Common/In
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import Header from "../../views/Components/FrontHeader/FrontHeader";
 import DatePicker from "react-datepicker";
-import { loginUser } from '../../redux/actions/authAction'
+// import { loginUser } from '../../redux/actions/authAction'
 import 'boxicons';
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
@@ -24,7 +24,7 @@ const PhysicianCompleteProfile = (props) => {
     const [startDate, setStartDate] = useState(new Date());
 
     const CompleteProfileSubmit = () => {
-        loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
+        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
         props.history.push('/physician/dashboard')
     }
 

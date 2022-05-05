@@ -1,18 +1,25 @@
 import axios from "axios";
 import { SET_CURRENT_USER, AUTH_LOADING, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR, RESEND_EMAIL_SUCCESS } from './types';
-import store from "./../store";
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
+var jwt = require('jsonwebtoken');
+const JWT_SECRET = "clinical57586xYtrial"
 
-export const loginUser = (decode_token) => {
-    localStorage.setItem("jwtToken", decode_token);
-    return (
-        store.dispatch({
-            type: SET_CURRENT_USER,
-            payload: decode_token
-        })
-    )
-}
+// export const loginUser = (decode_token) => {
+//     return (
+//         store.dispatch({
+//             type: SET_CURRENT_USER,
+//             payload: decode_token
+//         })
+//     )
+// }
+
+export const setCurrentUser = (decoded) => {
+    return {
+        type: SET_CURRENT_USER,
+        payload: decoded,
+    };
+};
 
 export function authRequest() {
     return {
@@ -41,7 +48,6 @@ export const SignupAction = (data) => async (dispatch) => {
             headers: authHeader(true),
         })
         .then(response => {
-            console.log("response", response)
             dispatch(signUpSuccess(response));
         })
         .catch(error => {
@@ -63,10 +69,62 @@ export const ResendEmailAction = (data) => async (dispatch) => {
             headers: authHeader(true),
         })
         .then(response => {
-            console.log("response", response)
             dispatch(ResendEmailSuccess(response));
         })
         .catch(error => {
             dispatch(signUpError(error.response.data));
         });
 }
+
+
+
+export function loginSuccess(response) {
+    return {
+        type: LOGIN_SUCCESS,
+        payload: response,
+    };
+}
+
+export function loginError(message) {
+    return {
+        type: LOGIN_ERROR,
+        payload: message,
+    };
+}
+
+export const LoginAction = (data) => async (dispatch) => {
+    dispatch(authRequest());
+    axios
+        .post(getCurrentHost() + "/login", data, {
+            headers: authHeader(true),
+        })
+        .then(response => {
+            console.log("response", response)
+            const success_res = response.data.data
+            const payload = {
+                dob: success_res.dob,
+                email: success_res.email,
+                first_name: success_res.first_name,
+                gender: success_res.gender,
+                id: success_res.id,
+                isProfileCompleted: success_res.isProfileCompleted,
+                last_name: success_res.last_name,
+                phone_number: success_res.phone_number,
+                profile_image: success_res.profile_image,
+                role: success_res.role,
+                security_token: success_res.security_token,
+                state_id: success_res.state_id,
+                status: success_res.status
+            }
+            var token = jwt.sign(payload, JWT_SECRET);
+            localStorage.setItem("auth_security" , token)
+            dispatch(loginSuccess(response));
+
+            var decoded = jwt.verify(token, JWT_SECRET);
+            dispatch(setCurrentUser(decoded));
+        })
+        .catch(error => {
+            dispatch(loginError(error.response.data));
+        });
+}
+

@@ -4,7 +4,7 @@ import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
 import Header from "../../views/Components/FrontHeader/FrontHeader";
-import { loginUser } from '../../redux/actions/authAction'
+// import { loginUser } from '../../redux/actions/authAction'
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 
@@ -22,7 +22,7 @@ const PatientCompleteProfile = (props) => {
     const [startDate, setStartDate] = useState(new Date());
 
     const CompleteProfileSubmit = () => {
-        loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
+        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
         props.history.push('/patient/dashboard')
     }
 
