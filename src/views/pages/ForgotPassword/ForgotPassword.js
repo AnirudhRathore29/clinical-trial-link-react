@@ -1,41 +1,86 @@
-import { Link } from 'react-router-dom';
-import {useHistory} from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 import Button from "../../Components/Common/Buttons/Buttons";
 import { InputText } from "../../Components/Common/Inputs/Inputs";
 import Header from "../../Components/FrontHeader/FrontHeader";
 import '../Login/Login.css';
+import { connect, useDispatch, useSelector } from "react-redux";
+import { ForgotPasswordAction } from "./../../../redux/actions/authAction"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
     const history = useHistory();
-    const ForgotPasswordSubmit = () => {
-        history.push("/new-password");
+    const dispatch = useDispatch();
+    const ForgotSelector = useSelector(state => state)
+    const [email, setEmail] = useState();
+    const [clickable, setClickable] = useState(false)
+    
+    //Check user is logged in or not
+    useEffect(() => {
+        if (props.auth.isAuthenticated) {
+            props.history.push('/');
+        }
+    }, [props]);
+
+    //Check user is logged in or not
+    useEffect(() => {
+        if (clickable === true) {
+            if (Object.keys(ForgotSelector.auth.user).length !== 0 && ForgotSelector.auth.loading === false) {
+                toast.success(ForgotSelector.auth.user.data.message, { theme: "colored" })
+                history.push("/login");
+            } else if (Object.keys(ForgotSelector.auth.error).length !== 0 && ForgotSelector.auth.loading === false) {
+                let err = ForgotSelector.auth.error.message;
+                toast.error(err, { theme: "colored" });
+                setClickable(false)
+            }
+        }
+    }, [ForgotSelector, clickable, history]);
+
+    const handleForgotPassSubmit = (e) => {
+        e.preventDefault();
+        dispatch(ForgotPasswordAction({ email }))
+        setClickable(true)
     }
+
     return (
         <>
             <Header className="innerPageHeader" />
+
             <section className="authentication-section">
                 <div className="container-fluid">
                     <div className="auth-heading">
                         <h1>Forgot Password</h1>
                         <p>Please enter your email below to <br /> receive reset password link</p>
                     </div>
-                    <div className="authentication-bx">
-                        <form>
-                            <InputText
-                                type="email"
-                                placeholder="Enter Email"
-                                labelText="Email"
-                            />
-                            <div className="form-group text-center">
-                                <Button isButton="true" BtnType="submit" BtnColor="green w-100" BtnText="Send reset password link" onClick={ForgotPasswordSubmit} />
-                            </div>
-                            <p className="create-account">Back to <Link to="/login">Login</Link></p>
-                        </form>
-                    </div>
+                    <Form onSubmit={handleForgotPassSubmit} className="authentication-bx" autoComplete="off">
+                        <InputText
+                            name="email"
+                            type="email"
+                            placeholder="Enter Email"
+                            labelText="Email"
+                            required="required"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <div className="form-group text-center">
+                            <Button
+                                isButton="true"
+                                BtnType="submit" 
+                                BtnColor="green w-100" 
+                                // onClick={handleForgotPassSubmit}
+                                BtnText="Send reset password link" />
+                        </div>
+                        <p className="create-account">Back to <Link to="/login">Login</Link></p>
+                    </Form>
                 </div>
             </section>
         </>
     );
 }
 
-export default ForgotPassword;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+export default connect(mapStateToProps)(ForgotPassword);

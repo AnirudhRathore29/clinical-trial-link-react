@@ -6,7 +6,7 @@ import RadioBtn from "../../Components/Common/RadioBtn/RadioBtn"
 import Button from "../../Components/Common/Buttons/Buttons";
 import Header from "../../Components/FrontHeader/FrontHeader";
 import "./Login.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import { LoginAction, ResendEmailAction } from "./../../../redux/actions/authAction"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +34,13 @@ const Login = (props) => {
     };
     /* password show hide */
 
+    //Check user is logged in or not
+    useEffect(() => {
+        if (props.auth.isAuthenticated) {
+            history.push('/');
+        }
+    }, [props, history]);
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setLoginFieldData((preValue) => {
@@ -47,15 +54,17 @@ const Login = (props) => {
     useEffect(() => {
         if (submitClick === true) {
             if (Object.keys(loginSelector.auth.user).length !== 0 && loginSelector.auth.loading === false) {
-                toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
-                if (loginSelector.auth.user.data.data.role === 2) {
-                    history.push('/patient/dashboard');
-                } else if (loginSelector.auth.user.data.data.role === 3) {
-                    history.push('/trial-clinic/dashboard');
-                } else if (loginSelector.auth.user.data.data.role === 4) {
-                    history.push('/physician/dashboard');
-                } else if (loginSelector.auth.user.data.data.role === 5) {
-                    history.push('/trial-sponsors/dashboard');
+                if (loginSelector.auth.user.data) {
+                    toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
+                    if (loginSelector.auth.user.data?.data?.role === 2) {
+                        history.push('/patient/dashboard');
+                    } else if (loginSelector.auth.user.data?.data?.role === 3) {
+                        history.push('/trial-clinic/dashboard');
+                    } else if (loginSelector.auth.user.data?.data?.role === 4) {
+                        history.push('/physician/dashboard');
+                    } else if (loginSelector.auth.user.data?.data?.role === 5) {
+                        history.push('/trial-sponsors/dashboard');
+                    }
                 }
             } else if (Object.keys(loginSelector.auth.error).length !== 0 && loginSelector.auth.loading === false) {
                 let err = loginSelector.auth.error.message;
@@ -73,7 +82,7 @@ const Login = (props) => {
                 history.push({
                     pathname: '/verify-email',
                     state: {
-                        email:verifyEmail
+                        email: verifyEmail
                     }
                 });
             } else if (Object.keys(loginSelector.auth.error).length !== 0 && loginSelector.auth.loading === false) {
@@ -82,7 +91,7 @@ const Login = (props) => {
                 setClickVerifyEmail(false)
             }
         }
-    }, [loginSelector]);
+    }, [loginSelector, history, clickVerifyEmail, submitClick, verifyEmail]);
 
     const handleLoginSubmit = (e) => {
         e.preventDefault();
@@ -200,4 +209,7 @@ const Login = (props) => {
     );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+export default connect(mapStateToProps)(Login);
