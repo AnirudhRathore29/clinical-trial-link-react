@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import store from './redux/store';
 import PrivateRoute from './views/private-route/PrivateRoute';
-// import { loginUser } from './redux/actions/authAction'
+import { setCurrentUser } from './redux/actions/authAction'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Assets/css/responsive.css';
@@ -18,6 +18,7 @@ const ForgotPassword = React.lazy(() => import('./views/pages/ForgotPassword/For
 const SetNewPassword = React.lazy(() => import('./views/pages/SetNewPassword/SetNewPassword'));
 const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEmail'));
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
+const Logout = React.lazy(() => import('./views/pages/Login/Logout'));
 
 /* patient panel pages */
 const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
@@ -25,18 +26,20 @@ const ClinicCompleteProfile = React.lazy(() => import('./TrialClinic/CompletePro
 const SponsorsCompleteProfile = React.lazy(() => import('./TrialSponsors/CompleteProfile/CompleteProfile'));
 const PhysicianCompleteProfile = React.lazy(() => import('./Physician/CompleteProfile/CompleteProfile'));
 
+var jwt = require('jsonwebtoken');
+const JWT_SECRET = "clinical57586xYtrial"
+
 const loading = (
 	<div className="pt-3 text-center">
 		<div className="sk-spinner sk-spinner-pulse"></div>
 	</div>
 );
 
-// if (localStorage.auth_security) {
-//     const token = localStorage.auth_security;
-//     setAuthToken(token);
-//     const decoded = jwt_decode(token);
-//     store.dispatch(setCurrentUser(decoded));
-// }
+if (localStorage.auth_security) {
+    const token = localStorage.auth_security;
+	var decoded = jwt.verify(token, JWT_SECRET);
+    store.dispatch(setCurrentUser(decoded));
+}
 
 function App() {
 	return (
@@ -49,12 +52,14 @@ function App() {
 					<Route exact path="/clinic-details" name="ClinicDetails" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/trial-listing" name="TrialListing" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/about-us" name="AboutUS" render={(props) => <FrontLayout className="inner-header" {...props} />} />
+					
 					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
 					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />
 					<Route exact path="/new-password" name="NewPassword" render={(props) => <SetNewPassword {...props} />} />
 					<Route exact path="/verify-email" name="VerifyEmail" render={(props) => <VerifyEmail {...props} />} />
-
+					<Route exact path="/logout" name="Logout" render={(props) => <Logout {...props} />} />
+					
 					{/* Patient Routes */}
 					<Route exact path="/patient/complete-profile" name="PatientCompleteProfile" render={(props) => <PatientCompleteProfile {...props} />} />
 
