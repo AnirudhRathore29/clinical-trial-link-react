@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText, SelectBox } from "../../views/Components/Common/Inputs/Inputs";
 import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
 import Header from "../../views/Components/FrontHeader/FrontHeader";
-// import { loginUser } from '../../redux/actions/authAction'
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { StatesAction } from "../../redux/actions/commonAction";
+import { MultiSelect } from "react-multi-select-component";
+import getCurrentHost from "../../redux/constants";
+import { authHeader } from "../../redux/actions/authHeader";
 
 const PatientCompleteProfile = (props) => {
+    const dispatch = useDispatch();
+    const dataSelector = useSelector(state => state.common_data)
+    const [selectSpeciality, setSelectSpeciality] = useState([]);
+    const [selectCondition, setSelectCondition] = useState([]);
+    const [specialityList, setSpecialityList] = useState([]);
     // const [Formdata, setFormdata] = useState({
     //     state: "",
     //     zip_code: "",
@@ -19,13 +28,45 @@ const PatientCompleteProfile = (props) => {
     //     account_holder_name: "",
     //     t_c: "",
     // });
+
+    async function SpecialitiesAction() {
+        const requestOptions = {
+            method: 'GET',
+            headers: authHeader()
+        };
+        return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                console.log("response.data", response.data)
+                let data = response.data;
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].speciality_title;
+                    obj.value = data[i].id;
+                    setSpecialityList(oldArray => [...oldArray, obj]);
+                }
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    useEffect(() => {
+        SpecialitiesAction()
+    }, [])
+
+
     const [startDate, setStartDate] = useState(new Date());
 
+    useEffect(() => {
+        dispatch(StatesAction())
+    }, [])
+
     const CompleteProfileSubmit = () => {
-        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
         props.history.push('/patient/dashboard')
     }
 
+    console.log("specialityList", selectSpeciality)
     return (
         <>
             <Header className="innerPageHeader" />
@@ -36,19 +77,22 @@ const PatientCompleteProfile = (props) => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form autoComplete="off">
+                        <form onSubmit={CompleteProfileSubmit} autoComplete="off">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <SelectBox
-                                        name="state"
+                                        name="state_id"
                                         labelText="State"
                                         optionData={
                                             <>
-                                                <option value="">Select State</option>
-                                                <option value="">Alabama</option>
-                                                <option value="">Alaska</option>
-                                                <option value="">Arizona</option>
-                                                <option value="">Arkansas</option>
+                                                <option value=""> Select State </option>
+                                                {
+                                                    Object.keys(dataSelector).length !== 0 && dataSelector.data.data.map((value, index) => {
+                                                        return (
+                                                            <option value={value.id} key={index}> {value.name} </option>
+                                                        )
+                                                    })
+                                                }
                                             </>
                                         }
                                     />
@@ -61,16 +105,18 @@ const PatientCompleteProfile = (props) => {
                                         labelText="Zip Code"
                                     />
                                 </div>
+
                                 <div className="col-lg-6 form-group">
                                     <label>Date Of Birth</label>
-                                    <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    <DatePicker name="dob" className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
                                 </div>
+
                                 <div className="col-lg-6 form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
+                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" value="M" defaultChecked="true" />
+                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" value="F" />
+                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" value="NB" />
                                     </div>
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">
@@ -111,39 +157,39 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-12 mt-3 mb-3">
                                     <h2>Trial Information</h2>
                                 </div>
-                                <div className="col-lg-4">
-                                    <SelectBox
-                                        name="seeking_trial_for"
-                                        labelText="Seeking Trials for"
-                                        optionData={
-                                            <>
-                                                <option value="">Select</option>
-                                                <option value="">Option1</option>
-                                                <option value="">Option2</option>
-                                                <option value="">Option3</option>
-                                            </>
-                                        }
-                                    />
+
+                                <div className="col-lg-6">
+                                    <div className="form-group">
+                                        <label> Seeking Trials for </label>
+                                        <MultiSelect
+                                            options={specialityList !== undefined && specialityList}
+                                            value={selectSpeciality}
+                                            onChange={setSelectSpeciality}
+                                            disableSearch={true}
+                                            labelledBy="Seeking Trials for"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-lg-4">
-                                    <SelectBox
-                                        name="health_condition"
-                                        labelText="Mental Health Condition"
-                                        optionData={
-                                            <>
-                                                <option value="">Select</option>
-                                                <option value="">Option1</option>
-                                                <option value="">Option2</option>
-                                                <option value="">Option3</option>
-                                            </>
-                                        }
-                                    />
+                                <div className="col-lg-6">
+                                    <div className="form-group">
+                                        <label> Mental Health Condition </label>
+                                        <MultiSelect
+                                            options={[
+                                                { label: "Grapes 🍇", value: "grapes" },
+                                                { label: "Mango 🥭", value: "mango" }
+                                            ]}
+                                            value={selectCondition}
+                                            onChange={setSelectCondition}
+                                            disableSearch={true}
+                                            labelledBy="Seeking Trials for"
+                                        />
+                                    </div>
                                 </div>
                                 <div className="col-lg-4 form-group">
                                     <label>Trials for</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Family/Friends" />
+                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" value="Myself" labelText="Myself" defaultChecked="true" />
+                                        <RadioBtn className="radio-btn" type="radio" name="trial_For" value="Family_Or_Friends" labelText="Family/Friends" />
                                     </div>
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">
@@ -152,15 +198,15 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="name"
-                                        placeholder="Enter Name"
-                                        labelText="Name"
+                                        name="physician_fname"
+                                        placeholder="First Name"
+                                        labelText="First Name"
                                     />
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="last_name"
+                                        name="physician_lname"
                                         placeholder="Last Name"
                                         labelText="Last Name"
                                     />
@@ -168,7 +214,7 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="email"
-                                        name="email"
+                                        name="physician_email"
                                         placeholder="Enter Email"
                                         labelText="Email"
                                     />
@@ -176,7 +222,7 @@ const PatientCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="number"
-                                        name="phone_number"
+                                        name="physician_phone_number"
                                         placeholder="Enter Phone Number"
                                         labelText="Phone Number"
                                     />
@@ -188,7 +234,6 @@ const PatientCompleteProfile = (props) => {
                                         BtnType="submit"
                                         BtnColor="green w-50"
                                         BtnText="Finish"
-                                        onClick={CompleteProfileSubmit}
                                     />
                                 </div>
                             </div>

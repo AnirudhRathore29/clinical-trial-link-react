@@ -45,7 +45,7 @@ const ClinicCompleteProfile = (props) => {
                                 </div>
                                 <div className="col-lg-6">
                                     <SelectBox
-                                        name="clinical_practice"
+                                        name="state_id"
                                         labelText="Clinical Practice"
                                         optionData={
                                             <>

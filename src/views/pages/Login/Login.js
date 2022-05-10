@@ -53,17 +53,34 @@ const Login = (props) => {
 
     useEffect(() => {
         if (submitClick === true) {
+            console.log("loginSelector.auth", loginSelector.auth)
             if (Object.keys(loginSelector.auth.user).length !== 0 && loginSelector.auth.loading === false) {
                 if (loginSelector.auth.user.data) {
                     toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
                     if (loginSelector.auth.user.data?.data?.role === 2) {
-                        history.push('/patient/dashboard');
+                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                            history.push('/patient/dashboard');
+                        }else{
+                            history.push('/patient/complete-profile');
+                        }
                     } else if (loginSelector.auth.user.data?.data?.role === 3) {
-                        history.push('/trial-clinic/dashboard');
+                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                            history.push('/trial-clinic/dashboard');
+                        }else{
+                            history.push('/trial-clinic/complete-profile');
+                        }                        
                     } else if (loginSelector.auth.user.data?.data?.role === 4) {
-                        history.push('/physician/dashboard');
+                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                            history.push('/physician/dashboard');
+                        }else{
+                            history.push('/physician/complete-profile');
+                        }
                     } else if (loginSelector.auth.user.data?.data?.role === 5) {
-                        history.push('/trial-sponsors/dashboard');
+                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                            history.push('/trial-sponsors/dashboard');
+                        }else{
+                            history.push('/trial-sponsors/complete-profile');
+                        }
                     }
                 }
             } else if (Object.keys(loginSelector.auth.error).length !== 0 && loginSelector.auth.loading === false) {

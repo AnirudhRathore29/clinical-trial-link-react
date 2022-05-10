@@ -3,12 +3,11 @@ import { NavLink, Link } from "react-router-dom";
 import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./FrontHeader.css";
+import { connect } from "react-redux";
 
 const Header = (props) => {
     const [scroll, setScroll] = useState(false);
-    const UserToken = localStorage.getItem("jwtToken");
     const validateUser = localStorage.getItem("userType")
-
     toast.configure();
 
     useEffect(() => {
@@ -48,7 +47,7 @@ const Header = (props) => {
                             <li className="nav-item">
                                 <NavLink to="/contact-us">Contact Us</NavLink>
                             </li>
-                            {UserToken
+                            {props.auth.isAuthenticated
                                 ?
                                 <>
                                     <li className="nav-item btn-item">
@@ -96,4 +95,7 @@ const Header = (props) => {
     );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+export default connect(mapStateToProps)(Header);

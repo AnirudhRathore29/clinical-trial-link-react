@@ -1,4 +1,7 @@
-// Auth Type
+export const SUCCESS = 'SUCCESS';
+export const ERROR = 'ERROR';
+export const LOADING = "LOADING";
+
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 export const AUTH_LOADING = 'AUTH_LOADING';
@@ -14,3 +17,6 @@ export const RESEND_EMAIL_SUCCESS = 'RESEND_EMAIL_SUCCESS';
 
 export const FORGOT_SUCCESS = 'FORGOT_SUCCESS';
 export const FORGOT_ERROR = 'FORGOT_ERROR';
+
+export const PROFILE_SUCCESS = "PROFILE_SUCCESS"
+export const PROFILE_ERROR = "PROFILE_ERROR"

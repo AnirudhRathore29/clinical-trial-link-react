@@ -17,7 +17,7 @@ const ForgotPassword = (props) => {
     const ForgotSelector = useSelector(state => state)
     const [email, setEmail] = useState();
     const [clickable, setClickable] = useState(false)
-    
+
     //Check user is logged in or not
     useEffect(() => {
         if (props.auth.isAuthenticated) {
@@ -67,10 +67,12 @@ const ForgotPassword = (props) => {
                         <div className="form-group text-center">
                             <Button
                                 isButton="true"
-                                BtnType="submit" 
-                                BtnColor="green w-100" 
-                                // onClick={handleForgotPassSubmit}
-                                BtnText="Send reset password link" />
+                                BtnType="submit"
+                                BtnColor="green w-100"
+                                hasSpinner={clickable === true && ForgotSelector.auth.loading}
+                                disabled={clickable === true && ForgotSelector.auth.loading}
+                                BtnText="Send reset password link"
+                            />
                         </div>
                         <p className="create-account">Back to <Link to="/login">Login</Link></p>
                     </Form>

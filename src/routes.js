@@ -7,6 +7,7 @@ const AboutUs = React.lazy(() => import('./views/pages/AboutUs/AboutUS'));
 
 /* patient pages */
 const ContactUs = React.lazy(() => import('./views/pages/ContactUs/ContactUs'));
+const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
 const PatientDashboard = React.lazy(() => import('./Patient/Dashboard/Dashboard'));
 const PatientEditProfile = React.lazy(() => import('./Patient/EditProfile/EditProfile'));
 const PatientTrialClinicDetails = React.lazy(() => import('./Patient/TrialClinicDetails/TrialClinicDetails'));
@@ -18,6 +19,7 @@ const PatientPaymentHistory = React.lazy(() => import('./Patient/PaymentHistory/
 const PatientTrialListing = React.lazy(() => import('./Patient/TrialListing/TrialListing'));
 
 /* clinic pages */
+const ClinicCompleteProfile = React.lazy(() => import('./TrialClinic/CompleteProfile/CompleteProfile'));
 const ClinicDashboard = React.lazy(() => import('./TrialClinic/Dashboard/Dashboard'));
 const ClinicTrialRequests = React.lazy(() => import('./TrialClinic/TrialRequests/TrialRequests'));
 const ClinicSponsorsListing = React.lazy(() => import('./TrialClinic/SponsorsListing/SponsorsListing'));
@@ -33,6 +35,7 @@ const ClinicManagePatient = React.lazy(() => import('./TrialClinic/ManagePatient
 const ClinicMyChats = React.lazy(() => import('./TrialClinic/MyChats/MyChats'));
 
 /* sponsors pages */
+const SponsorsCompleteProfile = React.lazy(() => import('./TrialSponsors/CompleteProfile/CompleteProfile'));
 const SponsorsDashboard = React.lazy(() => import('./TrialSponsors/Dashboard/Dashboard'));
 const SponsorsTrialRequests = React.lazy(() => import('./TrialSponsors/TrialRequests/TrialRequests'));
 const SponsorsTrials = React.lazy(() => import('./TrialSponsors/Trials/Trials'));
@@ -49,6 +52,7 @@ const SponsorsManagePatient = React.lazy(() => import('./TrialSponsors/ManagePat
 const SponsorsMyChats = React.lazy(() => import('./TrialSponsors/MyChats/MyChats'));
 
 /* physician pages */
+const PhysicianCompleteProfile = React.lazy(() => import('./Physician/CompleteProfile/CompleteProfile'));
 const PhysicianDashboard = React.lazy(() => import('./Physician/Dashboard/Dashboard'));
 const PhysicianClinicListing = React.lazy(() => import('./Physician/ClinicListing/ClinicListing'));
 const PhysicianClinicDetails = React.lazy(() => import('./Physician/ClinicDetails/ClinicDetails'));
@@ -66,6 +70,7 @@ const routes = [
 	{ path: '/about-us', exact: true, name: 'AboutUs', component: AboutUs },
 
 	/* Patient Routes */
+	{ path: '/patient/complete-profile', exact: true, name: 'PatientCompleteProfile', component: PatientCompleteProfile },
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },
 	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails },
@@ -77,6 +82,7 @@ const routes = [
 	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing },
 
 	/* Clinic Routes */
+	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile },
 	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard },
 	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
 	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },
@@ -92,6 +98,7 @@ const routes = [
 	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats },
 
 	/* Sponsors Routes */
+	{ path: '/trial-sponsors/complete-profile', exact: true, name: 'SponsorsCompleteProfile', component: SponsorsCompleteProfile },
 	{ path: '/trial-sponsors/dashboard', exact: true, name: 'SponsorsDashboard', component: SponsorsDashboard },
 	{ path: '/trial-sponsors/trial-requests', exact: true, name: 'SponsorsTrialRequests', component: SponsorsTrialRequests },
 	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
@@ -108,6 +115,7 @@ const routes = [
 	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats },
 
 	/* Physician Routes */
+	{ path: '/physician/complete-profile', exact: true, name: 'PhysicianCompleteProfile', component: PhysicianCompleteProfile },
 	{ path: '/physician/dashboard', exact: true, name: 'PhysicianDashboard', component: PhysicianDashboard },
 	{ path: '/physician/clinic-listing', exact: true, name: 'PhysicianClinicListing', component: PhysicianClinicListing },
 	{ path: '/physician/clinic-details', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails },

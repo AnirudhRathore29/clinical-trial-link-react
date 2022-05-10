@@ -28,14 +28,16 @@ export default function authReducer(state = initialState, action) {
 				...state,
 				isAuthenticated: !isEmpty(action.payload),
 				user: action.payload,
-				loading: false
+				loading: false,
+				error: {},
 			};
 		case LOGIN_SUCCESS:
 			return {
 				...state,
 				isAuthenticated: !isEmpty(action.payload),
 				user: action.payload,
-				loading: false
+				loading: false,
+				error: {},
 			};
 		case LOGIN_ERROR:
 			return {
@@ -48,6 +50,7 @@ export default function authReducer(state = initialState, action) {
 			return {
 				...state,
 				user: action.payload,
+				error: {},
 				loading: false
 			};
 		case SIGNUP_ERROR:
@@ -59,12 +62,16 @@ export default function authReducer(state = initialState, action) {
 			};
 		case RESEND_EMAIL_SUCCESS:
 			return {
+				...state,
 				user: action.payload,
+				error: {},
 				loading: false
 			};
 		case FORGOT_SUCCESS:
 			return {
+				...state,
 				user: action.payload,
+				error: {},
 				loading: false
 			};
 		case FORGOT_ERROR:
