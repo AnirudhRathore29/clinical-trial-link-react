@@ -50,7 +50,8 @@ const ClinicDashboard = () => {
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
                             <div className="heading-bx">
-                                <h1>Trial Sponsors/CRO</h1>
+                                <h1> Trial Sponsors/CRO </h1>
+                                <Link to="/trial-clinic/sponsors-listing" className='btn-text'>See All</Link>
                             </div>
                             <OwlCarousel {...options}>
                                 <div className='item'>
