@@ -1,30 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import { InputText, SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
+import {useSelector, useDispatch} from 'react-redux'
+import { ListTrials } from '../../redux/actions/TrialAction';
 import '../../Patient/MyFavorites/MyFavorites.css';
 
 const SponsorsTrials = () => {
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
+    
+    const Trials = useSelector((state) => state);
+    console.log("my trials", Trials);
+    const dispatch = useDispatch();
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
-    const [show2, setShow2] = useState(false);
-
     const handleShow2 = () => setShow2(true);
     const handleClose2 = () => setShow2(false);
-
-    const [show3, setShow3] = useState(false);
 
     const handleShow3 = () => {
         setShow3(true);
         handleClose2(true);
     }
     const handleClose3 = () => setShow3(false);
+
+
+    useEffect(() => {
+        dispatch(ListTrials())
+    }, []);
 
     return (
         <>
