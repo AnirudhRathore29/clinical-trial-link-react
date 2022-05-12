@@ -1,31 +1,72 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import Header from "../../views/Components/FrontHeader/FrontHeader";
 import DatePicker from "react-datepicker";
-// import { loginUser } from '../../redux/actions/authAction'
 import 'boxicons';
 import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
+import { useDispatch, useSelector } from "react-redux";
+import { StatesAction } from "../../redux/actions/commonAction";
+import { useHistory } from "react-router-dom";
+import { PhysicianCompleteProfileAction } from "../../redux/actions/profileAction";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const PhysicianCompleteProfile = (props) => {
-    // const [Formdata, setFormdata] = useState({
-    //     state: "",
-    //     zip_code: "",
-    //     date_of_birth: "",
-    //     gender: "",
-    //     bank_name: "",
-    //     account_holder_name: "",
-    //     account_holder_name: "",
-    //     t_c: "",
-    // });
+toast.configure();
+const PhysicianCompleteProfile = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const dataSelector = useSelector(state => state.common_data)
+    const profileComSelector = useSelector(state => state.profile);
+    const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [profileInputData, setProfileInputData] = useState({
+        state_id: "",
+        zip_code: "",
+        dob: new Date(),
+        gender: "M",
+        brief_intro: ""
+    });
 
-    const [startDate, setStartDate] = useState(new Date());
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setProfileInputData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    }
 
-    const CompleteProfileSubmit = () => {
-        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
-        props.history.push('/physician/dashboard')
+    useEffect(() => {
+        dispatch(StatesAction())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (CPSubmitClick === true) {
+            if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
+                toast.success(profileComSelector.data.data.message, { theme: "colored" })
+                history.push("/physician/dashboard");
+            } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
+                let err = profileComSelector.error.message;
+                toast.error(err, { theme: "colored" });
+                setCPSubmitClick(false)
+            }
+        }
+    }, [CPSubmitClick, profileComSelector, history])
+
+    const CompleteProfileSubmit = (e) => {
+        e.preventDefault();
+        let data = {
+            state_id: profileInputData.state_id,
+            zip_code: profileInputData.zip_code,
+            dob: profileInputData.dob,
+            gender: profileInputData.gender,
+            brief_intro: profileInputData.brief_intro,
+        }
+        dispatch(PhysicianCompleteProfileAction(data))
+        setCPSubmitClick(true)
     }
 
     return (
@@ -38,19 +79,24 @@ const PhysicianCompleteProfile = (props) => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form autoComplete="off">
+                        <form autoComplete="off" onSubmit={CompleteProfileSubmit}>
                             <div className="row">
                                 <div className="col-lg-6">
                                     <SelectBox
-                                        name="state"
+                                        name="state_id"
+                                        required="required"
+                                        onChange={onChange}
                                         labelText="State"
                                         optionData={
                                             <>
-                                                <option value="">Select State</option>
-                                                <option value="">Alabama</option>
-                                                <option value="">Alaska</option>
-                                                <option value="">Arizona</option>
-                                                <option value="">Arkansas</option>
+                                                <option value=""> Select State </option>
+                                                {
+                                                    Object.keys(dataSelector).length !== 0 && dataSelector.data.data.map((value, index) => {
+                                                        return (
+                                                            <option value={value.id} key={index}> {value.name} </option>
+                                                        )
+                                                    })
+                                                }
                                             </>
                                         }
                                     />
@@ -61,25 +107,42 @@ const PhysicianCompleteProfile = (props) => {
                                         name="zip_code"
                                         placeholder="Enter zip code"
                                         labelText="Zip Code"
+                                        onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-6 form-group">
                                     <label>Date Of Birth</label>
-                                    <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    <DatePicker
+                                        name="dob"
+                                        className="form-control"
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        showPopperArrow={false}
+                                        onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
+                                        selected={profileInputData.dob !== null ? profileInputData.dob : new Date()}
+                                        autoComplete="nope"
+                                    />
                                 </div>
+
                                 <div className="col-lg-6 form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
+                                        <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Male" value="M" defaultChecked="true" />
+                                        <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Female" value="F" />
+                                        <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Nonbinary" value="NB" />
                                     </div>
                                 </div>
+
                                 <div className="col-lg-12">
                                     <TextArea
                                         name="brief_intro"
                                         placeholder="Enter Brief Intro"
                                         labelText="Brief Intro"
+                                        required="required"
+                                        onChange={onChange}
                                     />
                                 </div>
 
@@ -89,7 +152,8 @@ const PhysicianCompleteProfile = (props) => {
                                         BtnType="submit"
                                         BtnColor="green w-50"
                                         BtnText="Finish"
-                                        onClick={CompleteProfileSubmit}
+                                        hasSpinner={profileComSelector.loading}
+                                        disabled={profileComSelector.loading}
                                     />
                                 </div>
                             </div>

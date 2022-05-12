@@ -3,7 +3,11 @@ import {
 	PROFILE_SUCCESS,
 	PROFILE_ERROR
 } from './../actions/types';
-const initialState = {};
+const initialState = {
+	data: {},
+	loading: false,
+	error: {}
+};
 
 export default function ProfileReducer(state = initialState, action) {
 	switch (action.type) {
@@ -17,6 +21,7 @@ export default function ProfileReducer(state = initialState, action) {
 				...state,
                 loading: false,
 				data: action.payload,
+				error: {}
 			};
 		case PROFILE_ERROR:
 			return {

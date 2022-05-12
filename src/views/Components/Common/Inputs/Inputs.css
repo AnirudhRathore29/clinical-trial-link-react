@@ -3,7 +3,9 @@
 .hasIcon{position: relative;}
 .show-hide{position: absolute;right: 2rem;top: 50%;transform: translateY(-50%); background: transparent;border: none;cursor: pointer;width: 2.4rem;height: 2.4rem;background: url(../../../../Assets/images/pass-hide.svg) center center no-repeat;transition: 0s;padding: 0;background-size: cover;}
 .show-hide.active{background: url(../../../../Assets/images/show-pass.svg) center center no-repeat;background-size: cover;}
-.form-control{height: 5.4rem;background: var(--whiteColor);border-radius: 5px;padding-left: 2rem;font-size: 15px;border: 1px solid #c8e1fb;box-shadow: inset 0 0 0 10rem var(--whiteColor)!important;} 
+.multiSelect-control .dropdown-container, .form-control{height: 5.4rem;background: var(--whiteColor);border-radius: 5px;padding-left: 2rem;font-size: 15px;border: 1px solid #c8e1fb;box-shadow: inset 0 0 0 10rem var(--whiteColor)!important;} 
+.multiSelect-control .dropdown-container{display: flex; align-items: center;}
+.multiSelect-control.rmsc .dropdown-heading{padding-left:0;}
 input:hover,
 input:focus{box-shadow: inset 0 0 0 10rem var(--whiteColor)!important;}
 .form-control.password-field{padding-right: 6rem;}
