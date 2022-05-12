@@ -1,7 +1,5 @@
 import { TRIAL_SUCCESS, TRIAL_ERROR } from '../actions/types';
-const initialState = {
-	categories: []
-};
+const initialState = {};
 
 export default function TrialsReducers(state = initialState, action) {
 	switch (action.type) {
