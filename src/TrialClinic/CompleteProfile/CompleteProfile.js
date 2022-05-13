@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import Header from "../../views/Components/FrontHeader/FrontHeader";
@@ -17,12 +17,45 @@ const ClinicCompleteProfile = (props) => {
     //     account_holder_name: "",
     //     t_c: "",
     // });
+    const totalFiles = 10;
+    const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
 
     const CompleteProfileSubmit = () => {
         // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
         props.history.push('/trial-clinic/dashboard')
     }
 
+    const handleFileUpload = (e) => {
+        const files = e.target.files;
+        if (files?.length > 0 && files?.length <= totalFiles) {
+            for (let i = 0; i < files.length; i++) {
+                const { name, type } = files[i];
+                
+                const fileParams = {
+                    key: name.includes('.') ? name.substring(0, name.indexOf('.')) : name,
+                    extension: type.includes('/') ? type.substring(type.indexOf('/') + 1) : type
+                };
+
+                const reader = new FileReader();
+                reader.readAsDataURL(files[i]);
+                reader.addEventListener('load', (e) => {
+                    const data = e.target.result;
+                    uploadedFileURLs.push({
+                        url: data,
+                        file_type: fileParams.extension,
+                        file_name: files[i].name
+                    })
+                    setUploadedFileURLs(uploadedFileURLs);
+                    console.log("uploadedFileURLs", uploadedFileURLs)
+                })
+                // console.log("fileParams", fileParams)
+                // console.log("files[i]", files[i])
+            }
+        }
+
+        // console.log("files", files)
+    }
+    
     return (
         <>
             <Header className="innerPageHeader" />
@@ -148,7 +181,7 @@ const ClinicCompleteProfile = (props) => {
                                 <div className="col-lg-12 form-group">
                                     <label>Upload Clinic Document</label>
                                     <label className="upload-document">
-                                        <input type="file" />
+                                        <input type="file" multiple onChange={handleFileUpload} />
                                         <div>
                                             <h4>No File Uploaded</h4>
                                             <h3>Tap Here to Upload your File</h3>
