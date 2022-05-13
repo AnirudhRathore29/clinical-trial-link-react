@@ -13,6 +13,7 @@ import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import '../../Patient/MyFavorites/MyFavorites.css';
+import { Form } from 'react-bootstrap';
 
 const SponsorsTrials = () => {
 
@@ -23,6 +24,10 @@ const SponsorsTrials = () => {
     const [specialityList, setSpecialityList] = useState([]);
     const TrialsDetails = useSelector((state) => state.View_trials.data);
     const trials = useSelector((state) => state.My_trials.data);
+    const [createTrialFieldData, setCreateTrialFieldData] = useState({
+        trial_name: "",
+        compensation: "",
+    });
 
     const dispatch = useDispatch()
 
@@ -70,6 +75,29 @@ const SponsorsTrials = () => {
     // const CreateTrial = () =>{
     //     SpecialitiesAction()
     // }
+
+    const onChange = (e) => {
+        const { name, checked, value } = e.target;
+        if (name === "send_invitation") {
+            setCreateTrialFieldData((preValue) => {
+                return {
+                    ...preValue,
+                    [name]: checked
+                };
+            });
+        } else {
+            setCreateTrialFieldData((preValue) => {
+                return {
+                    ...preValue,
+                    [name]: value
+                };
+            });
+        }
+    };
+
+    // const handleSignUPSubmit = () => {
+    //     dispatch(SignupAction(regData))
+    // };
 
     useEffect(() => {
         dispatch(ListTrials())
@@ -127,70 +155,80 @@ const SponsorsTrials = () => {
                 onClick={handleClose}
                 ModalData={
                     <>
-                        <InputText
-                            type="text"
-                            placeholder="Enter Trial Name"
-                            labelText="Trial Name"
-                        />
-                        <div className="form-group">
-                            <label> Specialty </label>
-                            <MultiSelect
-                                options={specialityList !== undefined && specialityList}
-                                value={selectSpeciality}
-                                onChange={setSelectSpeciality}
-                                disableSearch={true}
-                                labelledBy="Specialty"
+                        <Form autoComplete="off">
+                            <InputText
+                                type="text"
+                                name="trial_name"
+                                placeholder="Enter Trial Name"
+                                labelText="Trial Name"
+                                onChange={onChange}
                             />
-                        </div>
-                        {/* <SelectBox
-                            labelText="Specialty"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Specialty</option>
-                                    <option value="">Specialty 1</option>
-                                    <option value="">Specialty 1</option>
-                                    <option value="">Specialty 1</option>
-                                    <option value="">Specialty 1</option>
-                                </>
-                            }
-                        /> */}
-                        <SelectBox
-                            labelText="Condition"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Select Condition</option>
-                                    <option value="">Condition 1</option>
-                                    <option value="">Condition 1</option>
-                                    <option value="">Condition 1</option>
-                                    <option value="">Condition 1</option>
-                                </>
-                            }
-                        />
-                        <InputText
-                            type="text"
-                            placeholder="Enter Compensation"
-                            labelText="Compensation"
-                        />
-                        <TextArea
-                            name="description"
-                            placeholder="Enter Description"
-                            labelText="Description"
-                        />
-                        <RadioBtn
-                            className="checkbox-btn"
-                            type="checkbox"
-                            name="t_c"
-                            labelText="Send Invitation to Trial Clinics."
-                        />
-                        <div className='clnicaltrial-detail-ftr'>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-100"
-                                BtnText="Submit"
+                            <div className="form-group">
+                                <label> Specialty </label>
+                                <MultiSelect
+                                    options={specialityList !== undefined && specialityList}
+                                    value={selectSpeciality}
+                                    onChange={setSelectSpeciality}
+                                    disableSearch={true}
+                                    labelledBy="Specialty"
+                                    className="multiSelect-control"
+                                    name="speciality"
+                                />
+                            </div>
+                            {/* <SelectBox
+                                labelText="Specialty"
+                                optionData=
+                                {
+                                    <>
+                                        <option value="">Specialty</option>
+                                        <option value="">Specialty 1</option>
+                                        <option value="">Specialty 1</option>
+                                        <option value="">Specialty 1</option>
+                                        <option value="">Specialty 1</option>
+                                    </>
+                                }
+                            /> */}
+                            <SelectBox
+                                labelText="Condition"
+                                optionData=
+                                {
+                                    <>
+                                        <option value="">Select Condition</option>
+                                        <option value="">Condition 1</option>
+                                        <option value="">Condition 1</option>
+                                        <option value="">Condition 1</option>
+                                        <option value="">Condition 1</option>
+                                    </>
+                                }
                             />
-                        </div>
+                            <InputText
+                                type="text"
+                                placeholder="Enter Compensation"
+                                name="compensation"
+                                labelText="Compensation"
+                                onChange={onChange}
+                            />
+                            <TextArea
+                                name="description"
+                                placeholder="Enter Description"
+                                labelText="Description"
+                                onChange={onChange}
+                            />
+                            <RadioBtn
+                                className="checkbox-btn"
+                                type="checkbox"
+                                name="send_invitation"
+                                labelText="Send Invitation to Trial Clinics."
+                                onChange={onChange}
+                            />
+                            <div className='clnicaltrial-detail-ftr'>
+                                <Button
+                                    isButton="true"
+                                    BtnColor="primary w-100"
+                                    BtnText="Submit"
+                                />
+                            </div>
+                        </Form>
                     </>
                 }
             />
