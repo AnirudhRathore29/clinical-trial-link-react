@@ -1,26 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import Header from "../../views/Components/FrontHeader/FrontHeader";
-// import { loginUser } from '../../redux/actions/authAction'
 import 'boxicons';
 import "../../views/pages/Login/Login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { StatesAction } from "../../redux/actions/commonAction";
+import { useHistory } from "react-router-dom";
+import { SponsorCompleteProfileAction } from "../../redux/actions/profileAction";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
 const ClinicCompleteProfile = (props) => {
-    // const [Formdata, setFormdata] = useState({
-    //     state: "",
-    //     zip_code: "",
-    //     date_of_birth: "",
-    //     gender: "",
-    //     bank_name: "",
-    //     account_holder_name: "",
-    //     account_holder_name: "",
-    //     t_c: "",
-    // });
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const dataSelector = useSelector(state => state.common_data)
+    const profileComSelector = useSelector(state => state.profile);
+    const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [profileInputData, setProfileInputData] = useState({
+        sponsor_name: "",
+        speciality: [],
+        condition: [],
+        state_id: "",
+        zip_code: "",
+        address: "",
+        brief_intro: "",
+        bank_name: "",
+        account_holder_name: "",
+        account_number: "",
+        routing_number: ""
+    });
 
-    const CompleteProfileSubmit = () => {
-        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
-        props.history.push('/trial-sponsors/dashboard')
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setProfileInputData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    }
+
+    useEffect(() => {
+        dispatch(StatesAction())
+    }, [dispatch])
+
+
+    useEffect(() => {
+        if (CPSubmitClick === true) {
+            if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
+                toast.success(profileComSelector.data.data.message, { theme: "colored" })
+                history.push("/trial-sponsors/dashboard");
+            } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
+                let err = profileComSelector.error.message;
+                toast.error(err, { theme: "colored" });
+                setCPSubmitClick(false)
+            }
+        }
+    }, [CPSubmitClick, profileComSelector, history])
+
+    const CompleteProfileSubmit = (e) => {
+        e.preventDefault();
+        let data = {
+            state_id: profileInputData.state_id,
+            zip_code: profileInputData.zip_code,
+            dob: profileInputData.dob,
+            gender: profileInputData.gender,
+            brief_intro: profileInputData.brief_intro,
+        }
+        dispatch(SponsorCompleteProfileAction(data))
+        setCPSubmitClick(true)
     }
 
     return (
@@ -75,15 +125,20 @@ const ClinicCompleteProfile = (props) => {
                                 </div>
                                 <div className="col-lg-6">
                                     <SelectBox
-                                        name="state"
+                                        name="state_id"
+                                        required="required"
+                                        onChange={onChange}
                                         labelText="State"
                                         optionData={
                                             <>
-                                                <option value="">Select State</option>
-                                                <option value="">Alabama</option>
-                                                <option value="">Alaska</option>
-                                                <option value="">Arizona</option>
-                                                <option value="">Arkansas</option>
+                                                <option value=""> Select State </option>
+                                                {
+                                                    Object.keys(dataSelector).length !== 0 && dataSelector.data.data.map((value, index) => {
+                                                        return (
+                                                            <option value={value.id} key={index}> {value.name} </option>
+                                                        )
+                                                    })
+                                                }
                                             </>
                                         }
                                     />

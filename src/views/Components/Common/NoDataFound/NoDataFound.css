@@ -1,2 +1,3 @@
-.NoDataFound{text-align: center;}
-.NoDataFound img{max-width: 50rem;}
+.no-result-found{text-align: center;}
+.no-result-found img{max-width: 70rem;}
+.no-result-found h2{font-size: 3.5rem;margin-top: 2rem;font-weight: 700;}
