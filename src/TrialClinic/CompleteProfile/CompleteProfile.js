@@ -5,32 +5,38 @@ import Header from "../../views/Components/FrontHeader/FrontHeader";
 // import { loginUser } from '../../redux/actions/authAction'
 import 'boxicons';
 import "../../views/pages/Login/Login.css";
+import { useDispatch } from "react-redux";
+import { TrialClinicCompleteProfileAction } from "../../redux/actions/profileAction";
 
 const ClinicCompleteProfile = (props) => {
-    // const [Formdata, setFormdata] = useState({
-    //     state: "",
-    //     zip_code: "",
-    //     date_of_birth: "",
-    //     gender: "",
-    //     bank_name: "",
-    //     account_holder_name: "",
-    //     account_holder_name: "",
-    //     t_c: "",
-    // });
+    const dispatch = useDispatch();
+    const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [profileInputData, setProfileInputData] = useState({
+        clinic_name: "",
+        speciality: [],
+        condition: [],
+        state_id: "",
+        address: "",
+        zip_code: "",
+        principal_investigator_name: "",
+        principal_investigator_email: "",
+        principal_investigator_brief_intro: "",
+        documents: "",
+        bank_name: "",
+        account_holder_name: "",
+        account_number: "",
+        routing_number: ""
+    });
+
     const totalFiles = 10;
     const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
-
-    const CompleteProfileSubmit = () => {
-        // loginUser("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9")
-        props.history.push('/trial-clinic/dashboard')
-    }
 
     const handleFileUpload = (e) => {
         const files = e.target.files;
         if (files?.length > 0 && files?.length <= totalFiles) {
             for (let i = 0; i < files.length; i++) {
                 const { name, type } = files[i];
-                
+
                 const fileParams = {
                     key: name.includes('.') ? name.substring(0, name.indexOf('.')) : name,
                     extension: type.includes('/') ? type.substring(type.indexOf('/') + 1) : type
@@ -52,10 +58,33 @@ const ClinicCompleteProfile = (props) => {
                 // console.log("files[i]", files[i])
             }
         }
-
         // console.log("files", files)
     }
-    
+
+    const CompleteProfileSubmit = (e) => {
+        e.preventDefault();
+        let data = {
+            clinic_name: profileInputData.clinic_name,
+            speciality: "",
+            condition: "",
+            state_id: profileInputData.state_id,
+            address: "",
+            zip_code: "",
+            principal_investigator_name: "",
+            principal_investigator_email: "",
+            principal_investigator_brief_intro: "",
+            documents: "",
+            bank_name: "",
+            account_holder_name: "",
+            account_number: "",
+            routing_number: ""
+        }
+        dispatch(TrialClinicCompleteProfileAction(data))
+        setCPSubmitClick(true)
+
+        // props.history.push('/trial-clinic/dashboard')
+    }
+
     return (
         <>
             <Header className="innerPageHeader" />
@@ -74,21 +103,6 @@ const ClinicCompleteProfile = (props) => {
                                         name="clinic_name"
                                         placeholder="Enter Clinic Name"
                                         labelText="Clinic Name"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <SelectBox
-                                        name="state_id"
-                                        labelText="Clinical Practice"
-                                        optionData={
-                                            <>
-                                                <option value="">Select Clinical Practice</option>
-                                                <option value="">Option 1</option>
-                                                <option value="">Option 2</option>
-                                                <option value="">Option 3</option>
-                                                <option value="">Option 4</option>
-                                            </>
-                                        }
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -181,7 +195,7 @@ const ClinicCompleteProfile = (props) => {
                                 <div className="col-lg-12 form-group">
                                     <label>Upload Clinic Document</label>
                                     <label className="upload-document">
-                                        <input type="file" multiple onChange={handleFileUpload} />
+                                        <input type="file" name="documents" multiple onChange={handleFileUpload} />
                                         <div>
                                             <h4>No File Uploaded</h4>
                                             <h3>Tap Here to Upload your File</h3>
