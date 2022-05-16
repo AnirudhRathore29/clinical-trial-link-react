@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 199.76 198.69">
    <defs>
       <style>
-        .cls-1{fill:#cdeb8b;stroke:#4096ee;stroke-miterlimit:10;stroke-width:4px; animation: dasshborder 15s infinite;}
+        .cls-1{fill:#cdeb8b;stroke:#4096ee;stroke-miterlimit:10;stroke-width:4px; animation: dasshborder 4s infinite;}
         @keyframes dasshborder {
             0% {
             stroke-dashoffset: 0;

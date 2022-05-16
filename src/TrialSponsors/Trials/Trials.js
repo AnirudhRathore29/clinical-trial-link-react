@@ -2,39 +2,50 @@ import { useEffect, useState } from 'react';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
-import { InputText, SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import { InputText, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import { useSelector, useDispatch } from 'react-redux'
-import { ListTrials, ViewTrials } from '../../redux/actions/TrialSponsorAction';
+import { ListTrials, ViewTrials, CreateTrials } from '../../redux/actions/TrialSponsorAction';
 import moment from 'moment';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
-import '../../Patient/MyFavorites/MyFavorites.css';
 import { Form } from 'react-bootstrap';
+import '../../Patient/MyFavorites/MyFavorites.css';
 
 const SponsorsTrials = () => {
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
-    const [selectSpeciality, setSelectSpeciality] = useState([]);
     const [specialityList, setSpecialityList] = useState([]);
-    const TrialsDetails = useSelector((state) => state.View_trials.data);
+    const [conditionList, setConditionList] = useState([]);
     const trials = useSelector((state) => state.My_trials.data);
+    const resData = useSelector((state) => state.create_trials.data);
+    const [createTrials, setCreateTrials] = useState();
+    const TrialsDetails = useSelector((state) => state.View_trials.data);
+    const [trialsState, setTrialsState] = useState();
+
+    console.log("createTrials", createTrials);
+
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
         trial_name: "",
         compensation: "",
+        speciality: [],
+        condition: [],
+        description: "",
+        send_invitation: "0"
     });
 
     const dispatch = useDispatch()
 
-
     const handleShow = () => setShow(true);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+    }
 
     const handleShow2 = (id) => {
         setShow2(true);
@@ -42,6 +53,7 @@ const SponsorsTrials = () => {
     }
     const handleClose2 = () => {
         setShow2(false);
+        setTrialsState(undefined)
     }
 
     const handleShow3 = () => {
@@ -72,9 +84,40 @@ const SponsorsTrials = () => {
             })
     }
 
-    // const CreateTrial = () =>{
-    //     SpecialitiesAction()
-    // }
+    async function ConditionsAction(data) {
+        const requestOptions = {
+            method: 'POST',
+            headers: authHeader(true),
+            body: JSON.stringify(data)
+        };
+        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                var data = response.data;
+                var conditionsArr = [];
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].condition_title;
+                    obj.value = data[i].id;
+                    conditionsArr.push(obj)
+                }
+                setConditionList(conditionsArr);
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    const specialityOnChange = (e) => {
+        setCreateTrialFieldData({ ...createTrialFieldData, speciality: e })
+        const speArr = e.map(value => value.id)
+        let data = {
+            speciality: speArr
+        }
+
+        console.log("data2", data);
+        ConditionsAction(data);
+    }
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
@@ -95,14 +138,50 @@ const SponsorsTrials = () => {
         }
     };
 
-    // const handleSignUPSubmit = () => {
-    //     dispatch(SignupAction(regData))
-    // };
+    const CreateTrial = (event) => {
+        event.preventDefault();
+        const specialityArr = createTrialFieldData.speciality.map(value => value.id);
+        const conditionArr = createTrialFieldData.condition.map(value => value.id);
+        const fieldData = {
+            trial_name: createTrialFieldData.trial_name,
+            compensation: createTrialFieldData.compensation,
+            speciality: specialityArr,
+            condition: conditionArr,
+            description: createTrialFieldData.description,
+            send_invitation: createTrialFieldData.send_invitation
+
+        }
+        dispatch(CreateTrials(fieldData))
+        dispatch(ListTrials())
+    }
 
     useEffect(() => {
         dispatch(ListTrials())
         SpecialitiesAction()
     }, []);
+
+    useEffect(() => {
+        if (createTrials !== undefined && createTrials.status_code == 200) {
+            setShow(false);
+            // setCreateTrials(undefined)
+            setCreateTrialFieldData({
+                trial_name: "",
+                compensation: "",
+                speciality: [],
+                condition: [],
+                description: "",
+                send_invitation: "0"
+            })
+        }
+    }, [createTrials])
+
+    useEffect(() => {
+        setTrialsState(TrialsDetails)
+    }, [TrialsDetails]);
+
+    useEffect(() => {
+        setCreateTrials(resData)
+    }, [resData]);
 
     return (
         <>
@@ -155,7 +234,7 @@ const SponsorsTrials = () => {
                 onClick={handleClose}
                 ModalData={
                     <>
-                        <Form autoComplete="off">
+                        <Form onSubmit={CreateTrial} autoComplete="off">
                             <InputText
                                 type="text"
                                 name="trial_name"
@@ -167,40 +246,26 @@ const SponsorsTrials = () => {
                                 <label> Specialty </label>
                                 <MultiSelect
                                     options={specialityList !== undefined && specialityList}
-                                    value={selectSpeciality}
-                                    onChange={setSelectSpeciality}
+                                    value={createTrialFieldData.speciality}
+                                    onChange={specialityOnChange}
                                     disableSearch={true}
                                     labelledBy="Specialty"
                                     className="multiSelect-control"
                                     name="speciality"
                                 />
                             </div>
-                            {/* <SelectBox
-                                labelText="Specialty"
-                                optionData=
-                                {
-                                    <>
-                                        <option value="">Specialty</option>
-                                        <option value="">Specialty 1</option>
-                                        <option value="">Specialty 1</option>
-                                        <option value="">Specialty 1</option>
-                                        <option value="">Specialty 1</option>
-                                    </>
-                                }
-                            /> */}
-                            <SelectBox
-                                labelText="Condition"
-                                optionData=
-                                {
-                                    <>
-                                        <option value="">Select Condition</option>
-                                        <option value="">Condition 1</option>
-                                        <option value="">Condition 1</option>
-                                        <option value="">Condition 1</option>
-                                        <option value="">Condition 1</option>
-                                    </>
-                                }
-                            />
+                            <div className="form-group">
+                                <label> Mental Health Condition </label>
+                                <MultiSelect
+                                    options={conditionList !== undefined && conditionList}
+                                    value={createTrialFieldData.condition}
+                                    onChange={(e) => setCreateTrialFieldData({ ...createTrialFieldData, condition: e })}
+                                    disableSearch={true}
+                                    labelledBy="Mental Health Condition"
+                                    className="multiSelect-control"
+                                    name="condition"
+                                />
+                            </div>
                             <InputText
                                 type="text"
                                 placeholder="Enter Compensation"
@@ -226,6 +291,7 @@ const SponsorsTrials = () => {
                                     isButton="true"
                                     BtnColor="primary w-100"
                                     BtnText="Submit"
+                                    onClick={CreateTrial}
                                 />
                             </div>
                         </Form>
@@ -237,12 +303,12 @@ const SponsorsTrials = () => {
                 ModalTitle={
                     <>
                         {/* <button type="button" className="btn-close" aria-label="Close" onClick={handleClose2}></button> */}
-                        {TrialsDetails !== undefined &&
+                        {trialsState !== undefined &&
                             <>
-                                <h2>{TrialsDetails.data.trial_name}</h2>
+                                <h2>{trialsState.data.trial_name}</h2>
                                 <div className="trialClinic-location">
-                                    <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(TrialsDetails.data.updated_at).format("MMM Do YY")}</span>
-                                    {TrialsDetails.data.status == 1
+                                    <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialsState.data.updated_at).format("MMM Do YY")}</span>
+                                    {trialsState.data.status == 1
                                         ?
                                         <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                         :
@@ -256,7 +322,7 @@ const SponsorsTrials = () => {
                 onClick={handleClose2}
                 ModalData={
                     <>
-                        {TrialsDetails !== undefined ?
+                        {trialsState !== undefined ?
                             <>
                                 <div className='sponser-price-info'>
                                     <div className='sponser-price-row w-100 br-none'>
@@ -265,41 +331,21 @@ const SponsorsTrials = () => {
                                         </div>
                                         <div>
                                             <h4>Trial Compensation</h4>
-                                            <h2>{TrialsDetails.data.compensation !== null ? TrialsDetails.data.compensation : "0.00"}</h2>
+                                            <h2>{trialsState.data.compensation !== null ? trialsState.data.compensation : "0.00"}</h2>
                                         </div>
                                     </div>
                                 </div>
                                 <div className='info-bx'>
                                     <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Lorem ipsum dolor sit amet consectetur adipiscing eli am porta nunc eu nibh dignissim sit amet viverra.
                                 </div>
-                                {TrialsDetails.data.conditions.length !== 0 &&
-                                    <div className='clnicaltrial-description'>
-                                        <h2>Condition</h2>
-                                        <ul className='condition-ul'>
-                                            {
-                                                TrialsDetails.data.conditions.length !== 0
-                                                    ?
-                                                    TrialsDetails.data.conditions.map((value, index) => {
-                                                        return (
-                                                            <li key={index}>{value.condition_detail.condition_title}</li>
-                                                        )
-                                                    })
-                                                    :
-                                                    <div class="alert alert-primary w-100" role="alert">
-                                                        No Condition Found!
-                                                    </div>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-                                {TrialsDetails.data.specialities.length !== 0 &&
+                                {trialsState.data.specialities.length !== 0 &&
                                     <div className='clnicaltrial-description'>
                                         <h2>Specialty</h2>
                                         <ul className='condition-ul'>
                                             {
-                                                TrialsDetails.data.specialities.length !== 0
+                                                trialsState.data.specialities.length !== 0
                                                     ?
-                                                    TrialsDetails.data.specialities.map((value, index) => {
+                                                    trialsState.data.specialities.map((value, index) => {
                                                         return (
                                                             <li key={index}>{value.speciality_detail.speciality_title}</li>
                                                         )
@@ -312,10 +358,32 @@ const SponsorsTrials = () => {
                                         </ul>
                                     </div>
                                 }
-                                {TrialsDetails.data.description !== null &&
+
+                                {trialsState.data.conditions.length !== 0 &&
+                                    <div className='clnicaltrial-description'>
+                                        <h2>Condition</h2>
+                                        <ul className='condition-ul'>
+                                            {
+                                                trialsState.data.conditions.length !== 0
+                                                    ?
+                                                    trialsState.data.conditions.map((value, index) => {
+                                                        return (
+                                                            <li key={index}>{value.condition_detail.condition_title}</li>
+                                                        )
+                                                    })
+                                                    :
+                                                    <div class="alert alert-primary w-100" role="alert">
+                                                        No Condition Found!
+                                                    </div>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+
+                                {trialsState.data.description !== null &&
                                     <div className='clnicaltrial-description'>
                                         <h2>Description</h2>
-                                        <p>{TrialsDetails.data.description}</p>
+                                        <p>{trialsState.data.description}</p>
                                     </div>
                                 }
                                 <div className='clnicaltrial-detail-ftr'>
