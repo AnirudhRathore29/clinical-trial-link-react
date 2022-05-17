@@ -5,6 +5,7 @@ import {
  } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
+import HandleError from "./HandleError";
 
 export function ActionSuccess(response) {
     return {
@@ -27,6 +28,7 @@ export const StatesAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ActionSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ActionError(error.response.data));

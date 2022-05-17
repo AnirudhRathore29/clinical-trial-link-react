@@ -3,6 +3,7 @@ import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIA
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
+import HandleError from "./HandleError";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
@@ -35,6 +36,7 @@ export const ListTrials = () => async (dispatch) => {
         })
         .then(response => {
             dispatch(ListTrialSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ListTrialError(error.response.data));
@@ -63,6 +65,7 @@ export const ViewTrials = (id) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ViewTrialSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ViewTrialError(error.response.data));
@@ -92,8 +95,25 @@ export const CreateTrials = (FieldData) => async (dispatch) => {
         })
         .then(response => {
             dispatch(CreateTrialSuccess(response));
-            console.log("response trial", response);
             toast.success(response.data.message, { theme: "colored" })
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(CreateTrialError(error.response.data));
+            toast.error(error.response.data.message, { theme: "colored" })
+        });
+}
+
+export const SendTrialInvitation = (FieldData) => async (dispatch) => {
+    dispatch(authRequest());
+    axios
+        .post(getCurrentHost() + "/sponsor/send-trial-invitation", FieldData, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch(CreateTrialSuccess(response));
+            toast.success(response.data.message, { theme: "colored" })
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));

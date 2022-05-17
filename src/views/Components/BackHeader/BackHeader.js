@@ -16,6 +16,8 @@ const Header = (props, { colorHeader, headerColor })  => {
         setSideMenu(!sideMenu);
     }
 
+    console.log("props.auth.user.role", props.auth.user.role);
+
     return (
         <>
             <header className={`dashboard-header ${colorHeader} ${headerColor}`}>

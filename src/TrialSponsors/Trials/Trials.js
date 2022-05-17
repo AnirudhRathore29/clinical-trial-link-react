@@ -5,7 +5,7 @@ import CommonModal from '../../views/Components/Common/Modal/Modal';
 import { InputText, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import { useSelector, useDispatch } from 'react-redux'
-import { ListTrials, ViewTrials, CreateTrials } from '../../redux/actions/TrialSponsorAction';
+import { ListTrials, ViewTrials, CreateTrials, SendTrialInvitation } from '../../redux/actions/TrialSponsorAction';
 import moment from 'moment';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
@@ -27,8 +27,8 @@ const SponsorsTrials = () => {
     const [createTrials, setCreateTrials] = useState();
     const TrialsDetails = useSelector((state) => state.View_trials.data);
     const [trialsState, setTrialsState] = useState();
+    const [TrialId, setTrialId] = useState();
 
-    console.log("createTrials", createTrials);
 
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
         trial_name: "",
@@ -36,8 +36,17 @@ const SponsorsTrials = () => {
         speciality: [],
         condition: [],
         description: "",
-        send_invitation: "0"
+        send_invitation: ""
     });
+
+    const [sendInvitationData, setSendInvitationData] = useState({
+        clinic_trial_id: "",
+        email_address: "",
+        email_list: "",
+        additional_information: ""
+    })
+
+    console.log("trials listing", trials);
 
     const dispatch = useDispatch()
 
@@ -56,9 +65,10 @@ const SponsorsTrials = () => {
         setTrialsState(undefined)
     }
 
-    const handleShow3 = () => {
+    const handleShow3 = (id) => {
         setShow3(true);
         handleClose2(true);
+        setTrialId(id)
     }
     const handleClose3 = () => setShow3(false);
 
@@ -115,7 +125,6 @@ const SponsorsTrials = () => {
             speciality: speArr
         }
 
-        console.log("data2", data);
         ConditionsAction(data);
     }
 
@@ -138,6 +147,16 @@ const SponsorsTrials = () => {
         }
     };
 
+    const onChange2 = (e) => {
+        const { name, value } = e.target;
+        setSendInvitationData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    };
+
     const CreateTrial = (event) => {
         event.preventDefault();
         const specialityArr = createTrialFieldData.speciality.map(value => value.id);
@@ -155,6 +174,18 @@ const SponsorsTrials = () => {
         dispatch(ListTrials())
     }
 
+    const SendInvitation = (event) => {
+        event.preventDefault();
+        let formData = new FormData();
+        formData.append("clinic_trial_id", TrialId);
+        formData.append("email_address", sendInvitationData.email_address);
+        formData.append("email_list", sendInvitationData.email_address);
+        formData.append("additional_information", sendInvitationData.additional_information);
+        dispatch(SendTrialInvitation(formData))
+
+        console.log("sendInvitationData", sendInvitationData);
+    }
+
     useEffect(() => {
         dispatch(ListTrials())
         SpecialitiesAction()
@@ -164,7 +195,7 @@ const SponsorsTrials = () => {
         if (createTrials !== undefined && createTrials.status_code == 200) {
             setShow(false);
             // setCreateTrials(undefined)
-            setCreateTrialFieldData({
+            setCreateTrialFieldData({ 
                 trial_name: "",
                 compensation: "",
                 speciality: [],
@@ -278,6 +309,7 @@ const SponsorsTrials = () => {
                                 placeholder="Enter Description"
                                 labelText="Description"
                                 onChange={onChange}
+                                maxLength="500"
                             />
                             <RadioBtn
                                 className="checkbox-btn"
@@ -397,7 +429,7 @@ const SponsorsTrials = () => {
                                         isButton="true"
                                         BtnColor="primary w-20"
                                         BtnText="Invite"
-                                        onClick={handleShow3}
+                                        onClick={() => handleShow3(trialsState.data.id)}
                                     />
                                 </div>
                             </>
@@ -413,38 +445,43 @@ const SponsorsTrials = () => {
                 onClick={handleClose3}
                 ModalData={
                     <>
-                        <InputText
-                            type="email"
-                            placeholder="Enter Email"
-                            labelText="Email"
-                        />
-                        <div className='mb-4'>Or</div>
-                        <div className="col-lg-12 form-group">
-                            <label>Upload List of Emails</label>
-                            <label className="upload-document w-100">
-                                <input type="file" />
-                                <div>
-                                    <h4>No File Uploaded</h4>
-                                    <h3>Tap Here to Upload your File</h3>
-                                </div>
-                            </label>
-                        </div>
-                        <div className="col-lg-12">
-                            <TextArea
-                                name="additional_information"
-                                placeholder="Enter Additional Information"
-                                labelText="Additional Information"
+                        <Form onSubmit={SendInvitation} autoComplete="off">
+                            <InputText
+                                type="email"
+                                name="email_address"
+                                placeholder="Enter Email"
+                                labelText="Email"
+                                onChange={onChange2}
                             />
-                        </div>
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Send"
-                                onClick={handleClose3}
-                            />
-                        </div>
+                            <div className='mb-4'>Or</div>
+                            <div className="col-lg-12 form-group">
+                                <label>Upload List of Emails</label>
+                                <label className="upload-document w-100">
+                                    <input type="file" />
+                                    <div>
+                                        <h4>No File Uploaded</h4>
+                                        <h3>Tap Here to Upload your File</h3>
+                                    </div>
+                                </label>
+                            </div>
+                            <div className="col-lg-12">
+                                <TextArea
+                                    name="additional_information"
+                                    placeholder="Enter Additional Information"
+                                    labelText="Additional Information"
+                                    onChange={onChange2}
+                                />
+                            </div>
+                            <div className='clnicaltrial-detail-ftr mt-0'>
+                                <Button
+                                    isButton="true"
+                                    BtnType="submit"
+                                    BtnColor="primary w-100"
+                                    BtnText="Send"
+                                    
+                                />
+                            </div>
+                        </Form>
                     </>
                 }
             />

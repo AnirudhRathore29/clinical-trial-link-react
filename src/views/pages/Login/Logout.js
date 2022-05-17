@@ -1,28 +1,27 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { LogoutAction } from  "./../../../redux/actions/authAction";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
 function Logout(props) {
-	const { auth, history, LogoutAction } = props;
+	const { auth, history } = props;
+	const dispatch = useDispatch()
 	useEffect(() => {
 		if (auth.isAuthenticated) {
-			LogoutAction();
+			dispatch(LogoutAction())
+			// toast.error(error.message, { theme: "colored" })
 		} else {
 			history.push('/login');
 		}
-	}, [auth, history, LogoutAction]);
+	}, [auth, history]);
 
 	return <></>;
 }
-
-Logout.propTypes = {
-	LogoutAction: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
-};
 
 const mapStateToProps = (state) => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, { LogoutAction })(Logout);
+export default connect(mapStateToProps)(Logout);

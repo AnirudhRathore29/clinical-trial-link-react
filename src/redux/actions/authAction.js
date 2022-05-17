@@ -2,10 +2,15 @@ import axios from "axios";
 import { SET_CURRENT_USER, AUTH_LOADING, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_SUCCESS, SIGNUP_ERROR, RESEND_EMAIL_SUCCESS, LOGOUT_ACTION, FORGOT_SUCCESS, FORGOT_ERROR } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 var jwt = require('jsonwebtoken');
 const JWT_SECRET = "clinical57586xYtrial"
 
 export const setCurrentUser = (decoded) => {
+    console.log("decoded", decoded);
     return {
         type: SET_CURRENT_USER,
         payload: decoded,
@@ -108,9 +113,10 @@ export const LoginAction = (data) => async (dispatch) => {
                 status: success_res.status
             }
             var token = jwt.sign(payload, JWT_SECRET);
-            localStorage.setItem("auth_security" , token)
+            localStorage.setItem("auth_security", token)
             var decoded = jwt.verify(token, JWT_SECRET);
-            dispatch(loginSuccess(response), setCurrentUser(decoded));
+            dispatch(loginSuccess(response));
+            dispatch(setCurrentUser(decoded));
 
         })
         .catch(error => {
@@ -167,14 +173,16 @@ export function LogoutSuccess(response) {
     };
 }
 export const LogoutAction = (data) => async (dispatch) => {
-    dispatch(setCurrentUser({}));
-    localStorage.removeItem("auth_security");
+
     axios
         .post(getCurrentHost() + "/logout", data, {
             headers: authHeader(),
         })
         .then(response => {
             dispatch(LogoutSuccess(response));
+            dispatch(setCurrentUser({}));
+            localStorage.removeItem("auth_security");
+            toast.success(response.data.message, { theme: "colored" })
         })
         .catch(error => {
             console.log("error", error)
