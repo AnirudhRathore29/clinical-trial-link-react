@@ -120,12 +120,10 @@ const ClinicCompleteProfile = (props) => {
         if (files?.length > 0 && files?.length <= totalFiles) {
             for (let i = 0; i < files.length; i++) {
                 const { name, type } = files[i];
-
                 const fileParams = {
                     key: name.includes('.') ? name.substring(0, name.indexOf('.')) : name,
                     extension: type.includes('/') ? type.substring(type.indexOf('/') + 1) : type
                 };
-
                 const reader = new FileReader();
                 reader.readAsDataURL(files[i]);
                 reader.addEventListener('load', (e) => {
@@ -136,12 +134,9 @@ const ClinicCompleteProfile = (props) => {
                         file_name: files[i].name
                     })
                     setUploadedFileURLs(uploadedFileURLs);
-                    // console.log("uploadedFileURLs", uploadedFileURLs)
                 })
                 uploadedFile.push(files[i])
                 setUploadFile(uploadedFile);
-                // console.log("fileParams", fileParams)
-                // console.log("files[i]", files[i])
             }
         }
     }
@@ -151,7 +146,7 @@ const ClinicCompleteProfile = (props) => {
             console.log("profileComSelector", profileComSelector)
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
                 toast.success(profileComSelector.data.data.message, { theme: "colored" })
-                // history.push("/trial-clinic/dashboard");
+                history.push("/trial-clinic/dashboard");
             } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
                 let err = profileComSelector.error.message;
                 toast.error(err, { theme: "colored" });
@@ -181,14 +176,13 @@ const ClinicCompleteProfile = (props) => {
             formData.append(`speciality[${i}]`, specialityArr[i]);
         }
         for (let i = 0; i < conditionArr.length; i++) {
-            formData.append(`condition[${i}]`,conditionArr[i]);
+            formData.append(`condition[${i}]`, conditionArr[i]);
         }
         for (let i = 0; i < uploadedFile.length; i++) {
-            formData.append(`documents[${i}]`,uploadedFile[i]);
+            formData.append(`documents[${i}]`, uploadedFile[i]);
         }
         dispatch(TrialClinicCompleteProfileAction(formData))
         setCPSubmitClick(true)
-
     }
 
     return (
