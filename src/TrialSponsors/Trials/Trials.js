@@ -13,13 +13,16 @@ import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { Form } from 'react-bootstrap';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import '../../Patient/MyFavorites/MyFavorites.css';
-
+var loadingTechSkeleton = [];
 const SponsorsTrials = () => {
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
+
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const trials = useSelector((state) => state.My_trials.data);
@@ -28,6 +31,16 @@ const SponsorsTrials = () => {
     const TrialsDetails = useSelector((state) => state.View_trials.data);
     const [trialsState, setTrialsState] = useState();
     const [TrialId, setTrialId] = useState();
+
+    const [isSelected, setIsSelected] = useState();
+    const [selectedFile, setSelectedFile] = useState();
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+        setIsSelected(true);
+    };
+
+    const SelectedFileName = selectedFile !== undefined && selectedFile.name.split('.');
 
 
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
@@ -46,8 +59,6 @@ const SponsorsTrials = () => {
         additional_information: ""
     })
 
-    console.log("trials listing", trials);
-
     const dispatch = useDispatch()
 
     const handleShow = () => setShow(true);
@@ -63,6 +74,7 @@ const SponsorsTrials = () => {
     const handleClose2 = () => {
         setShow2(false);
         setTrialsState(undefined)
+        setIsSelected(false);
     }
 
     const handleShow3 = (id) => {
@@ -70,7 +82,9 @@ const SponsorsTrials = () => {
         handleClose2(true);
         setTrialId(id)
     }
-    const handleClose3 = () => setShow3(false);
+    const handleClose3 = () => {
+        setShow3(false);
+    }
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -80,7 +94,6 @@ const SponsorsTrials = () => {
         return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
             .then(data => data.json())
             .then((response) => {
-                console.log("response.data", response.data)
                 let data = response.data;
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
@@ -176,14 +189,20 @@ const SponsorsTrials = () => {
 
     const SendInvitation = (event) => {
         event.preventDefault();
-        let formData = new FormData();
-        formData.append("clinic_trial_id", TrialId);
-        formData.append("email_address", sendInvitationData.email_address);
-        formData.append("email_list", sendInvitationData.email_address);
-        formData.append("additional_information", sendInvitationData.additional_information);
-        dispatch(SendTrialInvitation(formData))
 
-        console.log("sendInvitationData", sendInvitationData);
+
+        let formData = new FormData();
+
+        formData.append("clinic_trial_id", TrialId);
+        formData.append("additional_information", sendInvitationData.additional_information);
+
+        if (sendInvitationData.email_address.length > 0) {
+            formData.append("email_address", sendInvitationData.email_address);
+        } else if (selectedFile !== undefined) {
+            formData.append("email_list", selectedFile);
+        }
+        dispatch(SendTrialInvitation(formData))
+        console.log("createTrials", createTrials);
     }
 
     useEffect(() => {
@@ -195,7 +214,7 @@ const SponsorsTrials = () => {
         if (createTrials !== undefined && createTrials.status_code == 200) {
             setShow(false);
             // setCreateTrials(undefined)
-            setCreateTrialFieldData({ 
+            setCreateTrialFieldData({
                 trial_name: "",
                 compensation: "",
                 speciality: [],
@@ -203,6 +222,15 @@ const SponsorsTrials = () => {
                 description: "",
                 send_invitation: "0"
             })
+
+            setShow3(false);
+            setSendInvitationData({
+                clinic_trial_id: "",
+                email_address: "",
+                email_list: "",
+                additional_information: ""
+            })
+            setSelectedFile(undefined)
         }
     }, [createTrials])
 
@@ -213,6 +241,19 @@ const SponsorsTrials = () => {
     useEffect(() => {
         setCreateTrials(resData)
     }, [resData]);
+
+
+    useEffect(() => {
+        for (let i = 0; i < 12; i++) {
+            return (
+                loadingTechSkeleton.push(
+                    <div className='col-lg-6' key={i}>
+                        <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
+                    </div>
+                )
+            )
+        }
+    })
 
     return (
         <>
@@ -230,31 +271,43 @@ const SponsorsTrials = () => {
 
                     <div className='row'>
                         {
-                            trials !== undefined &&
+                            trials !== undefined ?
                                 trials?.length !== 0 ?
-                                trials.data.map((value, index) => {
-                                    return (
-                                        <div className='col-lg-6' key={index}>
-                                            <ClinicTrial
-                                                className="mb-4 white-trial-bx"
-                                                onClick={() => handleShow2(value.id)}
-                                                title={value.trial_name}
-                                                description={value.description}
-                                                status={
-                                                    value.status === 1
-                                                        ?
-                                                        <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                                        :
-                                                        <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                                }
-                                                iconColor="#356AA0"
-                                                ShareFav="false"
-                                            />
-                                        </div>
-                                    )
-                                })
+                                    trials.data.map((value, index) => {
+                                        return (
+                                            <div className='col-lg-6' key={index}>
+                                                <ClinicTrial
+                                                    className="mb-4 white-trial-bx"
+                                                    onClick={() => handleShow2(value.id)}
+                                                    title={value.trial_name}
+                                                    description={value.description}
+                                                    status={
+                                                        value.status === 1
+                                                            ?
+                                                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                                            :
+                                                            <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                                                    }
+                                                    iconColor="#356AA0"
+                                                    ShareFav="false"
+                                                />
+                                            </div>
+                                        )
+                                    })
+                                    :
+                                    <NoDataFound />
                                 :
-                                <NoDataFound />
+                                <div className='row'>
+                                    {
+                                        [1, 2, 3, 4, 5, 6, 7, 8].map((value, index) => {
+                                            return (
+                                                <div className='col-lg-6' key={index}>
+                                                    <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
                         }
                     </div>
                 </div>
@@ -339,7 +392,7 @@ const SponsorsTrials = () => {
                             <>
                                 <h2>{trialsState.data.trial_name}</h2>
                                 <div className="trialClinic-location">
-                                    <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialsState.data.updated_at).format("MMM Do YY")}</span>
+                                    <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialsState.data.recruitment_start_date).format("MMM Do YY")}</span>
                                     {trialsState.data.status == 1
                                         ?
                                         <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
@@ -456,11 +509,13 @@ const SponsorsTrials = () => {
                             <div className='mb-4'>Or</div>
                             <div className="col-lg-12 form-group">
                                 <label>Upload List of Emails</label>
-                                <label className="upload-document w-100">
-                                    <input type="file" />
+                                <label className="upload-document single-file-uploader w-100">
+                                    <input type="file" name="documents" accept=".xls,.xlsx,.csv" onChange={changeHandler} />
                                     <div>
-                                        <h4>No File Uploaded</h4>
-                                        <h3>Tap Here to Upload your File</h3>
+                                        <h4>
+                                            {isSelected ? "1 File is selected" : "No File Uploaded"}
+                                        </h4>
+                                        <h3>{isSelected ? <><span className='fileName'>{SelectedFileName[0]}</span><span>.{SelectedFileName[1]}</span></> : "Tap Here to Upload your File"}</h3>
                                     </div>
                                 </label>
                             </div>
@@ -478,7 +533,7 @@ const SponsorsTrials = () => {
                                     BtnType="submit"
                                     BtnColor="primary w-100"
                                     BtnText="Send"
-                                    
+
                                 />
                             </div>
                         </Form>

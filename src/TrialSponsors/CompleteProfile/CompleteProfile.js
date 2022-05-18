@@ -45,7 +45,6 @@ const ClinicCompleteProfile = (props) => {
         return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
             .then(data => data.json())
             .then((response) => {
-                console.log("response.data", response.data)
                 let data = response.data;
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);

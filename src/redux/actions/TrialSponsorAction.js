@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR } from './types';
+import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR } from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
@@ -28,8 +28,14 @@ export function authRequest() {
     };
 }
 
+export function isLoading() {
+    return {
+        type: LOADING
+    };
+}
+
 export const ListTrials = () => async (dispatch) => {
-    dispatch(authRequest());
+    dispatch(isLoading());
     axios
         .get(getCurrentHost() + "/sponsor/my-trials", {
             headers: authHeader()
@@ -58,7 +64,7 @@ export function ViewTrialError(message) {
 }
 
 export const ViewTrials = (id) => async (dispatch) => {
-    dispatch(authRequest());
+    dispatch(isLoading());
     axios
         .get(getCurrentHost() + "/view-trial/" + id, {
             headers: authHeader()
@@ -88,7 +94,7 @@ export function CreateTrialError(message) {
 }
 
 export const CreateTrials = (FieldData) => async (dispatch) => {
-    dispatch(authRequest());
+    dispatch(isLoading());
     axios
         .post(getCurrentHost() + "/sponsor/create-trial", FieldData, {
             headers: authHeader()
@@ -105,7 +111,7 @@ export const CreateTrials = (FieldData) => async (dispatch) => {
 }
 
 export const SendTrialInvitation = (FieldData) => async (dispatch) => {
-    dispatch(authRequest());
+    dispatch(isLoading());
     axios
         .post(getCurrentHost() + "/sponsor/send-trial-invitation", FieldData, {
             headers: authHeader()
@@ -118,5 +124,20 @@ export const SendTrialInvitation = (FieldData) => async (dispatch) => {
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));
             toast.error(error.response.data.message, { theme: "colored" })
+        });
+}
+
+export const SponsorDashboard = () => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .get(getCurrentHost() + "/sponsor/dashboard", {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch(ListTrialSuccess(response));
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(ListTrialError(error.response.data));
         });
 }
