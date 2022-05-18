@@ -167,24 +167,27 @@ const ClinicCompleteProfile = (props) => {
 
         let formData = new FormData();
         formData.append("clinic_name", profileInputData.clinic_name);
-        formData.append("speciality", JSON.stringify(specialityArr));
-        formData.append("condition", JSON.stringify(conditionArr));
         formData.append("state_id", profileInputData.state_id);
         formData.append("address", profileInputData.address);
         formData.append("zip_code", profileInputData.zip_code);
         formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
         formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
         formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
-        formData.append("documents", uploadedFile);
         formData.append("bank_name", profileInputData.bank_name);
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
+        for (let i = 0; i < specialityArr.length; i++) {
+            formData.append(`speciality[${i}]`, specialityArr[i]);
+        }
+        for (let i = 0; i < conditionArr.length; i++) {
+            formData.append(`condition[${i}]`,conditionArr[i]);
+        }
+        for (let i = 0; i < uploadedFile.length; i++) {
+            formData.append(`documents[${i}]`,uploadedFile[i]);
+        }
         dispatch(TrialClinicCompleteProfileAction(formData))
         setCPSubmitClick(true)
-
-
-        // console.log(JSON.parse(formData.getAll("speciality")))
 
     }
 

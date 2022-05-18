@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 207.52 207.48">
+   <defs>
+      <style>
+         .cls-1{fill:#4096ee; animation: dasshborder 2s infinite;}
+          @keyframes dasshborder {
+            0% {
+               fill: #4096ee;
+            }
+
+            50% {
+              fill: #a9d3ff;
+            }
+
+            100% {
+               fill: #4096ee;
+            }
+
+         }
+      .cls-2{fill:#cdeb8b;}
+      </style>
+   </defs>
+   <g id="Layer_2" data-name="Layer 2">
+      <g id="Layer_1-2" data-name="Layer 1">
+         <g id="Group_44644" data-name="Group 44644">
+            <path id="Path_77601" data-name="Path 77601" class="cls-1" d="M103.76,0a37,37,0,1,0,37,37h0A37,37,0,0,0,103.76,0Z"/>
+            <path id="Path_77602" data-name="Path 77602" class="cls-2" d="M103.75,66.66A29.65,29.65,0,1,1,133.4,37,29.64,29.64,0,0,1,103.75,66.66Z"/>
+            <path id="Path_77603" data-name="Path 77603" class="cls-1" d="M170.46,66.66a37.05,37.05,0,0,0-37.05,37.06h0v29.65H74.11V103.72a37.06,37.06,0,1,0-37,37.06H66.7v29.64a37.06,37.06,0,1,0,74.12,0V140.78h29.64a37.06,37.06,0,0,0,0-74.12Z"/>
+            <path id="Path_77604" data-name="Path 77604" class="cls-2" d="M37,133.39a29.65,29.65,0,1,1,29.65-29.65v29.65Z"/>
+            <path id="Path_77605" data-name="Path 77605" class="cls-2" d="M133.38,170.49a29.64,29.64,0,0,1-59.25,0V140.85h59.25Z"/>
+            <path id="Path_77606" data-name="Path 77606" class="cls-2" d="M170.49,133.39H140.84V103.74a29.65,29.65,0,1,1,29.65,29.65Z"/>
+         </g>
+      </g>
+   </g>
+</svg>

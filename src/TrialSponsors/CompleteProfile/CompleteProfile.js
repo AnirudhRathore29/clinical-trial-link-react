@@ -9,6 +9,9 @@ import { StatesAction } from "../../redux/actions/commonAction";
 import { useHistory } from "react-router-dom";
 import { SponsorCompleteProfileAction } from "../../redux/actions/profileAction";
 import { toast } from "react-toastify";
+import { MultiSelect } from "react-multi-select-component";
+import getCurrentHost from "../../redux/constants";
+import { authHeader } from "../../redux/actions/authHeader";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
@@ -17,6 +20,8 @@ const ClinicCompleteProfile = (props) => {
     const history = useHistory();
     const dataSelector = useSelector(state => state.common_data)
     const profileComSelector = useSelector(state => state.profile);
+    const [specialityList, setSpecialityList] = useState([]);
+    const [conditionList, setConditionList] = useState([]);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
@@ -32,6 +37,61 @@ const ClinicCompleteProfile = (props) => {
         routing_number: ""
     });
 
+    async function SpecialitiesAction() {
+        const requestOptions = {
+            method: 'GET',
+            headers: authHeader()
+        };
+        return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                let data = response.data;
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].speciality_title;
+                    obj.value = data[i].id;
+                    setSpecialityList(oldArray => [...oldArray, obj]);
+                }
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    async function ConditionsAction(data) {
+        const requestOptions = {
+            method: 'POST',
+            headers: authHeader(true),
+            body: JSON.stringify(data)
+        };
+        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                var data = response.data;
+                var conditionsArr = [];
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].condition_title;
+                    obj.value = data[i].id;
+                    conditionsArr.push(obj)
+                }
+                setConditionList(conditionsArr);
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    const specialityOnChange = (e) => {
+        setProfileInputData({ ...profileInputData, speciality: e })
+        const speArr = e.map(value => value.id)
+        let data = {
+            speciality: speArr
+        }
+
+        ConditionsAction(data);
+    }
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setProfileInputData((preValue) => {
@@ -45,6 +105,10 @@ const ClinicCompleteProfile = (props) => {
     useEffect(() => {
         dispatch(StatesAction())
     }, [dispatch])
+
+    useEffect(() => {
+        SpecialitiesAction()
+    }, [])
 
 
     useEffect(() => {
@@ -62,12 +126,20 @@ const ClinicCompleteProfile = (props) => {
 
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
+        const specialityArr = profileInputData.speciality.map(value => value.id);
+        const conditionArr = profileInputData.condition.map(value => value.id);
         let data = {
+            sponsor_name: profileInputData.sponsor_name,
+            speciality: specialityArr,
+            condition: conditionArr,
             state_id: profileInputData.state_id,
             zip_code: profileInputData.zip_code,
-            dob: profileInputData.dob,
-            gender: profileInputData.gender,
+            address: profileInputData.address,
             brief_intro: profileInputData.brief_intro,
+            bank_name: profileInputData.bank_name,
+            account_holder_name: profileInputData.account_holder_name,
+            account_number: profileInputData.account_number,
+            routing_number: profileInputData.routing_number
         }
         dispatch(SponsorCompleteProfileAction(data))
         setCPSubmitClick(true)
@@ -88,39 +160,34 @@ const ClinicCompleteProfile = (props) => {
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="sponsors_name"
+                                        name="sponsor_name"
                                         placeholder="Enter Sponsor Name"
                                         labelText="Sponsor Name"
+                                        onChange={onChange}
                                     />
                                 </div>
-                                <div className="col-lg-6">
-                                    <SelectBox
-                                        name="specialty"
-                                        labelText="Specialty"
-                                        optionData={
-                                            <>
-                                                <option value="">Select Specialty</option>
-                                                <option value="">Specialty 1</option>
-                                                <option value="">Specialty 2</option>
-                                                <option value="">Specialty 3</option>
-                                                <option value="">Specialty 4</option>
-                                            </>
-                                        }
+                                <div className="col-lg-6 form-group">
+                                    <label> Specialty </label>
+                                    <MultiSelect
+                                        options={specialityList !== undefined && specialityList}
+                                        value={profileInputData.speciality}
+                                        onChange={specialityOnChange}
+                                        disableSearch={true}
+                                        labelledBy="Specialty"
+                                        className="multiSelect-control"
+                                        name="speciality"
                                     />
                                 </div>
-                                <div className="col-lg-6">
-                                    <SelectBox
+                                <div className="col-lg-6 form-group">
+                                    <label> Mental Health Condition </label>
+                                    <MultiSelect
+                                        options={conditionList !== undefined && conditionList}
+                                        value={profileInputData.condition}
+                                        onChange={(e) => setProfileInputData({ ...profileInputData, condition: e })}
+                                        disableSearch={true}
+                                        labelledBy="Mental Health Condition"
+                                        className="multiSelect-control"
                                         name="condition"
-                                        labelText="Condition"
-                                        optionData={
-                                            <>
-                                                <option value="">Select Condition</option>
-                                                <option value="">Condition 1</option>
-                                                <option value="">Condition 2</option>
-                                                <option value="">Condition 3</option>
-                                                <option value="">Condition 4</option>
-                                            </>
-                                        }
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -149,6 +216,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="address"
                                         placeholder="Enter Address"
                                         labelText="Address"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -157,6 +225,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="zip_code"
                                         placeholder="Enter zip code"
                                         labelText="Zip Code"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-12">
@@ -164,6 +233,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="brief_intro"
                                         placeholder="Enter Brief Intro"
                                         labelText="Brief Intro"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">
@@ -175,6 +245,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="bank_name"
                                         placeholder="Enter Bank Name"
                                         labelText="Name of Bank"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -183,6 +254,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="account_holder_name"
                                         placeholder="Enter Name"
                                         labelText="Account Holder Name"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -191,6 +263,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="account_number"
                                         placeholder="Enter Account Number"
                                         labelText="Account Number"
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -199,6 +272,7 @@ const ClinicCompleteProfile = (props) => {
                                         name="routing_number"
                                         placeholder="Enter Routing Number"
                                         labelText="Routing Number"
+                                        onChange={onChange}
                                     />
                                 </div>
 

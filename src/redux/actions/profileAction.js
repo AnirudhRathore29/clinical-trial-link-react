@@ -6,6 +6,7 @@ import {
  } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
+import HandleError from "./HandleError";
 
 export function ProfileRequest() {
     return {
@@ -35,6 +36,7 @@ export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ProfileSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
@@ -49,6 +51,7 @@ export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ProfileSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
@@ -64,6 +67,7 @@ export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ProfileSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
@@ -78,6 +82,7 @@ export const PatientCompleteProfileAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ProfileSuccess(response));
+            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
