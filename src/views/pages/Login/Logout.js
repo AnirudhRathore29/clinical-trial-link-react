@@ -15,7 +15,7 @@ function Logout(props) {
 		} else {
 			history.push('/login');
 		}
-	}, [auth, history]);
+	}, [auth, history, dispatch]);
 
 	return <></>;
 }

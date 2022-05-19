@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import './ListBox.css';
 
 const ListBox = ({ className, imgUrl, location, description, title, distance }) => {
     return (
-        <>
+        <Link to="/trial-clinic/sponsors-details">
             <div className={`clinic-list-bx ${className}`}>
                 <div className='clinic-img'>
                     <img src={`/images/${imgUrl}`} alt="clinic-img" />
@@ -14,7 +15,7 @@ const ListBox = ({ className, imgUrl, location, description, title, distance }) 
                     <span className="away-from">{distance}</span>
                 </div>
             </div>
-        </>
+        </Link>
     );
 };
 

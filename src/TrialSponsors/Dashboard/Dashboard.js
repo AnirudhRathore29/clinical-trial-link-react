@@ -3,7 +3,7 @@
 import { Link } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
 import DashboardInfoBx from '../../views/Components/DashboardInfoBx/DashboardInfoBx'
-import ListBox from '../../views/Components/ListBox/ListBox';
+// import ListBox from '../../views/Components/ListBox/ListBox';
 import WelcomeBx from '../../views/Components/WelcomeBx/WelcomeBx';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../Patient/Dashboard/Dashboard.css';
@@ -31,7 +31,7 @@ const SponsorsDashboard = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(SponsorDashboard())
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         for (let i = 0; i < 12; i++) {

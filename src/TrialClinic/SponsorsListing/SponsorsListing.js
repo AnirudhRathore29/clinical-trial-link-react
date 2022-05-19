@@ -1,10 +1,21 @@
-import { Link } from 'react-router-dom';
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import ListBox from '../../views/Components/ListBox/ListBox';
 import '../../Patient/ClinicListing/ClinicListing.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { SponsorListAction } from '../../redux/actions/TrialClinicAction';
 
 const ClinicSponsorsListing = () => {
+    const dispatch = useDispatch() 
+    const listSelector = useSelector(state => state.trial_clinic)
+
+    useEffect(() => {
+        dispatch(SponsorListAction())
+    }, [dispatch])
+
+    console.log("listSelector", listSelector)
+
     return (
         <>
             <div className="clinical-dashboard main-clinic-listing">
@@ -48,60 +59,13 @@ const ClinicSponsorsListing = () => {
                             </div>
                         </div>
                         <div className='col-lg-8'>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img1.jpg"
-                                    title="ABF Pharmaceutical"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img3.jpg"
-                                    title="UC Health"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img1.jpg"
-                                    title="Bayou City Research"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/trial-clinic/sponsors-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
+                            <ListBox
+                                imgUrl="clinic-img1.jpg"
+                                title="ABF Pharmaceutical"
+                                location="Atlanta, Georgia, United States"
+                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
+                                distance="5000.52 Mi"
+                            />
 
                             <div className='mt-5 text-center'>
                                 <Button

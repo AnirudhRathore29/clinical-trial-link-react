@@ -20,7 +20,7 @@ const ClinicCompleteProfile = (props) => {
     const history = useHistory()
     const dataSelector = useSelector(state => state.common_data)
     const profileComSelector = useSelector(state => state.profile);
-    const totalFiles = 10;
+    const totalFiles = 4;
     const [uploadedFile, setUploadFile] = useState([]);
     const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
     const [specialityList, setSpecialityList] = useState([]);
@@ -115,35 +115,33 @@ const ClinicCompleteProfile = (props) => {
         ConditionsAction(data);
     }
 
-    const handleFileUpload = (e) => {
+    const handleRemoveFile = (item) => {
+        setUploadedFileURLs(uploadedFileURLs.filter(el => el.url !== item.url));
+    }
+
+    const handleFileUpload = async (e) => {
         const files = e.target.files;
-        if (files?.length > 0 && files?.length <= totalFiles) {
+        if (files.length > 0 && files.length <= totalFiles) {
             for (let i = 0; i < files.length; i++) {
-                const { name, type } = files[i];
-                const fileParams = {
-                    key: name.includes('.') ? name.substring(0, name.indexOf('.')) : name,
-                    extension: type.includes('/') ? type.substring(type.indexOf('/') + 1) : type
-                };
                 const reader = new FileReader();
                 reader.readAsDataURL(files[i]);
-                reader.addEventListener('load', (e) => {
-                    const data = e.target.result;
-                    uploadedFileURLs.push({
-                        url: data,
-                        file_type: fileParams.extension,
-                        file_name: files[i].name
-                    })
-                    setUploadedFileURLs(uploadedFileURLs);
-                })
+                let arr = {
+                    file_type: files[i].name.substr(files[i].name.lastIndexOf('.') + 1),
+                    file_name: files[i].name.split("." + files[i].name.substr(files[i].name.lastIndexOf('.') + 1))[0]
+                }
+                setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
                 uploadedFile.push(files[i])
                 setUploadFile(uploadedFile);
             }
-        }
+        }else(
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            // Max. {totalFiles} files you can upload.
+        )
+        e.target.value = null;
     }
 
     useEffect(() => {
         if (CPSubmitClick === true) {
-            console.log("profileComSelector", profileComSelector)
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
                 toast.success(profileComSelector.data.data.message, { theme: "colored" })
                 history.push("/trial-clinic/dashboard");
@@ -160,29 +158,34 @@ const ClinicCompleteProfile = (props) => {
         const specialityArr = profileInputData.speciality.map(value => value.id);
         const conditionArr = profileInputData.condition.map(value => value.id);
 
-        let formData = new FormData();
-        formData.append("clinic_name", profileInputData.clinic_name);
-        formData.append("state_id", profileInputData.state_id);
-        formData.append("address", profileInputData.address);
-        formData.append("zip_code", profileInputData.zip_code);
-        formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
-        formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
-        formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
-        formData.append("bank_name", profileInputData.bank_name);
-        formData.append("account_holder_name", profileInputData.account_holder_name);
-        formData.append("account_number", profileInputData.account_number);
-        formData.append("routing_number", profileInputData.routing_number);
-        for (let i = 0; i < specialityArr.length; i++) {
-            formData.append(`speciality[${i}]`, specialityArr[i]);
+        if (uploadedFile.length > 0) {
+            let formData = new FormData();
+            formData.append("clinic_name", profileInputData.clinic_name);
+            formData.append("state_id", profileInputData.state_id);
+            formData.append("address", profileInputData.address);
+            formData.append("zip_code", profileInputData.zip_code);
+            formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
+            formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
+            formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
+            formData.append("bank_name", profileInputData.bank_name);
+            formData.append("account_holder_name", profileInputData.account_holder_name);
+            formData.append("account_number", profileInputData.account_number);
+            formData.append("routing_number", profileInputData.routing_number);
+            for (let i = 0; i < specialityArr.length; i++) {
+                formData.append(`speciality[${i}]`, specialityArr[i]);
+            }
+            for (let i = 0; i < conditionArr.length; i++) {
+                formData.append(`condition[${i}]`, conditionArr[i]);
+            }
+            for (let i = 0; i < uploadedFile.length; i++) {
+                formData.append(`documents[${i}]`, uploadedFile[i]);
+            }
+            dispatch(TrialClinicCompleteProfileAction(formData))
+            setCPSubmitClick(true)
         }
-        for (let i = 0; i < conditionArr.length; i++) {
-            formData.append(`condition[${i}]`, conditionArr[i]);
-        }
-        for (let i = 0; i < uploadedFile.length; i++) {
-            formData.append(`documents[${i}]`, uploadedFile[i]);
-        }
-        dispatch(TrialClinicCompleteProfileAction(formData))
-        setCPSubmitClick(true)
+        else (
+            toast.error("Document is required", { theme: "colored" })
+        )
     }
 
     return (
@@ -195,7 +198,7 @@ const ClinicCompleteProfile = (props) => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form onSubmit={CompleteProfileSubmit} autoComplete="off">
+                        <form onSubmit={CompleteProfileSubmit} noValidate="noValidate" autoComplete="off">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <InputText
@@ -207,6 +210,7 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-6">
                                     <div className="form-group">
                                         <label> Speciality </label>
@@ -221,6 +225,7 @@ const ClinicCompleteProfile = (props) => {
                                         />
                                     </div>
                                 </div>
+
                                 <div className="col-lg-6">
                                     <div className="form-group">
                                         <label> Condition </label>
@@ -235,6 +240,7 @@ const ClinicCompleteProfile = (props) => {
                                         />
                                     </div>
                                 </div>
+
                                 <div className="col-lg-6">
                                     <SelectBox
                                         name="state_id"
@@ -255,6 +261,7 @@ const ClinicCompleteProfile = (props) => {
                                         }
                                     />
                                 </div>
+
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
@@ -265,6 +272,7 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-6">
                                     <InputText
                                         type="number"
@@ -275,9 +283,11 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-12 mt-3 mb-3">
                                     <h2>Share Principal Investigator Details</h2>
                                 </div>
+
                                 <div className="col-lg-6">
                                     <InputText
                                         type="name"
@@ -288,6 +298,7 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-6">
                                     <InputText
                                         type="email"
@@ -298,6 +309,7 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-12">
                                     <TextArea
                                         name="principal_investigator_brief_intro"
@@ -307,16 +319,30 @@ const ClinicCompleteProfile = (props) => {
                                         required="required"
                                     />
                                 </div>
+
                                 <div className="col-lg-12 form-group">
-                                    <label>Upload Clinic Document</label>
-                                    <label className="upload-document">
-                                        <input type="file" name="documents" accept=".doc,.pdf,.docx" multiple onChange={handleFileUpload} />
+                                    <label>Upload Clinic Document <span className="text-danger"> *</span></label>
+                                    <label className="upload-document" htmlFor="uploadClinic-input">
+                                        <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={handleFileUpload} max={totalFiles} />
                                         <div>
                                             <h4>No File Uploaded</h4>
                                             <h3>Tap Here to Upload your File</h3>
                                         </div>
                                     </label>
                                 </div>
+
+                                {uploadedFileURLs?.map((value, index) => {
+                                    return (
+                                        <div className="col-md-3 mb-3" key={index}>
+                                            <div className="uploaded-file text-center">
+                                                <span className="uploaded-type"> {value.file_type} </span>
+                                                <span className="uploaded-name"> {value.file_name} </span>
+                                                <button type="button" class="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+
                                 <div className="col-lg-12 mt-3 mb-3">
                                     <h2>Receive Payments from Sponsors/CRO</h2>
                                 </div>

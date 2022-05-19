@@ -1,7 +1,7 @@
 import {
 	LOADING,
-	PROFILE_SUCCESS,
-	PROFILE_ERROR
+	SPONSORE_LIST_SUCCESS,
+	SPONSORE_LIST_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -9,21 +9,21 @@ const initialState = {
 	error: {}
 };
 
-export default function ProfileReducer(state = initialState, action) {
+export default function TrialClinicReducer(state = initialState, action) {
 	switch (action.type) {
 		case LOADING:
 			return {
 				...state,
 				loading: true
 			};
-		case PROFILE_SUCCESS:
+		case SPONSORE_LIST_SUCCESS:
 			return {
 				...state,
                 loading: false,
 				data: action.payload,
 				error: {}
 			};
-		case PROFILE_ERROR:
+		case SPONSORE_LIST_ERROR:
 			return {
 				...state,
 				loading: false,

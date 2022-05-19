@@ -59,3 +59,8 @@ input:checked + .slider:before { -webkit-transform: translateX(3rem); -ms-transf
 /* Rounded sliders */
 .slider.round { border-radius: 34px; }
 .slider.round:before { border-radius: 50%; }
+
+.uploaded-file {border: dashed 1px  #C3D9FF;padding: 2rem 1.5rem;border-radius: 1rem;position: relative;}
+.uploaded-file .uploaded-type {border-radius: 10rem;background: var(--SecondaryColor);width: 6rem;height: 6rem;display: flex;align-items: center;justify-content: center;color: var(--whiteColor);margin: 0 auto 1.2rem;text-transform: uppercase;}
+.uploaded-file .uploaded-name {display: block;white-space: nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;font-size: 14px;}
+.uploaded-file .btn {padding: 0;background: #ff5656;min-width: auto;width: 3rem;height: 3rem;display: flex;align-items: center;justify-content: center;position: absolute;top: -6px;right: -6px;border-radius: 100px;line-height: initial;}

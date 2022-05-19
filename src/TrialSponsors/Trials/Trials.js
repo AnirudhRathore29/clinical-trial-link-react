@@ -208,10 +208,10 @@ const SponsorsTrials = () => {
     useEffect(() => {
         dispatch(ListTrials())
         SpecialitiesAction()
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
-        if (createTrials !== undefined && createTrials.status_code == 200) {
+        if (createTrials !== undefined && createTrials.status_code === 200) {
             setShow(false);
             // setCreateTrials(undefined)
             setCreateTrialFieldData({
@@ -393,7 +393,7 @@ const SponsorsTrials = () => {
                                 <h2>{trialsState.data.trial_name}</h2>
                                 <div className="trialClinic-location">
                                     <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialsState.data.recruitment_start_date).format("MMM Do YY")}</span>
-                                    {trialsState.data.status == 1
+                                    {trialsState.data.status === 1
                                         ?
                                         <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                         :

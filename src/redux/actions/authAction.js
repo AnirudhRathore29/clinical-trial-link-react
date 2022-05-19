@@ -10,7 +10,6 @@ var jwt = require('jsonwebtoken');
 const JWT_SECRET = "clinical57586xYtrial"
 
 export const setCurrentUser = (decoded) => {
-    console.log("decoded", decoded);
     return {
         type: SET_CURRENT_USER,
         payload: decoded,
