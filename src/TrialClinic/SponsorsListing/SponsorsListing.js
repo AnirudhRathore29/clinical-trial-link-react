@@ -85,7 +85,7 @@ const ClinicSponsorsListing = () => {
 
     useEffect(() => {
         dispatch(SponsorListAction({ page: loadMoreData }))
-    }, [dispatch])
+    }, [dispatch, loadMoreData])
 
     const SponsorListFilterSubmit = (e) => {
         e.preventDefault();
