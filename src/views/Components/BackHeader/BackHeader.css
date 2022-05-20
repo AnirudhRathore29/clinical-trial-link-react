@@ -22,7 +22,8 @@
 .user-image img{border-radius: 50%;width: 5rem;height: 5rem;object-fit: cover;margin-right: 1rem;}
 .user-id-info h2{font-size: 1.7rem;display: flex;align-items: center;line-height: 1;}
 .user-id-info h2 img{margin: 0 .2rem;}
-.user-id-info p{margin: 0;font-size: 13px;opacity: 0.9;}
+.user-id-info p{margin: 0;font-size: 13px;opacity: 0.9;display: flex;align-items: center;}
+.user-id-info p span:first-child{max-width: 90px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;display: inline-block;}
 
 .dropdown-menu{border: none;border-radius: 1rem;box-shadow: 0 0 2.5rem rgba(53, 106, 160, 0.3);margin-top: 1rem;}
 .dropdown-toggle{min-width: auto!important;padding: 0!important;border: none!important;}

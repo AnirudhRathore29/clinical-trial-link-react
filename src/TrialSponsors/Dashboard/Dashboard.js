@@ -74,12 +74,18 @@ const SponsorsDashboard = () => {
                             />
                         </div>
                     </div>
+
                     <div className='row dashboard-col'>
                         <div className='col-lg-12'>
-                            <div className="heading-bx">
-                                <h1>Trial Clinics</h1>
-                                <Link to="/trial-sponsors/clinic-listing" className='btn-text'>See All</Link>
-                            </div>
+                            {
+                                DashboardData && DashboardData.data.trialClinics?.length !== 0 ?
+                                <div className="heading-bx">
+                                    <h1>Trial Clinics</h1>
+                                    <Link to="/trial-sponsors/clinic-listing" className='btn-text'>See All</Link>
+                                </div>
+                                :
+                                null
+                            }
                             {
                                 !isLoading.loading ?
                                     <OwlCarousel {...options}>
