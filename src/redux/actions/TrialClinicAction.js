@@ -25,10 +25,10 @@ export function SponsorListError(message) {
         payload: message,
     };
 }
-export const SponsorListAction = () => async (dispatch) => {
+export const SponsorListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + "/trialclinic/get-sponsors-list", {
+        .post(getCurrentHost() + "/trialclinic/get-sponsors-list", data ,{
             headers: authHeader()
         })
         .then(response => {

@@ -337,7 +337,7 @@ const ClinicCompleteProfile = (props) => {
                                             <div className="uploaded-file text-center">
                                                 <span className="uploaded-type"> {value.file_type} </span>
                                                 <span className="uploaded-name"> {value.file_name} </span>
-                                                <button type="button" class="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
+                                                <button type="button" className="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
                                             </div>
                                         </div>
                                     )

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import './ListBox.css';
 
-const ListBox = ({ className, imgUrl, location, description, title, distance }) => {
+const ListBox = ({ index, className, imgUrl, location, description, title, distance }) => {
     return (
-        <Link to="/trial-clinic/sponsors-details">
+        <Link to="/trial-clinic/sponsors-details" key={index}>
             <div className={`clinic-list-bx ${className}`}>
                 <div className='clinic-img'>
                     <img src={`/images/${imgUrl}`} alt="clinic-img" />
