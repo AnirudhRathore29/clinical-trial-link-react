@@ -22,26 +22,23 @@ const SponsorsTrials = () => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
-
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
-    const trials = useSelector((state) => state.My_trials.data);
-    const resData = useSelector((state) => state.create_trials.data);
+    const trials = useSelector((state) => state.My_trials.data.data);
+    const resData = useSelector((state) => state.My_trials.create_trial.data);
     const [createTrials, setCreateTrials] = useState();
-    const TrialsDetails = useSelector((state) => state.View_trials.data);
+    const TrialsDetails = useSelector((state) => state.My_trials.trial_detail.data);
     const [trialsState, setTrialsState] = useState();
     const [TrialId, setTrialId] = useState();
-
+    const isLoading = useSelector((state) => state.My_trials);
     const [isSelected, setIsSelected] = useState();
     const [selectedFile, setSelectedFile] = useState();
+    const SelectedFileName = selectedFile !== undefined && selectedFile.name.split('.');
 
     const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
         setIsSelected(true);
     };
-
-    const SelectedFileName = selectedFile !== undefined && selectedFile.name.split('.');
-
 
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
         trial_name: "",
@@ -242,7 +239,6 @@ const SponsorsTrials = () => {
         setCreateTrials(resData)
     }, [resData]);
 
-
     useEffect(() => {
         for (let i = 0; i < 12; i++) {
             return (
@@ -272,7 +268,7 @@ const SponsorsTrials = () => {
                     <div className='row'>
                         {
                             trials !== undefined ?
-                                trials?.length !== 0 ?
+                                trials.data?.length !== 0 ?
                                     trials.data.map((value, index) => {
                                         return (
                                             <div className='col-lg-6' key={index}>
@@ -377,6 +373,8 @@ const SponsorsTrials = () => {
                                     BtnColor="primary w-100"
                                     BtnText="Submit"
                                     onClick={CreateTrial}
+                                    hasSpinner={isLoading.loading}
+                                    disabled={isLoading.loading}
                                 />
                             </div>
                         </Form>
@@ -384,7 +382,7 @@ const SponsorsTrials = () => {
                 }
             />
 
-            <CommonModal className="custom-size-modal" show={show2} onHide={handleClose2} keyboard={false}
+            <CommonModal className={`custom-size-modal ${!isLoading.loading ? null : "br-none-modal"}`} show={show2} onHide={handleClose2} keyboard={false}
                 ModalTitle={
                     <>
                         {/* <button type="button" className="btn-close" aria-label="Close" onClick={handleClose2}></button> */}
@@ -533,7 +531,8 @@ const SponsorsTrials = () => {
                                     BtnType="submit"
                                     BtnColor="primary w-100"
                                     BtnText="Send"
-
+                                    hasSpinner={isLoading.loading}
+                                    disabled={isLoading.loading}
                                 />
                             </div>
                         </Form>

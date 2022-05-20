@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 
 const Header = (props) => {
     const [scroll, setScroll] = useState(false);
-    const validateUser = localStorage.getItem("userType")
     toast.configure();
 
     useEffect(() => {
@@ -53,7 +52,7 @@ const Header = (props) => {
                                     <li className="nav-item btn-item">
                                         <Button
                                             isLink="true"
-                                            URL={`${validateUser === "Patient" ? "/patient" : validateUser === "Trial_Clinic" ? "/trial-clinic" : validateUser === "Physician" ? "/physician" : validateUser === "Pharmaceutical_Companies" ? "/trial-sponsors" : null}/dashboard`}
+                                            URL={`${props.auth.user.role === 2 ? "/patient" : props.auth.user.role === 3 ? "/trial-clinic" : props.auth.user.role === 4 ? "/physician" : props.auth.user.role === 5 ? "/trial-sponsors" : null}/dashboard`}
                                             BtnColor="green"
                                             BtnText="Dashboard"
                                         />
