@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR } from './types';
+import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR, SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR} from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
@@ -127,6 +127,20 @@ export const SendTrialInvitation = (FieldData) => async (dispatch) => {
         });
 }
 
+export function SponsorDashboardSuccess(response) {
+    return {
+        type: SPONSOR_DASHBOARD_SUCCESS,
+        payload: response,
+    };
+}
+
+export function SponsorDashboardError(message) {
+    return {
+        type: SPONSOR_DASHBOARD_ERROR,
+        payload: message,
+    };
+}
+
 export const SponsorDashboard = () => async (dispatch) => {
     dispatch(isLoading());
     axios
@@ -134,10 +148,10 @@ export const SponsorDashboard = () => async (dispatch) => {
             headers: authHeader()
         })
         .then(response => {
-            dispatch(ListTrialSuccess(response));
+            dispatch(SponsorDashboardSuccess(response));
             HandleError(response.data)
         })
         .catch(error => {
-            dispatch(ListTrialError(error.response.data));
+            dispatch(SponsorDashboardError(error.response.data));
         });
 }

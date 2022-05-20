@@ -75,6 +75,7 @@ export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
 
 export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
+    console.log("data asd", data);
     axios
         .post(getCurrentHost() + "/trialclinic/trialclinic-complete-profile", data, {
             headers: authHeader(),
