@@ -1,7 +1,9 @@
 import {
 	LOADING,
 	PROFILE_SUCCESS,
-	PROFILE_ERROR
+	PROFILE_ERROR,
+	COMPLETE_PROFILE_SUCCESS,
+	COMPLETE_PROFILE_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -16,10 +18,24 @@ export default function ProfileReducer(state = initialState, action) {
 				...state,
 				loading: true
 			};
+		case COMPLETE_PROFILE_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				data: action.payload,
+				error: {}
+			};
+		case COMPLETE_PROFILE_ERROR:
+			return {
+				...state,
+				loading: false,
+				data: {},
+				error: action.payload,
+			};
 		case PROFILE_SUCCESS:
 			return {
 				...state,
-                loading: false,
+				loading: false,
 				data: action.payload,
 				error: {}
 			};

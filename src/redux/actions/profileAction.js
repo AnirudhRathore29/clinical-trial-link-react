@@ -1,6 +1,8 @@
 import axios from "axios";
 import { 
     LOADING,
+    COMPLETE_PROFILE_SUCCESS,
+    COMPLETE_PROFILE_ERROR,
     PROFILE_SUCCESS,
     PROFILE_ERROR,
     SET_CURRENT_USER
@@ -22,17 +24,16 @@ export function ProfileRequest() {
         type: LOADING
     };
 }
-
-export function ProfileSuccess(response) {
+export function CompleteProfileSuccess(response) {
     return {
-        type: PROFILE_SUCCESS,
+        type: COMPLETE_PROFILE_SUCCESS,
         payload: response,
     };
 }
 
-export function ProfileError(message) {
+export function CompleteProfileError(message) {
     return {
-        type: PROFILE_ERROR,
+        type: COMPLETE_PROFILE_ERROR,
         payload: message,
     };
 }
@@ -65,11 +66,11 @@ export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
             
-            dispatch(ProfileSuccess(response));
+            dispatch(CompleteProfileSuccess(response));
             HandleError(response.data)
         })
         .catch(error => {
-            dispatch(ProfileError(error.response.data));
+            dispatch(CompleteProfileError(error.response.data));
         });
 }
 
@@ -101,14 +102,13 @@ export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
             localStorage.setItem("auth_security", token)
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
-            dispatch(ProfileSuccess(response));
+            dispatch(CompleteProfileSuccess(response));
             HandleError(response.data)
         })
         .catch(error => {
-            dispatch(ProfileError(error.response.data));
+            dispatch(CompleteProfileError(error.response.data));
         });
 }
-
 
 export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
@@ -137,11 +137,11 @@ export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
             localStorage.setItem("auth_security", token)
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
-            dispatch(ProfileSuccess(response));
+            dispatch(CompleteProfileSuccess(response));
             HandleError(response.data)
         })
         .catch(error => {
-            dispatch(ProfileError(error.response.data));
+            dispatch(CompleteProfileError(error.response.data));
         });
 }
 
@@ -172,6 +172,36 @@ export const PatientCompleteProfileAction = (data) => async (dispatch) => {
             localStorage.setItem("auth_security", token)
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
+            dispatch(CompleteProfileSuccess(response));
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(CompleteProfileError(error.response.data));
+        });
+}
+
+
+export function ProfileSuccess(response) {
+    return {
+        type: PROFILE_SUCCESS,
+        payload: response,
+    };
+}
+
+export function ProfileError(message) {
+    return {
+        type: PROFILE_ERROR,
+        payload: message,
+    };
+}
+
+export const ProfileAction = (data) => async (dispatch) => {
+    dispatch(ProfileRequest());
+    axios
+        .get(getCurrentHost() + "/get-my-profile", {
+            headers: authHeader(),
+        })
+        .then(response => {
             dispatch(ProfileSuccess(response));
             HandleError(response.data)
         })

@@ -16,7 +16,7 @@ const CommonModal = (props) => {
                 </Modal.Body>
                 { props.footer &&
                     <Modal.Footer>
-                        <Button isButton="true" BtnColor="primary btn-sm" BtnText="Close" onClick={props.onClick}/>
+                        <Button isButton="true" BtnColor="primary btn-sm" BtnText="Close" onClick={props.onHide}/>
                         <Button isButton="true" BtnColor="green btn-sm" BtnText="Submit" onClick={props.onClick}/>
                     </Modal.Footer>
                 }

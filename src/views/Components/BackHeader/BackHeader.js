@@ -12,8 +12,6 @@ const Header = (props, { colorHeader, headerColor })  => {
 
     const UserEmail = props.auth.user.email.split('.');
 
-    console.log("props.auth.user", props.auth.user);
-
     toast.configure();
 
     const ToggleSidemenu = () => {

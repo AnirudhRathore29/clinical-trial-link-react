@@ -83,6 +83,7 @@ export const TextArea = (props) => {
                 id={props.id}
                 className={`form-control ${props.className}`}
                 placeholder={props.placeholder}
+                required={props.required}
                 onChange={props.onChange}
                 maxLength={props.maxLength}
             >{props.defaultData}</textarea>

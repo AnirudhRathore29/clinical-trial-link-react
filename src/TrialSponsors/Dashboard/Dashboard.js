@@ -61,7 +61,7 @@ const SponsorsDashboard = () => {
                                 URL="/trial-sponsors/trial-requests"
                                 icon={<box-icon type='solid' name='file-plus' size="40px" color="#356AA0"></box-icon>}
                                 title="New Trials Requested from Clinical Trial Sites"
-                                info="20"
+                                info="0"
                             />
                         </div>
                         <div className="col-lg-6">
@@ -77,46 +77,43 @@ const SponsorsDashboard = () => {
 
                     <div className='row dashboard-col'>
                         <div className='col-lg-12'>
-                            {
-                                DashboardData && DashboardData.data.trialClinics?.length !== 0 ?
+                            {DashboardData && DashboardData.data.trialClinics?.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1>Trial Clinics</h1>
                                     <Link to="/trial-sponsors/clinic-listing" className='btn-text'>See All</Link>
                                 </div>
-                                :
-                                null
                             }
-                            {
-                                !isLoading.loading ?
-                                    <OwlCarousel {...options}>
-                                        {DashboardData && DashboardData.data.trialClinics.map((value, index) => {
+                            {!isLoading.loading ?
+                                <OwlCarousel {...options}>
+                                    {DashboardData && DashboardData.data.trialClinics.map((value, index) => {
+                                        return (
+                                            <div className='item' key={index}>
+                                                <Link to={"/trial-sponsors/clinic-details/" + value.id}>
+                                                    <ListBox
+                                                        imgUrl="clinic-img3.jpg"
+                                                        title={value.clinic_name}
+                                                        location={value.address}
+                                                        state={value.state_info.name}
+                                                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
+                                                        distance="5000.52 Mi"
+                                                    />
+                                                </Link>
+                                            </div>
+                                        )
+                                    })}
+                                </OwlCarousel>
+                                :
+                                <div className='row'>
+                                    {
+                                        [1, 2].map((_, index) => {
                                             return (
-                                                <div className='item' key={index}>
-                                                    <Link to="/trial-sponsors/clinic-details">
-                                                        <ListBox
-                                                            imgUrl="clinic-img3.jpg"
-                                                            title={value.clinic_name}
-                                                            location={value.address}
-                                                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                                            distance="5000.52 Mi"
-                                                        />
-                                                    </Link>
+                                                <div className='col-lg-6' key={index}>
+                                                    <Skeleton height={200} borderRadius="1rem" />
                                                 </div>
                                             )
-                                        })}
-                                    </OwlCarousel>
-                                    :
-                                    <div className='row'>
-                                        {
-                                            [1, 2].map((value, index) => {
-                                                return (
-                                                    <div className='col-lg-6' key={index}>
-                                                        <Skeleton height={200} borderRadius="1rem" />
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
+                                        })
+                                    }
+                                </div>
                             }
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import CommonModal from '../../views/Components/Common/Modal/Modal';
 import { InputText, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import { useSelector, useDispatch } from 'react-redux'
-import { ListTrials, ViewTrials, CreateTrials, SendTrialInvitation } from '../../redux/actions/TrialSponsorAction';
+import { ListTrials, ViewTrialsAction, CreateTrialsAction, SendTrialInvitation, TrialRecruitingUpdateAction } from '../../redux/actions/TrialSponsorAction';
 import moment from 'moment';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
@@ -16,29 +16,33 @@ import { Form } from 'react-bootstrap';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import '../../Patient/MyFavorites/MyFavorites.css';
-var loadingTechSkeleton = [];
-const SponsorsTrials = () => {
 
-    const [show, setShow] = useState(false);
-    const [show2, setShow2] = useState(false);
-    const [show3, setShow3] = useState(false);
+const SponsorsTrials = () => {
+    const dispatch = useDispatch()
+    const trials = useSelector((state) => state.My_trials.data.data);
+    const createTrialSelector = useSelector((state) => state.My_trials.create_trial.data);
+    const TrialsDetailSelector = useSelector((state) => state.My_trials.trial_detail.data);
+    const RecruitingStatusSelector = useSelector((state) => state.My_trials.trial_detail_status);
+    const isLoading = useSelector((state) => state.My_trials);
+
+    const [TrialId, setTrialId] = useState();
+    const [loadMoreData, setLoadMoreData] = useState(1);
+
+    const [createTrialModalOpen, setCreateTrialModalOpen] = useState(false);
+    const [trialDetailModalOpen, setTrialDetailModalOpen] = useState(false);
+    const [sendInviteModalOpen, setSendInviteModalOpen] = useState(false);
+
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
-    const trials = useSelector((state) => state.My_trials.data.data);
-    const resData = useSelector((state) => state.My_trials.create_trial.data);
+
     const [createTrials, setCreateTrials] = useState();
-    const TrialsDetails = useSelector((state) => state.My_trials.trial_detail.data);
-    const [trialsState, setTrialsState] = useState();
-    const [TrialId, setTrialId] = useState();
-    const isLoading = useSelector((state) => state.My_trials);
+    const [trialDetailData, setTrialDetailData] = useState();
     const [isSelected, setIsSelected] = useState();
     const [selectedFile, setSelectedFile] = useState();
-    const SelectedFileName = selectedFile !== undefined && selectedFile.name.split('.');
 
-    const changeHandler = (event) => {
-        setSelectedFile(event.target.files[0]);
-        setIsSelected(true);
-    };
+    const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
+    const [statusLoading, setStatusLoading] = useState(false)
+    const [recruitingData, setRecruitingData] = useState()
 
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
         trial_name: "",
@@ -48,7 +52,6 @@ const SponsorsTrials = () => {
         description: "",
         send_invitation: ""
     });
-
     const [sendInvitationData, setSendInvitationData] = useState({
         clinic_trial_id: "",
         email_address: "",
@@ -56,32 +59,23 @@ const SponsorsTrials = () => {
         additional_information: ""
     })
 
-    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(ListTrials({ page: loadMoreData }))
+        SpecialitiesAction()
+    }, [dispatch, loadMoreData]);
 
-    const handleShow = () => setShow(true);
-
-    const handleClose = () => {
-        setShow(false);
+    const handleTrialDetailModalOpen = (id) => {
+        setTrialDetailModalOpen(true);
+        dispatch(ViewTrialsAction(id))
     }
-
-    const handleShow2 = (id) => {
-        setShow2(true);
-        dispatch(ViewTrials(id))
-    }
-    const handleClose2 = () => {
-        setShow2(false);
-        setTrialsState(undefined)
-        setIsSelected(false);
+    const handleLoadMore = () => {
+        setLoadMoreData(loadMoreData + 1)
     }
 
-    const handleShow3 = (id) => {
-        setShow3(true);
-        handleClose2(true);
-        setTrialId(id)
-    }
-    const handleClose3 = () => {
-        setShow3(false);
-    }
+    //Create Trial Modal Function
+    const handleShowCreateTrialModal = () => setCreateTrialModalOpen(true);
+
+    const handleCreateTrialModalClose = () => setCreateTrialModalOpen(false);
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -134,7 +128,6 @@ const SponsorsTrials = () => {
         let data = {
             speciality: speArr
         }
-
         ConditionsAction(data);
     }
 
@@ -157,60 +150,13 @@ const SponsorsTrials = () => {
         }
     };
 
-    const onChange2 = (e) => {
-        const { name, value } = e.target;
-        setSendInvitationData((preValue) => {
-            return {
-                ...preValue,
-                [name]: value
-            };
-        });
-    };
-
-    const CreateTrial = (event) => {
-        event.preventDefault();
-        const specialityArr = createTrialFieldData.speciality.map(value => value.id);
-        const conditionArr = createTrialFieldData.condition.map(value => value.id);
-        const fieldData = {
-            trial_name: createTrialFieldData.trial_name,
-            compensation: createTrialFieldData.compensation,
-            speciality: specialityArr,
-            condition: conditionArr,
-            description: createTrialFieldData.description,
-            send_invitation: createTrialFieldData.send_invitation
-
-        }
-        dispatch(CreateTrials(fieldData))
-        dispatch(ListTrials())
-    }
-
-    const SendInvitation = (event) => {
-        event.preventDefault();
-
-
-        let formData = new FormData();
-
-        formData.append("clinic_trial_id", TrialId);
-        formData.append("additional_information", sendInvitationData.additional_information);
-
-        if (sendInvitationData.email_address.length > 0) {
-            formData.append("email_address", sendInvitationData.email_address);
-        } else if (selectedFile !== undefined) {
-            formData.append("email_list", selectedFile);
-        }
-        dispatch(SendTrialInvitation(formData))
-        console.log("createTrials", createTrials);
-    }
-
     useEffect(() => {
-        dispatch(ListTrials())
-        SpecialitiesAction()
-    }, [dispatch]);
+        setCreateTrials(createTrialSelector)
+    }, [createTrialSelector]);
 
     useEffect(() => {
         if (createTrials !== undefined && createTrials.status_code === 200) {
-            setShow(false);
-            // setCreateTrials(undefined)
+            setCreateTrialModalOpen(false);
             setCreateTrialFieldData({
                 trial_name: "",
                 compensation: "",
@@ -219,8 +165,7 @@ const SponsorsTrials = () => {
                 description: "",
                 send_invitation: "0"
             })
-
-            setShow3(false);
+            setSendInviteModalOpen(false);
             setSendInvitationData({
                 clinic_trial_id: "",
                 email_address: "",
@@ -231,25 +176,99 @@ const SponsorsTrials = () => {
         }
     }, [createTrials])
 
-    useEffect(() => {
-        setTrialsState(TrialsDetails)
-    }, [TrialsDetails]);
-
-    useEffect(() => {
-        setCreateTrials(resData)
-    }, [resData]);
-
-    useEffect(() => {
-        for (let i = 0; i < 12; i++) {
-            return (
-                loadingTechSkeleton.push(
-                    <div className='col-lg-6' key={i}>
-                        <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
-                    </div>
-                )
-            )
+    const handleCreateTrialSubmit = (event) => {
+        event.preventDefault();
+        const specialityArr = createTrialFieldData.speciality.map(value => value.id);
+        const conditionArr = createTrialFieldData.condition.map(value => value.id);
+        const fieldData = {
+            trial_name: createTrialFieldData.trial_name,
+            compensation: createTrialFieldData.compensation,
+            speciality: specialityArr,
+            condition: conditionArr,
+            description: createTrialFieldData.description,
+            send_invitation: createTrialFieldData.send_invitation
         }
-    })
+        dispatch(CreateTrialsAction(fieldData))
+        dispatch(ListTrials({ page: loadMoreData }))
+    }
+
+    //Trial Details Modal Funciton
+    useEffect(() => {
+        setTrialDetailData(TrialsDetailSelector)
+    }, [TrialsDetailSelector]);
+
+    const handleInviteModalOpen = (id) => {
+        setSendInviteModalOpen(true);
+        hanleTrialDetailModalClose();
+        setTrialId(id)
+    }
+
+    const hanleTrialDetailModalClose = () => {
+        setTrialDetailModalOpen(false);
+        setTrialDetailData()
+        setIsSelected(false);
+    }
+
+    useEffect(() => {
+        setRecruitingData(RecruitingStatusSelector)
+    }, [RecruitingStatusSelector])
+
+    useEffect(() => {
+        if (recruitingClickBtn === true) {
+            setStatusLoading(true)
+            if (recruitingData && recruitingData.status === 200) {
+                if (Object.keys(recruitingData.data).length !== 0) {
+                    setStatusLoading(false)
+                    hanleTrialDetailModalClose()
+                    setRecruitingData("")
+                }
+                setRecruitingClickBtn(false)
+            }
+        }
+    }, [recruitingData, recruitingClickBtn])
+
+    const handleRecruiting = (id, status) => {
+        let data = {
+            status: status,
+            trial_id: id
+        }
+        dispatch(TrialRecruitingUpdateAction(data))
+        dispatch(ListTrials({ page: loadMoreData }))
+        setRecruitingClickBtn(true)
+    }
+
+    //Send Invitation Modal Functions
+    const handleSendInviteModalClose = () => setSendInviteModalOpen(false)
+
+    const SelectedFileName = selectedFile !== undefined && selectedFile.name.split('.');
+
+    const updateFileHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+        setIsSelected(true);
+    };
+
+    const sendInviteOnChange = (e) => {
+        const { name, value } = e.target;
+        setSendInvitationData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    };
+
+    const handleSendInvitationModalSubmit = (event) => {
+        event.preventDefault();
+        let formData = new FormData();
+        formData.append("clinic_trial_id", TrialId);
+        formData.append("additional_information", sendInvitationData.additional_information);
+        if (sendInvitationData.email_address.length > 0) {
+            formData.append("email_address", sendInvitationData.email_address);
+        } else if (selectedFile !== undefined) {
+            formData.append("email_list", selectedFile);
+        }
+        dispatch(SendTrialInvitation(formData))
+    }
 
     return (
         <>
@@ -261,20 +280,20 @@ const SponsorsTrials = () => {
                             isButton="true"
                             BtnColor="green btn-sm"
                             BtnText="Add Trial"
-                            onClick={handleShow}
+                            onClick={handleShowCreateTrialModal}
                         />
                     </div>
 
                     <div className='row'>
                         {
                             trials !== undefined ?
-                                trials.data?.length !== 0 ?
-                                    trials.data.map((value, index) => {
+                                trials.data.data?.length !== 0 ?
+                                    trials.data.data.map((value, index) => {
                                         return (
                                             <div className='col-lg-6' key={index}>
                                                 <ClinicTrial
                                                     className="mb-4 white-trial-bx"
-                                                    onClick={() => handleShow2(value.id)}
+                                                    onClick={() => handleTrialDetailModalOpen(value.id)}
                                                     title={value.trial_name}
                                                     description={value.description}
                                                     status={
@@ -293,28 +312,35 @@ const SponsorsTrials = () => {
                                     :
                                     <NoDataFound />
                                 :
-                                <div className='row'>
-                                    {
-                                        [1, 2, 3, 4, 5, 6, 7, 8].map((value, index) => {
-                                            return (
-                                                <div className='col-lg-6' key={index}>
-                                                    <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
+                                [1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => {
+                                    return (
+                                        <div className='col-lg-6' key={index}>
+                                            <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
+                                        </div>
+                                    )
+                                })
+                        }
+
+                        {trials && trials.data?.data?.length > 0 &&
+                            <div className='col-12 mt-5 text-center'>
+                                <Button
+                                    isButton="true"
+                                    BtnColor="primary"
+                                    BtnText="Load More"
+                                    onClick={handleLoadMore}
+                                    disabled={trials.data.last_page === trials.data.current_page || isLoading.loading}
+                                // hasSpinner={isLoading.loading}
+                                />
+                            </div>
                         }
                     </div>
                 </div>
             </div>
 
-            <CommonModal show={show} onHide={handleClose} keyboard={false}
-                ModalTitle="Create Trial"
-                onClick={handleClose}
+            <CommonModal show={createTrialModalOpen} onHide={handleCreateTrialModalClose} keyboard={false} ModalTitle="Create Trial"
                 ModalData={
                     <>
-                        <Form onSubmit={CreateTrial} autoComplete="off">
+                        <Form onSubmit={handleCreateTrialSubmit} autoComplete="off">
                             <InputText
                                 type="text"
                                 name="trial_name"
@@ -347,7 +373,7 @@ const SponsorsTrials = () => {
                                 />
                             </div>
                             <InputText
-                                type="text"
+                                type="number"
                                 placeholder="Enter Compensation"
                                 name="compensation"
                                 labelText="Compensation"
@@ -372,7 +398,6 @@ const SponsorsTrials = () => {
                                     isButton="true"
                                     BtnColor="primary w-100"
                                     BtnText="Submit"
-                                    onClick={CreateTrial}
                                     hasSpinner={isLoading.loading}
                                     disabled={isLoading.loading}
                                 />
@@ -382,161 +407,147 @@ const SponsorsTrials = () => {
                 }
             />
 
-            <CommonModal className={`custom-size-modal ${!isLoading.loading ? null : "br-none-modal"}`} show={show2} onHide={handleClose2} keyboard={false}
+            <CommonModal className={`custom-size-modal ${!isLoading.loading ? null : "br-none-modal"}`} show={trialDetailModalOpen} onHide={hanleTrialDetailModalClose} keyboard={false}
                 ModalTitle={
+                    trialDetailData !== undefined &&
                     <>
-                        {/* <button type="button" className="btn-close" aria-label="Close" onClick={handleClose2}></button> */}
-                        {trialsState !== undefined &&
-                            <>
-                                <h2>{trialsState.data.trial_name}</h2>
-                                <div className="trialClinic-location">
-                                    <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialsState.data.recruitment_start_date).format("MMM Do YY")}</span>
-                                    {trialsState.data.status === 1
-                                        ?
-                                        <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
-                                        :
-                                        <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
-                                    }
-                                </div>
-                            </>
-                        }
+                        <h2>{trialDetailData.data.trial_name}</h2>
+                        <div className="trialClinic-location">
+                            <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialDetailData.data.recruitment_start_date).format("MMM Do YY")}</span>
+                            {trialDetailData.data.status === 1 ?
+                                <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                :
+                                <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                            }
+                        </div>
                     </>
                 }
-                onClick={handleClose2}
                 ModalData={
-                    <>
-                        {trialsState !== undefined ?
-                            <>
-                                <div className='sponser-price-info'>
-                                    <div className='sponser-price-row w-100 br-none'>
-                                        <div className='sponser-price-icon'>
-                                            <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
-                                        </div>
-                                        <div>
-                                            <h4>Trial Compensation</h4>
-                                            <h2>{trialsState.data.compensation !== null ? trialsState.data.compensation : "0.00"}</h2>
-                                        </div>
+                    trialDetailData !== undefined ?
+                        <>
+                            <div className='sponser-price-info'>
+                                <div className='sponser-price-row w-100 br-none'>
+                                    <div className='sponser-price-icon'>
+                                        <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
                                     </div>
-                                </div>
-                                <div className='info-bx'>
-                                    <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Lorem ipsum dolor sit amet consectetur adipiscing eli am porta nunc eu nibh dignissim sit amet viverra.
-                                </div>
-                                {trialsState.data.specialities.length !== 0 &&
-                                    <div className='clnicaltrial-description'>
-                                        <h2>Specialty</h2>
-                                        <ul className='condition-ul'>
-                                            {
-                                                trialsState.data.specialities.length !== 0
-                                                    ?
-                                                    trialsState.data.specialities.map((value, index) => {
-                                                        return (
-                                                            <li key={index}>{value.speciality_detail.speciality_title}</li>
-                                                        )
-                                                    })
-                                                    :
-                                                    <div class="alert alert-primary w-100" role="alert">
-                                                        No Specialty Found!
-                                                    </div>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-
-                                {trialsState.data.conditions.length !== 0 &&
-                                    <div className='clnicaltrial-description'>
-                                        <h2>Condition</h2>
-                                        <ul className='condition-ul'>
-                                            {
-                                                trialsState.data.conditions.length !== 0
-                                                    ?
-                                                    trialsState.data.conditions.map((value, index) => {
-                                                        return (
-                                                            <li key={index}>{value.condition_detail.condition_title}</li>
-                                                        )
-                                                    })
-                                                    :
-                                                    <div class="alert alert-primary w-100" role="alert">
-                                                        No Condition Found!
-                                                    </div>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-
-                                {trialsState.data.description !== null &&
-                                    <div className='clnicaltrial-description'>
-                                        <h2>Description</h2>
-                                        <p>{trialsState.data.description}</p>
-                                    </div>
-                                }
-                                <div className='clnicaltrial-detail-ftr'>
-                                    <Button
-                                        isButton="true"
-                                        BtnColor="green"
-                                        BtnText="Stop Recruiting"
-                                        onClick={handleClose2}
-                                    />
-                                    <Button
-                                        isButton="true"
-                                        BtnColor="primary w-20"
-                                        BtnText="Invite"
-                                        onClick={() => handleShow3(trialsState.data.id)}
-                                    />
-                                </div>
-                            </>
-                            :
-                            <LogoLoader />
-                        }
-                    </>
-                }
-            />
-
-            <CommonModal show={show3} onHide={handleClose3} keyboard={false} size="md"
-                ModalTitle="Send Invitation"
-                onClick={handleClose3}
-                ModalData={
-                    <>
-                        <Form onSubmit={SendInvitation} autoComplete="off">
-                            <InputText
-                                type="email"
-                                name="email_address"
-                                placeholder="Enter Email"
-                                labelText="Email"
-                                onChange={onChange2}
-                            />
-                            <div className='mb-4'>Or</div>
-                            <div className="col-lg-12 form-group">
-                                <label>Upload List of Emails</label>
-                                <label className="upload-document single-file-uploader w-100">
-                                    <input type="file" name="documents" accept=".xls,.xlsx,.csv" onChange={changeHandler} />
                                     <div>
-                                        <h4>
-                                            {isSelected ? "1 File is selected" : "No File Uploaded"}
-                                        </h4>
-                                        <h3>{isSelected ? <><span className='fileName'>{SelectedFileName[0]}</span><span>.{SelectedFileName[1]}</span></> : "Tap Here to Upload your File"}</h3>
+                                        <h4>Trial Compensation</h4>
+                                        <h2>{trialDetailData.data.compensation !== null ? trialDetailData.data.compensation : "0.00"}</h2>
                                     </div>
-                                </label>
+                                </div>
                             </div>
-                            <div className="col-lg-12">
-                                <TextArea
-                                    name="additional_information"
-                                    placeholder="Enter Additional Information"
-                                    labelText="Additional Information"
-                                    onChange={onChange2}
-                                />
+
+                            <div className='info-bx'>
+                                <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Lorem ipsum dolor sit amet consectetur adipiscing eli am porta nunc eu nibh dignissim sit amet viverra.
                             </div>
-                            <div className='clnicaltrial-detail-ftr mt-0'>
+
+                            {trialDetailData.data.specialities.length !== 0 &&
+                                <div className='clnicaltrial-description'>
+                                    <h2>Specialty</h2>
+                                    <ul className='condition-ul'>
+                                        {trialDetailData.data.specialities.map((value, index) => {
+                                            return (
+                                                <li key={index}>{value.speciality_detail.speciality_title}</li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                            }
+
+                            {trialDetailData.data.conditions.length !== 0 &&
+                                <div className='clnicaltrial-description'>
+                                    <h2>Condition</h2>
+                                    <ul className='condition-ul'>
+                                        {trialDetailData.data.conditions.map((value, index) => {
+                                            return (
+                                                <li key={index}>{value.condition_detail.condition_title}</li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                            }
+
+                            {trialDetailData.data.description !== null &&
+                                <div className='clnicaltrial-description'>
+                                    <h2>Description</h2>
+                                    <p>{trialDetailData.data.description}</p>
+                                </div>
+                            }
+
+                            <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isButton="true"
-                                    BtnType="submit"
-                                    BtnColor="primary w-100"
-                                    BtnText="Send"
-                                    hasSpinner={isLoading.loading}
-                                    disabled={isLoading.loading}
+                                    BtnColor="green"
+                                    hasSpinner={statusLoading}
+                                    disabled={statusLoading}
+                                    BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : "Start Recruiting"}
+                                    onClick={
+                                        trialDetailData.data.status === 1 ?
+                                            () => handleRecruiting(trialDetailData.data.id, 2)
+                                            :
+                                            () => handleRecruiting(trialDetailData.data.id, 1)
+                                    }
+                                />
+
+                                <Button
+                                    isButton="true"
+                                    BtnColor="primary w-20"
+                                    BtnText="Invite"
+                                    onClick={() => handleInviteModalOpen(trialDetailData.data.id)}
                                 />
                             </div>
-                        </Form>
-                    </>
+                        </>
+                        :
+                        <LogoLoader />
+                }
+            />
+
+            <CommonModal show={sendInviteModalOpen} onHide={handleSendInviteModalClose} keyboard={false} size="md" ModalTitle="Send Invitation"
+                ModalData={
+                    <Form onSubmit={handleSendInvitationModalSubmit} autoComplete="off">
+                        <InputText
+                            type="email"
+                            name="email_address"
+                            placeholder="Enter Email"
+                            labelText="Email"
+                            onChange={sendInviteOnChange}
+                        />
+
+                        <div className='mb-4'>Or</div>
+
+                        <div className="col-lg-12 form-group">
+                            <label>Upload List of Emails</label>
+                            <label className="upload-document single-file-uploader w-100">
+                                <input type="file" name="documents" accept=".xls,.xlsx,.csv" onChange={updateFileHandler} />
+                                <div>
+                                    <h4>
+                                        {isSelected ? "1 File is selected" : "No File Uploaded"}
+                                    </h4>
+                                    <h3>{isSelected ? <><span className='fileName'>{SelectedFileName[0]}</span><span>.{SelectedFileName[1]}</span></> : "Tap Here to Upload your File"}</h3>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="col-lg-12">
+                            <TextArea
+                                name="additional_information"
+                                placeholder="Enter Additional Information"
+                                labelText="Additional Information"
+                                onChange={sendInviteOnChange}
+                            />
+                        </div>
+
+                        <div className='clnicaltrial-detail-ftr mt-0'>
+                            <Button
+                                isButton="true"
+                                BtnType="submit"
+                                BtnColor="primary w-100"
+                                BtnText="Send"
+                                hasSpinner={isLoading.loading}
+                                disabled={isLoading.loading}
+                            />
+                        </div>
+                    </Form>
                 }
             />
         </>

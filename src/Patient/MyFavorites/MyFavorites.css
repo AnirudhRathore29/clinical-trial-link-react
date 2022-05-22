@@ -7,7 +7,7 @@
 .clinicalTrial-bx-ftr .icon-btn{background: transparent;border: none;display: inline-flex;align-items: center;justify-content: center;}
 
 .trialClinic-location{display: flex;margin-bottom: 2rem;font-size: 15px;font-weight: 500;}
-.trialClinic-location span{color: var(--TextColor);display: flex;align-items: center;}
+.trialClinic-location span:not(.badge){color: var(--TextColor);display: flex;align-items: center;}
 .trialClinic-location span box-icon{margin-right: .5rem;}
 .trialClinic-location span + span{margin-left: 2.5rem;}
 

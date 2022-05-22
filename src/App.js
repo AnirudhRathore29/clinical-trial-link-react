@@ -78,7 +78,7 @@ function App() {
 						<PrivateRoute path="/trial-clinic/dashboard" name="ClinicDashboard" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/trial-requests" name="ClinicTrialRequests" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-listing" name="ClinicSponsorsListing" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
-						<PrivateRoute path="/trial-clinic/sponsors-details" name="ClinicSponsorsDetails" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/sponsors-details/:id" name="ClinicSponsorsDetails" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-trial-listing" name="ClinicSponsorsDetails" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/trial-applications" name="ClinicTrialApplication" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/my-appointments" name="ClinicMyAppointments" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
@@ -95,7 +95,7 @@ function App() {
 						<PrivateRoute path="/trial-sponsors/trial-requests" name="SponsorsTrialRequests" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/trials" name="SponsorsTrials" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/clinic-listing" name="SponsorsClinicListing" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
-						<PrivateRoute path="/trial-sponsors/clinic-details" name="SponsorsClinicDetails" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+						<PrivateRoute path="/trial-sponsors/clinic-details/:id" name="SponsorsClinicDetails" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/my-studies" name="SponsorsMyStudies" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/appointments-clinics" name="SponsorsAppointmentsClinics" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/trial-sponsors/patient-list" name="SponsorsPatientList" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />

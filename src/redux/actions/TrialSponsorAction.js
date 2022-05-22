@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TRIAL_SUCCESS, TRIAL_ERROR, AUTH_LOADING, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR, SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR} from './types';
+import { TRIAL_SUCCESS, TRIAL_ERROR, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR, SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR, TRIAL_CLINIC_LIST_ERROR, TRIAL_CLINIC_LIST_SUCCESS, RECRUITING_STATUS_SUCCESS, RECRUITING_STATUS_ERROR, TRIAL_CLINIC_DETAIL_SUCCESS, TRIAL_CLINIC_DETAIL_ERROR } from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
@@ -7,6 +7,11 @@ import HandleError from "./HandleError";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
+export function isLoading() {
+    return {
+        type: LOADING
+    };
+}
 
 export function ListTrialSuccess(response) {
     return {
@@ -14,30 +19,16 @@ export function ListTrialSuccess(response) {
         payload: response,
     };
 }
-
 export function ListTrialError(message) {
     return {
         type: TRIAL_ERROR,
         payload: message,
     };
 }
-
-export function authRequest() {
-    return {
-        type: AUTH_LOADING
-    };
-}
-
-export function isLoading() {
-    return {
-        type: LOADING
-    };
-}
-
-export const ListTrials = () => async (dispatch) => {
+export const ListTrials = (data) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .get(getCurrentHost() + "/sponsor/my-trials", {
+        .post(getCurrentHost() + "/sponsor/my-trials", data, {
             headers: authHeader()
         })
         .then(response => {
@@ -55,15 +46,13 @@ export function ViewTrialSuccess(response) {
         payload: response,
     };
 }
-
 export function ViewTrialError(message) {
     return {
         type: VIEW_TRIAL_ERROR,
         payload: message,
     };
 }
-
-export const ViewTrials = (id) => async (dispatch) => {
+export const ViewTrialsAction = (id) => async (dispatch) => {
     dispatch(isLoading());
     axios
         .get(getCurrentHost() + "/view-trial/" + id, {
@@ -85,15 +74,13 @@ export function CreateTrialSuccess(response) {
         payload: response,
     };
 }
-
 export function CreateTrialError(message) {
     return {
         type: CREATE_TRIAL_ERROR,
         payload: message,
     };
 }
-
-export const CreateTrials = (FieldData) => async (dispatch) => {
+export const CreateTrialsAction = (FieldData) => async (dispatch) => {
     dispatch(isLoading());
     axios
         .post(getCurrentHost() + "/sponsor/create-trial", FieldData, {
@@ -127,20 +114,47 @@ export const SendTrialInvitation = (FieldData) => async (dispatch) => {
         });
 }
 
+export function RecruitingStatusSuccess(response) {
+    return {
+        type: RECRUITING_STATUS_SUCCESS,
+        payload: response,
+    };
+}
+export function RecruitingStatusError(message) {
+    return {
+        type: RECRUITING_STATUS_ERROR,
+        payload: message,
+    };
+}
+export const TrialRecruitingUpdateAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .post(getCurrentHost() + "/sponsor/update-trial-status", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            toast.success(response.data.message, { theme: "colored" })
+            dispatch(RecruitingStatusSuccess(response));
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(RecruitingStatusError(error.response.data));
+            toast.error(error.response.data.message, { theme: "colored" })
+        });
+}
+
 export function SponsorDashboardSuccess(response) {
     return {
         type: SPONSOR_DASHBOARD_SUCCESS,
         payload: response,
     };
 }
-
 export function SponsorDashboardError(message) {
     return {
         type: SPONSOR_DASHBOARD_ERROR,
         payload: message,
     };
 }
-
 export const SponsorDashboard = () => async (dispatch) => {
     dispatch(isLoading());
     axios
@@ -153,5 +167,60 @@ export const SponsorDashboard = () => async (dispatch) => {
         })
         .catch(error => {
             dispatch(SponsorDashboardError(error.response.data));
+        });
+}
+
+
+export function TrialClinicSuccess(response) {
+    return {
+        type: TRIAL_CLINIC_LIST_SUCCESS,
+        payload: response,
+    };
+}
+export function TrialClinicError(message) {
+    return {
+        type: TRIAL_CLINIC_LIST_ERROR,
+        payload: message,
+    };
+}
+export const TrialClinicListAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .post(getCurrentHost() + "/sponsor/get-trialclinic-list", data ,{
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch(TrialClinicSuccess(response));
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(TrialClinicError(error.response.data));
+        });
+}
+
+export function TrialClinicDetailSuccess(response) {
+    return {
+        type: TRIAL_CLINIC_DETAIL_SUCCESS,
+        payload: response,
+    };
+}
+export function TrialClinicDetailError(message) {
+    return {
+        type: TRIAL_CLINIC_DETAIL_ERROR,
+        payload: message,
+    };
+}
+export const TrialClinicDetailsAction = (id) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .get(getCurrentHost() + "/sponsor/get-trialclinic-detail/" + id, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch(TrialClinicDetailSuccess(response));
+            HandleError(response.data)
+        })
+        .catch(error => {
+            dispatch(TrialClinicDetailError(error.response.data));
         });
 }

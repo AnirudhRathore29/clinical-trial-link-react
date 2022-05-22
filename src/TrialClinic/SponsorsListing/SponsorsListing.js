@@ -8,10 +8,14 @@ import { SponsorListAction } from '../../redux/actions/TrialClinicAction';
 import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
-// import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
+// toast.configure();
 const ClinicSponsorsListing = () => {
     const dispatch = useDispatch()
     const listSelector = useSelector(state => state.trial_clinic)
@@ -159,19 +163,34 @@ const ClinicSponsorsListing = () => {
                             </div>
                         </div>
                         <div className='col-lg-8'>
-                            {trialListData && trialListData.data?.data?.map((value, index) => {
-                                console.log("value", value)
-                                return (
-                                    <ListBox
-                                        imgUrl="clinic-img1.jpg"
-                                        title={value.sponsor_name}
-                                        location={value.address}
-                                        description={value.user_meta_info.brief_intro}
-                                        distance="5000.52 Mi"
-                                        index={index}
-                                    />
-                                )
-                            })}
+                            {trialListData !== undefined ?
+                                trialListData.data?.data?.length !== 0 ?
+                                    trialListData.data?.data?.map((value, index) => {
+                                        return (
+                                            <Link to={"/trial-clinic/sponsors-details/" + value.id} key={index}>
+                                                <ListBox
+                                                    imgUrl="clinic-img1.jpg"
+                                                    title={value.sponsor_name}
+                                                    location={value.address}
+                                                    state={value.state_info.name}
+                                                    description={value.user_meta_info.brief_intro}
+                                                    distance="5000.52 Mi"
+                                                    index={index}
+                                                />
+                                            </Link>
+                                        )
+                                    })
+                                    :
+                                    <NoDataFound />
+                                :
+                                [1, 2, 3].map((_, index) => {
+                                    return (
+                                        <div className='mb-3' key={index}>
+                                            <Skeleton height={240} borderRadius="1rem" style={{ marginBottom: 20 }} />
+                                        </div>
+                                    )
+                                })
+                            }
 
                             {trialListData && trialListData.data?.data.length > 10 &&
                                 <div className='mt-5 text-center'>

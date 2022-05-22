@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { StatesAction } from "../../redux/actions/commonAction";
 import { useHistory } from "react-router-dom";
 import { SponsorCompleteProfileAction } from "../../redux/actions/profileAction";
-import { toast } from "react-toastify";
 import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
