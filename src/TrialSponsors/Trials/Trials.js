@@ -477,7 +477,7 @@ const SponsorsTrials = () => {
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isButton="true"
-                                    BtnColor="green"
+                                    BtnColor={trialDetailData.data.status === 1 ? "red" : "green"}
                                     hasSpinner={statusLoading}
                                     disabled={statusLoading}
                                     BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : "Start Recruiting"}

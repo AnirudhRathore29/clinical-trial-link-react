@@ -6,8 +6,8 @@
 .btn-green{ background: var(--SecondaryColor); color:  #356AA0; }
 .btn-green:hover{ background: transparent; border-color: var(--SecondaryColorDark); color: var(--SecondaryColorDark); }
 
-.btn-red{ background: var(--ThemeColorRed); color:  var(--whiteColor); }
-.btn-red:hover{ background: transparent; border-color: var(--ThemeColorRed); color: var(--ThemeColorRed); }
+.btn-red{ background: var(--DangerColor); color:  var(--whiteColor); }
+.btn-red:hover{ background: transparent; border-color: var(--DangerColor); color: var(--DangerColor); }
 .btn-white{ background: var(--whiteColor); color:  var(--darkText); }
 .btn-white:hover{ background: transparent; border-color: var(--whiteColor); color: var(--whiteColor); }
 .btn-purple{ background: var(--ThemeColorYellow); color:  var(--darkText); }
