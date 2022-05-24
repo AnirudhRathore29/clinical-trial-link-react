@@ -321,7 +321,7 @@ const SponsorsTrials = () => {
                                 })
                         }
 
-                        {trials && trials.data?.data?.length > 0 &&
+                        {trials && trials.data?.data?.length > 19 &&
                             <div className='col-12 mt-5 text-center'>
                                 <Button
                                     isButton="true"
