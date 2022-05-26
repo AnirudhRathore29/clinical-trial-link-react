@@ -86,7 +86,8 @@ export const TextArea = (props) => {
                 required={props.required}
                 onChange={props.onChange}
                 maxLength={props.maxLength}
-            >{props.defaultData}</textarea>
+                defaultValue={props.defaultData}
+            ></textarea>
         </div>
     );
 }
