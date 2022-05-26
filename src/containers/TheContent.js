@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // routes config
-import routes from '../routes';
+import routes from '../Routes/routes';
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -16,7 +16,6 @@ function TheContent () {
 			<Suspense fallback={loading}>
 				<Switch>
 					{routes.map((route, idx) => {
-						// console.log(route,'sdfsd')
 						return (
 							route.component && (
 								<Route
