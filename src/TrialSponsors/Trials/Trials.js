@@ -321,7 +321,7 @@ const SponsorsTrials = () => {
                                 })
                         }
 
-                        {trials && trials.data?.data?.length > 0 &&
+                        {trials && trials.data?.data?.length > 19 &&
                             <div className='col-12 mt-5 text-center'>
                                 <Button
                                     isButton="true"
@@ -477,7 +477,7 @@ const SponsorsTrials = () => {
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isButton="true"
-                                    BtnColor="green"
+                                    BtnColor={trialDetailData.data.status === 1 ? "red" : "green"}
                                     hasSpinner={statusLoading}
                                     disabled={statusLoading}
                                     BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : "Start Recruiting"}
