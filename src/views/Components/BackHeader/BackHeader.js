@@ -3,19 +3,26 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
 import SearchBx from '../SearchBx/SearchBx'
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import 'boxicons';
 import "./BackHeader.css";
+// import { useHistory } from "react-router-dom";
+import { LogoutAction } from "../../../redux/actions/authAction";
 
 const Header = (props, { colorHeader, headerColor })  => {
+    const dispatch = useDispatch();
+    // const history = useHistory();
     const [sideMenu, setSideMenu] = useState(false);
-
-    const UserEmail = props.auth.user !== undefined && props.auth.user.email?.split('.');
 
     toast.configure();
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
+    }
+
+    const handlogout = () => {
+        dispatch(LogoutAction())
+        // history.push('/login');
     }
     return (
         <>
@@ -79,7 +86,7 @@ const Header = (props, { colorHeader, headerColor })  => {
                                     <div className="user-image"><img src={props.auth.user.profile_image == null ? "/images/avatar2.svg" : props.auth.user.profile_image} alt="avatar" /></div>
                                     <div className="user-id-info">
                                         <h2>Hi, <span><img src="/images/hand-up.svg" alt="hand-icon" /></span> Bob </h2>
-                                        <p title={props.auth.user.email}><span>{UserEmail[0]}</span><span>{UserEmail[1]}</span></p>
+                                        <p title={props.auth.user.email}><span>{props.auth.user !== undefined && props.auth.user.email?.split('.')[0]}</span><span>{props.auth.user !== undefined && props.auth.user.email?.split('.')[1]}</span></p>
                                     </div>
                                 </Dropdown.Toggle>
 
@@ -91,7 +98,7 @@ const Header = (props, { colorHeader, headerColor })  => {
                                         :
                                         null
                                     }
-                                    <Link to="/logout" className="dropdown-item"><box-icon name='log-out-circle' ></box-icon> Logout</Link>
+                                    <button type="button" className="dropdown-item" onClick={handlogout}><box-icon name='log-out-circle' ></box-icon> Logout</button>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>
