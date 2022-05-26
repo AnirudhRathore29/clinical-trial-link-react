@@ -3,9 +3,11 @@ import { NavLink, Link } from "react-router-dom";
 import Button from "../Common/Buttons/Buttons";
 import { toast } from "react-toastify";
 import "./FrontHeader.css";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { LogoutAction } from "../../../redux/actions/authAction";
 
 const Header = (props) => {
+    const dispatch = useDispatch()
     const [scroll, setScroll] = useState(false);
     toast.configure();
 
@@ -23,6 +25,9 @@ const Header = (props) => {
         );
     });
 
+    const handleLogout = () => {
+        dispatch(LogoutAction())
+    }
     return (
         <>
             <header className={scroll ? "site-header sticky" : `site-header ${props.className}`}>
@@ -59,10 +64,11 @@ const Header = (props) => {
                                     </li>
                                     <li className="nav-item btn-item">
                                         <Button
-                                            isLink="true"
+                                            isButton="true"
                                             URL="/logout"
                                             BtnColor="primary"
                                             BtnText="Logout"
+                                            onClick={handleLogout}
                                         />
                                     </li>
                                 </>

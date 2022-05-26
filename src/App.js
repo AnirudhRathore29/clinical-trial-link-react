@@ -18,7 +18,6 @@ const ForgotPassword = React.lazy(() => import('./views/pages/ForgotPassword/For
 const SetNewPassword = React.lazy(() => import('./views/pages/SetNewPassword/SetNewPassword'));
 const VerifyEmail = React.lazy(() => import('./views/pages/VerifyEmail/VerifyEmail'));
 const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
-const Logout = React.lazy(() => import('./views/pages/Login/Logout'));
 
 /* patient panel pages */
 // const PatientCompleteProfile = React.lazy(() => import('./Patient/CompleteProfile/CompleteProfile'));
@@ -58,7 +57,6 @@ function App() {
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />
 					<Route exact path="/new-password" name="NewPassword" render={(props) => <SetNewPassword {...props} />} />
 					<Route exact path="/verify-email" name="VerifyEmail" render={(props) => <VerifyEmail {...props} />} />
-					<Route exact path="/logout" name="Logout" render={(props) => <Logout {...props} />} />
 
 					<Switch>
 						{/* Patient private Routes */}
