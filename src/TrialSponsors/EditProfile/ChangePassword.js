@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
+import { InputText } from "../../views/Components/Common/Inputs/Inputs";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 
 const ChangePassword = () => {

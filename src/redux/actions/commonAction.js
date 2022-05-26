@@ -28,9 +28,9 @@ export const StatesAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ActionSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ActionError(error.response.data));
+            HandleError(error.response.data)
         });
 }

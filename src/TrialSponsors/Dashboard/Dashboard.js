@@ -25,8 +25,6 @@ const SponsorsDashboard = () => {
         dots: true
     };
 
-    console.log("DashboardData", DashboardData);
-
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(SponsorDashboard())

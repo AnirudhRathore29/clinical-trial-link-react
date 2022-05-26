@@ -67,16 +67,15 @@ export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
             dispatch(setCurrentUser(decoded));
             
             dispatch(CompleteProfileSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CompleteProfileError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
 export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
-    console.log("data asd", data);
     axios
         .post(getCurrentHost() + "/trialclinic/trialclinic-complete-profile", data, {
             headers: authHeader(),
@@ -103,10 +102,10 @@ export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
             dispatch(CompleteProfileSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CompleteProfileError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -138,10 +137,10 @@ export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
             dispatch(CompleteProfileSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CompleteProfileError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -173,10 +172,10 @@ export const PatientCompleteProfileAction = (data) => async (dispatch) => {
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
             dispatch(CompleteProfileSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CompleteProfileError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -203,9 +202,9 @@ export const ProfileAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ProfileSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
+            HandleError(error.response.data)
         });
 }

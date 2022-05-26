@@ -33,10 +33,10 @@ export const ListTrials = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ListTrialSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ListTrialError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -60,10 +60,10 @@ export const ViewTrialsAction = (id) => async (dispatch) => {
         })
         .then(response => {
             dispatch(ViewTrialSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(ViewTrialError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -89,11 +89,11 @@ export const CreateTrialsAction = (FieldData) => async (dispatch) => {
         .then(response => {
             dispatch(CreateTrialSuccess(response));
             toast.success(response.data.message, { theme: "colored" })
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));
             toast.error(error.response.data.message, { theme: "colored" })
+            HandleError(error.response.data)
         });
 }
 
@@ -106,11 +106,11 @@ export const SendTrialInvitation = (FieldData) => async (dispatch) => {
         .then(response => {
             dispatch(CreateTrialSuccess(response));
             toast.success(response.data.message, { theme: "colored" })
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));
             toast.error(error.response.data.message, { theme: "colored" })
+            HandleError(error.response.data)
         });
 }
 
@@ -135,11 +135,11 @@ export const TrialRecruitingUpdateAction = (data) => async (dispatch) => {
         .then(response => {
             toast.success(response.data.message, { theme: "colored" })
             dispatch(RecruitingStatusSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(RecruitingStatusError(error.response.data));
             toast.error(error.response.data.message, { theme: "colored" })
+            HandleError(error.response.data)
         });
 }
 
@@ -163,10 +163,10 @@ export const SponsorDashboard = () => async (dispatch) => {
         })
         .then(response => {
             dispatch(SponsorDashboardSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(SponsorDashboardError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -191,10 +191,10 @@ export const TrialClinicListAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(TrialClinicSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(TrialClinicError(error.response.data));
+            HandleError(error.response.data)
         });
 }
 
@@ -218,9 +218,9 @@ export const TrialClinicDetailsAction = (id) => async (dispatch) => {
         })
         .then(response => {
             dispatch(TrialClinicDetailSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(TrialClinicDetailError(error.response.data));
+            HandleError(error.response.data)
         });
 }

@@ -33,9 +33,9 @@ export const SponsorListAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch(SponsorListSuccess(response));
-            HandleError(response.data)
         })
         .catch(error => {
             dispatch(SponsorListError(error.response.data));
+            HandleError(error.response.data)
         });
 }

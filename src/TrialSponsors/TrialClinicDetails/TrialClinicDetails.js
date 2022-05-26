@@ -19,14 +19,14 @@ const SponsorsClinicDetails = () => {
 
     useEffect(() => {
         dispatch(TrialClinicDetailsAction(id))
-    }, [dispatch])
+    }, [dispatch, id])
 
     useEffect(() => {
         return () => {
             setClinicDetailData("")
             dispatch(TrialClinicDetailsAction())
         };
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="clinical-dashboard">

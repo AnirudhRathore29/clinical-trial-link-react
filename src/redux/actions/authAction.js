@@ -172,7 +172,6 @@ export function LogoutSuccess(response) {
     };
 }
 export const LogoutAction = (data) => async (dispatch) => {
-
     axios
         .post(getCurrentHost() + "/logout", data, {
             headers: authHeader(),

@@ -10,7 +10,7 @@ import "./BackHeader.css";
 const Header = (props, { colorHeader, headerColor })  => {
     const [sideMenu, setSideMenu] = useState(false);
 
-    const UserEmail = props.auth.user.email.split('.');
+    const UserEmail = props.auth.user !== undefined && props.auth.user.email?.split('.');
 
     toast.configure();
 
@@ -78,7 +78,7 @@ const Header = (props, { colorHeader, headerColor })  => {
                                 <Dropdown.Toggle className="user-info" variant="" id="user-dropdown">
                                     <div className="user-image"><img src={props.auth.user.profile_image == null ? "/images/avatar2.svg" : props.auth.user.profile_image} alt="avatar" /></div>
                                     <div className="user-id-info">
-                                        <h2>Hi, <span><img src="/images/hand-up.svg" alt="hand-icon" /></span> {props.auth.user.first_name}</h2>
+                                        <h2>Hi, <span><img src="/images/hand-up.svg" alt="hand-icon" /></span> Bob </h2>
                                         <p title={props.auth.user.email}><span>{UserEmail[0]}</span><span>{UserEmail[1]}</span></p>
                                     </div>
                                 </Dropdown.Toggle>
