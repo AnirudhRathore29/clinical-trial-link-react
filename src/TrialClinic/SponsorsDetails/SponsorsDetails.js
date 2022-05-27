@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import ClinicSponsorsBookingProcess from '../../views/Components/SponsorsBookingProcess/SponsorsBookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
@@ -10,18 +10,39 @@ import { SponsorDetailAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
+import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 
 const ClinicSponsorsDetails = () => {
     const dispatch = useDispatch();
     const detailSelector = useSelector(state => state.trial_clinic.sponsore_detail.data);
+    const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data)
     const { id } = useParams()
+
+    const [clinicDetails, setClinicDetails] = useState();
+    const [clinicTrialID, setClinicTrialID] = useState();
+    const [sponsoreDetails, setSponsoreDetails] = useState();
+
+    useEffect(() => {
+        setClinicDetails(clinicDetailSelector)
+    }, [clinicDetailSelector]);
+
+    useEffect(() => {
+        setSponsoreDetails(detailSelector)
+    }, [detailSelector]);
+
+    // useEffect(() => {
+    //     return () => {
+    //         setSponsoreDetails()
+    //     }
+    // }, [])
 
     useEffect(() => {
         dispatch(SponsorDetailAction(id))
-    }, [dispatch])
+    }, [dispatch, id])
+
     const options2 = {
         items: 3,
-        loop: true,
+        loop: false,
         nav: false,
         margin: 20,
         dots: true
@@ -29,17 +50,27 @@ const ClinicSponsorsDetails = () => {
 
     const [show, setShow] = useState(false);
 
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
+    const handleClinicTrialModalOpen = (id) => {
+        dispatch(ViewTrialsAction(id))
+        setShow(true)
+    };
 
+    const handleClose = () => {
+        setShow(false);
+        setClinicDetails()
+    }
     //
     const [show2, setShow2] = useState(false);
 
-    const handleShow2 = () => {
+    const handleShow2 = (id) => {
+        setClinicTrialID(id)
         setShow2(true);
         handleClose();
     }
-    const handleClose2 = () => setShow2(false);
+    const handleClose2 = () => {
+        setClinicTrialID("")
+        setShow2(false)
+    };
 
     //
     const [show3, setShow3] = useState(false);
@@ -54,14 +85,13 @@ const ClinicSponsorsDetails = () => {
         <>
             <div className="clinical-dashboard">
                 <div className="container">
-                    {detailSelector !== undefined ?
+                    {sponsoreDetails !== undefined ?
                         <div className="row">
-                            {console.log("detailSelector", detailSelector.data)}
                             <div className="col-lg-8">
                                 <div className="trialClinic-detail-bx">
-                                    <h1>{detailSelector.data.sponsor_name}<button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                    <h1>{sponsoreDetails.data.sponsor_name}<button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
                                     <div className="trialClinic-location">
-                                        <span><box-icon name='map' color="#356AA0"></box-icon> {detailSelector.data.address}, {detailSelector.data.state_info.name}</span>
+                                        <span><box-icon name='map' color="#356AA0"></box-icon> {sponsoreDetails.data.address}, {sponsoreDetails.data.state_info.name}</span>
                                         <span><box-icon name='map-alt' color="#356AA0"></box-icon> 0 Mi</span>
                                     </div>
                                     <div className='trialClinic-img'>
@@ -69,11 +99,11 @@ const ClinicSponsorsDetails = () => {
                                     </div>
                                 </div>
 
-                                {detailSelector.data.user_speciality.length !== 0 &&
+                                {sponsoreDetails.data.user_speciality.length !== 0 &&
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Specialty</h2>
                                         <ul className='condition-ul'>
-                                            {detailSelector.data.user_speciality.map((value, index) => {
+                                            {sponsoreDetails.data.user_speciality.map((value, index) => {
                                                 return (
                                                     <li key={index}>{value.speciality_info.speciality_title}</li>
                                                 )
@@ -83,11 +113,11 @@ const ClinicSponsorsDetails = () => {
                                 }
 
 
-                                {detailSelector.data.user_condition.length !== 0 &&
+                                {sponsoreDetails.data.user_condition.length !== 0 &&
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Condition</h2>
                                         <ul className='condition-ul'>
-                                            {detailSelector.data.user_condition.map((value, index) => {
+                                            {sponsoreDetails.data.user_condition.map((value, index) => {
                                                 return (
                                                     <li key={index}>{value.condition_info.condition_title}</li>
                                                 )
@@ -96,49 +126,44 @@ const ClinicSponsorsDetails = () => {
                                     </div>
                                 }
 
-                                {detailSelector.data.user_meta_info.brief_intro !== null &&
+                                {sponsoreDetails.data.user_meta_info.brief_intro !== null &&
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Description</h2>
-                                        <p> {detailSelector.data.user_meta_info.brief_intro} </p>
+                                        <p> {sponsoreDetails.data.user_meta_info.brief_intro} </p>
                                     </div>
                                 }
 
-                                <div className="trialClinic-info-bx mt-5">
-                                    <h2>Clinical Trials
-                                        <Button
-                                            isLink="true"
-                                            URL="/trial-clinic/sponsors-trial-listing"
-                                            BtnColor="green btn-sm"
-                                            BtnText="View All"
-                                        />
-                                    </h2>
-                                    <OwlCarousel {...options2}>
-                                        <ClinicTrial
-                                            onClick={handleShow}
-                                            title="Depression Associated with Bipolar Disorder"
-                                            description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                            status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                        />
-                                        <ClinicTrial
-                                            onClick={handleShow}
-                                            title="Study Seeking Patients with Bipolar Depression"
-                                            description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                            status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                        />
-                                        <ClinicTrial
-                                            onClick={handleShow}
-                                            title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                            description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                            status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                        />
-                                        <ClinicTrial
-                                            onClick={handleShow}
-                                            title="Depression Associated with Bipolar Disorder"
-                                            description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                            status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                        />
-                                    </OwlCarousel>
-                                </div>
+                                {sponsoreDetails.data.clinic_trials !== null &&
+                                    <div className="trialClinic-info-bx mt-5">
+                                        <h2>Clinical Trials
+                                            <Button
+                                                isLink="true"
+                                                URL={"/trial-clinic/sponsors-trial-listing/" + sponsoreDetails.data.id}
+                                                BtnColor="green btn-sm"
+                                                BtnText="View All"
+                                            />
+                                        </h2>
+                                        <OwlCarousel {...options2}>
+                                            {sponsoreDetails.data.clinic_trials.map((value, index) => {
+                                                return (
+                                                    <React.Fragment key={index}>
+                                                        <ClinicTrial
+                                                            onClick={() => handleClinicTrialModalOpen(value.id)}
+                                                            title={value.trial_name}
+                                                            description={value.description}
+                                                            status={
+                                                                value.status === 1 ?
+                                                                    <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                                                    :
+                                                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                                                            }
+                                                        />
+                                                    </React.Fragment>
+                                                )
+                                            })}
+                                        </OwlCarousel>
+                                    </div>
+                                }
                             </div>
                             <div className="col-lg-4">
                                 <div className="trialClinic-side-bx Clinic-map-view">
@@ -163,6 +188,9 @@ const ClinicSponsorsDetails = () => {
 
                 handleClose3={handleClose3}
                 handleShow3={handleShow3}
+
+                trialDetails={clinicDetails}
+                trialId={clinicTrialID}
             />
         </>
     );

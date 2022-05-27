@@ -116,7 +116,7 @@ const ClinicCompleteProfile = (props) => {
     }
 
     const handleRemoveFile = (item) => {
-        setUploadedFileURLs(uploadedFileURLs.filter(el => el.url !== item.url));
+        setUploadedFileURLs(uploadedFileURLs.filter(el => el.name !== item.name));
     }
 
     const handleFileUpload = async (e) => {

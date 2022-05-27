@@ -13,7 +13,6 @@ import { SponsorDashboard } from '../../redux/actions/TrialSponsorAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-var loadingTechSkeleton = [];
 const SponsorsDashboard = () => {
     const DashboardData = useSelector((state) => state.My_trials.dashboard.data);
     const isLoading = useSelector((state) => state.My_trials);
@@ -29,18 +28,6 @@ const SponsorsDashboard = () => {
     useEffect(() => {
         dispatch(SponsorDashboard())
     }, [dispatch]);
-
-    useEffect(() => {
-        for (let i = 0; i < 12; i++) {
-            return (
-                loadingTechSkeleton.push(
-                    <div className='col-lg-6' key={i}>
-                        <Skeleton height={150} borderRadius="1rem" style={{ marginBottom: 20 }} />
-                    </div>
-                )
-            )
-        }
-    })
 
     return (
         <>

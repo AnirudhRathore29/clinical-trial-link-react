@@ -87,7 +87,7 @@ const routes = [
 	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
 	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },
 	{ path: '/trial-clinic/sponsors-details/:id', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails },
-	{ path: '/trial-clinic/sponsors-trial-listing', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing },
+	{ path: '/trial-clinic/sponsors-trial-listing/:id', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing },
 	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication },
 	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments },
 	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList },

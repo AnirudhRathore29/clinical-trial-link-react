@@ -79,7 +79,7 @@ function App() {
 						<PrivateRoute path="/trial-clinic/trial-requests" name="ClinicTrialRequests" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-listing" name="ClinicSponsorsListing" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/sponsors-details/:id" name="ClinicSponsorsDetails" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
-						<PrivateRoute path="/trial-clinic/sponsors-trial-listing" name="ClinicSponsorsDetails" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/sponsors-trial-listing/:id" name="ClinicSponsorsDetails" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/trial-applications" name="ClinicTrialApplication" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/my-appointments" name="ClinicMyAppointments" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/patient-list" name="ClinicPatientList" accessRole={RolesConfig.TRIAL_CLINIC} component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />

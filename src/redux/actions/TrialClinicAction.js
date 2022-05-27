@@ -4,7 +4,11 @@ import {
     SPONSORE_LIST_SUCCESS,
     SPONSORE_LIST_ERROR,
     SPONSORE_DETAIL_SUCCESS,
-    SPONSORE_DETAIL_ERROR
+    SPONSORE_DETAIL_ERROR,
+    SPONSORE_APPLY_TRIAL_SUCCESS,
+    SPONSORE_APPLY_TRIAL_ERROR,
+    SPONSORE_TRIAL_LISI_SUCCESS,
+    SPONSORE_TRIAL_LISI_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -57,6 +61,48 @@ export const SponsorDetailAction = (id) => async (dispatch) => {
         .catch(error => {
             dispatch({
                 type: SPONSORE_DETAIL_ERROR,
+                payload: error.response.data,
+            });
+            HandleError(error.response.data)
+        });
+}
+
+export const ApplyForTrialAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/apply-trial", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({
+                type: SPONSORE_APPLY_TRIAL_SUCCESS,
+                payload: response,
+            });
+        })
+        .catch(error => {
+            dispatch({
+                type: SPONSORE_APPLY_TRIAL_ERROR,
+                payload: error.response.data,
+            });
+            HandleError(error.response.data)
+        });
+}
+
+export const SponsorsTrialListAction = (id, data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/get-sponsor-clinic-trial-list/" + id, data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({
+                type: SPONSORE_TRIAL_LISI_SUCCESS,
+                payload: response,
+            });
+        })
+        .catch(error => {
+            dispatch({
+                type: SPONSORE_TRIAL_LISI_ERROR,
                 payload: error.response.data,
             });
             HandleError(error.response.data)
