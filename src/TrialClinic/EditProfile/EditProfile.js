@@ -33,6 +33,7 @@ const ClinicEditProfile = () => {
         state_id: "",
         address: "",
         zip_code: "",
+        brief_intro: "",
         user_speciality: [],
         user_condition: [],
         principal_investigator_name: "",
@@ -301,6 +302,17 @@ const ClinicEditProfile = () => {
                                                     name="user_condition"
                                                 />
                                             </div>
+                                            {profileSelector.data.user_meta_info !== null &&
+                                                <div className="col-lg-12">
+                                                    <TextArea
+                                                        placeholder="Enter Brief Intro"
+                                                        labelText="Brief Intro"
+                                                        onChange={onChange}
+                                                        name="brief_intro"
+                                                        defaultData={profileSelector.data.user_meta_info.brief_intro}
+                                                    />
+                                                </div>
+                                            }
                                         </div>
                                         <h2 className="section-title mt-4 with-btn"><span>Share Principal Investigator Details <small>(Optional)</small></span>
                                             <span className="d-flex align-items-center">
