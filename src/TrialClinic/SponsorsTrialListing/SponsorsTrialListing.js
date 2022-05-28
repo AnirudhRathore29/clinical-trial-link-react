@@ -8,7 +8,6 @@ import '../../Patient/TrialListing/TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { SponsorsTrialListAction } from '../../redux/actions/TrialClinicAction';
-import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton'
