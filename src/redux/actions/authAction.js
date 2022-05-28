@@ -94,9 +94,9 @@ export const LoginAction = (data) => async (dispatch) => {
             headers: authHeader(true),
         })
         .then(response => {
-            console.log("response", response)
             const success_res = response.data.data
             const payload = {
+                full_name: success_res.full_name,
                 dob: success_res.dob,
                 email: success_res.email,
                 first_name: success_res.first_name,
