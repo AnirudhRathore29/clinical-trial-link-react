@@ -53,7 +53,6 @@ const Login = (props) => {
 
     useEffect(() => {
         if (submitClick === true) {
-            console.log("loginSelector.auth", loginSelector.auth)
             if (Object.keys(loginSelector.auth.user).length !== 0 && loginSelector.auth.loading === false) {
                 if (loginSelector.auth.user.data) {
                     toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
