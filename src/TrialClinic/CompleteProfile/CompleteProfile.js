@@ -33,6 +33,7 @@ const ClinicCompleteProfile = (props) => {
         state_id: "",
         address: "",
         zip_code: "",
+        brief_intro: "",
         principal_investigator_name: "",
         principal_investigator_email: "",
         principal_investigator_brief_intro: "",
@@ -164,6 +165,7 @@ const ClinicCompleteProfile = (props) => {
             formData.append("state_id", profileInputData.state_id);
             formData.append("address", profileInputData.address);
             formData.append("zip_code", profileInputData.zip_code);
+            formData.append("brief_intro", profileInputData.brief_intro);
             formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
             formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
             formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
@@ -279,6 +281,16 @@ const ClinicCompleteProfile = (props) => {
                                         name="zip_code"
                                         placeholder="Enter zip code"
                                         labelText="Zip Code"
+                                        onChange={onChange}
+                                        required="required"
+                                    />
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <TextArea
+                                        name="brief_intro"
+                                        placeholder="Enter Brief Intro"
+                                        labelText="Brief Intro"
                                         onChange={onChange}
                                         required="required"
                                     />
