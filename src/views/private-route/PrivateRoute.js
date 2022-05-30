@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ accessRole, component: Component, auth, ...rest }) => {
 	// && auth.user.role === accessRole 
-	console.log("auth.user.role === accessRole ", auth.user.role , accessRole )
+	// console.log("auth.user.role === accessRole ", auth.user.role , accessRole )
 	return (
 		<Route
 			{...rest}

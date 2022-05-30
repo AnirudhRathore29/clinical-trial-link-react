@@ -314,7 +314,7 @@ const ClinicEditProfile = () => {
                                                 </div>
                                             }
                                         </div>
-                                        <h2 className="section-title mt-4 with-btn"><span>Share Principal Investigator Details <small>(Optional)</small></span>
+                                        <h2 className="section-title mt-4 with-btn"><span>Share Principal Investigator Details </span>
                                             <span className="d-flex align-items-center">
                                                 <OverlayTrigger
                                                     placement="top"
