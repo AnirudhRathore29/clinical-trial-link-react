@@ -1,7 +1,8 @@
 const server = {
 	// baseUrl: 'http://192.168.2.80:8000/api',
 	baseUrl: 'http://admin.clinicaltriallink.org/api',
-	prod: ''
+	prod: '',
+	imageUrl: "http://admin.clinicaltriallink.org"
 };
 
 const getCurrentHost = () => {
@@ -11,5 +12,9 @@ const getCurrentHost = () => {
 		return server.baseUrl;
 	}
 };
+
+export function getImageUrl(){
+	return server.imageUrl;
+}
 
 export default getCurrentHost;

@@ -19,12 +19,13 @@ const SponsorsDashboard = () => {
     const options = {
         items: 2,
         margin: 30,
-        loop: true,
+        loop: false,
         nav: false,
         dots: true
     };
 
     const dispatch = useDispatch()
+    
     useEffect(() => {
         dispatch(SponsorDashboard())
     }, [dispatch]);

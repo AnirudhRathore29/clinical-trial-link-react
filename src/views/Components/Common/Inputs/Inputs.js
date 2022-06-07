@@ -29,6 +29,7 @@ export const InputText = (props) => {
                     autoComplete="off"
                     min={props.min}
                     max={props.max}
+                    pattern={props.pattern}
                 />
                 {
                     props.isPassword &&

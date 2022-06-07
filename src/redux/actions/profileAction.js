@@ -1,12 +1,11 @@
 import axios from "axios";
-import { 
+import {
     LOADING,
-    COMPLETE_PROFILE_SUCCESS,
-    COMPLETE_PROFILE_ERROR,
-    PROFILE_SUCCESS,
-    PROFILE_ERROR,
-    SET_CURRENT_USER
- } from './types';
+    COMPLETE_PROFILE_SUCCESS, COMPLETE_PROFILE_ERROR,
+    PROFILE_SUCCESS, PROFILE_ERROR,
+    SET_CURRENT_USER,
+    PROFILE_UPDATE_SUCCESS, PROFILE_UPDATE_ERROR
+} from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
@@ -66,7 +65,7 @@ export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
             localStorage.setItem("auth_security", token)
             var decoded = jwt.verify(token, JWT_SECRET);
             dispatch(setCurrentUser(decoded));
-            
+
             dispatch(CompleteProfileSuccess(response));
         })
         .catch(error => {
@@ -209,6 +208,21 @@ export const ProfileAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch(ProfileError(error.response.data));
+            HandleError(error.response.data)
+        });
+}
+
+export const ProfileUpdateAction = (data) => async (dispatch) => {
+    dispatch(ProfileRequest());
+    axios
+        .post(getCurrentHost() + "/sponsor/update-sponsor-profile", data, {
+            headers: authHeader(),
+        })
+        .then(response => {
+            dispatch({ type: PROFILE_UPDATE_SUCCESS, payload: response});
+        })
+        .catch(error => {
+            dispatch({ type: PROFILE_UPDATE_ERROR, payload: error.response.data});
             HandleError(error.response.data)
         });
 }

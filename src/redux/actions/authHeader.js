@@ -10,7 +10,6 @@ export function authHeader(unAuth = null) {
     } else {
         let authToken = localStorage.getItem('auth_security');
         let authLocalData = jwt.verify(authToken, JWT_SECRET)
-
         return {
             Accept: "application/json",
             "Content-Type": "application/json",

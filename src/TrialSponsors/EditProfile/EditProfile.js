@@ -5,16 +5,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../views/pages/Login/Login.css";
 import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "./ChangePassword";
-import { ProfileAction } from "../../redux/actions/profileAction";
+import { ProfileAction, ProfileUpdateAction } from "../../redux/actions/profileAction";
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { StatesAction } from "../../redux/actions/commonAction";
 import { MultiSelect } from "react-multi-select-component";
-import getCurrentHost from "../../redux/constants";
+import getCurrentHost, { getImageUrl } from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ALLOW_LETTERS_ONLY } from "./../../utils/ValidationRegex";
 
 toast.configure();
+const conditionListAPI = []
+const specialityListAPI = []
 const SponsorsEditProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
@@ -26,12 +29,11 @@ const SponsorsEditProfile = () => {
     const [fullBinaryUrl, setFullBinaryUrl] = useState();
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
-        phone_number: "",
         state_id: "",
         address: "",
         zip_code: "",
-        user_speciality: [],
-        user_condition: [],
+        speciality: [],
+        condition: [],
         brief_intro: "",
         bank_name: "",
         account_holder_name: "",
@@ -43,6 +45,41 @@ const SponsorsEditProfile = () => {
         dispatch(ProfileAction())
         dispatch(StatesAction())
     }, [dispatch])
+
+    useEffect(() => {
+        if (profileSelector !== undefined) {
+            let speciality_data =  profileSelector.data.user_speciality;
+            let conditionList_data =  profileSelector.data.user_condition;
+
+            for (var i = 0; i < speciality_data?.length; i++) {
+                const obj = Object.assign({}, speciality_data[i]);
+                obj.label = speciality_data[i].speciality_info.speciality_title;
+                obj.value = speciality_data[i].trial_category_speciality_id;
+                specialityListAPI.push(obj)
+            }
+            for (var i = 0; i < conditionList_data?.length; i++) {
+                const obj = Object.assign({}, conditionList_data[i]);
+                obj.label = conditionList_data[i].condition_info.condition_title;
+                obj.value = conditionList_data[i].condition_info.id;
+                conditionListAPI.push(obj)
+            }
+
+            setProfileInputData({
+                ...profileInputData,
+                sponsor_name: profileSelector.data.sponsor_name,
+                state_id: profileSelector.data.state_id,
+                address: profileSelector.data.address,
+                zip_code: profileSelector.data.zip_code,
+                speciality: specialityListAPI,
+                condition: conditionListAPI,
+                brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.brief_intro : "",
+                bank_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+            });
+        }
+    }, [profileSelector])
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -90,7 +127,7 @@ const SponsorsEditProfile = () => {
     }
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, user_speciality: e })
+        setProfileInputData({ ...profileInputData, speciality: e })
         const speArr = e.map(value => value.id)
         let data = {
             speciality: speArr
@@ -138,17 +175,43 @@ const SponsorsEditProfile = () => {
         });
     }
 
+    //form validation handler
+    const validate = (values, file) => {
+        if (!ALLOW_LETTERS_ONLY.test(values.sponsor_name)) {
+            toast.error("The sponsor name must not contain numbers or special characters.", { theme: "colored" })
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmitProfile = (e) => {
         e.preventDefault();
-        // let formData = new FormData();
-        // formData.append("profile_image", binary);
-        // formData.append("id", profileEditDetails.id);
-        // formData.append("firstName", editInput.firstName);
-        // formData.append("lastName", editInput.lastName);
-        // formData.append("email", editInput.email);
-        // formData.append("dob", editInput.dob);
-        // formData.append("state_id", editInput.state_id);
-        // props.updateUserProfile(formData);
+        const specialityArr = profileInputData.speciality.map(value => value.value);
+        const conditionArr = profileInputData.condition.map(value => value.value);
+        let formData = new FormData();
+        if (binary !== undefined) {
+            formData.append("profile_image", binary)
+        }
+        formData.append("sponsor_name", profileInputData.sponsor_name);
+        // formData.append("phone_number", profileInputData.phone_number);
+        formData.append("state_id", profileInputData.state_id);
+        formData.append("address", profileInputData.address);
+        formData.append("zip_code", profileInputData.zip_code);
+        for (let i = 0; i < specialityArr.length; i++) {
+            formData.append(`speciality[${i}]`, specialityArr[i]);
+        }
+        for (let i = 0; i < conditionArr.length; i++) {
+            formData.append(`condition[${i}]`, conditionArr[i]);
+        }
+        formData.append("brief_intro", profileInputData.brief_intro);
+        formData.append("bank_name", profileInputData.bank_name);
+        formData.append("account_holder_name", profileInputData.account_holder_name);
+        formData.append("account_number", profileInputData.account_number);
+        formData.append("routing_number", profileInputData.routing_number);
+        const isVaild = validate(profileInputData, binary);
+        if (isVaild) {
+            dispatch(ProfileUpdateAction(formData))
+        }
     }
 
     return (
@@ -182,7 +245,7 @@ const SponsorsEditProfile = () => {
                                                             :
                                                             <img
                                                                 src={profileSelector.data.profile_image ?
-                                                                    getCurrentHost() + "/" + profileSelector.data.profile_image
+                                                                    getImageUrl() + profileSelector.data.profile_image
                                                                     : '/images/avatar2.svg'}
                                                                 width={120}
                                                                 className='img-fluid uploaded-img rounded-circle'
@@ -207,12 +270,12 @@ const SponsorsEditProfile = () => {
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="number"
-                                                    name="phone_no"
+                                                    name="phone_number"
                                                     onChange={onChange}
                                                     defaultValue={profileSelector.data.phone_number}
                                                     placeholder="Enter Phone Number"
                                                     labelText="Phone Number"
-                                                    required={true}
+                                                    isDisabled={true}
                                                 />
                                             </div>
                                             <div className="col-lg-6">
@@ -264,24 +327,24 @@ const SponsorsEditProfile = () => {
                                                 <label> Specialty </label>
                                                 <MultiSelect
                                                     options={specialityList !== undefined && specialityList}
-                                                    value={profileInputData.user_speciality}
+                                                    value={profileInputData.speciality}
                                                     onChange={specialityOnChange}
                                                     disableSearch={true}
                                                     labelledBy="Specialty"
                                                     className="multiSelect-control"
-                                                    name="user_speciality"
+                                                    name="speciality"
                                                 />
                                             </div>
                                             <div className="col-lg-6 form-group">
                                                 <label> Condition </label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
-                                                    value={profileInputData.user_condition}
-                                                    onChange={(e) => setProfileInputData({ ...profileInputData, user_condition: e })}
+                                                    value={profileInputData.condition}
+                                                    onChange={(e) => setProfileInputData({ ...profileInputData, condition: e })}
                                                     disableSearch={true}
                                                     labelledBy="Condition"
                                                     className="multiSelect-control"
-                                                    name="user_condition"
+                                                    name="condition"
                                                 />
                                             </div>
                                             <div className="col-lg-12">
@@ -290,6 +353,7 @@ const SponsorsEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Brief Intro"
                                                     required={true}
+                                                    name="brief_intro"
                                                     defaultData={profileSelector.data.user_meta_info.brief_intro}
                                                 />
                                             </div>
