@@ -1,0 +1,17 @@
+.listing-img-block{padding:0 !important; height: 20rem;position: relative;}
+.listing-img-block img{width:100%; height: 100%; object-fit: cover;border-radius: 1rem;}
+.listing-img-block .btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100px;
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    min-width: auto;
+    line-height: 3rem;
+    padding: 0;
+    background-color: var(--SecondaryColor);
+}
+.listing-img-block .btn span{
+    opacity: 1;
+}

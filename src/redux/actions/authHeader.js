@@ -1,6 +1,4 @@
 var jwt = require('jsonwebtoken');
-const JWT_SECRET = "clinical57586xYtrial"
-
 export function authHeader(unAuth = null) {
     if (unAuth) {
         return {
@@ -9,7 +7,7 @@ export function authHeader(unAuth = null) {
         };
     } else {
         let authToken = localStorage.getItem('auth_security');
-        let authLocalData = jwt.verify(authToken, JWT_SECRET)
+        let authLocalData = jwt.verify(authToken, process.env.REACT_APP_JWT_SECRET)
         return {
             Accept: "application/json",
             "Content-Type": "application/json",

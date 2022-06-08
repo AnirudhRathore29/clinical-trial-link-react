@@ -14,6 +14,7 @@ import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ALLOW_LETTERS_ONLY } from "./../../utils/ValidationRegex";
+import "./Profile.css"
 
 toast.configure();
 const conditionListAPI = []
@@ -27,6 +28,10 @@ const SponsorsEditProfile = () => {
     const [conditionList, setConditionList] = useState([]);
     const [binary, setBinary] = useState();
     const [fullBinaryUrl, setFullBinaryUrl] = useState();
+
+    const [listingBinary, setListingBinary] = useState()
+    const [fullListingBinaryUrl, setFullListingBinaryUrl] = useState([]);
+
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
         state_id: "",
@@ -38,7 +43,8 @@ const SponsorsEditProfile = () => {
         bank_name: "",
         account_holder_name: "",
         account_number: "",
-        routing_number: ""
+        routing_number: "",
+        listing_image: ""
     });
 
     useEffect(() => {
@@ -48,8 +54,8 @@ const SponsorsEditProfile = () => {
 
     useEffect(() => {
         if (profileSelector !== undefined) {
-            let speciality_data =  profileSelector.data.user_speciality;
-            let conditionList_data =  profileSelector.data.user_condition;
+            let speciality_data = profileSelector.data.user_speciality;
+            let conditionList_data = profileSelector.data.user_condition;
 
             for (var i = 0; i < speciality_data?.length; i++) {
                 const obj = Object.assign({}, speciality_data[i]);
@@ -57,10 +63,10 @@ const SponsorsEditProfile = () => {
                 obj.value = speciality_data[i].trial_category_speciality_id;
                 specialityListAPI.push(obj)
             }
-            for (var i = 0; i < conditionList_data?.length; i++) {
-                const obj = Object.assign({}, conditionList_data[i]);
-                obj.label = conditionList_data[i].condition_info.condition_title;
-                obj.value = conditionList_data[i].condition_info.id;
+            for (var j = 0; j < conditionList_data?.length; j++) {
+                const obj = Object.assign({}, conditionList_data[j]);
+                obj.label = conditionList_data[j].condition_info.condition_title;
+                obj.value = conditionList_data[j].condition_info.id;
                 conditionListAPI.push(obj)
             }
 
@@ -77,6 +83,7 @@ const SponsorsEditProfile = () => {
                 account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
                 account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
                 routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+                listing_image: profileSelector.data.listing_image
             });
         }
     }, [profileSelector])
@@ -175,8 +182,34 @@ const SponsorsEditProfile = () => {
         });
     }
 
+    const updateFileHandler = async (e) => {
+        const { value, files } = e.target;
+        var output = document.getElementById("listing_image");
+        var listingBinaryData = [];
+        listingBinaryData.push(files[0]);
+        const extention = value.split(".")[1];
+        if (listingBinaryData[0] !== undefined) {
+            if (
+                extention === "jpg" ||
+                extention === "jpeg" ||
+                extention === "png"
+            ) {
+                output.src = URL.createObjectURL(
+                    new Blob(listingBinaryData, { type: "application/zip" })
+                );
+                setFullListingBinaryUrl(output.src)
+                output.onload = () => {
+                    URL.revokeObjectURL(output.src);
+                };
+                setListingBinary(listingBinaryData[0])
+            } else {
+                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+            }
+        }
+    }
+
     //form validation handler
-    const validate = (values, file) => {
+    const validate = (values) => {
         if (!ALLOW_LETTERS_ONLY.test(values.sponsor_name)) {
             toast.error("The sponsor name must not contain numbers or special characters.", { theme: "colored" })
             return false;
@@ -191,6 +224,9 @@ const SponsorsEditProfile = () => {
         let formData = new FormData();
         if (binary !== undefined) {
             formData.append("profile_image", binary)
+        }
+        if (listingBinary !== undefined) {
+            formData.append("listing_image", listingBinary)
         }
         formData.append("sponsor_name", profileInputData.sponsor_name);
         // formData.append("phone_number", profileInputData.phone_number);
@@ -208,10 +244,14 @@ const SponsorsEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
-        const isVaild = validate(profileInputData, binary);
+        const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData))
         }
+    }
+
+    const handleListingRemove = () => {
+        setListingBinary("")
     }
 
     return (
@@ -321,6 +361,37 @@ const SponsorsEditProfile = () => {
                                                 />
                                             </div>
                                         </div>
+
+                                        <h2 className="section-title mt-4"> Listing Info </h2>
+                                        <div className="row">
+                                            <div className="col-lg-4 form-group">
+                                                <label>Upload Listing Image <span className="text-danger"> *</span></label>
+                                                <label className="upload-document single-file-uploader w-100">
+                                                    <input type="file" name="listing_image" id="listing_image" accept="image/*" onChange={updateFileHandler} />
+                                                    <div className={profileSelector.data.listing_image !== null || listingBinary ? "listing-img-block" : ""}>
+                                                        {profileSelector.data.listing_image !== null || listingBinary ?
+                                                            <>
+                                                                <button type="button" className="btn" onClick={handleListingRemove}><span className="btn-close" /></button>
+                                                                {listingBinary ?
+                                                                    <img src={fullListingBinaryUrl} className='img-fluid' alt={profileSelector.data.sponsor_name} />
+                                                                    :
+                                                                    <img
+                                                                        src={profileSelector.data.listing_image && getImageUrl() + profileSelector.data.listing_image}
+                                                                        className='img-fluid'
+                                                                        alt={profileSelector.data.sponsor_name}
+                                                                    />}
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <h4> No File Uploaded </h4>
+                                                                <h3>Tap Here to Upload your File</h3>
+                                                            </>
+                                                        }
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
                                         <h2 className="section-title mt-4">Other Info</h2>
                                         <div className="row">
                                             <div className="col-lg-6 form-group">
@@ -358,6 +429,7 @@ const SponsorsEditProfile = () => {
                                                 />
                                             </div>
                                         </div>
+
                                         <h2 className="section-title mt-4">Bank Details <small>(Optional)</small> </h2>
                                         <div className="row">
                                             <div className="col-lg-6">

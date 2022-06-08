@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
 var jwt = require('jsonwebtoken');
-const JWT_SECRET = "clinical57586xYtrial"
 
 export const setCurrentUser = (decoded) => {
     return {
@@ -111,9 +110,9 @@ export const LoginAction = (data) => async (dispatch) => {
                 state_id: success_res.state_id,
                 status: success_res.status
             }
-            var token = jwt.sign(payload, JWT_SECRET);
+            var token = jwt.sign(payload, process.env.REACT_APP_JWT_SECRET);
             localStorage.setItem("auth_security", token)
-            var decoded = jwt.verify(token, JWT_SECRET);
+            var decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
             dispatch(loginSuccess(response));
             dispatch(setCurrentUser(decoded));
 

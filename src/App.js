@@ -28,7 +28,6 @@ const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 // const PhysicianCompleteProfile = React.lazy(() => import('./Physician/CompleteProfile/CompleteProfile'));
 
 var jwt = require('jsonwebtoken');
-const JWT_SECRET = "clinical57586xYtrial"
 
 const loading = (
 	<div className="pt-3 text-center">
@@ -38,7 +37,7 @@ const loading = (
 
 if (localStorage.auth_security) {
     const token = localStorage.auth_security;
-	var decoded = jwt.verify(token, JWT_SECRET);
+	var decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
     store.dispatch(setCurrentUser(decoded));
 }
 
