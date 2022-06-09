@@ -218,7 +218,7 @@ export const ProfileUpdateAction = (data) => async (dispatch) => {
             headers: authHeader(),
         })
         .then(response => {
-            dispatch({ type: PROFILE_UPDATE_SUCCESS, payload: response});
+            dispatch({ type: PROFILE_UPDATE_SUCCESS, payload: response.data});
         })
         .catch(error => {
             dispatch({ type: PROFILE_UPDATE_ERROR, payload: error.response.data});

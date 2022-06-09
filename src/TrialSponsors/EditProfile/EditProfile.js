@@ -23,6 +23,7 @@ const SponsorsEditProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
+    const UpdateProfileSelector = useSelector(state => state.profile)
 
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
@@ -31,6 +32,8 @@ const SponsorsEditProfile = () => {
 
     const [listingBinary, setListingBinary] = useState()
     const [fullListingBinaryUrl, setFullListingBinaryUrl] = useState([]);
+
+    const [profileSubmitClick, setProfileSubmitClick] = useState(false);
 
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
@@ -44,7 +47,7 @@ const SponsorsEditProfile = () => {
         account_holder_name: "",
         account_number: "",
         routing_number: "",
-        listing_image: ""
+        listing_image: "",
     });
 
     useEffect(() => {
@@ -227,9 +230,10 @@ const SponsorsEditProfile = () => {
         }
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
+        }else {
+            formData.append("listing_image_url", profileInputData.listing_image)
         }
         formData.append("sponsor_name", profileInputData.sponsor_name);
-        // formData.append("phone_number", profileInputData.phone_number);
         formData.append("state_id", profileInputData.state_id);
         formData.append("address", profileInputData.address);
         formData.append("zip_code", profileInputData.zip_code);
@@ -247,13 +251,26 @@ const SponsorsEditProfile = () => {
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData))
+            setProfileSubmitClick(true)
         }
     }
 
     const handleListingRemove = () => {
-        setListingBinary("")
+        setListingBinary(undefined);
+        setProfileInputData({ ...profileInputData, listing_image: "" });
     }
 
+    useEffect(() => {
+        if (profileSubmitClick) {
+            if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
+                toast.success(UpdateProfileSelector.profile_edit.message, {theme: "colored"})
+            } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
+                toast.error(UpdateProfileSelector.error.message, {theme: "colored"})
+            }
+        }
+    }, [UpdateProfileSelector, profileSubmitClick]);
+
+    console.log("listingBinary", profileInputData.listing_image !== null , listingBinary !== undefined)
     return (
         <>
             <div className="clinical-dashboard">
@@ -368,28 +385,32 @@ const SponsorsEditProfile = () => {
                                                 <label>Upload Listing Image <span className="text-danger"> *</span></label>
                                                 <label className="upload-document single-file-uploader w-100">
                                                     <input type="file" name="listing_image" id="listing_image" accept="image/*" onChange={updateFileHandler} />
-                                                    <div className={profileSelector.data.listing_image !== null || listingBinary ? "listing-img-block" : ""}>
-                                                        {profileSelector.data.listing_image !== null || listingBinary ?
-                                                            <>
-                                                                <button type="button" className="btn" onClick={handleListingRemove}><span className="btn-close" /></button>
-                                                                {listingBinary ?
-                                                                    <img src={fullListingBinaryUrl} className='img-fluid' alt={profileSelector.data.sponsor_name} />
-                                                                    :
-                                                                    <img
-                                                                        src={profileSelector.data.listing_image && getImageUrl() + profileSelector.data.listing_image}
-                                                                        className='img-fluid'
-                                                                        alt={profileSelector.data.sponsor_name}
-                                                                    />}
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <h4> No File Uploaded </h4>
-                                                                <h3>Tap Here to Upload your File</h3>
-                                                            </>
-                                                        }
+                                                    <div>
+                                                        <h4> No File Uploaded </h4>
+                                                        <h3>Tap Here to Upload your File</h3>
                                                     </div>
                                                 </label>
                                             </div>
+
+                                            {profileInputData.listing_image !== null || listingBinary !== undefined ?
+                                                <div className="col-lg-4 form-group">
+                                                    <label> &nbsp; </label>
+                                                    <div className="listing-img-block">
+                                                        <button type="button" className="btn btn-danger" onClick={handleListingRemove}> <box-icon name='x' size="18px" color="#ffffff"></box-icon> </button>
+                                                        {listingBinary ?
+                                                            <img src={fullListingBinaryUrl} className='img-fluid' alt={profileInputData.sponsor_name} />
+                                                            :
+                                                            <img
+                                                                src={profileInputData.listing_image && getImageUrl() + profileInputData.listing_image}
+                                                                className='img-fluid'
+                                                                alt={profileInputData.sponsor_name}
+                                                            />
+                                                        }
+                                                    </div>
+                                                </div>
+                                                :
+                                                <></>
+                                            }
                                         </div>
 
                                         <h2 className="section-title mt-4">Other Info</h2>
