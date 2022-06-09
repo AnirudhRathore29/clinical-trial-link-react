@@ -411,8 +411,8 @@ const ClinicCompleteProfile = (props) => {
                                         BtnType="submit"
                                         BtnColor="green w-50"
                                         BtnText="Finish"
-                                        hasSpinner={profileComSelector.loading}
-                                        disabled={profileComSelector.loading}
+                                        hasSpinner={CPSubmitClick && profileComSelector.loading}
+                                        disabled={CPSubmitClick && profileComSelector.loading}
                                     />
                                 </div>
                             </div>
