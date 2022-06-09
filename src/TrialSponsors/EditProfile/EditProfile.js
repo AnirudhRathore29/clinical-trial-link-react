@@ -13,6 +13,7 @@ import getCurrentHost, { getImageUrl } from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom";
 import { ALLOW_LETTERS_ONLY } from "./../../utils/ValidationRegex";
 import "./Profile.css"
 
@@ -21,6 +22,7 @@ const conditionListAPI = []
 const specialityListAPI = []
 const SponsorsEditProfile = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
     const UpdateProfileSelector = useSelector(state => state.profile)
@@ -230,8 +232,8 @@ const SponsorsEditProfile = () => {
         }
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
-        }else {
-            formData.append("listing_image_url", profileInputData.listing_image)
+        } else {
+            formData.append("listing_image_url", profileInputData.listing_image !== null ? profileInputData.listing_image : "")
         }
         formData.append("sponsor_name", profileInputData.sponsor_name);
         formData.append("state_id", profileInputData.state_id);
@@ -257,20 +259,20 @@ const SponsorsEditProfile = () => {
 
     const handleListingRemove = () => {
         setListingBinary(undefined);
-        setProfileInputData({ ...profileInputData, listing_image: "" });
+        setProfileInputData({ ...profileInputData, listing_image: null });
     }
 
     useEffect(() => {
         if (profileSubmitClick) {
             if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.success(UpdateProfileSelector.profile_edit.message, {theme: "colored"})
+                toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored" })
+                history.push("/trial-sponsors/dashboard")
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.error(UpdateProfileSelector.error.message, {theme: "colored"})
+                toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
             }
         }
     }, [UpdateProfileSelector, profileSubmitClick]);
 
-    console.log("listingBinary", profileInputData.listing_image !== null , listingBinary !== undefined)
     return (
         <>
             <div className="clinical-dashboard">
@@ -326,9 +328,18 @@ const SponsorsEditProfile = () => {
                                             </div>
                                             <div className="col-lg-6">
                                                 <InputText
+                                                    type="email"
+                                                    name="email"
+                                                    defaultValue={profileSelector.data.email}
+                                                    placeholder="Enter Email Address"
+                                                    labelText="Email Address"
+                                                    isDisabled={true}
+                                                />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <InputText
                                                     type="number"
                                                     name="phone_number"
-                                                    onChange={onChange}
                                                     defaultValue={profileSelector.data.phone_number}
                                                     placeholder="Enter Phone Number"
                                                     labelText="Phone Number"
@@ -503,6 +514,8 @@ const SponsorsEditProfile = () => {
                                             BtnType="submit"
                                             BtnColor="primary"
                                             BtnText="Save"
+                                            hasSpinner={profileSubmitClick && UpdateProfileSelector.loading}
+                                            disabled={profileSubmitClick && UpdateProfileSelector.loading}
                                         />
                                     </form>
                                     :
