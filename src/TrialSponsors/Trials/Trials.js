@@ -379,7 +379,7 @@ const SponsorsTrials = () => {
                                 name="compensation"
                                 labelText="Compensation"
                                 onChange={onChange}
-                                min="1"
+                                min="10"
                                 max="255"
                                 required={true}
                             />
