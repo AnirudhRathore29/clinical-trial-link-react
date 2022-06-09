@@ -145,14 +145,14 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
                                     <p>{trialDetails.data.description}</p>
                                 </div>
                             }
-
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green"
-                                    BtnText="Apply for Trial"
+                                    BtnText={!trialDetails.data.alreadyApplied ? "Apply for Trial" : "Already Applied"}
                                     onClick={() => handleShow2(trialDetails.data.id)}
+                                    disabled={trialDetails.data.alreadyApplied}
                                 />
                                 <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                             </div>
