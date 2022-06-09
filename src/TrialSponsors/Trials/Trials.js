@@ -50,7 +50,7 @@ const SponsorsTrials = () => {
         speciality: [],
         condition: [],
         description: "",
-        send_invitation: ""
+        invite_sent_to_clinics: false
     });
     const [sendInvitationData, setSendInvitationData] = useState({
         clinic_trial_id: "",
@@ -133,7 +133,7 @@ const SponsorsTrials = () => {
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
-        if (name === "send_invitation") {
+        if (name === "invite_sent_to_clinics") {
             setCreateTrialFieldData((preValue) => {
                 return {
                     ...preValue,
@@ -163,7 +163,7 @@ const SponsorsTrials = () => {
                 speciality: [],
                 condition: [],
                 description: "",
-                send_invitation: "0"
+                invite_sent_to_clinics: false
             })
             setSendInviteModalOpen(false);
             setSendInvitationData({
@@ -186,7 +186,7 @@ const SponsorsTrials = () => {
             speciality: specialityArr,
             condition: conditionArr,
             description: createTrialFieldData.description,
-            send_invitation: createTrialFieldData.send_invitation
+            invite_sent_to_clinics: createTrialFieldData.invite_sent_to_clinics
         }
         dispatch(CreateTrialsAction(fieldData))
         dispatch(ListTrials({ page: loadMoreData }))
@@ -347,6 +347,7 @@ const SponsorsTrials = () => {
                                 placeholder="Enter Trial Name"
                                 labelText="Trial Name"
                                 onChange={onChange}
+                                required={true}
                             />
                             <div className="form-group">
                                 <label> Specialty </label>
@@ -378,6 +379,9 @@ const SponsorsTrials = () => {
                                 name="compensation"
                                 labelText="Compensation"
                                 onChange={onChange}
+                                min="1"
+                                max="255"
+                                required={true}
                             />
                             <TextArea
                                 name="description"
@@ -385,11 +389,12 @@ const SponsorsTrials = () => {
                                 labelText="Description"
                                 onChange={onChange}
                                 maxLength="500"
+                                required={true}
                             />
                             <RadioBtn
                                 className="checkbox-btn"
                                 type="checkbox"
-                                name="send_invitation"
+                                name="invite_sent_to_clinics"
                                 labelText="Send Invitation to Trial Clinics."
                                 onChange={onChange}
                             />

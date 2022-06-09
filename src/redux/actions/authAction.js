@@ -4,6 +4,7 @@ import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HandleError from "./HandleError";
 
 toast.configure();
 var jwt = require('jsonwebtoken');
@@ -183,5 +184,6 @@ export const LogoutAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             console.log("error", error)
+            HandleError(error.response.data)
         });
 }
