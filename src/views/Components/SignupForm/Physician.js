@@ -8,6 +8,7 @@ import RadioBtn from "../Common/RadioBtn/RadioBtn";
 import { SignupAction } from "./../../../redux/actions/authAction"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidPhoneNumber, isValidEmailAddress, isValidPassword } from "./../../Components/Validation/Validation"
 
 const Physician = () => {
     const dispatch = useDispatch()
@@ -52,22 +53,31 @@ const Physician = () => {
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
-        if (name === "T_C") {
-            setFormdata((preValue) => {
-                return {
-                    ...preValue,
-                    [name]: checked
-                };
-            });
-        } else {
-            setFormdata((preValue) => {
-                return {
-                    ...preValue,
-                    [name]: value
-                };
-            });
-        }
+        const changeValue = (name === "T_C") ? checked : value
+        setFormdata((preValue) => {
+            return {
+                ...preValue,
+                [name]: changeValue
+            };
+        });
     };
+
+    const Vaildation = (value) => {
+        const isPhoneVaild = isValidPhoneNumber(value.phone_number);
+        const isEmailVaild = isValidEmailAddress(value.email);
+        const isPasswordVaild = isValidPassword(value.password);
+        if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPhoneVaild.status) {
+            toast.error(isPhoneVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPasswordVaild.status) {
+            toast.error(isPasswordVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
 
     const handleSignUPSubmit = (event) => {
         event.preventDefault();
@@ -79,8 +89,11 @@ const Physician = () => {
             confirm_password: Formdata.confirm_password,
             T_C: Formdata.T_C
         }
-        setSubmitClick(true)
-        dispatch(SignupAction(regData))
+        const isVaild = Vaildation(regData)
+        if (isVaild) {
+            setSubmitClick(true)
+            dispatch(SignupAction(regData))
+        }
     };
 
     return (

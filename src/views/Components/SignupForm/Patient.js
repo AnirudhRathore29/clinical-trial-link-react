@@ -8,9 +8,10 @@ import RadioBtn from "../Common/RadioBtn/RadioBtn";
 import { SignupAction } from "./../../../redux/actions/authAction"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidPhoneNumber, isValidEmailAddress, isValidOnlyLetters, isValidPassword } from "./../../Components/Validation/Validation"
 
 toast.configure();
-const Patient = (props) => {
+const Patient = () => {
     const dispatch = useDispatch()
     let history = useHistory();
     const patientSelector = useSelector(state => state)
@@ -42,10 +43,10 @@ const Patient = (props) => {
             if (Object.keys(patientSelector.auth.user).length !== 0 && patientSelector.auth.loading === false) {
                 toast.success(patientSelector.auth.user.data.message, { theme: "colored" })
                 history.push({
-                	pathname: '/verify-email',
-                	state: patientSelector.auth.user.data.data
+                    pathname: '/verify-email',
+                    state: patientSelector.auth.user.data.data
                 });
-            } else if(Object.keys(patientSelector.auth.error).length !== 0 && patientSelector.auth.loading === false){
+            } else if (Object.keys(patientSelector.auth.error).length !== 0 && patientSelector.auth.loading === false) {
                 let err = patientSelector.auth?.error?.message;
                 toast.error(err, { theme: "colored" });
             }
@@ -54,22 +55,39 @@ const Patient = (props) => {
 
     const onChange = (e) => {
         const { name, checked, value } = e.target;
-        if (name === "T_C") {
-            setFormdata((preValue) => {
-                return {
-                    ...preValue,
-                    [name]: checked
-                };
-            });
-        } else {
-            setFormdata((preValue) => {
-                return {
-                    ...preValue,
-                    [name]: value
-                };
-            });
-        }
+        const changeValue = name === "T_C" ? checked : value
+        setFormdata((preValue) => {
+            return {
+                ...preValue,
+                [name]: changeValue
+            };
+        });
     };
+
+    const Vaildation = (value) => {
+        const isPhoneVaild = isValidPhoneNumber(value.phone_number)
+        const isEmailVaild = isValidEmailAddress(value.email)
+        const isFirstNameVaild = isValidOnlyLetters(value.first_name, "first name")
+        const isLastNameVaild = isValidOnlyLetters(value.last_name, "last name")
+        const isPasswordVaild = isValidPassword(value.password)
+        if (!isFirstNameVaild.status) {
+            toast.error(isFirstNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isLastNameVaild.status) {
+            toast.error(isLastNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPhoneVaild.status) {
+            toast.error(isPhoneVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPasswordVaild.status) {
+            toast.error(isPasswordVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
 
     const handleSignUPSubmit = (event) => {
         event.preventDefault();
@@ -83,9 +101,13 @@ const Patient = (props) => {
             confirm_password: Formdata.confirm_password,
             T_C: Formdata.T_C
         }
-        setSubmitClick(true)
-        dispatch(SignupAction(regData))
+        const isVaild = Vaildation(regData)
+        if (isVaild) {
+            setSubmitClick(true)
+            dispatch(SignupAction(regData))
+        }
     };
+
     return (
         <Form onSubmit={handleSignUPSubmit} autoComplete="off">
             <div className="row">

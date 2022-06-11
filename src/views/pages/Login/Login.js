@@ -11,6 +11,7 @@ import { LoginAction, ResendEmailAction } from "./../../../redux/actions/authAct
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CommonModal from './../../Components/Common/Modal/Modal';
+import { isValidEmailAddress, isValidPassword } from "./../../Components/Validation/Validation"
 
 toast.configure();
 const Login = (props) => {
@@ -57,27 +58,27 @@ const Login = (props) => {
                 if (loginSelector.auth.user.data) {
                     toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
                     if (loginSelector.auth.user.data?.data?.role === 2) {
-                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                        if (loginSelector.auth.user.data.data.isProfileCompleted) {
                             history.push('/patient/dashboard');
-                        }else{
+                        } else {
                             history.push('/patient/complete-profile');
                         }
                     } else if (loginSelector.auth.user.data?.data?.role === 3) {
-                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                        if (loginSelector.auth.user.data.data.isProfileCompleted) {
                             history.push('/trial-clinic/dashboard');
-                        }else{
+                        } else {
                             history.push('/trial-clinic/complete-profile');
-                        }                        
+                        }
                     } else if (loginSelector.auth.user.data?.data?.role === 4) {
-                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                        if (loginSelector.auth.user.data.data.isProfileCompleted) {
                             history.push('/physician/dashboard');
-                        }else{
+                        } else {
                             history.push('/physician/complete-profile');
                         }
                     } else if (loginSelector.auth.user.data?.data?.role === 5) {
-                        if(loginSelector.auth.user.data.data.isProfileCompleted){
+                        if (loginSelector.auth.user.data.data.isProfileCompleted) {
                             history.push('/trial-sponsors/dashboard');
-                        }else{
+                        } else {
                             history.push('/trial-sponsors/complete-profile');
                         }
                     }
@@ -109,14 +110,31 @@ const Login = (props) => {
         }
     }, [loginSelector, history, clickVerifyEmail, submitClick, verifyEmail]);
 
+
+    const Vaildation = (value) => {
+        const isEmailVaild = isValidEmailAddress(value.email);
+        const isPasswordVaild = isValidPassword(value.password);
+        if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPasswordVaild.status) {
+            toast.error(isPasswordVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
+
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         const logValue = {
             email: loginFieldData.email,
             password: loginFieldData.password,
         }
-        setSubmitClick(true)
-        dispatch(LoginAction(logValue))
+        const isVaild = Vaildation(logValue)
+        if (isVaild) {
+            setSubmitClick(true)
+            dispatch(LoginAction(logValue))
+        }
     }
 
     const handleModalClose = () => setEmailNotVerified(false);

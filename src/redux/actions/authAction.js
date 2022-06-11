@@ -119,6 +119,7 @@ export const LoginAction = (data) => async (dispatch) => {
 
         })
         .catch(error => {
+            console.log("error", error)
             dispatch(loginError(error.response.data));
         });
 }
