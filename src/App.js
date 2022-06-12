@@ -107,6 +107,7 @@ function App() {
 						<PrivateRoute path="/physician/my-chats" name="PhysicianMyChats" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						<PrivateRoute path="/physician/edit-profile" name="PhysicianEditProfile" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 					</Switch>
+					{/* /:pathName */}
 					<Route path="/:pathName" element={<PageNotFound />} />
 				</Switch>
 			</React.Suspense>

@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { Route, Switch } from 'react-router-dom';
-
+import { connect } from "react-redux";
 // routes config
 import routes from '../Routes/routes';
 
@@ -10,7 +10,8 @@ const loading = (
 	</div>
 );
 
-function TheContent () {
+function TheContent({ auth }) {
+	const appRoutes = useMemo(() => routes.filter(r => r.meta.role === auth.user.role));
 	return (
 		<main className="main-content">
 			<Suspense fallback={loading}>
@@ -34,4 +35,9 @@ function TheContent () {
 	);
 };
 
-export default React.memo(TheContent);
+const mapStateToProps = (state) => ({
+	auth: state.auth
+});
+
+export default connect(mapStateToProps)(TheContent);
+// export default React.memo(TheContent);

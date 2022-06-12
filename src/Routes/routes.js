@@ -1,4 +1,6 @@
 import React from 'react';
+import { RolesConfig } from "./../utils/AppConfig"
+
 const Home = React.lazy(() => import('../views/pages/Home/Home'));
 const ClinicListing = React.lazy(() => import('../views/pages/ClinicListing/ClinicListing'));
 const ClinicDetails = React.lazy(() => import('../views/pages/ClinicDetails/ClinicDetails'));
@@ -62,67 +64,73 @@ const PhysicianMyChats = React.lazy(() => import('../Physician/MyChats/MyChats')
 const PhysicianEditProfile = React.lazy(() => import('../Physician/EditProfile/EditProfile'));
 
 const routes = [
-	{ path: '/', exact: true, name: 'Home', component: Home },
-	{ path: '/contact-us', exact: true, name: 'ContactUs', component: ContactUs },
-	{ path: '/clinic-listing', exact: true, name: 'ClinicListing', component: ClinicListing },
-	{ path: '/clinic-details', exact: true, name: 'ClinicDetails', component: ClinicDetails },
-	{ path: '/trial-listing', exact: true, name: 'TrialListing', component: TrialListing },
-	{ path: '/about-us', exact: true, name: 'AboutUs', component: AboutUs },
+	{ path: '/', exact: true, name: 'Home', component: Home, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/contact-us', exact: true, name: 'ContactUs', component: ContactUs, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/clinic-listing', exact: true, name: 'ClinicListing', component: ClinicListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/clinic-details', exact: true, name: 'ClinicDetails', component: ClinicDetails, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/trial-listing', exact: true, name: 'TrialListing', component: TrialListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/about-us', exact: true, name: 'AboutUs', component: AboutUs, meta: {"role": RolesConfig.PATIENT} },
+
+
+	// accessRole={RolesConfig.PATIENT}
+	// accessRole={RolesConfig.TRIAL_CLINIC}
+	// accessRole={RolesConfig.TRIAL_SPONSORS}
+	// accessRole={RolesConfig.PHYSICIAN}
 
 	/* Patient Routes */
-	{ path: '/patient/complete-profile', exact: true, name: 'PatientCompleteProfile', component: PatientCompleteProfile },
-	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard },
-	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile },
-	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails },
-	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments },
-	{ path: '/patient/clinic-listing', exact: true, name: 'PatientClinicListing', component: PatientClinicListing },
-	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites },
-	{ path: '/patient/my-chats', exact: true, name: 'PatientMyChats', component: PatientMyChats },
-	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory },
-	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing },
+	{ path: '/patient/complete-profile', exact: true, name: 'PatientCompleteProfile', component: PatientCompleteProfile, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/clinic-listing', exact: true, name: 'PatientClinicListing', component: PatientClinicListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/my-chats', exact: true, name: 'PatientMyChats', component: PatientMyChats, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 
 	/* Clinic Routes */
-	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile },
-	{ path: '/trial-clinic/dashboard', exact: true, tarun: "tarun", name: 'ClinicDashboard', component: ClinicDashboard },
-	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests },
-	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing },
-	{ path: '/trial-clinic/sponsors-details/:id', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails },
-	{ path: '/trial-clinic/sponsors-trial-listing/:id', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing },
-	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication },
-	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments },
-	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList },
-	{ path: '/trial-clinic/patient-list-past', exact: true, name: 'ClinicPatientListPast', component: ClinicPatientListPast },
-	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory },
-	{ path: '/trial-clinic/edit-profile', exact: true, name: 'ClinicEditProfile', component: ClinicEditProfile },
-	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient },
-	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats },
+	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/sponsors-details/:id', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/sponsors-trial-listing/:id', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/patient-list-past', exact: true, name: 'ClinicPatientListPast', component: ClinicPatientListPast, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/edit-profile', exact: true, name: 'ClinicEditProfile', component: ClinicEditProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 
 	/* Sponsors Routes */
-	{ path: '/trial-sponsors/complete-profile', exact: true, name: 'SponsorsCompleteProfile', component: SponsorsCompleteProfile },
-	{ path: '/trial-sponsors/dashboard', exact: true, name: 'SponsorsDashboard', component: SponsorsDashboard },
-	{ path: '/trial-sponsors/trial-requests', exact: true, name: 'SponsorsTrialRequests', component: SponsorsTrialRequests },
-	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials },
-	{ path: '/trial-sponsors/clinic-listing', exact: true, name: 'SponsorsClinicListing', component: SponsorsClinicListing },
-	{ path: '/trial-sponsors/clinic-details/:id', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails },
-	{ path: '/trial-sponsors/my-studies', exact: true, name: 'SponsorsMyStudies', component: SponsorsMyStudies },
-	{ path: '/trial-sponsors/appointments-clinics', exact: true, name: 'SponsorsAppointmentsClinics', component: SponsorsAppointmentsClinics },
-	{ path: '/trial-sponsors/patient-list', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList },
-	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast },
-	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory },
-	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile },
-	{ path: '/trial-sponsors/manage-clinics', exact: true, name: 'SponsorsManageClinics', component: SponsorsManageClinics },
-	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient },
-	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats },
+	{ path: '/trial-sponsors/complete-profile', exact: true, name: 'SponsorsCompleteProfile', component: SponsorsCompleteProfile, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/dashboard', exact: true, name: 'SponsorsDashboard', component: SponsorsDashboard, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/trial-requests', exact: true, name: 'SponsorsTrialRequests', component: SponsorsTrialRequests, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/trials', exact: true, name: 'SponsorsTrials', component: SponsorsTrials, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/clinic-listing', exact: true, name: 'SponsorsClinicListing', component: SponsorsClinicListing, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/clinic-details/:id', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/my-studies', exact: true, name: 'SponsorsMyStudies', component: SponsorsMyStudies, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/appointments-clinics', exact: true, name: 'SponsorsAppointmentsClinics', component: SponsorsAppointmentsClinics, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/patient-list', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/manage-clinics', exact: true, name: 'SponsorsManageClinics', component: SponsorsManageClinics, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 
 	/* Physician Routes */
-	{ path: '/physician/complete-profile', exact: true, name: 'PhysicianCompleteProfile', component: PhysicianCompleteProfile },
-	{ path: '/physician/dashboard', exact: true, name: 'PhysicianDashboard', component: PhysicianDashboard },
-	{ path: '/physician/clinic-listing', exact: true, name: 'PhysicianClinicListing', component: PhysicianClinicListing },
-	{ path: '/physician/clinic-details', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails },
-	{ path: '/physician/trial-listing', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing },
-	{ path: '/physician/manage-patient', exact: true, name: 'PhysicianManagePatient', component: PhysicianManagePatient },
-	{ path: '/physician/my-chats', exact: true, name: 'PhysicianMyChats', component: PhysicianMyChats },
-	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile },
+	{ path: '/physician/complete-profile', exact: true, name: 'PhysicianCompleteProfile', component: PhysicianCompleteProfile, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/dashboard', exact: true, name: 'PhysicianDashboard', component: PhysicianDashboard, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/clinic-listing', exact: true, name: 'PhysicianClinicListing', component: PhysicianClinicListing, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/clinic-details', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/trial-listing', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/manage-patient', exact: true, name: 'PhysicianManagePatient', component: PhysicianManagePatient, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/my-chats', exact: true, name: 'PhysicianMyChats', component: PhysicianMyChats, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile, meta: {"role": RolesConfig.PHYSICIAN} },
 ];
 
 export default routes;
