@@ -1,11 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ accessRole, component: Component, auth, ...rest }) => {
-	// && auth.user.role === accessRole 
-	// console.log("auth.user.role === accessRole ", auth.user.role , accessRole )
+const PrivateRoute = ({ component: Component, auth, ...rest }) => {
 	return (
 		<Route
 			{...rest}
@@ -13,11 +10,6 @@ const PrivateRoute = ({ accessRole, component: Component, auth, ...rest }) => {
 		/>
 	);
 };
-
-// export default PrivateRoute
-// PrivateRoute.propTypes = {
-// 	auth: PropTypes.object.isRequired
-// };
 
 const mapStateToProps = (state) => ({
 	auth: state.auth
