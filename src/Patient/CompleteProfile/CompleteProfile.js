@@ -15,9 +15,10 @@ import { PatientCompleteProfileAction } from "../../redux/actions/profileAction"
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidPhoneNumber, isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
-const PatientCompleteProfile = (props) => {
+const PatientCompleteProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
     const profileComSelector = useSelector(state => state.profile);
@@ -28,7 +29,7 @@ const PatientCompleteProfile = (props) => {
     const [profileInputData, setProfileInputData] = useState({
         state_id: "",
         zip_code: "",
-        dob: new Date(),
+        dob: null,
         gender: "M",
         bank_name: "",
         account_holder_name: "",
@@ -119,7 +120,6 @@ const PatientCompleteProfile = (props) => {
 
     useEffect(() => {
         if (CPSubmitClick === true) {
-            console.log("profileComSelector", profileComSelector)
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
                 toast.success(profileComSelector.data.data.message, { theme: "colored" })
                 history.push("/patient/dashboard");
@@ -130,6 +130,47 @@ const PatientCompleteProfile = (props) => {
             }
         }
     }, [CPSubmitClick, profileComSelector, history])
+
+    const Vaildation = (value) => {
+        const isPhoneVaild = isValidPhoneNumber(value.physician_phone_number)
+        const isEmailVaild = isValidEmailAddress(value.physician_email)
+        const isFirstNameVaild = isValidOnlyLetters(value.physician_fname, "first name")
+        const isLastNameVaild = isValidOnlyLetters(value.physician_lname, "last name")
+        const isZipcodeVaild = isValidZipcode(value.zip_code)
+        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
+        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
+        const isAccountnumVaild = isValidAccountNumber(value.account_number)
+        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
+        if (!isZipcodeVaild.status) {
+            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        } else if (!isBanknameVaild.status) {
+            toast.error(isBanknameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isHoldernameVaild.status) {
+            toast.error(isHoldernameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isAccountnumVaild.status) {
+            toast.error(isAccountnumVaild.message, { theme: "colored" })
+            return false
+        } else if (!isRoutingnumVaild.status) {
+            toast.error(isRoutingnumVaild.message, { theme: "colored" })
+            return false
+        } else if (!isFirstNameVaild.status) {
+            toast.error(isFirstNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isLastNameVaild.status) {
+            toast.error(isLastNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isPhoneVaild.status) {
+            toast.error(isPhoneVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
 
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
@@ -152,8 +193,11 @@ const PatientCompleteProfile = (props) => {
             physician_email: profileInputData.physician_email,
             physician_phone_number: profileInputData.physician_phone_number
         }
-        dispatch(PatientCompleteProfileAction(data))
-        setCPSubmitClick(true)
+        const isVaild = Vaildation(data)
+        if (isVaild) {
+            dispatch(PatientCompleteProfileAction(data))
+            setCPSubmitClick(true)
+        }
     }
 
 
@@ -211,8 +255,10 @@ const PatientCompleteProfile = (props) => {
                                         dropdownMode="select"
                                         showPopperArrow={false}
                                         onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
-                                        selected={profileInputData.dob !== null ? profileInputData.dob : new Date()}
+                                        selected={profileInputData.dob}
                                         autoComplete="nope"
+                                        required="required"
+                                        placeholderText="Select DOB"
                                     />
                                 </div>
 

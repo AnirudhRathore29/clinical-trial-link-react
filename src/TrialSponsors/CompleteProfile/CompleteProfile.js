@@ -13,9 +13,10 @@ import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
-const ClinicCompleteProfile = (props) => {
+const ClinicCompleteProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const dataSelector = useSelector(state => state.common_data)
@@ -124,6 +125,35 @@ const ClinicCompleteProfile = (props) => {
         }
     }, [CPSubmitClick, profileComSelector, history])
 
+    const Vaildation = (value) => {
+        const isSponsorNameVaild = isValidOnlyLetters(value.sponsor_name, "sponsor name")
+        const isZipcodeVaild = isValidZipcode(value.zip_code)
+        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
+        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
+        const isAccountnumVaild = isValidAccountNumber(value.account_number)
+        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
+        if (!isSponsorNameVaild.status) {
+            toast.error(isSponsorNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isZipcodeVaild.status) {
+            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        } else if (!isBanknameVaild.status) {
+            toast.error(isBanknameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isHoldernameVaild.status) {
+            toast.error(isHoldernameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isAccountnumVaild.status) {
+            toast.error(isAccountnumVaild.message, { theme: "colored" })
+            return false
+        } else if (!isRoutingnumVaild.status) {
+            toast.error(isRoutingnumVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
+
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.id);
@@ -141,8 +171,11 @@ const ClinicCompleteProfile = (props) => {
             account_number: profileInputData.account_number,
             routing_number: profileInputData.routing_number
         }
-        dispatch(SponsorCompleteProfileAction(data))
-        setCPSubmitClick(true)
+        const isVaild = Vaildation(data)
+        if (isVaild) {
+            dispatch(SponsorCompleteProfileAction(data))
+            setCPSubmitClick(true)
+        }
     }
 
     return (
@@ -155,7 +188,7 @@ const ClinicCompleteProfile = (props) => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form autoComplete="off">
+                        <form onSubmit={CompleteProfileSubmit} autoComplete="off">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <InputText
@@ -164,6 +197,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Sponsor Name"
                                         labelText="Sponsor Name"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6 form-group">
@@ -217,15 +251,17 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Address"
                                         labelText="Address"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
-                                        type="text"
+                                        type="number"
                                         name="zip_code"
                                         placeholder="Enter zip code"
                                         labelText="Zip Code"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-12">
@@ -234,6 +270,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Brief Intro"
                                         labelText="Brief Intro"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-12 mt-3 mb-3">
@@ -246,6 +283,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Bank Name"
                                         labelText="Name of Bank"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -255,6 +293,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Name"
                                         labelText="Account Holder Name"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -264,6 +303,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Account Number"
                                         labelText="Account Number"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -273,6 +313,7 @@ const ClinicCompleteProfile = (props) => {
                                         placeholder="Enter Routing Number"
                                         labelText="Routing Number"
                                         onChange={onChange}
+                                        required="required"
                                     />
                                 </div>
 
@@ -288,7 +329,8 @@ const ClinicCompleteProfile = (props) => {
                                         BtnType="submit"
                                         BtnColor="green w-50"
                                         BtnText="Finish"
-                                        onClick={CompleteProfileSubmit}
+                                        hasSpinner={CPSubmitClick && profileComSelector.loading}
+                                        disabled={CPSubmitClick && profileComSelector.loading}
                                     />
                                 </div>
                             </div>

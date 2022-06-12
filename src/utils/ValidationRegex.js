@@ -8,4 +8,6 @@ export const ALLOW_LETTERS_ONLY = /^[a-zA-Z\s]*$/;
 
 export const BANK_ACCOUNT_REGEX = /^\d{9,18}$/;
 
-export const ROUTING_NUMBER_REGEX = /^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|80)([0-9]{7})$/
+export const ROUTING_NUMBER_REGEX = /^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|80)([0-9]{7})$/;
+
+export const ZIP_CODE_REGEX = /^\d{5}(?:[-\s]\d{4})?$/

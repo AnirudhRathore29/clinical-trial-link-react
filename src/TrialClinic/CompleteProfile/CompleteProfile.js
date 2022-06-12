@@ -13,9 +13,10 @@ import { TrialClinicCompleteProfileAction } from "../../redux/actions/profileAct
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
-const ClinicCompleteProfile = (props) => {
+const ClinicCompleteProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory()
     const dataSelector = useSelector(state => state.common_data)
@@ -134,7 +135,7 @@ const ClinicCompleteProfile = (props) => {
                 uploadedFile.push(files[i])
                 setUploadFile(uploadedFile);
             }
-        }else(
+        } else (
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             // Max. {totalFiles} files you can upload.
         )
@@ -154,11 +155,48 @@ const ClinicCompleteProfile = (props) => {
         }
     }, [CPSubmitClick, profileComSelector, history])
 
+    const Vaildation = (value) => {
+        const isClinicNameVaild = isValidOnlyLetters(value.clinic_name, "clinic name")
+        const isZipcodeVaild = isValidZipcode(value.zip_code)
+        const isNameVaild = isValidOnlyLetters(value.principal_investigator_name, "principal investigator name")
+        const isEmailVaild = isValidEmailAddress(value.principal_investigator_email)
+        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
+        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
+        const isAccountnumVaild = isValidAccountNumber(value.account_number)
+        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
+
+        if (!isClinicNameVaild.status) {
+            toast.error(isClinicNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isZipcodeVaild.status) {
+            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        } else if (!isNameVaild.status) {
+            toast.error(isNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isBanknameVaild.status) {
+            toast.error(isBanknameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isHoldernameVaild.status) {
+            toast.error(isHoldernameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isAccountnumVaild.status) {
+            toast.error(isAccountnumVaild.message, { theme: "colored" })
+            return false
+        } else if (!isRoutingnumVaild.status) {
+            toast.error(isRoutingnumVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
+
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.id);
-        const conditionArr = profileInputData.condition.map(value => value.id);
-
+        const conditionArr = profileInputData.condition.map(value => value.id);        
         if (uploadedFile.length > 0) {
             let formData = new FormData();
             formData.append("clinic_name", profileInputData.clinic_name);
@@ -176,14 +214,17 @@ const ClinicCompleteProfile = (props) => {
             for (let i = 0; i < specialityArr.length; i++) {
                 formData.append(`speciality[${i}]`, specialityArr[i]);
             }
-            for (let i = 0; i < conditionArr.length; i++) {
-                formData.append(`condition[${i}]`, conditionArr[i]);
+            for (let j = 0; j < conditionArr.length; j++) {
+                formData.append(`condition[${j}]`, conditionArr[j]);
             }
-            for (let i = 0; i < uploadedFile.length; i++) {
-                formData.append(`documents[${i}]`, uploadedFile[i]);
+            for (let t = 0; t < uploadedFile.length; t++) {
+                formData.append(`documents[${t}]`, uploadedFile[t]);
             }
-            dispatch(TrialClinicCompleteProfileAction(formData))
-            setCPSubmitClick(true)
+            const isVaild = Vaildation(profileInputData)
+            if (isVaild) {
+                dispatch(TrialClinicCompleteProfileAction(formData))
+                setCPSubmitClick(true)
+            }
         }
         else (
             toast.error("Document is required", { theme: "colored" })
@@ -200,7 +241,7 @@ const ClinicCompleteProfile = (props) => {
                         <p>A few clicks away from Creating your account</p>
                     </div>
                     <div className="authentication-bx sign-up-authentication">
-                        <form onSubmit={CompleteProfileSubmit} noValidate="noValidate" autoComplete="off">
+                        <form onSubmit={CompleteProfileSubmit} autoComplete="off">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <InputText

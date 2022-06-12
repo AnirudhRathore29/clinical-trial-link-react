@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import { PhysicianCompleteProfileAction } from "../../redux/actions/profileAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidZipcode } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
 const PhysicianCompleteProfile = () => {
@@ -24,7 +25,7 @@ const PhysicianCompleteProfile = () => {
     const [profileInputData, setProfileInputData] = useState({
         state_id: "",
         zip_code: "",
-        dob: new Date(),
+        dob: null,
         gender: "M",
         brief_intro: ""
     });
@@ -56,6 +57,15 @@ const PhysicianCompleteProfile = () => {
         }
     }, [CPSubmitClick, profileComSelector, history])
 
+    const Vaildation = (value) => {
+        const isZipcodeVaild = isValidZipcode(value.zip_code)
+        if (!isZipcodeVaild.status) {
+            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        }
+        return true
+    }
+
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
         let data = {
@@ -65,8 +75,11 @@ const PhysicianCompleteProfile = () => {
             gender: profileInputData.gender,
             brief_intro: profileInputData.brief_intro,
         }
-        dispatch(PhysicianCompleteProfileAction(data))
-        setCPSubmitClick(true)
+        const isVaild = Vaildation(data)
+        if (isVaild) {
+            dispatch(PhysicianCompleteProfileAction(data))
+            setCPSubmitClick(true)
+        }
     }
 
     return (
@@ -122,8 +135,10 @@ const PhysicianCompleteProfile = () => {
                                         dropdownMode="select"
                                         showPopperArrow={false}
                                         onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
-                                        selected={profileInputData.dob !== null ? profileInputData.dob : new Date()}
+                                        selected={profileInputData.dob}
                                         autoComplete="nope"
+                                        required="required"
+                                        placeholderText="Select DOB"
                                     />
                                 </div>
 

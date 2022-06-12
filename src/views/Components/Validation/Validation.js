@@ -1,4 +1,4 @@
-import { MOBILE_NUMBER_REGEX, EMAIL_REGEX, ALLOW_LETTERS_ONLY } from "../../../utils/ValidationRegex";
+import { MOBILE_NUMBER_REGEX, EMAIL_REGEX, ALLOW_LETTERS_ONLY, ZIP_CODE_REGEX, BANK_ACCOUNT_REGEX, ROUTING_NUMBER_REGEX } from "./../../../utils/ValidationRegex";
 
 export const isValidPhoneNumber = (number) => {
     if (number.length === 0) {
@@ -69,5 +69,59 @@ export const isValidPassword = (pass) => {
     return {
         status: true,
         message: "Password is vaild"
+    }
+}
+
+export const isValidZipcode = (code) => {
+    if (code.length === 0) {
+        return {
+            status: false,
+            message: "The zip code field is required."
+        }
+    } else if (!ZIP_CODE_REGEX.test(code)) {
+        return {
+            status: false,
+            message: "you have entered invalid zip code."
+        }
+    }
+    return {
+        status: true,
+        message: "Zip code is vaild"
+    }
+}
+
+export const isValidAccountNumber = (number) => {
+    if (number.length === 0) {
+        return {
+            status: false,
+            message: "The account number field is required."
+        }
+    } else if (!BANK_ACCOUNT_REGEX.test(number)) {
+        return {
+            status: false,
+            message: "Account number should be between 9 to 18 digits."
+        }
+    }
+    return {
+        status: true,
+        message: "Account number is vaild"
+    }
+}
+
+export const isValidRoutingNumber = (number) => {
+    if (number.length === 0) {
+        return {
+            status: false,
+            message: "The routing number field is required."
+        }
+    } else if (!ROUTING_NUMBER_REGEX.test(number)) {
+        return {
+            status: false,
+            message: "you have entered invalid routing number."
+        }
+    }
+    return {
+        status: true,
+        message: "Routing number is vaild"
     }
 }
