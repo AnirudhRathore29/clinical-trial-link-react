@@ -47,7 +47,7 @@ const SponsorsDashboard = () => {
                                 URL="/trial-sponsors/trial-requests"
                                 icon={<box-icon type='solid' name='file-plus' size="40px" color="#356AA0"></box-icon>}
                                 title="New Trials Requested from Clinical Trial Sites"
-                                info="0"
+                                info={DashboardData !== undefined && DashboardData.data.totalPendingRequests !== null ? DashboardData.data.totalPendingRequests : "0"}
                             />
                         </div>
                         <div className="col-lg-6">
