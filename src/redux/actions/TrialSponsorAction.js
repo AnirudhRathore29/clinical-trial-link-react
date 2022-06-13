@@ -1,5 +1,15 @@
 import axios from "axios";
-import { TRIAL_SUCCESS, TRIAL_ERROR, LOADING, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR, SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR, TRIAL_CLINIC_LIST_ERROR, TRIAL_CLINIC_LIST_SUCCESS, RECRUITING_STATUS_SUCCESS, RECRUITING_STATUS_ERROR, TRIAL_CLINIC_DETAIL_SUCCESS, TRIAL_CLINIC_DETAIL_ERROR } from './types';
+import {
+    TRIAL_SUCCESS, TRIAL_ERROR,
+    LOADING,
+    VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR,
+    CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR,
+    SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR,
+    TRIAL_CLINIC_LIST_ERROR, TRIAL_CLINIC_LIST_SUCCESS,
+    RECRUITING_STATUS_SUCCESS, RECRUITING_STATUS_ERROR,
+    TRIAL_CLINIC_DETAIL_SUCCESS, TRIAL_CLINIC_DETAIL_ERROR,
+    NEW_TRIAL_REQUEST_SUCCESS, NEW_TRIAL_REQUEST_ERROR
+} from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
@@ -186,7 +196,7 @@ export function TrialClinicError(message) {
 export const TrialClinicListAction = (data) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .post(getCurrentHost() + "/sponsor/get-trialclinic-list", data ,{
+        .post(getCurrentHost() + "/sponsor/get-trialclinic-list", data, {
             headers: authHeader()
         })
         .then(response => {
@@ -221,6 +231,22 @@ export const TrialClinicDetailsAction = (id) => async (dispatch) => {
         })
         .catch(error => {
             dispatch(TrialClinicDetailError(error.response.data));
+            HandleError(error.response.data)
+        });
+}
+
+
+export const NewTrialRequestAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .post(getCurrentHost() + "/sponsor/get-trialrequests-list", data , {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: NEW_TRIAL_REQUEST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: NEW_TRIAL_REQUEST_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

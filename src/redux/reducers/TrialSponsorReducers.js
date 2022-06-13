@@ -1,4 +1,14 @@
-import { TRIAL_SUCCESS, TRIAL_ERROR, LOADING, SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR, CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR, VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR, TRIAL_CLINIC_LIST_ERROR, TRIAL_CLINIC_LIST_SUCCESS, RECRUITING_STATUS_SUCCESS, RECRUITING_STATUS_ERROR, TRIAL_CLINIC_DETAIL_SUCCESS, TRIAL_CLINIC_DETAIL_ERROR } from '../actions/types';
+import {
+	TRIAL_SUCCESS, TRIAL_ERROR,
+	LOADING,
+	SPONSOR_DASHBOARD_SUCCESS, SPONSOR_DASHBOARD_ERROR,
+	CREATE_TRIAL_SUCCESS, CREATE_TRIAL_ERROR,
+	VIEW_TRIAL_SUCCESS, VIEW_TRIAL_ERROR,
+	TRIAL_CLINIC_LIST_ERROR, TRIAL_CLINIC_LIST_SUCCESS,
+	RECRUITING_STATUS_SUCCESS, RECRUITING_STATUS_ERROR,
+	TRIAL_CLINIC_DETAIL_SUCCESS, TRIAL_CLINIC_DETAIL_ERROR,
+	NEW_TRIAL_REQUEST_SUCCESS, NEW_TRIAL_REQUEST_ERROR
+} from '../actions/types';
 const initialState = {
 	data: {},
 	loading: false,
@@ -7,7 +17,8 @@ const initialState = {
 	create_trial: {},
 	trial_detail: {},
 	clinic_list: {},
-	clinic_detail: {}
+	clinic_detail: {},
+	new_request: {}
 };
 
 export default function TrialsReducers(state = initialState, action) {
@@ -106,7 +117,23 @@ export default function TrialsReducers(state = initialState, action) {
 			return {
 				...state,
 				loading: false,
-				error: action.payload
+				error: action.payload,
+				clinic_detail: {}
+			};
+
+		case NEW_TRIAL_REQUEST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				new_request: action.payload,
+				error: {}
+			};
+		case NEW_TRIAL_REQUEST_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+				new_request: {}
 			};
 		default:
 			return state;

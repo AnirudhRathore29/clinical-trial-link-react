@@ -1,14 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import '../../Patient/MyAppointments/MyAppointments.css';
-import './TrialRequests.css'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import './TrialRequests.css';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { NewTrialRequestAction } from '../../redux/actions/TrialSponsorAction';
 
 const SponsorTrialRequests = () => {
+    const dispatch = useDispatch();
+    const loadingSelector = useSelector(state => state.My_trials)
+    const newRequestSelector = useSelector(state => state.My_trials.new_request.data)
+
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+
+    const [loadMoreData, setLoadMoreData] = useState(1);
+
+    useEffect(() => {
+        dispatch(NewTrialRequestAction({ page: loadMoreData }))
+    }, [dispatch, loadMoreData])
+
+    console.log("newRequestSelector", newRequestSelector)
+
+    const handleLoadMore = () => {
+        setLoadMoreData(loadMoreData + 1)
+    }
 
     return (
         <>
@@ -29,160 +51,65 @@ const SponsorTrialRequests = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/sponsors-img.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/clinic-img3.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/clinic-img2.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/sponsors-img.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/clinic-img3.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/clinic-img2.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/clinic-img3.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/sponsors-img.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Barnes Jewish Hospital</h2>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                <td>Atlanta, Georgia, United States</td>
-                                <td>
-                                    <div className='btn-group-custom auto-width'>
-                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                    </div>
-                                </td>
-                            </tr>
+                            {newRequestSelector !== undefined ?
+                                newRequestSelector.data.data?.length !== 0 ?
+                                    newRequestSelector.data.data.map((value, index) => {
+                                        return (
+                                            <tr>
+                                                <td>
+                                                    <div className='patient-img'>
+                                                        <img src="/images/sponsors-img.jpg" alt="patient" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <h2>Barnes Jewish Hospital</h2>
+                                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
+                                                </td>
+                                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
+                                                <td>Atlanta, Georgia, United States</td>
+                                                <td>
+                                                    <div className='btn-group-custom auto-width'>
+                                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                    :
+                                    <tr>
+                                        <td colSpan="5">
+                                            <NoDataFound />
+                                        </td>
+                                    </tr>
+                                :
+                                [1, 2, 3, 4].map((_, index) => {
+                                    return (
+                                        <tr className='bg-transparent'>
+                                            <td className='p-0' colSpan="5">
+                                                <div key={index}>
+                                                    <Skeleton height={125} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
+
+                    {newRequestSelector && newRequestSelector.data?.data?.length > 19 &&
+                        <div className='col-12 mt-5 text-center'>
+                            <Button
+                                isButton="true"
+                                BtnColor="primary"
+                                BtnText="Load More"
+                                onClick={handleLoadMore}
+                                disabled={newRequestSelector.data.last_page === newRequestSelector.data.current_page || loadingSelector.loading}
+                            // hasSpinner={isLoading.loading}
+                            />
+                        </div>
+                    }
                 </div>
             </div>
 
