@@ -1,14 +1,11 @@
 import axios from "axios";
 import {
     LOADING,
-    SPONSORE_LIST_SUCCESS,
-    SPONSORE_LIST_ERROR,
-    SPONSORE_DETAIL_SUCCESS,
-    SPONSORE_DETAIL_ERROR,
-    SPONSORE_APPLY_TRIAL_SUCCESS,
-    SPONSORE_APPLY_TRIAL_ERROR,
-    SPONSORE_TRIAL_LISI_SUCCESS,
-    SPONSORE_TRIAL_LISI_ERROR
+    SPONSORE_LIST_SUCCESS, SPONSORE_LIST_ERROR,
+    SPONSORE_DETAIL_SUCCESS, SPONSORE_DETAIL_ERROR,
+    SPONSORE_APPLY_TRIAL_SUCCESS, SPONSORE_APPLY_TRIAL_ERROR,
+    SPONSORE_TRIAL_LISI_SUCCESS, SPONSORE_TRIAL_LISI_ERROR,
+    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -105,6 +102,21 @@ export const SponsorsTrialListAction = (id, data) => async (dispatch) => {
                 type: SPONSORE_TRIAL_LISI_ERROR,
                 payload: error.response.data,
             });
+            HandleError(error.response.data)
+        });
+}
+
+export const TrialClinicDashboard = () => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + "/trialclinic/dashboard", {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_CLINIC_DASHBOARD_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_CLINIC_DASHBOARD_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

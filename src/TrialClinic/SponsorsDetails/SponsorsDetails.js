@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
+import { getImageUrl } from '../../redux/constants';
 
 const ClinicSponsorsDetails = () => {
     const dispatch = useDispatch();
@@ -94,9 +95,11 @@ const ClinicSponsorsDetails = () => {
                                         <span><box-icon name='map' color="#356AA0"></box-icon> {sponsoreDetails.data.address}, {sponsoreDetails.data.state_info.name}</span>
                                         <span><box-icon name='map-alt' color="#356AA0"></box-icon> 0 Mi</span>
                                     </div>
-                                    <div className='trialClinic-img'>
-                                        <img src="/images/sponsors-img.jpg" alt="Barnes Jewish Hospital" />
-                                    </div>
+                                    {sponsoreDetails.data.listing_image !== null &&
+                                        <div className='trialClinic-img'>
+                                            <img src={getImageUrl() + sponsoreDetails.data.listing_image} alt="Barnes Jewish Hospital" />
+                                        </div>
+                                    }
                                 </div>
 
                                 {sponsoreDetails.data.user_speciality.length !== 0 &&

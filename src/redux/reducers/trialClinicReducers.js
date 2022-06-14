@@ -7,7 +7,8 @@ import {
 	SPONSORE_APPLY_TRIAL_SUCCESS,
 	SPONSORE_APPLY_TRIAL_ERROR,
 	SPONSORE_TRIAL_LISI_SUCCESS,
-	SPONSORE_TRIAL_LISI_ERROR
+	SPONSORE_TRIAL_LISI_ERROR,
+	TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -15,7 +16,8 @@ const initialState = {
 	error: {},
 	sponsore_detail: {},
 	apply_trial: {},
-	stlData: {}
+	stlData: {},
+	dashboard: {}
 };
 
 export default function TrialClinicReducer(state = initialState, action) {
@@ -80,6 +82,21 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				stlData: {},
+				error: action.payload,
+			};
+
+		case TRIAL_CLINIC_DASHBOARD_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				dashboard: action.payload,
+				error: {}
+			};
+		case TRIAL_CLINIC_DASHBOARD_ERROR:
+			return {
+				...state,
+				loading: false,
+				dashboard: {},
 				error: action.payload,
 			};
 		default:

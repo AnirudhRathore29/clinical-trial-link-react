@@ -1,10 +1,11 @@
 import './ListBox.css';
+import { getImageUrl } from "./../../../redux/constants";
 
 const ListBox = ({ className, imgUrl, location, state, description, title, distance }) => {
     return (
         <div className={`clinic-list-bx ${className}`}>
             <div className='clinic-img'>
-                <img src={`/images/${imgUrl}`} alt="clinic-img" />
+                <img src={imgUrl !== null ? getImageUrl() + imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
             </div>
             <div className='clinic-info'>
                 <h2>{title}</h2>

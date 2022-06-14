@@ -166,10 +166,11 @@ const ClinicSponsorsListing = () => {
                             {trialListData !== undefined ?
                                 trialListData.data?.data?.length !== 0 ?
                                     trialListData.data?.data?.map((value, index) => {
+                                        console.log("value", value)
                                         return (
                                             <Link to={"/trial-clinic/sponsors-details/" + value.id} key={index}>
                                                 <ListBox
-                                                    imgUrl="clinic-img1.jpg"
+                                                    imgUrl={value.listing_image}
                                                     title={value.sponsor_name}
                                                     location={value.address}
                                                     state={value.state_info.name}

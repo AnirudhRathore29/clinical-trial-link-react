@@ -1,6 +1,6 @@
 .main-clinic-listing .clinic-list-bx{padding: 1rem;margin-bottom: 2rem;}
 .main-clinic-listing .clinic-img{flex: 0 0 28rem;max-width: 28rem;}
-.main-clinic-listing .clinic-img img{border-radius: 1rem;}
+.main-clinic-listing .clinic-img img{border-radius: 1rem;border: 1px solid #C3D9FF;}
 
 .age-range{display: flex;align-items: center;justify-content: space-between;}
 .age-range .p-3{font-size: 2rem;color: var(--PrimaryColor);}

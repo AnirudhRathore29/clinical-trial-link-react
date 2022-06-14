@@ -10,18 +10,27 @@ import { ProfileAction } from "../../redux/actions/profileAction";
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { StatesAction } from "../../redux/actions/commonAction";
 import { MultiSelect } from "react-multi-select-component";
-import getCurrentHost from "../../redux/constants";
+import getCurrentHost, { getImageUrl } from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./../../TrialSponsors/EditProfile/Profile.css"
+const conditionListAPI = []
+const specialityListAPI = []
+const sponsorUploadedDoc = []
 const ClinicEditProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
 
-    const [shareSetting, setShareSetting] = useState(false)
-    const [shareSetting2, setShareSetting2] = useState(false)
+    const [hidePrincipalInvestigator, setHidePrincipalInvestigator] = useState(0)
+    const [hideBankDetails, setHideBankDetails] = useState(0)
+
+    const [listingBinary, setListingBinary] = useState()
+    const [fullListingBinaryUrl, setFullListingBinaryUrl] = useState([]);
+
+    const [uploadedFile, setUploadFile] = useState([]);
+    const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
 
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
@@ -34,21 +43,74 @@ const ClinicEditProfile = () => {
         address: "",
         zip_code: "",
         brief_intro: "",
-        user_speciality: [],
-        user_condition: [],
+        speciality: [],
+        condition: [],
         principal_investigator_name: "",
         principal_investigator_email: "",
         principal_investigator_brief_intro: "",
         bank_name: "",
         account_holder_name: "",
         account_number: "",
-        routing_number: ""
+        routing_number: "",
+        listing_image: "",
+        user_document: []
     });
 
     useEffect(() => {
         dispatch(ProfileAction())
         dispatch(StatesAction())
     }, [dispatch])
+
+    useEffect(() => {
+        if (profileSelector !== undefined) {
+            let speciality_data = profileSelector.data.user_speciality;
+            let conditionList_data = profileSelector.data.user_condition;
+
+            console.log("speciality_data", speciality_data)
+            for (var i = 0; i < speciality_data?.length; i++) {
+                const obj = Object.assign({}, speciality_data[i]);
+                obj.label = speciality_data[i].speciality_info.speciality_title;
+                obj.value = speciality_data[i].trial_category_speciality_id;
+                specialityListAPI.push(obj)
+            }
+            for (var j = 0; j < conditionList_data?.length; j++) {
+                const obj = Object.assign({}, conditionList_data[j]);
+                obj.label = conditionList_data[j].condition_info.condition_title;
+                obj.value = conditionList_data[j].condition_info.id;
+                conditionListAPI.push(obj)
+            }
+
+            for (var t = 0; t < profileSelector.data.user_document?.length; t++) {
+                const obj = Object.assign({}, profileSelector.data.user_document[t]);
+                obj.file_type = profileSelector.data.user_document[t].real_doc_name.substr(profileSelector.data.user_document[t].real_doc_name.lastIndexOf('.') + 1);
+                obj.file_name = profileSelector.data.user_document[t].real_doc_name.split(".")[0];
+                sponsorUploadedDoc.push(obj)
+            }
+
+            setHidePrincipalInvestigator(profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_principal_investigator_details : 0)
+            setHideBankDetails(profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_bank_details : 0)
+
+            setProfileInputData({
+                ...profileInputData,
+                clinic_name: profileSelector.data.clinic_name,
+                state_id: profileSelector.data.state_id,
+                address: profileSelector.data.address,
+                zip_code: profileSelector.data.zip_code,
+                speciality: specialityListAPI,
+                condition: conditionListAPI,
+                brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.brief_intro : "",
+                principal_investigator_name: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_name : "",
+                principal_investigator_email: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_email : "",
+                principal_investigator_brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_brief_intro : "",
+                bank_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+                listing_image: profileSelector.data.listing_image,
+                user_document: sponsorUploadedDoc
+            });
+        }
+    }, [profileSelector])
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -115,7 +177,7 @@ const ClinicEditProfile = () => {
             var output = document.getElementById("profileImage-upload");
             var binaryData = [];
             binaryData.push(files[0]);
-            const extention = value.split(".")[1];
+            const extention = value.substr(value.lastIndexOf('.') + 1);
             if (binaryData[0] !== undefined) {
                 if (
                     extention === "jpg" ||
@@ -146,11 +208,11 @@ const ClinicEditProfile = () => {
 
 
 
-    const ShareSetting = () => {
-        setShareSetting(!shareSetting);
+    const handleHidePrincipalInvestigator = () => {
+        setHidePrincipalInvestigator(!hidePrincipalInvestigator);
     }
-    const ShareSetting2 = () => {
-        setShareSetting2(!shareSetting2);
+    const handleHideBankDetail = () => {
+        setHideBankDetails(!hideBankDetails);
     }
     const renderTooltip = (props) => (
         <Tooltip {...props}> Optional to share Principal Investigator Details with the sponsor </Tooltip>
@@ -159,17 +221,70 @@ const ClinicEditProfile = () => {
         <Tooltip id="button-tooltip" {...props}> Optional to receive payments from the sponsor directly through the application </Tooltip>
     );
 
+    const updateFileHandler = async (e) => {
+        const { value, files } = e.target;
+        var output = document.getElementById("listing_image");
+        var listingBinaryData = [];
+        listingBinaryData.push(files[0]);
+        const extention = value.substr(value.lastIndexOf('.') + 1);
+        if (listingBinaryData[0] !== undefined) {
+            if (
+                extention === "jpg" ||
+                extention === "jpeg" ||
+                extention === "png"
+            ) {
+                output.src = URL.createObjectURL(
+                    new Blob(listingBinaryData, { type: "application/zip" })
+                );
+                setFullListingBinaryUrl(output.src)
+                output.onload = () => {
+                    URL.revokeObjectURL(output.src);
+                };
+                setListingBinary(listingBinaryData[0])
+            } else {
+                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+            }
+        }
+    }
+
+    const handleListingRemove = () => {
+        setListingBinary(undefined);
+        setProfileInputData({ ...profileInputData, listing_image: null });
+    }
+
+    const totalFiles = 4;
+    const uploadSponsorFileHandler = async (e) => {
+        const files = e.target.files;
+        if (files.length > 0 && files.length <= totalFiles) {
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.readAsDataURL(files[i]);
+                let arr = {
+                    file_type: files[i].name.substr(files[i].name.lastIndexOf('.') + 1),
+                    file_name: files[i].name.split("." + files[i].name.substr(files[i].name.lastIndexOf('.') + 1))[0]
+                }
+
+                setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
+
+                console.log("arr", arr)
+
+                setProfileInputData({ ...profileInputData, user_document: [...profileInputData.user_document, arr] });
+                uploadedFile.push(files[i])
+                setUploadFile(uploadedFile);
+            }
+        } else (
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            // Max. {totalFiles} files you can upload.
+        )
+        e.target.value = null;
+    }
+
+    const handleRemoveFile = (item) => {
+        //setProfileInputData({ ...profileInputData, user_document.filter(el => el.file_name !== item.file_name) });
+    }
+
     const handleSubmitProfile = (e) => {
         e.preventDefault();
-        // let formData = new FormData();
-        // formData.append("profile_image", binary);
-        // formData.append("id", profileEditDetails.id);
-        // formData.append("firstName", editInput.firstName);
-        // formData.append("lastName", editInput.lastName);
-        // formData.append("email", editInput.email);
-        // formData.append("dob", editInput.dob);
-        // formData.append("state_id", editInput.state_id);
-        // props.updateUserProfile(formData);
     }
 
     console.log("profileSelector", profileSelector)
@@ -224,17 +339,32 @@ const ClinicEditProfile = () => {
                                                     labelText="Clinic Name"
                                                     onChange={onChange}
                                                     defaultValue={profileSelector.data.clinic_name}
+                                                    required={true}
                                                 />
                                             </div>
+
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="email"
+                                                    name="email"
+                                                    defaultValue={profileSelector.data.email}
+                                                    placeholder="Enter Email Address"
+                                                    labelText="Email Address"
+                                                    isDisabled={true}
+                                                />
+                                            </div>
+
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="number"
                                                     name="phone_number"
-                                                    labelText="Phone Number"
-                                                    onChange={onChange}
                                                     defaultValue={profileSelector.data.phone_number}
+                                                    placeholder="Enter phone number"
+                                                    labelText="Phone Number"
+                                                    isDisabled={true}
                                                 />
                                             </div>
+
                                             <div className="col-lg-6">
                                                 <SelectBox
                                                     name="state_id"
@@ -255,6 +385,7 @@ const ClinicEditProfile = () => {
                                                     }
                                                 />
                                             </div>
+
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="text"
@@ -262,9 +393,11 @@ const ClinicEditProfile = () => {
                                                     placeholder="Enter Address"
                                                     labelText="Address"
                                                     onChange={onChange}
+                                                    required={true}
                                                     defaultValue={profileSelector.data.address}
                                                 />
                                             </div>
+
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="text"
@@ -272,47 +405,106 @@ const ClinicEditProfile = () => {
                                                     placeholder="Enter zip code"
                                                     labelText="Zip Code"
                                                     onChange={onChange}
+                                                    required={true}
                                                     defaultValue={profileSelector.data.zip_code}
                                                 />
                                             </div>
                                         </div>
+
+                                        <h2 className="section-title mt-4"> Listing Info </h2>
+                                        <div className="row">
+                                            <div className="col-lg-4 form-group">
+                                                <label>Upload Listing Image <span className="text-danger"> *</span></label>
+                                                <label className="upload-document single-file-uploader w-100">
+                                                    <input type="file" name="listing_image" id="listing_image" accept="image/*" onChange={updateFileHandler} />
+                                                    <div>
+                                                        <h4> No File Uploaded </h4>
+                                                        <h3>Tap Here to Upload your File</h3>
+                                                    </div>
+                                                </label>
+                                            </div>
+
+                                            {profileInputData.listing_image !== null || listingBinary !== undefined ?
+                                                <div className="col-lg-4 form-group">
+                                                    <label> &nbsp; </label>
+                                                    <div className="listing-img-block">
+                                                        <button type="button" className="btn btn-danger" onClick={handleListingRemove}> <box-icon name='x' size="18px" color="#ffffff"></box-icon> </button>
+                                                        {listingBinary ?
+                                                            <img src={fullListingBinaryUrl} className='img-fluid' alt={profileInputData.clinic_name} />
+                                                            :
+                                                            <img
+                                                                src={profileInputData.listing_image && getImageUrl() + profileInputData.listing_image}
+                                                                className='img-fluid'
+                                                                alt={profileInputData.clinic_name}
+                                                            />
+                                                        }
+                                                    </div>
+                                                </div>
+                                                :
+                                                <></>
+                                            }
+                                        </div>
+
                                         <h2 className="section-title mt-4">Other Info</h2>
                                         <div className="row">
                                             <div className="col-lg-6 form-group">
                                                 <label> Specialty </label>
                                                 <MultiSelect
                                                     options={specialityList !== undefined && specialityList}
-                                                    value={profileInputData.user_speciality}
+                                                    value={profileInputData.speciality}
                                                     onChange={specialityOnChange}
                                                     disableSearch={true}
                                                     labelledBy="Specialty"
                                                     className="multiSelect-control"
-                                                    name="user_speciality"
+                                                    name="speciality"
                                                 />
                                             </div>
                                             <div className="col-lg-6 form-group">
                                                 <label> Condition </label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
-                                                    value={profileInputData.user_condition}
-                                                    onChange={(e) => setProfileInputData({ ...profileInputData, user_condition: e })}
+                                                    value={profileInputData.condition}
+                                                    onChange={(e) => setProfileInputData({ ...profileInputData, condition: e })}
                                                     disableSearch={true}
                                                     labelledBy="Condition"
                                                     className="multiSelect-control"
-                                                    name="user_condition"
+                                                    name="condition"
                                                 />
                                             </div>
-                                            {profileSelector.data.user_meta_info !== null &&
-                                                <div className="col-lg-12">
-                                                    <TextArea
-                                                        placeholder="Enter Brief Intro"
-                                                        labelText="Brief Intro"
-                                                        onChange={onChange}
-                                                        name="brief_intro"
-                                                        defaultData={profileSelector.data.user_meta_info.brief_intro}
-                                                    />
-                                                </div>
-                                            }
+
+                                            <div className="col-lg-12">
+                                                <TextArea
+                                                    placeholder="Enter Brief Intro"
+                                                    labelText="Brief Intro"
+                                                    onChange={onChange}
+                                                    name="brief_intro"
+                                                    required={true}
+                                                    defaultData={profileSelector.data.user_meta_info !== null && profileSelector.data.user_meta_info.brief_intro}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-12 form-group">
+                                                <label>Upload any Relevant Documents to the Sponsor <span className="text-danger"> *</span></label>
+                                                <label className="upload-document">
+                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max={totalFiles} />
+                                                    <div>
+                                                        <h4>File Name Here </h4>
+                                                        <h3>Tap here to upload your new file</h3>
+                                                    </div>
+                                                </label>
+                                            </div>
+
+                                            {profileInputData.user_document?.map((value, index) => {
+                                                return (
+                                                    <div className="col-md-3 mb-3" key={index}>
+                                                        <div className="uploaded-file text-center">
+                                                            <span className="uploaded-type"> {value.file_type} </span>
+                                                            <span className="uploaded-name"> {value.file_name} </span>
+                                                            <button type="button" className="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
                                         </div>
                                         <h2 className="section-title mt-4 with-btn"><span>Share Principal Investigator Details </span>
                                             <span className="d-flex align-items-center">
@@ -323,14 +515,16 @@ const ClinicEditProfile = () => {
                                                     <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
-                                                    <input type="checkbox" onChange={ShareSetting} />
+                                                    <input name="hide_principal_investigator_details" type="checkbox" onChange={handleHidePrincipalInvestigator} />
                                                     <span className="slider round"></span>
                                                 </label>
                                             </span>
                                         </h2>
 
+                                        {console.log("profileSelector", profileSelector)}
+
                                         {profileSelector.data.user_meta_info !== null &&
-                                            <div className={shareSetting ? "sharing-disable row" : "row"}>
+                                            <div className={hidePrincipalInvestigator ? "sharing-disable row" : "row"}>
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="text"
@@ -360,28 +554,6 @@ const ClinicEditProfile = () => {
                                                         defaultData={profileSelector.data.user_meta_info.principal_investigator_brief_intro}
                                                     />
                                                 </div>
-                                                <div className="col-lg-12 form-group">
-                                                    <label>Upload any Relevant Documents to the Sponsor</label>
-                                                    <label className="upload-document">
-                                                        <input type="file" />
-                                                        <div>
-                                                            <h4>File Name Here.pdf</h4>
-                                                            <h3>Tap Here to Upload your new File</h3>
-                                                        </div>
-                                                    </label>
-                                                </div>
-
-                                                {/* {profileSelector.data.user_document !== null && profileSelector.data.user_document.map((value, index) => {
-                                                    return (
-                                                        <div className="col-md-3 mb-3" key={index}>
-                                                            <div className="uploaded-file text-center">
-                                                                <span className="uploaded-type"> {value.file_type} </span>
-                                                                <span className="uploaded-name"> {value.file_name} </span>
-                                                                <button type="button" className="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })} */}
                                             </div>
                                         }
                                         <h2 className="section-title mt-4 with-btn"><span>Bank Details </span>
@@ -393,13 +565,13 @@ const ClinicEditProfile = () => {
                                                     <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
-                                                    <input type="checkbox" onChange={ShareSetting2} />
+                                                    <input type="checkbox" name="hide_bank_details" onChange={handleHideBankDetail} />
                                                     <span className="slider round"></span>
                                                 </label>
                                             </span>
                                         </h2>
                                         {profileSelector.data.user_bank_detail !== null &&
-                                            <div className={shareSetting2 ? "sharing-disable row" : "row"}>
+                                            <div className={hideBankDetails ? "sharing-disable row" : "row"}>
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="text"

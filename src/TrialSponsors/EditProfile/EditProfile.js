@@ -158,7 +158,7 @@ const SponsorsEditProfile = () => {
             var output = document.getElementById("profileImage-upload");
             var binaryData = [];
             binaryData.push(files[0]);
-            const extention = value.split(".")[1];
+            const extention = value.substr(value.lastIndexOf('.') + 1);
             if (binaryData[0] !== undefined) {
                 if (
                     extention === "jpg" ||
@@ -192,7 +192,7 @@ const SponsorsEditProfile = () => {
         var output = document.getElementById("listing_image");
         var listingBinaryData = [];
         listingBinaryData.push(files[0]);
-        const extention = value.split(".")[1];
+        const extention = value.substr(value.lastIndexOf('.') + 1);
         if (listingBinaryData[0] !== undefined) {
             if (
                 extention === "jpg" ||

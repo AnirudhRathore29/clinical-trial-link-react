@@ -54,6 +54,7 @@ const SponsorTrialRequests = () => {
                             {newRequestSelector !== undefined ?
                                 newRequestSelector.data.data?.length !== 0 ?
                                     newRequestSelector.data.data.map((value, index) => {
+                                        console.log("value", value)
                                         return (
                                             <tr>
                                                 <td>
