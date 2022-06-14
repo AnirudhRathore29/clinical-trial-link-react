@@ -22,7 +22,9 @@ const ClinicEditProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
+    const profileUploadSelector = useSelector(state => state.profile);
 
+    const [CPSubmitClick, setCPSubmitClick] = useState(false);
     const [hidePrincipalInvestigator, setHidePrincipalInvestigator] = useState(0)
     const [hideBankDetails, setHideBankDetails] = useState(0)
 
@@ -30,7 +32,7 @@ const ClinicEditProfile = () => {
     const [fullListingBinaryUrl, setFullListingBinaryUrl] = useState([]);
 
     const [uploadedFile, setUploadFile] = useState([]);
-    const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
+    // const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
 
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
@@ -264,9 +266,7 @@ const ClinicEditProfile = () => {
                     file_name: files[i].name.split("." + files[i].name.substr(files[i].name.lastIndexOf('.') + 1))[0]
                 }
 
-                setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
-
-                console.log("arr", arr)
+                //setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
 
                 setProfileInputData({ ...profileInputData, user_document: [...profileInputData.user_document, arr] });
                 uploadedFile.push(files[i])
@@ -285,9 +285,37 @@ const ClinicEditProfile = () => {
 
     const handleSubmitProfile = (e) => {
         e.preventDefault();
+        const specialityArr = profileInputData.speciality.map(value => value.id);
+        const conditionArr = profileInputData.condition.map(value => value.id);
+        let formData = new FormData();
+        formData.append("clinic_name", profileInputData.clinic_name);
+        formData.append("state_id", profileInputData.state_id);
+        formData.append("address", profileInputData.address);
+        formData.append("zip_code", profileInputData.zip_code);
+        formData.append("brief_intro", profileInputData.brief_intro);
+        formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
+        formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
+        formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
+        formData.append("bank_name", profileInputData.bank_name);
+        formData.append("account_holder_name", profileInputData.account_holder_name);
+        formData.append("account_number", profileInputData.account_number);
+        formData.append("routing_number", profileInputData.routing_number);
+        for (let i = 0; i < specialityArr.length; i++) {
+            formData.append(`speciality[${i}]`, specialityArr[i]);
+        }
+        for (let j = 0; j < conditionArr.length; j++) {
+            formData.append(`condition[${j}]`, conditionArr[j]);
+        }
+        for (let t = 0; t < uploadedFile.length; t++) {
+            formData.append(`user_document[${t}]`, uploadedFile[t]);
+        }
+
+        
+        setCPSubmitClick(false)
+        // user_document, listing_image
     }
 
-    console.log("profileSelector", profileSelector)
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -624,6 +652,8 @@ const ClinicEditProfile = () => {
                                             BtnType="submit"
                                             BtnColor="primary"
                                             BtnText="Save"
+                                            hasSpinner={CPSubmitClick && profileUploadSelector.loading}
+                                            disabled={CPSubmitClick && profileUploadSelector.loading}
                                         />
                                     </form>
                                     :
