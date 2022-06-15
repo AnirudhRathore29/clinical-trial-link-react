@@ -211,10 +211,10 @@ export const ProfileAction = (data) => async (dispatch) => {
         });
 }
 
-export const ProfileUpdateAction = (data) => async (dispatch) => {
+export const ProfileUpdateAction = (data, type) => async (dispatch) => {
     dispatch(ProfileRequest());
     axios
-        .post(getCurrentHost() + "/sponsor/update-sponsor-profile", data, {
+        .post(getCurrentHost() + "/" + type + "/update-" + type + "-profile", data, {
             headers: authHeader(),
         })
         .then(response => {
@@ -225,3 +225,4 @@ export const ProfileUpdateAction = (data) => async (dispatch) => {
             HandleError(error.response.data)
         });
 }
+

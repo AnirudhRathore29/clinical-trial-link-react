@@ -196,7 +196,7 @@ const ClinicCompleteProfile = () => {
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.id);
-        const conditionArr = profileInputData.condition.map(value => value.id);        
+        const conditionArr = profileInputData.condition.map(value => value.id);
         if (uploadedFile.length > 0) {
             let formData = new FormData();
             formData.append("clinic_name", profileInputData.clinic_name);

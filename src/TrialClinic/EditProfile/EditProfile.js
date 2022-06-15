@@ -11,6 +11,7 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import { StatesAction } from "../../redux/actions/commonAction";
 import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost, { getImageUrl } from "../../redux/constants";
+import { ProfileUpdateAction } from "../../redux/actions/profileAction";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +25,7 @@ const ClinicEditProfile = () => {
     const profileSelector = useSelector(state => state.profile.data.data);
     const profileUploadSelector = useSelector(state => state.profile);
 
-    const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [profileSubmitClick, setProfileSubmitClick] = useState(false);
     const [hidePrincipalInvestigator, setHidePrincipalInvestigator] = useState(0)
     const [hideBankDetails, setHideBankDetails] = useState(0)
 
@@ -55,7 +56,7 @@ const ClinicEditProfile = () => {
         account_number: "",
         routing_number: "",
         listing_image: "",
-        user_document: []
+        documents: []
     });
 
     useEffect(() => {
@@ -82,10 +83,10 @@ const ClinicEditProfile = () => {
                 conditionListAPI.push(obj)
             }
 
-            for (var t = 0; t < profileSelector.data.user_document?.length; t++) {
-                const obj = Object.assign({}, profileSelector.data.user_document[t]);
-                obj.file_type = profileSelector.data.user_document[t].real_doc_name.substr(profileSelector.data.user_document[t].real_doc_name.lastIndexOf('.') + 1);
-                obj.file_name = profileSelector.data.user_document[t].real_doc_name.split(".")[0];
+            for (var t = 0; t < profileSelector.data.documents?.length; t++) {
+                const obj = Object.assign({}, profileSelector.data.documents[t]);
+                obj.file_type = profileSelector.data.documents[t].real_doc_name.substr(profileSelector.data.documents[t].real_doc_name.lastIndexOf('.') + 1);
+                obj.file_name = profileSelector.data.documents[t].real_doc_name.split(".")[0];
                 sponsorUploadedDoc.push(obj)
             }
 
@@ -109,7 +110,7 @@ const ClinicEditProfile = () => {
                 account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
                 routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
                 listing_image: profileSelector.data.listing_image,
-                user_document: sponsorUploadedDoc
+                documents: sponsorUploadedDoc
             });
         }
     }, [profileSelector])
@@ -160,7 +161,7 @@ const ClinicEditProfile = () => {
     }
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, user_speciality: e })
+        setProfileInputData({ ...profileInputData, speciality: e })
         const speArr = e.map(value => value.id)
         let data = {
             speciality: speArr
@@ -207,8 +208,6 @@ const ClinicEditProfile = () => {
             };
         });
     }
-
-
 
     const handleHidePrincipalInvestigator = () => {
         setHidePrincipalInvestigator(!hidePrincipalInvestigator);
@@ -268,7 +267,7 @@ const ClinicEditProfile = () => {
 
                 //setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
 
-                setProfileInputData({ ...profileInputData, user_document: [...profileInputData.user_document, arr] });
+                setProfileInputData({ ...profileInputData, documents: [...profileInputData.documents, arr] });
                 uploadedFile.push(files[i])
                 setUploadFile(uploadedFile);
             }
@@ -280,14 +279,23 @@ const ClinicEditProfile = () => {
     }
 
     const handleRemoveFile = (item) => {
-        //setProfileInputData({ ...profileInputData, user_document.filter(el => el.file_name !== item.file_name) });
+        //setProfileInputData({ ...profileInputData, documents.filter(el => el.file_name !== item.file_name) });
     }
+
+    //form validation handler
+    const validate = (values) => {
+        
+        return true;
+    };
 
     const handleSubmitProfile = (e) => {
         e.preventDefault();
-        const specialityArr = profileInputData.speciality.map(value => value.id);
-        const conditionArr = profileInputData.condition.map(value => value.id);
+        const specialityArr = profileInputData.speciality.map(value => value.value);
+        const conditionArr = profileInputData.condition.map(value => value.value);
         let formData = new FormData();
+        if (binary !== undefined) {
+            formData.append("profile_image", binary)
+        }
         formData.append("clinic_name", profileInputData.clinic_name);
         formData.append("state_id", profileInputData.state_id);
         formData.append("address", profileInputData.address);
@@ -300,6 +308,14 @@ const ClinicEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
+
+        if (listingBinary !== undefined) {
+            formData.append("listing_image", listingBinary)
+        } else {
+            formData.append("listing_image_url", profileInputData.listing_image !== null ? profileInputData.listing_image : "")
+        }
+
+
         for (let i = 0; i < specialityArr.length; i++) {
             formData.append(`speciality[${i}]`, specialityArr[i]);
         }
@@ -307,12 +323,13 @@ const ClinicEditProfile = () => {
             formData.append(`condition[${j}]`, conditionArr[j]);
         }
         for (let t = 0; t < uploadedFile.length; t++) {
-            formData.append(`user_document[${t}]`, uploadedFile[t]);
+            formData.append(`documents[${t}]`, uploadedFile[t]);
         }
-
-        
-        setCPSubmitClick(false)
-        // user_document, listing_image
+        const isVaild = validate(profileInputData);
+        if (isVaild) {
+            dispatch(ProfileUpdateAction(formData, "trialclinic"))
+            setProfileSubmitClick(true)
+        }
     }
 
 
@@ -325,7 +342,7 @@ const ClinicEditProfile = () => {
                     </div>
 
                     <div className="row">
-                        <div className="col-lg-8">
+                        <div className="col-lg-12">
                             <div className="repeat-white-bx">
                                 {profileSelector !== undefined ?
                                     <form onSubmit={handleSubmitProfile} autoComplete="off">
@@ -522,7 +539,7 @@ const ClinicEditProfile = () => {
                                                 </label>
                                             </div>
 
-                                            {profileInputData.user_document?.map((value, index) => {
+                                            {profileInputData.documents?.map((value, index) => {
                                                 return (
                                                     <div className="col-md-3 mb-3" key={index}>
                                                         <div className="uploaded-file text-center">
@@ -652,8 +669,8 @@ const ClinicEditProfile = () => {
                                             BtnType="submit"
                                             BtnColor="primary"
                                             BtnText="Save"
-                                            hasSpinner={CPSubmitClick && profileUploadSelector.loading}
-                                            disabled={CPSubmitClick && profileUploadSelector.loading}
+                                            hasSpinner={profileSubmitClick && profileUploadSelector.loading}
+                                            disabled={profileSubmitClick && profileUploadSelector.loading}
                                         />
                                     </form>
                                     :

@@ -252,7 +252,7 @@ const SponsorsEditProfile = () => {
         formData.append("routing_number", profileInputData.routing_number);
         const isVaild = validate(profileInputData);
         if (isVaild) {
-            dispatch(ProfileUpdateAction(formData))
+            dispatch(ProfileUpdateAction(formData, "sponsor"))
             setProfileSubmitClick(true)
         }
     }
