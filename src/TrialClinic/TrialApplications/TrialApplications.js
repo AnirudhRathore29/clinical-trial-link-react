@@ -8,6 +8,10 @@ import '../../Patient/ClinicListing/ClinicListing.css';
 import '../../Patient/MyFavorites/MyFavorites.css'
 import { TrialApplicationsAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const ClinicTrialApplication = () => {
     const dispatch = useDispatch();
@@ -16,11 +20,11 @@ const ClinicTrialApplication = () => {
 
     const [tabName, setTabName] = useState("Pending")
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [selectorData, setSelectorData] = useState(undefined)
+
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-
-    console.log("trialAppSelector", trialAppSelector)
 
     useEffect(() => {
         let data = {
@@ -30,10 +34,16 @@ const ClinicTrialApplication = () => {
         dispatch(TrialApplicationsAction(data))
     }, [dispatch, tabName])
 
+    useEffect(() => {
+        setSelectorData(trialAppSelector)
+    }, [trialAppSelector])
 
     const handleSelect = (key) => {
+        setSelectorData(undefined)
         setTabName(key)
     }
+
+    console.log("selectorData", selectorData)
     return (
         <>
             <div className="clinical-dashboard my-appointment-section">
@@ -46,42 +56,68 @@ const ClinicTrialApplication = () => {
                             <Tabs defaultActiveKey="Pending" className="pricing-tabs" id="plans-tabs" onSelect={handleSelect}>
                                 <Tab eventKey="Pending" title="Pending">
                                     <div className='row'>
-                                        {trialAppSelector && trialAppSelector.data.data.map((value, index) => {
-                                            return (
-                                                <div className='col-lg-6 mb-5' key={index}>
-                                                    <MyAppointmentBx
-                                                        onClick={handleShow}
-                                                        imgUrl={value.sponsor_user_info.listing_image}
-                                                        title="ABF Pharmaceutical"
-                                                        status="Pending"
-                                                        statusClass="primary"
-                                                        location={value.sponsor_user_info.address}
-                                                        state={value.sponsor_user_info.state_info.name}
-                                                        time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                                    />
-                                                </div>
-                                            )
-                                        })}
+                                        {selectorData !== undefined ?
+                                            selectorData.data.data.length > 0 ?
+                                                selectorData.data.data.map((value, index) => {
+                                                    return (
+                                                        <div className='col-lg-6 mb-5' key={index}>
+                                                            <MyAppointmentBx
+                                                                onClick={handleShow}
+                                                                imgUrl={value.sponsor_user_info.listing_image}
+                                                                title="ABF Pharmaceutical"
+                                                                status={value.status === 0 && "Pending"}
+                                                                statusClass="primary"
+                                                                location={value.sponsor_user_info.address}
+                                                                state={value.sponsor_user_info.state_info.name}
+                                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                                            />
+                                                        </div>
+                                                    )
+                                                })
+                                                :
+                                                <NoDataFound />
+                                            :
+                                            [1, 2, 3, 4].map((_, index) => {
+                                                return (
+                                                    <div className='col-lg-6 mb-5' key={index}>
+                                                        <Skeleton height={200} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </Tab>
                                 <Tab eventKey="Current" title="Current">
                                     <div className='row'>
-                                        {trialAppSelector && trialAppSelector.data.data.map((value, index) => {
-                                            return (
-                                                <div className='col-lg-6 mb-5' key={index}>
-                                                    <MyAppointmentBx
-                                                        onClick={handleShow}
-                                                        imgUrl={value.sponsor_user_info.listing_image}
-                                                        title="ABF Pharmaceutical"
-                                                        status="Eligible"
-                                                        statusClass="primary"
-                                                        location={value.sponsor_user_info.address}
-                                                        state={value.sponsor_user_info.state_info.name}
-                                                        time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                                    />
-                                                </div>
-                                            )
-                                        })}
+                                        {selectorData !== undefined ?
+                                            selectorData.data.data.length > 0 ?
+                                                selectorData.data.data.map((value, index) => {
+                                                    return (
+                                                        <div className='col-lg-6 mb-5' key={index}>
+                                                            <MyAppointmentBx
+                                                                onClick={handleShow}
+                                                                imgUrl={value.sponsor_user_info.listing_image}
+                                                                title="ABF Pharmaceutical"
+                                                                status={value.status === 1 && "Eligible"}
+                                                                statusClass="primary"
+                                                                location={value.sponsor_user_info.address}
+                                                                state={value.sponsor_user_info.state_info.name}
+                                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                                            />
+                                                        </div>
+                                                    )
+                                                })
+                                                :
+                                                <NoDataFound />
+                                            :
+                                            [1, 2, 3, 4].map((_, index) => {
+                                                return (
+                                                    <div className='col-lg-6 mb-5' key={index}>
+                                                        <Skeleton height={200} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
                                     </div>
 
                                     {/* {sponsorsTrialListSelector && sponsorsTrialListSelector.data.data.length >= 20 &&
@@ -98,28 +134,35 @@ const ClinicTrialApplication = () => {
                                 </Tab>
                                 <Tab eventKey="Past" title="Past">
                                     <div className='row'>
-                                        <div className='col-lg-6 mb-5'>
-                                            <MyAppointmentBx
-                                                onClick={handleShow}
-                                                imgUrl="clinic-img1.jpg"
-                                                title="Barnes Jewish Hospital"
-                                                status="Cancelled"
-                                                statusClass="danger"
-                                                location="Atlanta, Georgia, United States"
-                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                            />
-                                        </div>
-                                        <div className='col-lg-6 mb-5'>
-                                            <MyAppointmentBx
-                                                onClick={handleShow}
-                                                imgUrl="clinic-img3.jpg"
-                                                title="Barnes Jewish Hospital"
-                                                status="completed"
-                                                statusClass="success"
-                                                location="Atlanta, Georgia, United States"
-                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
-                                            />
-                                        </div>
+                                        {selectorData !== undefined ?
+                                            selectorData.data.data.length > 0 ?
+                                                selectorData.data.data.map((value, index) => {
+                                                    return (
+                                                        <div className='col-lg-6 mb-5' key={index}>
+                                                            <MyAppointmentBx
+                                                                onClick={handleShow}
+                                                                imgUrl={value.sponsor_user_info.listing_image}
+                                                                title="ABF Pharmaceutical"
+                                                                status={value.status === 3 ? "Completed" : "Cancelled"}
+                                                                statusClass={value.status === 3 ? "success" : "danger"}
+                                                                location={value.sponsor_user_info.address}
+                                                                state={value.sponsor_user_info.state_info.name}
+                                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                                            />
+                                                        </div>
+                                                    )
+                                                })
+                                                :
+                                                <NoDataFound />
+                                            :
+                                            [1, 2, 3, 4].map((_, index) => {
+                                                return (
+                                                    <div className='col-lg-6 mb-5' key={index}>
+                                                        <Skeleton height={200} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </Tab>
                             </Tabs>
