@@ -76,7 +76,7 @@ const SponsorsDashboard = () => {
                                             <div className='item' key={index}>
                                                 <Link to={"/trial-sponsors/clinic-details/" + value.id}>
                                                     <ListBox
-                                                        imgUrl="clinic-img3.jpg"
+                                                        imgUrl={value.listing_image}
                                                         title={value.clinic_name}
                                                         location={value.address}
                                                         state={value.state_info.name}
