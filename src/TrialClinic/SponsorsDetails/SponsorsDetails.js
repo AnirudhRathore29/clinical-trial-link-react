@@ -21,7 +21,7 @@ const ClinicSponsorsDetails = () => {
 
     const [clinicDetails, setClinicDetails] = useState();
     const [clinicTrialID, setClinicTrialID] = useState();
-    const [sponsoreDetails, setSponsoreDetails] = useState();
+    const [sponsoreDetails, setSponsoreDetails] = useState(undefined);
 
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
@@ -29,16 +29,18 @@ const ClinicSponsorsDetails = () => {
 
     useEffect(() => {
         setSponsoreDetails(detailSelector)
-    }, [detailSelector]);
 
-    // useEffect(() => {
-    //     return () => {
-    //         setSponsoreDetails()
-    //     }
-    // }, [])
+        return () => {
+            setSponsoreDetails(undefined)
+        }
+    }, [detailSelector]);
 
     useEffect(() => {
         dispatch(SponsorDetailAction(id))
+
+        return () => {
+            dispatch(SponsorDetailAction())
+        }
     }, [dispatch, id])
 
     const options2 = {
