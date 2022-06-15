@@ -1,14 +1,11 @@
 import {
 	LOADING,
-	SPONSORE_LIST_SUCCESS,
-	SPONSORE_LIST_ERROR,
-	SPONSORE_DETAIL_SUCCESS,
-	SPONSORE_DETAIL_ERROR,
-	SPONSORE_APPLY_TRIAL_SUCCESS,
-	SPONSORE_APPLY_TRIAL_ERROR,
-	SPONSORE_TRIAL_LISI_SUCCESS,
-	SPONSORE_TRIAL_LISI_ERROR,
-	TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR
+	SPONSORE_LIST_SUCCESS, SPONSORE_LIST_ERROR,
+	SPONSORE_DETAIL_SUCCESS, SPONSORE_DETAIL_ERROR,
+	SPONSORE_APPLY_TRIAL_SUCCESS, SPONSORE_APPLY_TRIAL_ERROR,
+	SPONSORE_TRIAL_LISI_SUCCESS, SPONSORE_TRIAL_LISI_ERROR,
+	TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR,
+	TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -17,7 +14,8 @@ const initialState = {
 	sponsore_detail: {},
 	apply_trial: {},
 	stlData: {},
-	dashboard: {}
+	dashboard: {},
+	trial_app: {}
 };
 
 export default function TrialClinicReducer(state = initialState, action) {
@@ -97,6 +95,21 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				dashboard: {},
+				error: action.payload,
+			};
+
+		case TRIAL_APPLICATION_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				trial_app: action.payload,
+				error: {}
+			};
+		case TRIAL_APPLICATION_ERROR:
+			return {
+				...state,
+				loading: false,
+				trial_app: {},
 				error: action.payload,
 			};
 		default:

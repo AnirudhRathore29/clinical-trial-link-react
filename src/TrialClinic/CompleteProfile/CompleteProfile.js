@@ -21,7 +21,7 @@ const ClinicCompleteProfile = () => {
     const history = useHistory()
     const dataSelector = useSelector(state => state.common_data)
     const profileComSelector = useSelector(state => state.profile);
-    const totalFiles = 4;
+    const totalFiles = 5;
     const [uploadedFile, setUploadFile] = useState([]);
     const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
     const [specialityList, setSpecialityList] = useState([]);
@@ -137,7 +137,6 @@ const ClinicCompleteProfile = () => {
             }
         } else (
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
-            // Max. {totalFiles} files you can upload.
         )
         e.target.value = null;
     }
@@ -155,7 +154,7 @@ const ClinicCompleteProfile = () => {
         }
     }, [CPSubmitClick, profileComSelector, history])
 
-    const Vaildation = (value) => {
+    const Vaildation = (value, file) => {
         const isClinicNameVaild = isValidOnlyLetters(value.clinic_name, "clinic name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         const isNameVaild = isValidOnlyLetters(value.principal_investigator_name, "principal investigator name")
@@ -170,6 +169,9 @@ const ClinicCompleteProfile = () => {
             return false
         } else if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        } else if (file.length > 5) {
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             return false
         } else if (!isNameVaild.status) {
             toast.error(isNameVaild.message, { theme: "colored" })
@@ -222,7 +224,7 @@ const ClinicCompleteProfile = () => {
             }
             const isVaild = Vaildation(profileInputData)
             if (isVaild) {
-                dispatch(TrialClinicCompleteProfileAction(formData))
+                dispatch(TrialClinicCompleteProfileAction(formData, uploadedFile))
                 setCPSubmitClick(true)
             }
         }

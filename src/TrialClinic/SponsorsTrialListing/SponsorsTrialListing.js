@@ -57,8 +57,6 @@ const ClinicSponsorsTrialListing = () => {
     }
     const handleClose3 = () => setShow3(false);
 
-    console.log("sponsorsTrialListSelector", sponsorsTrialListSelector)
-
     const SponsorListFilterSubmit = (e) => {
         e.preventDefault();
         let data = {

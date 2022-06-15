@@ -269,6 +269,7 @@ const SponsorsEditProfile = () => {
                 history.push("/trial-sponsors/dashboard")
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
                 toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
+                setProfileSubmitClick(false)
             }
         }
     }, [UpdateProfileSelector, profileSubmitClick]);

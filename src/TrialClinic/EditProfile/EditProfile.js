@@ -16,11 +16,17 @@ import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./../../TrialSponsors/EditProfile/Profile.css"
+import { useHistory } from "react-router-dom";
+import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+
 const conditionListAPI = []
 const specialityListAPI = []
 const sponsorUploadedDoc = []
+const file_upload = []
 const ClinicEditProfile = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
+    const totalFiles = 5;
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
     const profileUploadSelector = useSelector(state => state.profile);
@@ -83,10 +89,10 @@ const ClinicEditProfile = () => {
                 conditionListAPI.push(obj)
             }
 
-            for (var t = 0; t < profileSelector.data.documents?.length; t++) {
-                const obj = Object.assign({}, profileSelector.data.documents[t]);
-                obj.file_type = profileSelector.data.documents[t].real_doc_name.substr(profileSelector.data.documents[t].real_doc_name.lastIndexOf('.') + 1);
-                obj.file_name = profileSelector.data.documents[t].real_doc_name.split(".")[0];
+            for (var t = 0; t < profileSelector.data.user_document?.length; t++) {
+                const obj = Object.assign({}, profileSelector.data.user_document[t]);
+                obj.file_type = profileSelector.data.user_document[t].real_doc_name.substr(profileSelector.data.user_document[t].real_doc_name.lastIndexOf('.') + 1);
+                obj.file_name = profileSelector.data.user_document[t].real_doc_name.split(".")[0];
                 sponsorUploadedDoc.push(obj)
             }
 
@@ -253,7 +259,6 @@ const ClinicEditProfile = () => {
         setProfileInputData({ ...profileInputData, listing_image: null });
     }
 
-    const totalFiles = 4;
     const uploadSponsorFileHandler = async (e) => {
         const files = e.target.files;
         if (files.length > 0 && files.length <= totalFiles) {
@@ -262,29 +267,65 @@ const ClinicEditProfile = () => {
                 reader.readAsDataURL(files[i]);
                 let arr = {
                     file_type: files[i].name.substr(files[i].name.lastIndexOf('.') + 1),
-                    file_name: files[i].name.split("." + files[i].name.substr(files[i].name.lastIndexOf('.') + 1))[0]
+                    file_name: files[i].name.split("." + files[i].name.substr(files[i].name.lastIndexOf('.') + 1))[0],
+                    real_doc_name: files[i].name
                 }
-
-                //setUploadedFileURLs(uploadedFileURLs => [...uploadedFileURLs, arr]);
-
-                setProfileInputData({ ...profileInputData, documents: [...profileInputData.documents, arr] });
+                file_upload.push(arr)
                 uploadedFile.push(files[i])
                 setUploadFile(uploadedFile);
             }
+            setProfileInputData({ ...profileInputData, documents: [...profileInputData.documents, ...file_upload] });
         } else (
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
-            // Max. {totalFiles} files you can upload.
         )
         e.target.value = null;
     }
 
     const handleRemoveFile = (item) => {
-        //setProfileInputData({ ...profileInputData, documents.filter(el => el.file_name !== item.file_name) });
+        console.log("uploadedFile item", item)
+        setProfileInputData({ ...profileInputData, documents: profileInputData.documents.filter(el => el.file_name !== item.file_name) });
+        setUploadFile(uploadedFile.filter(el => el.name !== item.real_doc_name))
     }
 
     //form validation handler
     const validate = (values) => {
-        
+        const isClinicNameVaild = isValidOnlyLetters(values.clinic_name, "clinic name")
+        const isZipcodeVaild = isValidZipcode(values.zip_code)
+        const isNameVaild = isValidOnlyLetters(values.principal_investigator_name, "principal investigator name")
+        const isEmailVaild = isValidEmailAddress(values.principal_investigator_email)
+        const isBanknameVaild = isValidOnlyLetters(values.bank_name, "bank name")
+        const isHoldernameVaild = isValidOnlyLetters(values.account_holder_name, "account holder name")
+        const isAccountnumVaild = isValidAccountNumber(values.account_number)
+        const isRoutingnumVaild = isValidRoutingNumber(values.routing_number)
+
+        if (!isClinicNameVaild.status) {
+            toast.error(isClinicNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isZipcodeVaild.status) {
+            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            return false
+        } else if(values.documents.length > 5){
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            return false
+        } else if (!isNameVaild.status) {
+            toast.error(isNameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isEmailVaild.status) {
+            toast.error(isEmailVaild.message, { theme: "colored" })
+            return false
+        } else if (!isBanknameVaild.status) {
+            toast.error(isBanknameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isHoldernameVaild.status) {
+            toast.error(isHoldernameVaild.message, { theme: "colored" })
+            return false
+        } else if (!isAccountnumVaild.status) {
+            toast.error(isAccountnumVaild.message, { theme: "colored" })
+            return false
+        } else if (!isRoutingnumVaild.status) {
+            toast.error(isRoutingnumVaild.message, { theme: "colored" })
+            return false
+        }
         return true;
     };
 
@@ -292,6 +333,7 @@ const ClinicEditProfile = () => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.value);
         const conditionArr = profileInputData.condition.map(value => value.value);
+
         let formData = new FormData();
         if (binary !== undefined) {
             formData.append("profile_image", binary)
@@ -308,14 +350,13 @@ const ClinicEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
-
+        formData.append("hide_principal_investigator_details", hidePrincipalInvestigator);
+        formData.append("hide_bank_details", hideBankDetails);
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
         } else {
             formData.append("listing_image_url", profileInputData.listing_image !== null ? profileInputData.listing_image : "")
         }
-
-
         for (let i = 0; i < specialityArr.length; i++) {
             formData.append(`speciality[${i}]`, specialityArr[i]);
         }
@@ -325,6 +366,9 @@ const ClinicEditProfile = () => {
         for (let t = 0; t < uploadedFile.length; t++) {
             formData.append(`documents[${t}]`, uploadedFile[t]);
         }
+        for (let t = 0; t < profileInputData.documents.length; t++) {
+            formData.append(`existing_documents[${t}]`, profileInputData.documents[t].document);
+        }
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "trialclinic"))
@@ -332,6 +376,17 @@ const ClinicEditProfile = () => {
         }
     }
 
+    useEffect(() => {
+        if (profileSubmitClick) {
+            if (Object.keys(profileUploadSelector.profile_edit).length !== 0 && !profileUploadSelector.loading) {
+                toast.success(profileUploadSelector.profile_edit.message, { theme: "colored" })
+                history.push("/trial-clinic/dashboard")
+            } else if (Object.keys(profileUploadSelector.error).length !== 0 && !profileUploadSelector.loading) {
+                toast.error(profileUploadSelector.error.message, { theme: "colored" })
+                setProfileSubmitClick(false)
+            }
+        }
+    }, [profileUploadSelector, profileSubmitClick]);
 
     return (
         <>
@@ -342,7 +397,7 @@ const ClinicEditProfile = () => {
                     </div>
 
                     <div className="row">
-                        <div className="col-lg-12">
+                        <div className="col-lg-8">
                             <div className="repeat-white-bx">
                                 {profileSelector !== undefined ?
                                     <form onSubmit={handleSubmitProfile} autoComplete="off">
@@ -531,7 +586,7 @@ const ClinicEditProfile = () => {
                                             <div className="col-lg-12 form-group">
                                                 <label>Upload any Relevant Documents to the Sponsor <span className="text-danger"> *</span></label>
                                                 <label className="upload-document">
-                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max={totalFiles} />
+                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max="2"/>
                                                     <div>
                                                         <h4>File Name Here </h4>
                                                         <h3>Tap here to upload your new file</h3>
@@ -560,7 +615,7 @@ const ClinicEditProfile = () => {
                                                     <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
-                                                    <input name="hide_principal_investigator_details" type="checkbox" onChange={handleHidePrincipalInvestigator} />
+                                                    <input defaultChecked={profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_principal_investigator_details : 0} name="hide_principal_investigator_details" type="checkbox" onChange={handleHidePrincipalInvestigator} />
                                                     <span className="slider round"></span>
                                                 </label>
                                             </span>
@@ -610,11 +665,12 @@ const ClinicEditProfile = () => {
                                                     <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
-                                                    <input type="checkbox" name="hide_bank_details" onChange={handleHideBankDetail} />
+                                                    <input type="checkbox" defaultChecked={profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_bank_details : 0} name="hide_bank_details" onChange={handleHideBankDetail} />
                                                     <span className="slider round"></span>
                                                 </label>
                                             </span>
                                         </h2>
+                                        {console.log("hideBankDetails", hideBankDetails)}
                                         {profileSelector.data.user_bank_detail !== null &&
                                             <div className={hideBankDetails ? "sharing-disable row" : "row"}>
                                                 <div className="col-lg-6">

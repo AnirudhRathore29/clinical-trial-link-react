@@ -5,7 +5,8 @@ import {
     SPONSORE_DETAIL_SUCCESS, SPONSORE_DETAIL_ERROR,
     SPONSORE_APPLY_TRIAL_SUCCESS, SPONSORE_APPLY_TRIAL_ERROR,
     SPONSORE_TRIAL_LISI_SUCCESS, SPONSORE_TRIAL_LISI_ERROR,
-    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR
+    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR,
+    TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -117,6 +118,21 @@ export const TrialClinicDashboard = () => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: TRIAL_CLINIC_DASHBOARD_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const TrialApplicationsAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/get-trial-application-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_APPLICATION_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_APPLICATION_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }
