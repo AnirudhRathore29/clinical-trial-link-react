@@ -39,12 +39,12 @@ const ClinicSponsorsTrialListing = () => {
     const handleClinicTrialModalOpen = (id) => {
         dispatch(ViewTrialsAction(id))
         setShow(true)
+        setClinicTrialID(id)
     };
     const handleClose = () => setShow(false);
 
 
     const handleShow2 = () => {
-        setClinicTrialID(id)
         setShow2(true);
         handleClose();
     }
