@@ -10,6 +10,7 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { NewTrialRequestAction } from '../../redux/actions/TrialSponsorAction';
+import { getImageUrl } from '../../redux/constants';
 
 const SponsorTrialRequests = () => {
     const dispatch = useDispatch();
@@ -54,20 +55,27 @@ const SponsorTrialRequests = () => {
                             {newRequestSelector !== undefined ?
                                 newRequestSelector.data.data?.length !== 0 ?
                                     newRequestSelector.data.data.map((value, index) => {
-                                        console.log("value", value)
                                         return (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td>
                                                     <div className='patient-img'>
-                                                        <img src="/images/sponsors-img.jpg" alt="patient" />
+                                                        <img src={value.trial_clinic_user_info.listing_image !== null ? getImageUrl() + value.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={value.trial_clinic_user_info.clinic_name} />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <h2>Barnes Jewish Hospital</h2>
-                                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
+                                                    {value.trial_clinic_user_info !== null &&
+                                                        <>
+                                                            <h2> {value.trial_clinic_user_info.clinic_name} </h2>
+                                                            <p className='no-wrap'><strong>Phone Number :</strong> {value.trial_clinic_user_info.phone_number} </p>
+                                                        </>
+                                                    }
                                                 </td>
-                                                <td> Adolescents with ADHD and a Parent with Bipolar Disorder </td>
-                                                <td>Atlanta, Georgia, United States</td>
+                                                <td> {value.trial_clinic_user_info !== null && value.clinic_trial_info.trial_name} </td>
+                                                <td>
+                                                    {value.trial_clinic_user_info !== null &&
+                                                        value.trial_clinic_user_info.address + ", " + value.trial_clinic_user_info.state_info.name
+                                                    }
+                                                </td>
                                                 <td>
                                                     <div className='btn-group-custom auto-width'>
                                                         <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
@@ -99,7 +107,7 @@ const SponsorTrialRequests = () => {
                         </tbody>
                     </table>
 
-                    {newRequestSelector && newRequestSelector.data?.data?.length > 19 &&
+                    {newRequestSelector && newRequestSelector.data.total > 16 &&
                         <div className='col-12 mt-5 text-center'>
                             <Button
                                 isButton="true"
@@ -107,7 +115,7 @@ const SponsorTrialRequests = () => {
                                 BtnText="Load More"
                                 onClick={handleLoadMore}
                                 disabled={newRequestSelector.data.last_page === newRequestSelector.data.current_page || loadingSelector.loading}
-                            // hasSpinner={isLoading.loading}
+                                hasSpinner={loadingSelector.loading}
                             />
                         </div>
                     }

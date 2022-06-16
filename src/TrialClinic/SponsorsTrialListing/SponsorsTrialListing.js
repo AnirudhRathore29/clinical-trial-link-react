@@ -17,7 +17,7 @@ const ClinicSponsorsTrialListing = () => {
     const { id } = useParams()
     const dispatch = useDispatch();
     const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data);
-    const sponsorsTrialListSelector = useSelector(state => state.trial_clinic.stlData.data)
+    const sponsorsTrialListSelector = useSelector(state => state.trial_clinic.stlData.data);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clinicDetails, setClinicDetails] = useState();
     const [clinicTrialID, setClinicTrialID] = useState();
@@ -146,7 +146,7 @@ const ClinicSponsorsTrialListing = () => {
                                 })
                             }
 
-                            {sponsorsTrialListSelector && sponsorsTrialListSelector.data.data.length >= 20 &&
+                            {sponsorsTrialListSelector && sponsorsTrialListSelector.data.total > 16 &&
                                 <div className='mt-5 text-center'>
                                     <Button
                                         isButton="true"
@@ -154,6 +154,7 @@ const ClinicSponsorsTrialListing = () => {
                                         BtnText="Load More"
                                         onClick={handleLoadMore}
                                         disabled={sponsorsTrialListSelector.data.last_page === sponsorsTrialListSelector.data.current_page}
+                                        // hasSpinner={isLoading.loading}
                                     />
                                 </div>
                             }

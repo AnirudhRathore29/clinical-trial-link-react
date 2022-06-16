@@ -27,12 +27,8 @@ const ClinicTrialApplication = () => {
     const handleClose = () => setShow(false);
 
     useEffect(() => {
-        let data = {
-            page: loadMoreData,
-            application_tab: tabName,
-        }
-        dispatch(TrialApplicationsAction(data))
-    }, [dispatch, tabName])
+        dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
+    }, [dispatch, tabName, loadMoreData])
 
     useEffect(() => {
         setSelectorData(trialAppSelector)
@@ -40,6 +36,11 @@ const ClinicTrialApplication = () => {
 
     const handleSelect = (key) => {
         setSelectorData(undefined)
+        setTabName(key)
+    }
+
+    const handleLoadMore = (key) => {
+        setLoadMoreData(loadMoreData + 1)
         setTabName(key)
     }
 
@@ -64,7 +65,7 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={handleShow}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title="ABF Pharmaceutical"
+                                                                title={value.sponsor_user_info.sponsor_name}
                                                                 status={value.status === 0 && "Pending"}
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
@@ -86,7 +87,20 @@ const ClinicTrialApplication = () => {
                                             })
                                         }
                                     </div>
+                                    {selectorData && selectorData.data.total > 16 &&
+                                        <div className='mt-5 text-center'>
+                                            <Button
+                                                isButton="true"
+                                                BtnColor="primary"
+                                                BtnText="Load More"
+                                                onClick={() => handleLoadMore("Pending")}
+                                                disabled={selectorData.data.last_page === selectorData.data.current_page}
+                                                hasSpinner={isloading.loading}
+                                            />
+                                        </div>
+                                    }
                                 </Tab>
+
                                 <Tab eventKey="Current" title="Current">
                                     <div className='row'>
                                         {selectorData !== undefined ?
@@ -97,7 +111,7 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={handleShow}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title="ABF Pharmaceutical"
+                                                                title={value.sponsor_user_info.sponsor_name}
                                                                 status={value.status === 1 && "Eligible"}
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
@@ -120,18 +134,20 @@ const ClinicTrialApplication = () => {
                                         }
                                     </div>
 
-                                    {/* {sponsorsTrialListSelector && sponsorsTrialListSelector.data.data.length >= 20 &&
+                                    {selectorData && selectorData.data.total > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"
                                                 BtnColor="primary"
                                                 BtnText="Load More"
-                                                onClick={() => setLoadMoreData(loadMoreData + 1)}
-                                                disabled={sponsorsTrialListSelector.data.last_page === sponsorsTrialListSelector.data.current_page}
+                                                onClick={() => handleLoadMore("Current")}
+                                                disabled={selectorData.data.last_page === selectorData.data.current_page}
+                                                hasSpinner={isloading.loading}
                                             />
                                         </div>
-                                    } */}
+                                    }
                                 </Tab>
+
                                 <Tab eventKey="Past" title="Past">
                                     <div className='row'>
                                         {selectorData !== undefined ?
@@ -142,7 +158,7 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={handleShow}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title="ABF Pharmaceutical"
+                                                                title={value.sponsor_user_info.sponsor_name}
                                                                 status={value.status === 3 ? "Completed" : "Cancelled"}
                                                                 statusClass={value.status === 3 ? "success" : "danger"}
                                                                 location={value.sponsor_user_info.address}
@@ -164,6 +180,19 @@ const ClinicTrialApplication = () => {
                                             })
                                         }
                                     </div>
+
+                                    {selectorData && selectorData.data.total > 16 &&
+                                        <div className='mt-5 text-center'>
+                                            <Button
+                                                isButton="true"
+                                                BtnColor="primary"
+                                                BtnText="Load More"
+                                                onClick={() => handleLoadMore("Past")}
+                                                disabled={selectorData.data.last_page === selectorData.data.current_page}
+                                                hasSpinner={isloading.loading}
+                                            />
+                                        </div>
+                                    }
                                 </Tab>
                             </Tabs>
                         </div>

@@ -321,15 +321,15 @@ const SponsorsTrials = () => {
                                 })
                         }
 
-                        {trials && trials.data?.data?.length > 19 &&
+                        {trials && trials.data?.total > 16 &&
                             <div className='col-12 mt-5 text-center'>
                                 <Button
                                     isButton="true"
                                     BtnColor="primary"
                                     BtnText="Load More"
                                     onClick={handleLoadMore}
-                                    disabled={trials.data.last_page === trials.data.current_page || isLoading.loading}
-                                // hasSpinner={isLoading.loading}
+                                    disabled={trials.data.last_page === trials.data.current_page}
+                                    hasSpinner={isLoading.loading}
                                 />
                             </div>
                         }
