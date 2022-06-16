@@ -9,17 +9,30 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { NewTrialRequestAction } from '../../redux/actions/TrialSponsorAction';
+import { NewTrialRequestAction, TrialRequestDetailAction, TrialRequestAppStatusUpdateAction } from '../../redux/actions/TrialSponsorAction';
 import { getImageUrl } from '../../redux/constants';
 
 const SponsorTrialRequests = () => {
     const dispatch = useDispatch();
     const loadingSelector = useSelector(state => state.My_trials)
     const newRequestSelector = useSelector(state => state.My_trials.new_request.data)
+    const requestDetailSelector = useSelector(state => state.My_trials.new_request_detail.data)
 
+    const [requestDetailData, setRequestDetailData] = useState(undefined)
     const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
+
+    useEffect(() => {
+        requestDetailSelector !== undefined && setRequestDetailData(requestDetailSelector.data)
+    }, [requestDetailSelector])
+
+    const TrialRequestDetailModalShow = (id) => {
+        setShow(true)
+        dispatch(TrialRequestDetailAction(id))
+    };
+    const handleClose = () => {
+        setShow(false);
+        setRequestDetailData(undefined)
+    };
 
     const [loadMoreData, setLoadMoreData] = useState(1);
 
@@ -27,10 +40,16 @@ const SponsorTrialRequests = () => {
         dispatch(NewTrialRequestAction({ page: loadMoreData }))
     }, [dispatch, loadMoreData])
 
-    console.log("newRequestSelector", newRequestSelector)
+    console.log("requestDetailData", requestDetailData)
 
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
+    }
+
+    const handleRequestStatusUpdate = () => {
+        dispatch(TrialRequestAppStatusUpdateAction())
+        setShow(false);
+        setRequestDetailData(undefined)
     }
 
     return (
@@ -78,7 +97,7 @@ const SponsorTrialRequests = () => {
                                                 </td>
                                                 <td>
                                                     <div className='btn-group-custom auto-width'>
-                                                        <button className="btn-action btn-green" onClick={handleShow}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                                        <button className="btn-action btn-green" onClick={() => TrialRequestDetailModalShow(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                                         <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                                     </div>
                                                 </td>
@@ -126,55 +145,75 @@ const SponsorTrialRequests = () => {
                 ModalTitle="Request Details"
                 onClick={handleClose}
                 ModalData={
-                    <>
-                        <div className='appointment-detail'>
-                            <img src="/images/sponsors-img.jpg" alt="clinic-img" />
-                            <div className=''>
-                                <h2>Barnes Jewish Hospital</h2>
-                                <p className='mb-0'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                <p className='mb-0'><strong>Address :</strong> Atlanta, Georgia, United States</p>
+                    requestDetailData !== undefined ?
+                        <>
+                            <div className='appointment-detail' key={requestDetailData.id}>
+
+                                <img src={requestDetailData.trial_clinic_user_info.listing_image !== null ? getImageUrl() + requestDetailData.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
+
+                                {requestDetailData.trial_clinic_user_info !== undefined &&
+                                    <div>
+                                        <h2> {requestDetailData.trial_clinic_user_info.clinic_name}</h2>
+                                        <p className='mb-0'><strong>Phone Number :</strong> {requestDetailData.trial_clinic_user_info.phone_number} </p>
+                                        <p className='mb-0'><strong>Address :</strong> {requestDetailData.trial_clinic_user_info.address}, {requestDetailData.trial_clinic_user_info.state_info.name}</p>
+                                    </div>
+                                }
                             </div>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Trial for </h2>
-                            <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Principal Investigator</h2>
-                            <p>Dr Aikenhead</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Document</h2>
-                            <div className='row mt-3'>
-                                <div className='col-lg-6'>
-                                    <img src="/images/document-img.jpg" alt="document" />
+                            {requestDetailData.clinic_trial_info !== undefined &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Trial for </h2>
+                                    <p> {requestDetailData.clinic_trial_info.trial_name} </p>
                                 </div>
-                                <div className='col-lg-6'>
-                                    <img src="/images/document-img.jpg" alt="document" />
+                            }
+
+                            {requestDetailData.trial_clinic_user_info !== undefined &&
+                                requestDetailData.trial_clinic_user_info.user_meta_info.hide_principal_investigator_details === 0 &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Principal Investigator</h2>
+                                    <p> {requestDetailData.trial_clinic_user_info.user_meta_info.principal_investigator_name} </p>
                                 </div>
+                            }
+
+                            {requestDetailData.appointment_documents !== undefined &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Document</h2>
+                                    <div className='row mt-3'>
+                                        {requestDetailData.appointment_documents.map((value, index) => {
+                                            return (
+                                                <div className='col-lg-6 mb-3' key={index}>
+                                                    <img src={getImageUrl() + value.document} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            }
+
+                            <div className='appointment-detail-col'>
+                                <h2>Additional Information</h2>
+                                <p> {requestDetailData.brief_intro} </p>
                             </div>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Additional Information</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed.</p>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="green"
-                                BtnText="Reject"
-                                onClick={handleClose}
-                            />
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary"
-                                BtnText="Approve"
-                                onClick={handleClose}
-                            />
-                        </div>
-                    </>
+
+
+                            <div className='clnicaltrial-detail-ftr'>
+                                <Button
+                                    isButton="true"
+                                    BtnType="submit"
+                                    BtnColor="green"
+                                    BtnText="Reject"
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.clinic_trial_id, "1")}
+                                />
+                                <Button
+                                    isButton="true"
+                                    BtnType="submit"
+                                    BtnColor="primary"
+                                    BtnText="Approve"
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.clinic_trial_id, "2")}
+                                />
+                            </div>
+                        </>
+                        :
+                        <LogoLoader />
                 }
             />
         </>
