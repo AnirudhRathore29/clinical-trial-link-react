@@ -6,7 +6,9 @@ import {
     SPONSORE_APPLY_TRIAL_SUCCESS, SPONSORE_APPLY_TRIAL_ERROR,
     SPONSORE_TRIAL_LISI_SUCCESS, SPONSORE_TRIAL_LISI_ERROR,
     TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR,
-    TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR
+    TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
+    TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
+    TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -133,6 +135,36 @@ export const TrialApplicationsAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: TRIAL_APPLICATION_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const TrialApplicationsDetailsAction = (id) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + "/trialclinic/view-trial-application/" + id, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_APPLICATION_DETAIL_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_APPLICATION_DETAIL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const TrialApplicationsStatusUpdateAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/update-trial-recruiting-status", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

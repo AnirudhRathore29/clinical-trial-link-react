@@ -80,8 +80,8 @@ const SponsorsDashboard = () => {
                                                         title={value.clinic_name}
                                                         location={value.address}
                                                         state={value.state_info.name}
-                                                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                                        distance="5000.52 Mi"
+                                                        description={value.user_meta_info.brief_intro}
+                                                        // distance="5000.52 Mi"
                                                     />
                                                 </Link>
                                             </div>

@@ -16,10 +16,11 @@ const ClinicDashboard = () => {
     const DashboardSelector = useSelector((state) => state.trial_clinic.dashboard.data);
     const isLoading = useSelector((state) => state.trial_clinic);
     const options = {
-        items: 1,
+        items: 2,
         loop: false,
         nav: false,
-        dots: true
+        dots: true,
+        margin: 30
     };
 
     useEffect(() => {
@@ -60,7 +61,7 @@ const ClinicDashboard = () => {
                     </div>
 
                     <div className='row dashboard-col'>
-                        <div className='col-lg-6'>
+                        <div className='col-12'>
                             {DashboardSelector && DashboardSelector.data.sponsors.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Trial Sponsors/CRO </h1>
@@ -79,7 +80,7 @@ const ClinicDashboard = () => {
                                                         location={value.address}
                                                         state={value.state_info.name}
                                                         description={value.user_meta_info !== null ? value.user_meta_info.brief_intro : null}
-                                                        distance="0 Mi"
+                                                        // distance="0 Mi"
                                                     />
                                                 </Link>
                                             </div>
@@ -98,7 +99,7 @@ const ClinicDashboard = () => {
                             }
                         </div>
 
-                        <div className='col-lg-6 offers-slider'>
+                        {/* <div className='col-lg-6 offers-slider'>
                             <div className="heading-bx">
                                 <h1>Related Clinical Trials</h1>
                             </div>
@@ -119,7 +120,7 @@ const ClinicDashboard = () => {
                                     </Link>
                                 </div>
                             </OwlCarousel>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

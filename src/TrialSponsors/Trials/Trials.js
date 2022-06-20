@@ -374,13 +374,12 @@ const SponsorsTrials = () => {
                                 />
                             </div>
                             <InputText
-                                type="number"
+                                type="text"
                                 placeholder="Enter Compensation"
                                 name="compensation"
                                 labelText="Compensation"
                                 onChange={onChange}
-                                min="10"
-                                max="255"
+                                maxLength="100"
                                 required={true}
                             />
                             <TextArea

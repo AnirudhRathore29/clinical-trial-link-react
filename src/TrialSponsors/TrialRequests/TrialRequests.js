@@ -11,16 +11,25 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { NewTrialRequestAction, TrialRequestDetailAction, TrialRequestAppStatusUpdateAction } from '../../redux/actions/TrialSponsorAction';
 import { getImageUrl } from '../../redux/constants';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
 const SponsorTrialRequests = () => {
     const dispatch = useDispatch();
     const loadingSelector = useSelector(state => state.My_trials)
     const newRequestSelector = useSelector(state => state.My_trials.new_request.data)
     const requestDetailSelector = useSelector(state => state.My_trials.new_request_detail.data)
+    const requestStatusSelector = useSelector(state => state.My_trials)
 
     const [requestDetailData, setRequestDetailData] = useState(undefined)
     const [show, setShow] = useState(false);
 
+    const [loadMoreData, setLoadMoreData] = useState(1);
+    const [clickStatusReject, setClickStatusReject] = useState(false)
+    const [clickStatusApprove, setClickStatusApprove] = useState(false)
+
+    
     useEffect(() => {
         requestDetailSelector !== undefined && setRequestDetailData(requestDetailSelector.data)
     }, [requestDetailSelector])
@@ -34,23 +43,42 @@ const SponsorTrialRequests = () => {
         setRequestDetailData(undefined)
     };
 
-    const [loadMoreData, setLoadMoreData] = useState(1);
-
     useEffect(() => {
         dispatch(NewTrialRequestAction({ page: loadMoreData }))
     }, [dispatch, loadMoreData])
-
-    console.log("requestDetailData", requestDetailData)
 
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
     }
 
-    const handleRequestStatusUpdate = () => {
-        dispatch(TrialRequestAppStatusUpdateAction())
-        setShow(false);
-        setRequestDetailData(undefined)
+    const handleRequestStatusUpdate = (id, status) => {
+        dispatch(TrialRequestAppStatusUpdateAction({trial_clinic_appointment_id:id, status}))
+        if(status == "2"){
+            setClickStatusApprove(true)
+        } else {
+            setClickStatusReject(true)
+        }
     }
+    
+    useEffect(() => {
+        if(clickStatusApprove || clickStatusReject){
+            if(Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading){
+                console.log("requestStatusSelector", requestStatusSelector.new_request_status.data.message)
+                toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
+                setShow(false);
+                setClickStatusApprove(false)
+                setClickStatusReject(false)
+                setRequestDetailData(undefined)
+                dispatch(NewTrialRequestAction({ page: loadMoreData }))
+            } else if(Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading){
+                toast.error(requestStatusSelector.error.message, { theme: "colored" });
+                setClickStatusApprove(false)
+                setClickStatusReject(false)
+            }
+        }
+    }, [clickStatusApprove, clickStatusReject, requestStatusSelector])
+
+    console.log("clickStatusReject, clickStatusApprove", clickStatusReject, clickStatusApprove)
 
     return (
         <>
@@ -201,14 +229,18 @@ const SponsorTrialRequests = () => {
                                     BtnType="submit"
                                     BtnColor="green"
                                     BtnText="Reject"
-                                    onClick={() => handleRequestStatusUpdate(requestDetailData.clinic_trial_id, "1")}
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "1")}
+                                    disabled={clickStatusReject && requestStatusSelector.loading}
+                                    hasSpinner={clickStatusReject && requestStatusSelector.loading}
                                 />
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="primary"
                                     BtnText="Approve"
-                                    onClick={() => handleRequestStatusUpdate(requestDetailData.clinic_trial_id, "2")}
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "2")}
+                                    disabled={clickStatusApprove && requestStatusSelector.loading}
+                                    hasSpinner={clickStatusApprove && requestStatusSelector.loading}
                                 />
                             </div>
                         </>

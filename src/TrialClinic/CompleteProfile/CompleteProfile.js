@@ -170,7 +170,7 @@ const ClinicCompleteProfile = () => {
         } else if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
             return false
-        } else if (file.length > 5) {
+        } else if (file?.length > 5) {
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             return false
         } else if (!isNameVaild.status) {

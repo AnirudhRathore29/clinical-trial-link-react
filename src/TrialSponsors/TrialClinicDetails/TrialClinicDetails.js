@@ -38,7 +38,7 @@ const SponsorsClinicDetails = () => {
                                 <h1> {clinicDetailData.data.clinic_name}</h1>
                                 <div className="trialClinic-location">
                                     <span><box-icon name='map' color="#356AA0"></box-icon> {clinicDetailData.data.address + ", " + clinicDetailData.data.address}</span>
-                                    <span><box-icon name='map-alt' color="#356AA0"></box-icon> 0 Mi</span>
+                                    {/* <span><box-icon name='map-alt' color="#356AA0"></box-icon> 0 Mi</span> */}
                                 </div>
                                 <div className='trialClinic-img'>
                                     <img src="/images/clinic-img5.jpg" className='img-fluid' alt={clinicDetailData.data.clinic_name} />

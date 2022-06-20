@@ -4,7 +4,10 @@ import './MyAppointmentBx.css';
 const MyAppointmentBx = ({ className, imgUrl, visitNumber, onClick, title, time, location, state, status, statusClass, description }) => {
     return (
         <>
-            <div className={`my-appointment-bx ${className}`} onClick={onClick}>
+            <div
+                className={`my-appointment-bx ${className}`}
+                onClick={onClick}
+            >
                 <div className='my-appointment-img'>
                     <img src={imgUrl !== null ? getImageUrl() + imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
                 </div>

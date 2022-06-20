@@ -167,6 +167,7 @@ const SponsorsClinicListing = () => {
                             {listSelector !== undefined ?
                                 listSelector.data?.data?.length !== 0 ?
                                     listSelector.data?.data?.map((value, index) => {
+                                        console.log("value", value)
                                         return (
                                             <Link to={"/trial-sponsors/clinic-details/" + value.id} key={index}>
                                                 <ListBox
@@ -174,8 +175,8 @@ const SponsorsClinicListing = () => {
                                                     title={value.clinic_name}
                                                     location={value.address}
                                                     state={value.state_info.name}
-                                                    // description={value.user_meta_info.brief_intro}
-                                                    distance="5000.52 Mi"
+                                                    description={value.user_meta_info.brief_intro}
+                                                    // distance="5000.52 Mi"
                                                 />
                                             </Link>
                                         )

@@ -11,7 +11,7 @@ const ListBox = ({ className, imgUrl, location, state, description, title, dista
                 <h2>{title}</h2>
                 <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> {location}, {state}</p>
                 <p className='description'>{description}</p>
-                <span className="away-from">{distance}</span>
+                {distance && <span className="away-from">{distance}</span>}
             </div>
         </div>
     );

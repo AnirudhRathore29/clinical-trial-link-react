@@ -26,6 +26,7 @@ export const InputText = (props) => {
                     hidden={props.isHidden}
                     disabled={props.isDisabled}
                     required={props.required}
+                    maxLength={props.maxLength}
                     autoComplete="off"
                     min={props.min}
                     max={props.max}
