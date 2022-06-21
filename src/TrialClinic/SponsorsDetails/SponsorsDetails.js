@@ -75,7 +75,6 @@ const ClinicSponsorsDetails = () => {
         setShow2(false)
     };
 
-    //
     const [show3, setShow3] = useState(false);
 
     const handleShow3 = () => {
@@ -99,7 +98,7 @@ const ClinicSponsorsDetails = () => {
                                     </div>
                                     {sponsoreDetails.data.listing_image !== null &&
                                         <div className='trialClinic-img'>
-                                            <img src={getImageUrl() + sponsoreDetails.data.listing_image} alt="Barnes Jewish Hospital" />
+                                            <img src={getImageUrl() + sponsoreDetails.data.listing_image} alt={sponsoreDetails.data.sponsor_name} />
                                         </div>
                                     }
                                 </div>

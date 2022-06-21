@@ -81,13 +81,13 @@ const routes = [
 	{ path: '/patient/complete-profile', exact: true, name: 'PatientCompleteProfile', component: PatientCompleteProfile, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/dashboard', exact: true, name: 'PatientDashboard', component: PatientDashboard, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/edit-profile', exact: true, name: 'PatientEditProfile', component: PatientEditProfile, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/trial-clinic-details', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/clinic-listing', exact: true, name: 'PatientClinicListing', component: PatientClinicListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/trial-clinic-details/:id', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-chats', exact: true, name: 'PatientMyChats', component: PatientMyChats, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/trial-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/trial-listing/:id', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 
 	/* Clinic Routes */
 	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },

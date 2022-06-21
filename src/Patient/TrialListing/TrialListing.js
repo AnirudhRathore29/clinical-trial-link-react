@@ -1,18 +1,43 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { PatientClinicAppTrialListAction } from '../../redux/actions/PatientAction';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 
 const PatientTrialListing = () => {
+    const { id } = useParams()
+    const dispatch = useDispatch();
+    const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
+    const loadingSelector = useSelector(state => state.patient);
+
+    const [loadMoreData, setLoadMoreData] = useState(1);
+
     const [show, setShow] = useState(false);
 
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
+    const handleClinicTrialModalOpen = (id) => {
+        // dispatch(ViewTrialsAction(id))
+        setShow(true)
+        //setClinicTrialID(id)
+    };
 
+    const handleClose = () => setShow(false);
     const [show2, setShow2] = useState(false);
+
+    useEffect(() => {
+        let data = {
+            page: loadMoreData
+        }
+        dispatch(PatientClinicAppTrialListAction(id, data))
+    }, [dispatch, id, loadMoreData])
+
 
     const handleShow2 = () => {
         setShow2(true);
@@ -27,6 +52,13 @@ const PatientTrialListing = () => {
         handleClose2();
     }
     const handleClose3 = () => setShow3(false);
+
+    const handleLoadMore = (e) => {
+        e.preventDefault();
+        setLoadMoreData(loadMoreData + 1)
+    }
+
+    console.log("PatientTrialListSelector", PatientTrialListSelector)
 
     return (
         <>
@@ -68,79 +100,54 @@ const PatientTrialListing = () => {
                                 />
                             </div>
                         </div>
-                        <div className='col-lg-8'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Study Seeking Patients with Bipolar Depression"
-                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Study Seeking Patients with Bipolar Depression"
-                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconColor="#356AA0"
-                            />
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconColor="#356AA0"
-                            />
 
-                            <div className='mt-5 text-center'>
-                                <Button
-                                    isButton="true"
-                                    BtnColor="primary"
-                                    BtnText="Load More"
-                                />
-                            </div>
+                        <div className='col-lg-8'>
+
+                            {PatientTrialListSelector !== undefined ?
+                                PatientTrialListSelector.data.data.length !== 0 ?
+                                    PatientTrialListSelector.data.data.map((value, index) => {
+                                        return (
+                                            <React.Fragment key={index}>
+                                                <ClinicTrial
+                                                    className="mb-4 white-trial-bx"
+                                                    onClick={() => handleClinicTrialModalOpen(value.id)}
+                                                    title={value.clinic_trial_info.trial_name}
+                                                    description={value.clinic_trial_info.description}
+                                                    iconColor="#356AA0"
+                                                    status={
+                                                        value.is_recruiting === 1 ?
+                                                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                                            :
+                                                            <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                                                    }
+                                                />
+                                            </React.Fragment>
+                                        )
+                                    })
+                                    :
+                                    <NoDataFound />
+                                :
+                                [1, 2, 3].map((_, index) => {
+                                    return (
+                                        <div className='mb-3' key={index}>
+                                            <Skeleton height={164} borderRadius="1rem" style={{ marginBottom: 10 }} />
+                                        </div>
+                                    )
+                                })
+                            }
+
+                            {PatientTrialListSelector && PatientTrialListSelector.data.total > 16 &&
+                                <div className='mt-5 text-center'>
+                                    <Button
+                                        isButton="true"
+                                        BtnColor="primary"
+                                        BtnText="Load More"
+                                        onClick={handleLoadMore}
+                                        disabled={PatientTrialListSelector.data.last_page === PatientTrialListSelector.data.current_page}
+                                        hasSpinner={loadMoreData && loadingSelector.loading}
+                                    />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
