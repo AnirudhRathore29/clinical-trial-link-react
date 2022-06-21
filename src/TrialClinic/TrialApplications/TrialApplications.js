@@ -9,17 +9,19 @@ import '../../Patient/MyFavorites/MyFavorites.css'
 import { TrialApplicationsAction, TrialApplicationsDetailsAction, TrialApplicationsStatusUpdateAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
-
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import moment from 'moment';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
 const ClinicTrialApplication = () => {
     const dispatch = useDispatch();
     const trialAppSelector = useSelector(state => state.trial_clinic.trial_app.data);
     const trialAppDetailSelector = useSelector(state => state.trial_clinic.trial_app_detail.data)
-    const trialAppStatusSelector = useSelector(state => state.trial_clinic.trial_status)
+    const trialAppStatusSelector = useSelector(state => state.trial_clinic)
     const isloading = useSelector(state => state.trial_clinic);
 
     const [tabName, setTabName] = useState("Pending")
@@ -29,8 +31,10 @@ const ClinicTrialApplication = () => {
 
     const [statusLoading, setStatusLoading] = useState(false)
     const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
+    const [recruitingCompletedClickBtn, setRecruitingCompletedClickBtn] = useState(false);
+    
 
-    const [trialAppDetailData, setTrialAppDetailData] = useState();
+    const [trialAppDetailData, setTrialAppDetailData] = useState(undefined);
     const [bookingSlots, setBookingSlots] = useState([]);
 
     const handleSelect = (key) => {
@@ -57,7 +61,7 @@ const ClinicTrialApplication = () => {
 
     const handleClose = () => {
         setDetailsModal(false)
-        setTrialAppDetailData()
+        setTrialAppDetailData(undefined)
         setBookingSlots([])
     };
 
@@ -69,36 +73,45 @@ const ClinicTrialApplication = () => {
     const handleBookingSlots = (event) => {
         var updatedList = [...bookingSlots];
         if (event.target.checked) {
-          updatedList = [...bookingSlots, event.target.value];
+            updatedList = [...bookingSlots, event.target.value];
         } else {
-          updatedList.splice(bookingSlots.indexOf(event.target.value), 1);
+            updatedList.splice(bookingSlots.indexOf(event.target.value), 1);
         }
         setBookingSlots(updatedList);
     };
 
     useEffect(() => {
-        if (recruitingClickBtn) {
+        if (recruitingClickBtn || recruitingCompletedClickBtn) {
             setStatusLoading(true)
-            // if (trialAppDetailData && trialAppDetailData.status === 200) {
-            //     if (typeof trialAppDetailData.data === "object") {
-            //         setStatusLoading(false)
-            //         handleClose()
-            //         setTrialAppDetailData("")
-            //     }
-            //     setRecruitingClickBtn(false)
-            // }
+            if (Object.keys(trialAppStatusSelector.trial_status).length > 0 && !trialAppStatusSelector.loading) {
+                setStatusLoading(false)
+                handleClose()
+                setTrialAppDetailData(undefined)
+                setRecruitingClickBtn(false)
+                setRecruitingCompletedClickBtn(false)
+                toast.success(trialAppStatusSelector.trial_status.data.message, { theme: "colored" })
+            } else if (Object.keys(trialAppStatusSelector.error).length > 0 && !trialAppStatusSelector.loading) {
+                toast.error(trialAppStatusSelector.error.message, { theme: "colored" })
+                setStatusLoading(false)
+                setRecruitingClickBtn(false)
+                setRecruitingCompletedClickBtn(false)
+            }
         }
-    }, [recruitingClickBtn])
+    }, [recruitingClickBtn, recruitingCompletedClickBtn, trialAppStatusSelector])
 
     const handleRecruiting = (id, status) => {
         let data = {
-            is_recruiting: status,
             trial_clinic_appointment_id: id,
+            is_recruiting: status,
             booking_slots: bookingSlots
         }
         dispatch(TrialApplicationsStatusUpdateAction(data))
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
-        setRecruitingClickBtn(true)
+        if(status !== 2){
+            setRecruitingClickBtn(true) 
+        } else{
+            setRecruitingCompletedClickBtn(true)
+        }
     }
 
     return (
@@ -336,16 +349,27 @@ const ClinicTrialApplication = () => {
                                         <Button
                                             isButton="true"
                                             BtnColor={trialAppDetailData.data.is_recruiting === 1 ? "red" : "green"}
-                                            hasSpinner={statusLoading}
-                                            disabled={statusLoading}
+                                            hasSpinner={recruitingClickBtn && statusLoading}
+                                            disabled={recruitingClickBtn && statusLoading}
                                             BtnText={trialAppDetailData.data.is_recruiting === 1 ? "Stop Recruiting" : "Start Recruiting"}
                                             onClick={
                                                 trialAppDetailData.data.is_recruiting === 1 ?
-                                                    () => handleRecruiting(trialAppDetailData.data.id, 2)
+                                                    () => handleRecruiting(trialAppDetailData.data.id, 0)
                                                     :
                                                     () => handleRecruiting(trialAppDetailData.data.id, 1)
                                             }
                                         />
+
+                                        {trialAppDetailData.data.is_recruiting === 1 &&
+                                            <Button
+                                                isButton="true"
+                                                BtnColor="primary"
+                                                hasSpinner={recruitingCompletedClickBtn && statusLoading}
+                                                disabled={recruitingCompletedClickBtn && statusLoading}
+                                                BtnText="Completed"
+                                                onClick={() => handleRecruiting(trialAppDetailData.data.id, 2)}
+                                            />
+                                        }
                                     </div>
                                 </>
                             }

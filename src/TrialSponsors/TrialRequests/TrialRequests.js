@@ -53,7 +53,7 @@ const SponsorTrialRequests = () => {
 
     const handleRequestStatusUpdate = (id, status) => {
         dispatch(TrialRequestAppStatusUpdateAction({trial_clinic_appointment_id:id, status}))
-        if(status == "2"){
+        if(status == "1"){
             setClickStatusApprove(true)
         } else {
             setClickStatusReject(true)
@@ -77,8 +77,6 @@ const SponsorTrialRequests = () => {
             }
         }
     }, [clickStatusApprove, clickStatusReject, requestStatusSelector])
-
-    console.log("clickStatusReject, clickStatusApprove", clickStatusReject, clickStatusApprove)
 
     return (
         <>
@@ -229,7 +227,7 @@ const SponsorTrialRequests = () => {
                                     BtnType="submit"
                                     BtnColor="green"
                                     BtnText="Reject"
-                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "1")}
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "2")}
                                     disabled={clickStatusReject && requestStatusSelector.loading}
                                     hasSpinner={clickStatusReject && requestStatusSelector.loading}
                                 />
@@ -238,7 +236,7 @@ const SponsorTrialRequests = () => {
                                     BtnType="submit"
                                     BtnColor="primary"
                                     BtnText="Approve"
-                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "2")}
+                                    onClick={() => handleRequestStatusUpdate(requestDetailData.id, "1")}
                                     disabled={clickStatusApprove && requestStatusSelector.loading}
                                     hasSpinner={clickStatusApprove && requestStatusSelector.loading}
                                 />
