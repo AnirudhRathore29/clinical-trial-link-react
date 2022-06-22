@@ -7,8 +7,7 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './TrialClinicDetails.css'
 import '../MyFavorites/MyFavorites.css'
-
-import { PatientClinicDetailsAction } from '../../redux/actions/PatientAction';
+import { PatientClinicDetailsAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
@@ -16,24 +15,25 @@ import { getImageUrl } from '../../redux/constants';
 
 const TrialClinicDetails = () => {
     const dispatch = useDispatch();
+    const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const trialClinicDetailSelector = useSelector(state => state.patient.clinic_details.data);
     const { id } = useParams()
 
-    const [patientClinicDetails, setPatientClinicDetails] = useState(undefined);
+    const [patientClinicDetails, setPatientClinicDetails] = useState();
+    const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
 
     useEffect(() => {
         setPatientClinicDetails(trialClinicDetailSelector)
-        return () => {
-            setPatientClinicDetails(undefined)
-        }
     }, [trialClinicDetailSelector]);
 
     useEffect(() => {
-        dispatch(PatientClinicDetailsAction(id))
+        setViewTrialDetails(viewTrialDetailSelector)
+        return () => { setViewTrialDetails(undefined) }
+    }, [viewTrialDetailSelector]);
 
-        return () => {
-            dispatch(PatientClinicDetailsAction())
-        }
+    useEffect(() => {
+        dispatch(PatientClinicDetailsAction(id))
+        return () => { dispatch(PatientClinicDetailsAction()) }
     }, [dispatch, id])
 
     const options2 = {
@@ -47,11 +47,14 @@ const TrialClinicDetails = () => {
     const [show, setShow] = useState(false);
 
     const handleClinicTrialModalOpen = (id) => {
-        //dispatch(ViewTrialsAction(id))
+        dispatch(PatientViewTrialsAction(id))
         setShow(true)
     };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        setViewTrialDetails(undefined)
+    };
 
     //
     const [show2, setShow2] = useState(false);
@@ -62,7 +65,6 @@ const TrialClinicDetails = () => {
     }
     const handleClose2 = () => setShow2(false);
 
-    //
     const [show3, setShow3] = useState(false);
 
     const handleShow3 = () => {
@@ -70,9 +72,7 @@ const TrialClinicDetails = () => {
         handleClose2();
     }
     const handleClose3 = () => setShow3(false);
-    // patientClinicDetails
 
-    console.log("patientClinicDetails", patientClinicDetails)
     return (
         <>
             <div className="clinical-dashboard">
@@ -188,6 +188,10 @@ const TrialClinicDetails = () => {
 
                 handleClose3={handleClose3}
                 handleShow3={handleShow3}
+
+                viewDetails={viewTrialDetails}
+                bookingSlotData={viewTrialDetailSelector?.data?.appointment_slots}
+                bookingId={viewTrialDetailSelector?.data?.id}
             />
         </>
     );

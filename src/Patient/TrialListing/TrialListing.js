@@ -7,7 +7,7 @@ import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { PatientClinicAppTrialListAction } from '../../redux/actions/PatientAction';
+import { PatientClinicAppTrialListAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
@@ -15,20 +15,29 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 const PatientTrialListing = () => {
     const { id } = useParams()
     const dispatch = useDispatch();
+    const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
     const loadingSelector = useSelector(state => state.patient);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
 
     const [show, setShow] = useState(false);
 
+    useEffect(() => {
+        setViewTrialDetails(viewTrialDetailSelector)
+        return () => { setViewTrialDetails(undefined) }
+    }, [viewTrialDetailSelector]);
+
     const handleClinicTrialModalOpen = (id) => {
-        // dispatch(ViewTrialsAction(id))
+        dispatch(PatientViewTrialsAction(id))
         setShow(true)
-        //setClinicTrialID(id)
     };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setViewTrialDetails(undefined)
+    };
     const [show2, setShow2] = useState(false);
 
     useEffect(() => {
@@ -57,9 +66,6 @@ const PatientTrialListing = () => {
         e.preventDefault();
         setLoadMoreData(loadMoreData + 1)
     }
-
-    console.log("PatientTrialListSelector", PatientTrialListSelector)
-
     return (
         <>
             <div className="clinical-dashboard main-trial-listing">
@@ -153,7 +159,21 @@ const PatientTrialListing = () => {
                 </div>
             </div>
 
-            <PatientBookingProcess show={show} handleClose={handleClose} show2={show2} handleClose2={handleClose2} handleShow2={handleShow2} show3={show3} handleClose3={handleClose3} handleShow3={handleShow3} />
+            <PatientBookingProcess
+                show={show}
+                handleClose={handleClose}
+                show2={show2}
+                handleClose2={handleClose2}
+                handleShow2={handleShow2}
+                show3={show3}
+                handleClose3={handleClose3}
+                handleShow3={handleShow3}
+
+                viewDetails={viewTrialDetails}
+                bookingSlotData={viewTrialDetailSelector?.data?.appointment_slots}
+                bookingId={viewTrialDetailSelector?.data?.id}
+
+            />
         </>
     );
 };
