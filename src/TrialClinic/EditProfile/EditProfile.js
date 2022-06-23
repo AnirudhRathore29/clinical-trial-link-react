@@ -18,6 +18,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./../../TrialSponsors/EditProfile/Profile.css"
 import { useHistory } from "react-router-dom";
 import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import "./../../Patient/EditProfile/EditProfile.css"
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
 
 const conditionListAPI = []
 const specialityListAPI = []
@@ -45,11 +50,14 @@ const ClinicEditProfile = () => {
     const [conditionList, setConditionList] = useState([]);
     const [binary, setBinary] = useState();
     const [fullBinaryUrl, setFullBinaryUrl] = useState();
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         clinic_name: "",
         phone_number: "",
         state_id: "",
         address: "",
+        latitude: null,
+        longitude: null,
         zip_code: "",
         brief_intro: "",
         speciality: [],
@@ -98,6 +106,7 @@ const ClinicEditProfile = () => {
             setHidePrincipalInvestigator(profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_principal_investigator_details : 0)
             setHideBankDetails(profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_bank_details : 0)
 
+            setAddress(profileSelector.data.address)
             setProfileInputData({
                 ...profileInputData,
                 clinic_name: profileSelector.data.clinic_name,
@@ -178,6 +187,13 @@ const ClinicEditProfile = () => {
     useEffect(() => {
         SpecialitiesAction()
     }, [])
+
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
 
     const onChange = (e) => {
         const { name, value, files } = e.target;
@@ -302,7 +318,7 @@ const ClinicEditProfile = () => {
         } else if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
             return false
-        } else if(values.documents.length > 5){
+        } else if (values.documents.length > 5) {
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             return false
         } else if (!isNameVaild.status) {
@@ -350,6 +366,8 @@ const ClinicEditProfile = () => {
         formData.append("routing_number", profileInputData.routing_number);
         formData.append("hide_principal_investigator_details", hidePrincipalInvestigator);
         formData.append("hide_bank_details", hideBankDetails);
+        formData.append("latitude", profileInputData.latitude)
+        formData.append("longitude", profileInputData.longitude)
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
         } else {
@@ -429,6 +447,7 @@ const ClinicEditProfile = () => {
                                                     <span><box-icon type='solid' name='camera' color="#ffffff" size="18px"></box-icon></span>
                                                 </label>
                                             </div>
+
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="text"
@@ -485,15 +504,44 @@ const ClinicEditProfile = () => {
                                             </div>
 
                                             <div className="col-lg-6">
-                                                <InputText
-                                                    type="text"
-                                                    name="address"
-                                                    placeholder="Enter Address"
-                                                    labelText="Address"
-                                                    onChange={onChange}
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.address}
-                                                />
+                                                <PlacesAutocomplete
+                                                    value={address}
+                                                    onChange={setAddress}
+                                                    onSelect={addressPlacePicker}
+                                                >
+                                                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                                        <div className="form-group">
+                                                            <label> Address </label>
+                                                            <div className="suggestion-wrapper">
+                                                                <input
+                                                                    placeholder="Enter Address"
+                                                                    required={true}
+                                                                    name="address"
+                                                                    {...getInputProps({
+                                                                        placeholder: "Enter address",
+                                                                        className: "form-control"
+                                                                    })}
+                                                                />
+                                                                {suggestions?.length > 0 &&
+                                                                    <ul className="location-suggestion-block">
+                                                                        {loading ? <li>...loading</li> : null}
+                                                                        {suggestions.map((suggestion, index) => {
+                                                                            const style = {
+                                                                                backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                                cursor: suggestion.active && "pointer"
+                                                                            };
+                                                                            return (
+                                                                                <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                                    {suggestion.description}
+                                                                                </li>
+                                                                            );
+                                                                        })}
+                                                                    </ul>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </PlacesAutocomplete>
                                             </div>
 
                                             <div className="col-lg-6">
@@ -584,7 +632,7 @@ const ClinicEditProfile = () => {
                                             <div className="col-lg-12 form-group">
                                                 <label>Upload any Relevant Documents to the Sponsor <span className="text-danger"> *</span></label>
                                                 <label className="upload-document">
-                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max="2"/>
+                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max="2" />
                                                     <div>
                                                         <h4>File Name Here </h4>
                                                         <h3>Tap here to upload your new file</h3>

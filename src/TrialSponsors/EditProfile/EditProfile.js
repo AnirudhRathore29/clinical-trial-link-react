@@ -16,6 +16,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 import { ALLOW_LETTERS_ONLY } from "./../../utils/ValidationRegex";
 import "./Profile.css"
+import "./../../Patient/EditProfile/EditProfile.css"
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
 
 toast.configure();
 const conditionListAPI = []
@@ -36,11 +41,13 @@ const SponsorsEditProfile = () => {
     const [fullListingBinaryUrl, setFullListingBinaryUrl] = useState([]);
 
     const [profileSubmitClick, setProfileSubmitClick] = useState(false);
-
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
         state_id: "",
         address: "",
+        latitude: null,
+        longitude: null,
         zip_code: "",
         speciality: [],
         condition: [],
@@ -74,7 +81,7 @@ const SponsorsEditProfile = () => {
                 obj.value = conditionList_data[j].condition_info.id;
                 conditionListAPI.push(obj)
             }
-
+            setAddress(profileSelector.data.address)
             setProfileInputData({
                 ...profileInputData,
                 sponsor_name: profileSelector.data.sponsor_name,
@@ -151,6 +158,13 @@ const SponsorsEditProfile = () => {
     useEffect(() => {
         SpecialitiesAction()
     }, [])
+
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
 
     const onChange = (e) => {
         const { name, value, files } = e.target;
@@ -250,6 +264,8 @@ const SponsorsEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
+        formData.append("latitude", profileInputData.latitude)
+        formData.append("longitude", profileInputData.longitude)
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "sponsor"))
@@ -368,16 +384,46 @@ const SponsorsEditProfile = () => {
                                                 />
                                             </div>
                                             <div className="col-lg-6">
-                                                <InputText
-                                                    type="text"
-                                                    name="address"
-                                                    onChange={onChange}
-                                                    placeholder="Enter Address"
-                                                    defaultValue={profileSelector.data.address}
-                                                    labelText="Address"
-                                                    required={true}
-                                                />
+                                                <PlacesAutocomplete
+                                                    value={address}
+                                                    onChange={setAddress}
+                                                    onSelect={addressPlacePicker}
+                                                >
+                                                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                                        <div className="form-group">
+                                                            <label> Address </label>
+                                                            <div className="suggestion-wrapper">
+                                                                <input
+                                                                    placeholder="Enter Address"
+                                                                    required={true}
+                                                                    name="address"
+                                                                    {...getInputProps({
+                                                                        placeholder: "Enter address",
+                                                                        className: "form-control"
+                                                                    })}
+                                                                />
+                                                                {suggestions?.length > 0 &&
+                                                                    <ul className="location-suggestion-block">
+                                                                        {loading ? <li>...loading</li> : null}
+                                                                        {suggestions.map((suggestion, index) => {
+                                                                            const style = {
+                                                                                backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                                cursor: suggestion.active && "pointer"
+                                                                            };
+                                                                            return (
+                                                                                <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                                    {suggestion.description}
+                                                                                </li>
+                                                                            );
+                                                                        })}
+                                                                    </ul>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </PlacesAutocomplete>
                                             </div>
+
                                             <div className="col-lg-6">
                                                 <InputText
                                                     type="text"

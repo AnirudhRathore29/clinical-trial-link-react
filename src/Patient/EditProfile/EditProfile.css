@@ -1,0 +1,28 @@
+.suggestion-wrapper{
+    position: relative;
+}
+.location-suggestion-block {
+    left: 0;
+    right: 0;
+    z-index: 9;
+    top: 100%;
+    position: absolute;
+    min-height: 150px;
+    border: 1px solid #d9d9d9;
+    background: var(--whiteColor);
+    padding: 0;
+    margin: 0;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.location-suggestion-block li {
+    list-style: none;
+    padding: 7px 15px;
+    font-size: 14px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.location-suggestion-block li:last-child{
+    border-bottom: none;
+}

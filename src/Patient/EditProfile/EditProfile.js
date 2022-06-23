@@ -18,12 +18,16 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
 import moment from "moment";
-import Autocomplete from "react-google-autocomplete";
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import "./EditProfile.css";
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
 
 toast.configure();
 const conditionListAPI = []
 const specialityListAPI = []
+
 const PatientEditProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -40,7 +44,7 @@ const PatientEditProfile = () => {
     const [profileSubmitClick, setProfileSubmitClick] = useState(false);
 
     const [trialFor, setTrialFor] = useState(true)
-
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         first_name: "",
         last_name: "",
@@ -50,6 +54,8 @@ const PatientEditProfile = () => {
         zip_code: "",
         dob: null,
         address: "",
+        latitude: null,
+        longitude: null,
         gender: "M",
         trials_for: "Myself",
         speciality: [],
@@ -86,7 +92,7 @@ const PatientEditProfile = () => {
                 obj.value = conditionList_data[j].condition_info.id;
                 conditionListAPI.push(obj)
             }
-
+            setAddress(profileSelector.data.address)
             setProfileInputData({
                 ...profileInputData,
                 first_name: profileSelector.data.first_name,
@@ -172,6 +178,13 @@ const PatientEditProfile = () => {
         SpecialitiesAction()
     }, [])
 
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
+
     const onChange = (e) => {
         const { name, value, files } = e.target;
         if (e.target.name === "profile_image") {
@@ -199,16 +212,16 @@ const PatientEditProfile = () => {
             }
         }
 
+        if (name === "trials_for") {
+            setTrialFor(!trialFor);
+        }
+
         setProfileInputData((preValue) => {
             return {
                 ...preValue,
                 [name]: value
             };
         });
-    }
-
-    const trialsFor = () => {
-        setTrialFor(!trialFor);
     }
 
     //form validation handler
@@ -277,7 +290,8 @@ const PatientEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name)
         formData.append("account_number", profileInputData.account_number)
         formData.append("routing_number", profileInputData.routing_number)
-
+        formData.append("latitude", profileInputData.latitude)
+        formData.append("longitude", profileInputData.longitude)
         const isVaild = Validation(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "patient"))
@@ -297,12 +311,7 @@ const PatientEditProfile = () => {
         }
     }, [UpdateProfileSelector, profileSubmitClick]);
 
-    console.log("profileSelector", profileSelector)
-
-    const [value, setValue] = useState(null);
-
-
-    console.log("value", value)
+    { console.log("profileSelector", profileSelector) }
     return (
         <>
             <div className="clinical-dashboard">
@@ -414,34 +423,46 @@ const PatientEditProfile = () => {
                                             </div>
 
                                             <div className="col-lg-6">
-                                                <InputText
-                                                    type="text"
-                                                    name="address"
-                                                    onChange={onChange}
-                                                    placeholder="Enter Address"
-                                                    defaultValue={profileSelector.data.address}
-                                                    labelText="Address"
-                                                    required={true}
-                                                />
+                                                <PlacesAutocomplete
+                                                    value={address}
+                                                    onChange={setAddress}
+                                                    onSelect={addressPlacePicker}
+                                                >
+                                                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                                        <div className="form-group">
+                                                            <label> Address </label>
+                                                            <div className="suggestion-wrapper">
+                                                                <input
+                                                                    placeholder="Enter Address"
+                                                                    required={true}
+                                                                    name="address"
+                                                                    {...getInputProps({
+                                                                        placeholder: "Enter address",
+                                                                        className: "form-control"
+                                                                    })}
+                                                                />
+                                                                {suggestions?.length > 0 &&
+                                                                    <ul className="location-suggestion-block">
+                                                                        {loading ? <li>...loading</li> : null}
+                                                                        {suggestions.map((suggestion, index) => {
+                                                                            const style = {
+                                                                                backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                                cursor: suggestion.active && "pointer",
+                                                                                color: suggestion.active ? "#fff" : "#000",
+                                                                            };
+                                                                            return (
+                                                                                <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                                    {suggestion.description}
+                                                                                </li>
+                                                                            );
+                                                                        })}
+                                                                    </ul>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </PlacesAutocomplete>
                                             </div>
-
-                                            <div className="col-lg-6">
-                                                <Autocomplete
-                                                    apiKey="AIzaSyCo427Mvd5yrvL0AKlpsTplUfq6LCHnCgw"
-                                                    onPlaceSelected={(place) => {
-                                                        console.log("place", place);
-                                                    }}
-                                                    className="form-control"
-                                                />
-                                            </div>
-
-                                            <GooglePlacesAutocomplete
-                                                apiKey="AIzaSyCo427Mvd5yrvL0AKlpsTplUfq6LCHnCgw"
-                                                selectProps={{
-                                                    value,
-                                                    onChange: setValue,
-                                                }}
-                                            />
 
                                             <div className="col-lg-6">
                                                 <InputText
@@ -475,9 +496,35 @@ const PatientEditProfile = () => {
                                             <div className="col-lg-6 form-group">
                                                 <label>Gender</label>
                                                 <div className="gender-row mt-4">
-                                                    <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Male" value="M" defaultChecked="true" />
-                                                    <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Female" value="F" />
-                                                    <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Nonbinary" value="NB" />
+                                                    <RadioBtn
+                                                        className="radio-btn"
+                                                        onChange={onChange}
+                                                        type="radio"
+                                                        name="gender"
+                                                        labelText="Male"
+                                                        value="M"
+                                                        defaultChecked={profileSelector.data.gender === "M"}
+                                                    />
+
+                                                    <RadioBtn
+                                                        className="radio-btn"
+                                                        onChange={onChange}
+                                                        type="radio"
+                                                        name="gender"
+                                                        labelText="Female"
+                                                        value="F"
+                                                        defaultChecked={profileSelector.data.gender === "F"}
+                                                    />
+
+                                                    <RadioBtn
+                                                        className="radio-btn"
+                                                        onChange={onChange}
+                                                        type="radio"
+                                                        name="gender"
+                                                        labelText="Nonbinary"
+                                                        value="NB"
+                                                        defaultChecked={profileSelector.data.gender === "NB"}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -485,21 +532,31 @@ const PatientEditProfile = () => {
                                         <h2 className="section-title mt-4">Other Info</h2>
 
                                         <div className="row">
-                                            {/* <div className="col-lg-12 form-group">
-                                                <label>Trials for</label>
-                                                <div className="gender-row w-50 mt-4">
-                                                    <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Myself" defaultChecked="true" onChange={trialsFor} />
-                                                    <RadioBtn className="radio-btn" type="radio" name="trial_For" labelText="Family/Friends" onChange={trialsFor} />
-                                                </div>
-                                            </div> */}
-
-                                            <div className="col-lg-12 form-group">
+                                            <div className="col-lg-6 form-group">
                                                 <label>Trials for</label>
                                                 <div className="gender-row mt-4">
-                                                    <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="trials_for" value="Myself" labelText="Myself" defaultChecked="true" />
-                                                    <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="trials_for" value="Family_Or_Friends" labelText="Family/Friends" />
+                                                    <RadioBtn
+                                                        className="radio-btn"
+                                                        onChange={onChange}
+                                                        type="radio"
+                                                        name="trials_for"
+                                                        value="Myself"
+                                                        labelText="Myself"
+                                                        defaultChecked={profileSelector.data.user_meta_info.trials_for === "Myself"}
+                                                    />
+                                                    <RadioBtn
+                                                        className="radio-btn"
+                                                        onChange={onChange}
+                                                        type="radio"
+                                                        name="trials_for"
+                                                        value="Family_Or_Friends"
+                                                        labelText="Family/Friends"
+                                                        defaultChecked={profileSelector.data.user_meta_info.trials_for === "Family_Or_Friends"}
+                                                    />
                                                 </div>
                                             </div>
+
+                                            <div className="col-lg-6 form-group"></div>
 
                                             <div className="col-lg-6 form-group">
                                                 <label> Seeking Trials for </label>
@@ -668,7 +725,7 @@ const PatientEditProfile = () => {
                         <ChangePassword />
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

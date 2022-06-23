@@ -14,6 +14,11 @@ import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
+import "./../../Patient/EditProfile/EditProfile.css"
 
 toast.configure();
 const ClinicCompleteProfile = () => {
@@ -24,6 +29,7 @@ const ClinicCompleteProfile = () => {
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         sponsor_name: "",
         speciality: [],
@@ -31,6 +37,8 @@ const ClinicCompleteProfile = () => {
         state_id: "",
         zip_code: "",
         address: "",
+        latitude: null,
+        longitude: null,
         brief_intro: "",
         bank_name: "",
         account_holder_name: "",
@@ -92,6 +100,13 @@ const ClinicCompleteProfile = () => {
 
         ConditionsAction(data);
     }
+
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
 
     const onChange = (e) => {
         const { name, value } = e.target;
@@ -169,7 +184,9 @@ const ClinicCompleteProfile = () => {
             bank_name: profileInputData.bank_name,
             account_holder_name: profileInputData.account_holder_name,
             account_number: profileInputData.account_number,
-            routing_number: profileInputData.routing_number
+            routing_number: profileInputData.routing_number,
+            latitude: profileInputData.latitude,
+            longitude: profileInputData.longitude
         }
         const isVaild = Vaildation(data)
         if (isVaild) {
@@ -244,16 +261,48 @@ const ClinicCompleteProfile = () => {
                                         }
                                     />
                                 </div>
+
                                 <div className="col-lg-6">
-                                    <InputText
-                                        type="text"
-                                        name="address"
-                                        placeholder="Enter Address"
-                                        labelText="Address"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
+                                    <PlacesAutocomplete
+                                        value={address}
+                                        onChange={setAddress}
+                                        onSelect={addressPlacePicker}
+                                    >
+                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                            <div className="form-group">
+                                                <label> Address </label>
+                                                <div className="suggestion-wrapper">
+                                                    <input
+                                                        placeholder="Enter Address"
+                                                        required={true}
+                                                        name="address"
+                                                        {...getInputProps({
+                                                            placeholder: "Enter address",
+                                                            className: "form-control"
+                                                        })}
+                                                    />
+                                                    {suggestions?.length > 0 &&
+                                                        <ul className="location-suggestion-block">
+                                                            {loading ? <li>...loading</li> : null}
+                                                            {suggestions.map((suggestion, index) => {
+                                                                const style = {
+                                                                    backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                    cursor: suggestion.active && "pointer"
+                                                                };
+                                                                return (
+                                                                    <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                        {suggestion.description}
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
                                 </div>
+
                                 <div className="col-lg-6">
                                     <InputText
                                         type="number"

@@ -14,6 +14,11 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import "./../../Patient/EditProfile/EditProfile.css"
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
 
 toast.configure();
 const ClinicCompleteProfile = () => {
@@ -27,12 +32,15 @@ const ClinicCompleteProfile = () => {
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         clinic_name: "",
         speciality: [],
         condition: [],
         state_id: "",
         address: "",
+        latitude: null,
+        longitude: null,
         zip_code: "",
         brief_intro: "",
         principal_investigator_name: "",
@@ -107,6 +115,14 @@ const ClinicCompleteProfile = () => {
             };
         });
     };
+
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
+
 
     const specialityOnChange = (e) => {
         setProfileInputData({ ...profileInputData, speciality: e })
@@ -213,6 +229,8 @@ const ClinicCompleteProfile = () => {
             formData.append("account_holder_name", profileInputData.account_holder_name);
             formData.append("account_number", profileInputData.account_number);
             formData.append("routing_number", profileInputData.routing_number);
+            formData.append("latitude", profileInputData.latitude)
+            formData.append("longitude", profileInputData.longitude)
             for (let i = 0; i < specialityArr.length; i++) {
                 formData.append(`speciality[${i}]`, specialityArr[i]);
             }
@@ -308,14 +326,44 @@ const ClinicCompleteProfile = () => {
                                 </div>
 
                                 <div className="col-lg-6">
-                                    <InputText
-                                        type="text"
-                                        name="address"
-                                        placeholder="Enter Address"
-                                        labelText="Address"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
+                                    <PlacesAutocomplete
+                                        value={address}
+                                        onChange={setAddress}
+                                        onSelect={addressPlacePicker}
+                                    >
+                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                            <div className="form-group">
+                                                <label> Address </label>
+                                                <div className="suggestion-wrapper">
+                                                    <input
+                                                        placeholder="Enter Address"
+                                                        required={true}
+                                                        name="address"
+                                                        {...getInputProps({
+                                                            placeholder: "Enter address",
+                                                            className: "form-control"
+                                                        })}
+                                                    />
+                                                    {suggestions?.length > 0 &&
+                                                        <ul className="location-suggestion-block">
+                                                            {loading ? <li>...loading</li> : null}
+                                                            {suggestions.map((suggestion, index) => {
+                                                                const style = {
+                                                                    backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                    cursor: suggestion.active && "pointer"
+                                                                };
+                                                                return (
+                                                                    <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                        {suggestion.description}
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
                                 </div>
 
                                 <div className="col-lg-6">
