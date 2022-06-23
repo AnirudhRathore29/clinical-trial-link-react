@@ -53,7 +53,7 @@ const SponsorTrialRequests = () => {
 
     const handleRequestStatusUpdate = (id, status) => {
         dispatch(TrialRequestAppStatusUpdateAction({trial_clinic_appointment_id:id, status}))
-        if(status == "1"){
+        if(status === "1"){
             setClickStatusApprove(true)
         } else {
             setClickStatusReject(true)
@@ -63,7 +63,6 @@ const SponsorTrialRequests = () => {
     useEffect(() => {
         if(clickStatusApprove || clickStatusReject){
             if(Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading){
-                console.log("requestStatusSelector", requestStatusSelector.new_request_status.data.message)
                 toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
                 setShow(false);
                 setClickStatusApprove(false)

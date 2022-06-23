@@ -75,7 +75,6 @@ const ClinicEditProfile = () => {
             let speciality_data = profileSelector.data.user_speciality;
             let conditionList_data = profileSelector.data.user_condition;
 
-            console.log("speciality_data", speciality_data)
             for (var i = 0; i < speciality_data?.length; i++) {
                 const obj = Object.assign({}, speciality_data[i]);
                 obj.label = speciality_data[i].speciality_info.speciality_title;
@@ -282,7 +281,6 @@ const ClinicEditProfile = () => {
     }
 
     const handleRemoveFile = (item) => {
-        console.log("uploadedFile item", item)
         setProfileInputData({ ...profileInputData, documents: profileInputData.documents.filter(el => el.file_name !== item.file_name) });
         setUploadFile(uploadedFile.filter(el => el.name !== item.real_doc_name))
     }
@@ -419,7 +417,7 @@ const ClinicEditProfile = () => {
                                                             :
                                                             <img
                                                                 src={profileSelector.data.profile_image ?
-                                                                    getCurrentHost() + "/" + profileSelector.data.profile_image
+                                                                    getImageUrl() + profileSelector.data.profile_image
                                                                     : '/images/avatar2.svg'}
                                                                 width={120}
                                                                 className='img-fluid uploaded-img rounded-circle'
@@ -621,8 +619,6 @@ const ClinicEditProfile = () => {
                                             </span>
                                         </h2>
 
-                                        {console.log("profileSelector", profileSelector)}
-
                                         {profileSelector.data.user_meta_info !== null &&
                                             <div className={hidePrincipalInvestigator ? "sharing-disable row" : "row"}>
                                                 <div className="col-lg-6">
@@ -670,7 +666,7 @@ const ClinicEditProfile = () => {
                                                 </label>
                                             </span>
                                         </h2>
-                                        {console.log("hideBankDetails", hideBankDetails)}
+
                                         {profileSelector.data.user_bank_detail !== null &&
                                             <div className={hideBankDetails ? "sharing-disable row" : "row"}>
                                                 <div className="col-lg-6">

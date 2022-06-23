@@ -28,14 +28,14 @@ const ClinicTrialApplication = () => {
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [selectorData, setSelectorData] = useState(undefined)
     const [detailsModal, setDetailsModal] = useState(false);
+    const [bookingSlotData, setBookingSlotData] = useState([])
 
     const [statusLoading, setStatusLoading] = useState(false)
     const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
     const [recruitingCompletedClickBtn, setRecruitingCompletedClickBtn] = useState(false);
-    
+
 
     const [trialAppDetailData, setTrialAppDetailData] = useState(undefined);
-    const [bookingSlots, setBookingSlots] = useState([]);
 
     const handleSelect = (key) => {
         setSelectorData(undefined)
@@ -43,8 +43,18 @@ const ClinicTrialApplication = () => {
     }
 
     useEffect(() => {
+        trialAppDetailSelector?.bookingSlots.map((slots) => {
+            slots.selected = false
+            trialAppDetailSelector.data.appointment_slots.map((selectedSlots) => {
+                if (selectedSlots.booking_slot_id === slots.id) {
+                    slots.selected = true
+                }
+            })
+            bookingSlotData.push(slots)
+        })
         setTrialAppDetailData(trialAppDetailSelector)
     }, [trialAppDetailSelector]);
+
 
     useEffect(() => {
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
@@ -62,7 +72,7 @@ const ClinicTrialApplication = () => {
     const handleClose = () => {
         setDetailsModal(false)
         setTrialAppDetailData(undefined)
-        setBookingSlots([])
+        setBookingSlotData([])
     };
 
     const handleLoadMore = (key) => {
@@ -71,13 +81,11 @@ const ClinicTrialApplication = () => {
     }
 
     const handleBookingSlots = (event) => {
-        var updatedList = [...bookingSlots];
-        if (event.target.checked) {
-            updatedList = [...bookingSlots, event.target.value];
-        } else {
-            updatedList.splice(bookingSlots.indexOf(event.target.value), 1);
-        }
-        setBookingSlots(updatedList);
+        trialAppDetailSelector?.bookingSlots.map((slots) => {
+            if (slots.id === Number(event.target.value)) {
+                slots.selected = !slots.selected
+            }
+        })
     };
 
     useEffect(() => {
@@ -89,6 +97,7 @@ const ClinicTrialApplication = () => {
                 setTrialAppDetailData(undefined)
                 setRecruitingClickBtn(false)
                 setRecruitingCompletedClickBtn(false)
+                setBookingSlotData([])
                 toast.success(trialAppStatusSelector.trial_status.data.message, { theme: "colored" })
             } else if (Object.keys(trialAppStatusSelector.error).length > 0 && !trialAppStatusSelector.loading) {
                 toast.error(trialAppStatusSelector.error.message, { theme: "colored" })
@@ -99,21 +108,23 @@ const ClinicTrialApplication = () => {
         }
     }, [recruitingClickBtn, recruitingCompletedClickBtn, trialAppStatusSelector])
 
+
     const handleRecruiting = (id, status) => {
+        const slotSelectedTrue = trialAppDetailSelector.bookingSlots.filter((value) => value.selected === true)
+        const selectedSlotID = slotSelectedTrue.map((value) => value.id)
         let data = {
             trial_clinic_appointment_id: id,
             is_recruiting: status,
-            booking_slots: bookingSlots
+            booking_slots: selectedSlotID
         }
         dispatch(TrialApplicationsStatusUpdateAction(data))
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
-        if(status !== 2){
-            setRecruitingClickBtn(true) 
-        } else{
+        if (status !== 2) {
+            setRecruitingClickBtn(true)
+        } else {
             setRecruitingCompletedClickBtn(true)
         }
     }
-
     return (
         <>
             <div className="clinical-dashboard my-appointment-section">
@@ -139,7 +150,7 @@ const ClinicTrialApplication = () => {
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
-                                                                time="Jan 20, 2022"
+                                                                time={moment(value.updated_date).format("MMMM DD, YYYY")}
                                                             />
                                                         </div>
                                                     )
@@ -185,7 +196,7 @@ const ClinicTrialApplication = () => {
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
-                                                                time="Jan 20, 2022"
+                                                                time={moment(value.updated_date).format("MMMM DD, YYYY")}
                                                             />
                                                         </div>
                                                     )
@@ -232,7 +243,7 @@ const ClinicTrialApplication = () => {
                                                                 statusClass={value.status === 3 ? "success" : "danger"}
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
-                                                                time="Jan 20, 2022 (09:00 AM to 11:00 AM)"
+                                                                time={moment(value.updated_date).format("MMMM DD, YYYY")}
                                                             />
                                                         </div>
                                                     )
@@ -268,16 +279,19 @@ const ClinicTrialApplication = () => {
                     </div>
                 </div>
             </div>
-
+            
             <CommonModal className="custom-size-modal" show={detailsModal} onHide={handleClose} keyboard={false}
                 ModalTitle={
                     trialAppDetailData !== undefined &&
                     <>
-                        {/* November 23, 2020 */}
                         <h2> {trialAppDetailData.data.clinic_trial_info.trial_name} </h2>
                         <div className="trialClinic-location">
                             <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialAppDetailData.data.updated_date).format("MMMM DD, YYYY")} </span>
-                            <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                            {trialAppDetailData.data.is_recruiting === 1 ?
+                                <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                :
+                                <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                            }
                         </div>
                     </>
                 }
@@ -306,7 +320,7 @@ const ClinicTrialApplication = () => {
                                     <ul className='condition-ul'>
                                         {trialAppDetailData.data.clinic_trial_info.conditions.map((value, index) => {
                                             return (
-                                                <li>{value.condition_detail.condition_title}</li>
+                                                <li key={index}>{value.condition_detail.condition_title}</li>
                                             )
                                         })}
                                     </ul>
@@ -333,10 +347,10 @@ const ClinicTrialApplication = () => {
                                         <h2>Select Recruiting Time</h2>
                                         <div className='available-time'>
                                             <div className='time-row'>
-                                                {trialAppDetailData.bookingSlots.map((value, index) => {
+                                                {bookingSlotData.map((value, index) => {
                                                     return (
                                                         <label key={index}>
-                                                            <input type="checkbox" name='available_time' onChange={handleBookingSlots} value={value.id} />
+                                                            <input type="checkbox" name='available_time' onChange={handleBookingSlots} defaultChecked={value.selected} value={value.id} disabled={trialAppDetailData.data.is_recruiting} />
                                                             <span>{value.from_time} - {value.to_time}</span>
                                                         </label>
                                                     )

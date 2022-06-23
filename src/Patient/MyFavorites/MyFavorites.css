@@ -31,6 +31,7 @@
 .time-row{display: flex;flex-wrap: wrap;margin: 0 -1rem;}
 .available-time label{cursor: pointer;width: 50%;margin-bottom: 1rem;padding: 0 1rem;}
 .available-time label input{display: none;}
+.available-time label input:disabled + span{pointer-events: none; background: #e9ebef; border-color: #e9ebef; color: #8f98a9;}
 .available-time label span{padding: 1rem 2rem;background: var(--lightBg);border: 1px solid #C3D9FF;border-radius: .8rem;color: var(--TextColor);display: block;text-align: center;}
 .available-time label input:checked + span{background: var(--PrimaryColor);color: var(--whiteColor);border-color: transparent;}
 

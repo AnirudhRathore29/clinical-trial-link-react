@@ -16,8 +16,10 @@ import getCurrentHost, { getImageUrl } from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { isValidPhoneNumber, isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
 import moment from "moment";
+import Autocomplete from "react-google-autocomplete";
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 toast.configure();
 const conditionListAPI = []
@@ -239,7 +241,7 @@ const PatientEditProfile = () => {
         } else if (!isRoutingnumVaild.status) {
             toast.error(isRoutingnumVaild.message, { theme: "colored" })
             return false
-        } 
+        }
         return true
     }
 
@@ -297,6 +299,10 @@ const PatientEditProfile = () => {
 
     console.log("profileSelector", profileSelector)
 
+    const [value, setValue] = useState(null);
+
+
+    console.log("value", value)
     return (
         <>
             <div className="clinical-dashboard">
@@ -418,6 +424,24 @@ const PatientEditProfile = () => {
                                                     required={true}
                                                 />
                                             </div>
+
+                                            <div className="col-lg-6">
+                                                <Autocomplete
+                                                    apiKey="AIzaSyCo427Mvd5yrvL0AKlpsTplUfq6LCHnCgw"
+                                                    onPlaceSelected={(place) => {
+                                                        console.log("place", place);
+                                                    }}
+                                                    className="form-control"
+                                                />
+                                            </div>
+
+                                            <GooglePlacesAutocomplete
+                                                apiKey="AIzaSyCo427Mvd5yrvL0AKlpsTplUfq6LCHnCgw"
+                                                selectProps={{
+                                                    value,
+                                                    onChange: setValue,
+                                                }}
+                                            />
 
                                             <div className="col-lg-6">
                                                 <InputText
