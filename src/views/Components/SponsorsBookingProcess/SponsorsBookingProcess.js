@@ -15,7 +15,7 @@ toast.configure();
 const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3 }) => {
     const dispatch = useDispatch();
     const applyTrialSelector = useSelector(state => state.trial_clinic);
-    const totalFiles = 4;
+    const totalFiles = 2;
     const [uploadedFile, setUploadFile] = useState([]);
     const [trialBriefIntro, setTrialBriefIntro] = useState();
     const [applySubmit, setApplySubmit] = useState(false);
@@ -26,17 +26,26 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
     }
 
     const handleFileUpload = async (e) => {
-        const files = e.target.files;
+        const { value, files } = e.target;
         if (files.length > 0 && files.length <= totalFiles) {
-            for (let i = 0; i < files.length; i++) {
-                const reader = new FileReader();
-                reader.readAsDataURL(files[i]);
-                let arr = files[i]
-                setUploadFile(uploadedFile => [...uploadedFile, arr]);
+            const extention = value.substr(value.lastIndexOf('.') + 1).toLowerCase();
+            if (
+                extention === "doc" ||
+                extention === "pdf" ||
+                extention === "docx"
+            ) {
+                for (let i = 0; i < files.length; i++) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(files[i]);
+                    let arr = files[i]
+                    setUploadFile(uploadedFile => [...uploadedFile, arr]);
+                }
+            }
+            else {
+                toast.error("The Document must be a file of type: doc, pdf, docx.", { theme: "colored" });
             }
         } else (
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
-            // Max. {totalFiles} files you can upload.
         )
         e.target.value = null;
     }
@@ -65,8 +74,12 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
     }, [handleClose2, handleShow3])
 
     const Validation = (intro, file) => {
+        console.log("file", file.length)
         if (file.length === 0) {
             toast.error(`The Document field is required.`, { theme: "colored" })
+            return false
+        } else if (file.length > totalFiles) {
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             return false
         }
         if (intro === undefined || intro.length === 0) {
