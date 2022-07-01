@@ -13,7 +13,7 @@ import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidOnlyLetters, isValidZipcode } from "./../../views/Components/Validation/Validation"
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng

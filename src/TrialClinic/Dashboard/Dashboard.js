@@ -27,8 +27,6 @@ const ClinicDashboard = () => {
         dispatch(TrialClinicDashboard())
     }, [dispatch]);
 
-
-    console.log("DashboardSelector", DashboardSelector)
     return (
         <>
             <div className="clinical-dashboard">

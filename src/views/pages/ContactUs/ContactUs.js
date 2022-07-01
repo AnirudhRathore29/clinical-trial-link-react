@@ -4,14 +4,14 @@ import InnerBanner from "../../Components/Common/InnerBanner/InnerBanner";
 import { InputText, TextArea } from "../../Components/Common/Inputs/Inputs";
 import "./ContactUs.css";
 
-const ContactUs = (props) => {
+const ContactUs = () => {
     const [Formdata, setFormData] = useState({
         email: "",
         password: "",
     });
 
     const ContactSubmit = () => {
-        console.log("contact form data", Formdata);
+        //console.log("contact form data", Formdata);
     }
 
     return (

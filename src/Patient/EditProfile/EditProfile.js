@@ -16,7 +16,7 @@ import getCurrentHost, { getImageUrl } from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidOnlyLetters, isValidZipcode } from "./../../views/Components/Validation/Validation"
 import moment from "moment";
 import "./EditProfile.css";
 import PlacesAutocomplete, {
@@ -264,7 +264,6 @@ const PatientEditProfile = () => {
         formData.append("address", profileInputData.address);
         formData.append("gender", profileInputData.gender)
         formData.append("trials_for", profileInputData.trials_for)
-        formData.append("physician_fname", profileInputData.physician_fname)
         if (binary !== undefined) {
             formData.append("profile_image", binary)
         }
@@ -274,9 +273,10 @@ const PatientEditProfile = () => {
         for (let i = 0; i < conditionArr.length; i++) {
             formData.append(`condition[${i}]`, conditionArr[i]);
         }
-        formData.append("physician_lname", profileInputData.physician_lname)
-        formData.append("physician_email", profileInputData.physician_email)
-        formData.append("physician_phone_number", profileInputData.physician_phone_number)
+        formData.append("physician_fname", profileInputData.physician_fname !== null ? profileInputData.physician_fname : "")
+        formData.append("physician_lname", profileInputData.physician_lname !== null ? profileInputData.physician_lname : "")
+        formData.append("physician_email", profileInputData.physician_email !== null ? profileInputData.physician_email : "")
+        formData.append("physician_phone_number", profileInputData.physician_phone_number !== null ? profileInputData.physician_phone_number : "")
         formData.append("bank_name", profileInputData.bank_name)
         formData.append("account_holder_name", profileInputData.account_holder_name)
         formData.append("account_number", profileInputData.account_number)
@@ -301,9 +301,8 @@ const PatientEditProfile = () => {
                 setProfileSubmitClick(false)
             }
         }
-    }, [UpdateProfileSelector, profileSubmitClick]);
+    }, [UpdateProfileSelector, profileSubmitClick, dispatch, history]);
 
-    { console.log("profileSelector", profileSelector) }
     return (
         <>
             <div className="clinical-dashboard">

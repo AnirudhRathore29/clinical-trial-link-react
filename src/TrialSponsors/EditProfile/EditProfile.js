@@ -289,7 +289,7 @@ const SponsorsEditProfile = () => {
                 setProfileSubmitClick(false)
             }
         }
-    }, [UpdateProfileSelector, profileSubmitClick]);
+    }, [UpdateProfileSelector, profileSubmitClick, dispatch, history]);
 
     return (
         <>

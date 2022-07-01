@@ -196,7 +196,7 @@ export function ProfileError(message) {
     };
 }
 
-export const ProfileAction = (data) => async (dispatch) => {
+export const ProfileAction = () => async (dispatch) => {
     dispatch(ProfileRequest());
     axios
         .get(getCurrentHost() + "/get-my-profile", {
@@ -219,6 +219,11 @@ export const ProfileUpdateAction = (data, type) => async (dispatch) => {
         })
         .then(response => {
             dispatch({ type: PROFILE_UPDATE_SUCCESS, payload: response.data});
+            var decodeProfileData = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+            decodeProfileData["full_name"] = response.data.data.full_name
+            decodeProfileData["profile_image"] = response.data.data.profile_image
+            var token = jwt.sign(decodeProfileData, process.env.REACT_APP_JWT_SECRET);
+            localStorage.setItem("auth_security", token)
         })
         .catch(error => {
             dispatch({ type: PROFILE_UPDATE_ERROR, payload: error.response.data});

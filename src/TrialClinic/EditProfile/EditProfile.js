@@ -378,7 +378,7 @@ const ClinicEditProfile = () => {
                 setProfileSubmitClick(false)
             }
         }
-    }, [profileUploadSelector, profileSubmitClick]);
+    }, [profileUploadSelector, profileSubmitClick, dispatch, history]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from "react-redux";
 // routes config
@@ -11,7 +11,7 @@ const loading = (
 );
 
 function TheContent({ auth }) {
-	const appRoutes = useMemo(() => routes.filter(r => r.meta.role === auth.user.role));
+	// const appRoutes = useMemo(() => routes.filter(r => r.meta.role === auth.user.role));
 	return (
 		<main className="main-content">
 			<Suspense fallback={loading}>

@@ -126,7 +126,7 @@ const PhysicianCompleteProfile = () => {
                                 </div>
 
                                 <div className="col-lg-6 form-group">
-                                    <label>Date Of Birth</label>
+                                    <label>Date Of Birth <span className="text-danger"> *</span></label>
                                     <DatePicker
                                         name="dob"
                                         className="form-control"

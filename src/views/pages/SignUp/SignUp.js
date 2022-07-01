@@ -10,7 +10,6 @@ import "../Login/Login.css";
 import { connect } from "react-redux";
 
 const SignUp = (props) => {
-
     //Check user is logged in or not
     useEffect(() => {
         if (props.auth.isAuthenticated) {
@@ -18,7 +17,7 @@ const SignUp = (props) => {
         }
     }, [props]);
 
-    const handleSelect = (key) => {
+    const handleSelect = () => {
         // console.log("key", key)
     }
 

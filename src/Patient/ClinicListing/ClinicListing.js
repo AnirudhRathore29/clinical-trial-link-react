@@ -84,7 +84,6 @@ const PatientClinicListing = () => {
                             {clinicListingSelector !== undefined ?
                                 clinicListingSelector.data?.data?.length !== 0 ?
                                     clinicListingSelector.data?.data?.map((value, index) => {
-                                        console.log("value", value)
                                         return (
                                             <Link to={"/patient/trial-clinic-details/" + value.id} key={index}>
                                                 <ListBox

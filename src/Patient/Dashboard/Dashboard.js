@@ -20,9 +20,6 @@ const PatientDashboard = () => {
         dispatch(PatientDashboardAction())
     }, [dispatch]);
 
-
-    console.log("dashBoardSelector", dashBoardSelector)
-
     const options = {
         items: 1,
         loop: true,

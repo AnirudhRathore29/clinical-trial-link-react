@@ -6,10 +6,11 @@ import SearchBx from '../SearchBx/SearchBx'
 import { connect, useDispatch } from "react-redux";
 import 'boxicons';
 import "./BackHeader.css";
-// import { useHistory } from "react-router-dom";
 import { LogoutAction } from "../../../redux/actions/authAction";
+import { getImageUrl } from "../../../redux/constants";
 
-const Header = (props, { colorHeader, headerColor })  => {
+var jwt = require('jsonwebtoken');
+const Header = (props, { colorHeader, headerColor }) => {
     const dispatch = useDispatch();
     // const history = useHistory();
     const [sideMenu, setSideMenu] = useState(false);
@@ -24,6 +25,8 @@ const Header = (props, { colorHeader, headerColor })  => {
         dispatch(LogoutAction())
         // history.push('/login');
     }
+
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
     return (
         <>
             <header className={`dashboard-header ${colorHeader} ${headerColor}`}>
@@ -83,9 +86,16 @@ const Header = (props, { colorHeader, headerColor })  => {
                         <li className="user-info-li">
                             <Dropdown>
                                 <Dropdown.Toggle className="user-info" variant="" id="user-dropdown">
-                                    <div className="user-image"><img src={props.auth.user.profile_image == null ? "/images/avatar2.svg" : props.auth.user.profile_image} alt="avatar" /></div>
+                                    <div className="user-image">
+                                        <img
+                                            src={profileDetails.profile_image ?
+                                                getImageUrl() + profileDetails.profile_image
+                                                : '/images/avatar2.svg'}
+                                            alt="avatar"
+                                        />
+                                    </div>
                                     <div className="user-id-info">
-                                        <h2>Hi, <span><img src="/images/hand-up.svg" alt="hand-icon" /></span> {props.auth.user.full_name} </h2>
+                                        <h2>Hi, <span><img src="/images/hand-up.svg" alt="hand-icon" /></span> {profileDetails.full_name} </h2>
                                         <p title={props.auth.user.email}><span>{props.auth.user !== undefined && props.auth.user.email?.split('.')[0]}</span><span>{props.auth.user !== undefined && props.auth.user.email?.split('.')[1]}</span></p>
                                     </div>
                                 </Dropdown.Toggle>

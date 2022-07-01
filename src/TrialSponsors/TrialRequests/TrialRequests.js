@@ -75,7 +75,7 @@ const SponsorTrialRequests = () => {
                 setClickStatusReject(false)
             }
         }
-    }, [clickStatusApprove, clickStatusReject, requestStatusSelector])
+    }, [clickStatusApprove, clickStatusReject, requestStatusSelector, dispatch, loadMoreData])
 
     return (
         <>
