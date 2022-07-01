@@ -91,10 +91,10 @@ const SponsorsEditProfile = () => {
                 speciality: specialityListAPI,
                 condition: conditionListAPI,
                 brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.brief_intro : "",
-                bank_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.bank_name : "",
-                account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
-                account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
-                routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+                bank_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : "",
                 listing_image: profileSelector.data.listing_image
             });
         }
@@ -283,6 +283,7 @@ const SponsorsEditProfile = () => {
             if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
                 toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored" })
                 history.push("/trial-sponsors/dashboard")
+                dispatch(ProfileAction())
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
                 toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
                 setProfileSubmitClick(false)
@@ -391,7 +392,7 @@ const SponsorsEditProfile = () => {
                                                 >
                                                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                         <div className="form-group">
-                                                            <label> Address </label>
+                                                            <label> Address <span className="text-danger"> *</span></label>
                                                             <div className="suggestion-wrapper">
                                                                 <input
                                                                     placeholder="Enter Address"
@@ -474,7 +475,7 @@ const SponsorsEditProfile = () => {
                                         <h2 className="section-title mt-4">Other Info</h2>
                                         <div className="row">
                                             <div className="col-lg-6 form-group">
-                                                <label> Specialty </label>
+                                                <label> Specialty <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={specialityList !== undefined && specialityList}
                                                     value={profileInputData.speciality}
@@ -486,7 +487,7 @@ const SponsorsEditProfile = () => {
                                                 />
                                             </div>
                                             <div className="col-lg-6 form-group">
-                                                <label> Condition </label>
+                                                <label> Condition <span className="text-danger"> *</span> </label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
                                                     value={profileInputData.condition}
@@ -518,8 +519,7 @@ const SponsorsEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Bank Name"
                                                     labelText="Name of Bank"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.bank_name}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.bank_name : ""}
                                                 />
                                             </div>
                                             <div className="col-lg-6">
@@ -529,8 +529,7 @@ const SponsorsEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Name"
                                                     labelText="Account Holder Name"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.account_holder_name}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_holder_name : ""}
                                                 />
                                             </div>
                                             <div className="col-lg-6">
@@ -540,8 +539,7 @@ const SponsorsEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Account Number"
                                                     labelText="Account Number"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.account_number}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_number : ""}
                                                 />
                                             </div>
                                             <div className="col-lg-6">
@@ -551,8 +549,7 @@ const SponsorsEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Routing Number"
                                                     labelText="Routing Number"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.routing_number}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.routing_number : ""}
                                                 />
                                             </div>
                                         </div>

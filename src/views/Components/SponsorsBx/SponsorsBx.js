@@ -16,9 +16,11 @@ const SponsorsBx = ({ data }) => {
             <h2>Sponsors</h2>
             <OwlCarousel {...options}>
                 {data.map((value, index) => {
-                    <div className='item' key={index}>
-                        <img src={getImageUrl() + value.sponsor_user_info.profile_image} alt="Sponsors" />
-                    </div>
+                    return (
+                        <div className='item' key={index}>
+                            <img src={getImageUrl() + value.sponsor_user_info.profile_image} alt="Sponsors" />
+                        </div>
+                    )
                 })}
             </OwlCarousel>
         </div>

@@ -93,6 +93,8 @@ const PatientEditProfile = () => {
                 conditionListAPI.push(obj)
             }
             setAddress(profileSelector.data.address)
+
+            setTrialFor(profileSelector.data.user_meta_info.trials_for === "Myself" ? true : false)
             setProfileInputData({
                 ...profileInputData,
                 first_name: profileSelector.data.first_name,
@@ -111,11 +113,16 @@ const PatientEditProfile = () => {
                 physician_lname: profileSelector.data.physician_lname,
                 physician_email: profileSelector.data.physician_email,
                 physician_phone_number: profileSelector.data.physician_phone_number,
-                bank_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.bank_name : "",
-                account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
-                account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
-                routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+                bank_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : "",
             });
+        }
+
+        return () => {
+            setProfileInputData()
+            setTrialFor()
         }
     }, [profileSelector])
 
@@ -229,10 +236,6 @@ const PatientEditProfile = () => {
         const isFirstNameVaild = isValidOnlyLetters(value.first_name, "first name")
         const isLastNameVaild = isValidOnlyLetters(value.last_name, "last name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
-        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
-        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
-        const isAccountnumVaild = isValidAccountNumber(value.account_number)
-        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
         if (!isFirstNameVaild.status) {
             toast.error(isFirstNameVaild.message, { theme: "colored" })
             return false
@@ -241,18 +244,6 @@ const PatientEditProfile = () => {
             return false
         } else if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
-            return false
-        } else if (!isBanknameVaild.status) {
-            toast.error(isBanknameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isHoldernameVaild.status) {
-            toast.error(isHoldernameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isAccountnumVaild.status) {
-            toast.error(isAccountnumVaild.message, { theme: "colored" })
-            return false
-        } else if (!isRoutingnumVaild.status) {
-            toast.error(isRoutingnumVaild.message, { theme: "colored" })
             return false
         }
         return true
@@ -304,6 +295,7 @@ const PatientEditProfile = () => {
             if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
                 toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored" })
                 history.push("/patient/dashboard")
+                dispatch(ProfileAction())
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
                 toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
                 setProfileSubmitClick(false)
@@ -430,7 +422,7 @@ const PatientEditProfile = () => {
                                                 >
                                                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                         <div className="form-group">
-                                                            <label> Address </label>
+                                                            <label> Address <span className="text-danger"> *</span></label>
                                                             <div className="suggestion-wrapper">
                                                                 <input
                                                                     placeholder="Enter Address"
@@ -477,7 +469,7 @@ const PatientEditProfile = () => {
                                             </div>
 
                                             <div className="col-lg-6 form-group">
-                                                <label>Date Of Birth</label>
+                                                <label>Date Of Birth <span className="text-danger"> *</span></label>
                                                 <DatePicker
                                                     name="dob"
                                                     className="form-control"
@@ -559,7 +551,7 @@ const PatientEditProfile = () => {
                                             <div className="col-lg-6 form-group"></div>
 
                                             <div className="col-lg-6 form-group">
-                                                <label> Seeking Trials for </label>
+                                                <label> Seeking Trials for <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={specialityList !== undefined && specialityList}
                                                     value={profileInputData.speciality}
@@ -572,7 +564,7 @@ const PatientEditProfile = () => {
                                             </div>
 
                                             <div className="col-lg-6 form-group">
-                                                <label> Mental Health Condition </label>
+                                                <label> Mental Health Condition <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
                                                     value={profileInputData.condition}
@@ -598,7 +590,6 @@ const PatientEditProfile = () => {
                                                                 placeholder="First Name"
                                                                 defaultValue={profileSelector.data.physician_fname}
                                                                 labelText="First Name"
-                                                            // required={true}
                                                             />
                                                         </div>
 
@@ -610,7 +601,6 @@ const PatientEditProfile = () => {
                                                                 placeholder="Last Name"
                                                                 defaultValue={profileSelector.data.physician_lname}
                                                                 labelText="Last Name"
-                                                            // required={true}
                                                             />
                                                         </div>
 
@@ -622,7 +612,6 @@ const PatientEditProfile = () => {
                                                                 placeholder="Email Address"
                                                                 defaultValue={profileSelector.data.physician_email}
                                                                 labelText="Email Address"
-                                                            // required={true}
                                                             />
                                                         </div>
 
@@ -634,7 +623,6 @@ const PatientEditProfile = () => {
                                                                 placeholder="Phone Number"
                                                                 defaultValue={profileSelector.data.physician_phone_number}
                                                                 labelText="Phone Number"
-                                                            // required={true}
                                                             />
                                                         </div>
 
@@ -659,8 +647,7 @@ const PatientEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Bank Name"
                                                     labelText="Name of Bank"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.bank_name}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.bank_name : ""}
                                                 />
                                             </div>
 
@@ -671,8 +658,7 @@ const PatientEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Name"
                                                     labelText="Account Holder Name"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.account_holder_name}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_holder_name : ""}
                                                 />
                                             </div>
 
@@ -683,8 +669,7 @@ const PatientEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Account Number"
                                                     labelText="Account Number"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.account_number}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_number : ""}
                                                 />
                                             </div>
 
@@ -695,8 +680,7 @@ const PatientEditProfile = () => {
                                                     onChange={onChange}
                                                     placeholder="Enter Routing Number"
                                                     labelText="Routing Number"
-                                                    required={true}
-                                                    defaultValue={profileSelector.data.user_bank_detail.routing_number}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.routing_number : ""}
                                                 />
                                             </div>
 

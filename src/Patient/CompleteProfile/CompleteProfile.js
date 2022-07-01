@@ -15,7 +15,7 @@ import { PatientCompleteProfileAction } from "../../redux/actions/profileAction"
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { isValidPhoneNumber, isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidZipcode } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
 const PatientCompleteProfile = () => {
@@ -26,6 +26,7 @@ const PatientCompleteProfile = () => {
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [trialFor, setTrialFor] = useState(true)
     const [profileInputData, setProfileInputData] = useState({
         state_id: "",
         zip_code: "",
@@ -101,6 +102,11 @@ const PatientCompleteProfile = () => {
 
     const onChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "trials_for") {
+            setTrialFor(!trialFor);
+        }
+
         setProfileInputData((preValue) => {
             return {
                 ...preValue,
@@ -132,41 +138,9 @@ const PatientCompleteProfile = () => {
     }, [CPSubmitClick, profileComSelector, history])
 
     const Vaildation = (value) => {
-        const isPhoneVaild = isValidPhoneNumber(value.physician_phone_number)
-        const isEmailVaild = isValidEmailAddress(value.physician_email)
-        const isFirstNameVaild = isValidOnlyLetters(value.physician_fname, "first name")
-        const isLastNameVaild = isValidOnlyLetters(value.physician_lname, "last name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
-        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
-        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
-        const isAccountnumVaild = isValidAccountNumber(value.account_number)
-        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
         if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
-            return false
-        } else if (!isBanknameVaild.status) {
-            toast.error(isBanknameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isHoldernameVaild.status) {
-            toast.error(isHoldernameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isAccountnumVaild.status) {
-            toast.error(isAccountnumVaild.message, { theme: "colored" })
-            return false
-        } else if (!isRoutingnumVaild.status) {
-            toast.error(isRoutingnumVaild.message, { theme: "colored" })
-            return false
-        } else if (!isFirstNameVaild.status) {
-            toast.error(isFirstNameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isLastNameVaild.status) {
-            toast.error(isLastNameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
-            return false
-        } else if (!isPhoneVaild.status) {
-            toast.error(isPhoneVaild.message, { theme: "colored" })
             return false
         }
         return true
@@ -246,7 +220,7 @@ const PatientCompleteProfile = () => {
                                 </div>
 
                                 <div className="col-lg-6 form-group">
-                                    <label>Date Of Birth</label>
+                                    <label>Date Of Birth <span className="text-danger"> *</span></label>
                                     <DatePicker
                                         name="dob"
                                         className="form-control"
@@ -272,55 +246,12 @@ const PatientCompleteProfile = () => {
                                 </div>
 
                                 <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Add Bank Details</h2>
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="text"
-                                        name="bank_name"
-                                        placeholder="Enter Bank Name"
-                                        labelText="Name of Bank"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="text"
-                                        name="account_holder_name"
-                                        placeholder="Enter Name"
-                                        labelText="Account Holder Name"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="number"
-                                        name="account_number"
-                                        placeholder="Enter Account Number"
-                                        labelText="Account Number"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="number"
-                                        name="routing_number"
-                                        placeholder="Enter Routing Number"
-                                        labelText="Routing Number"
-                                        onChange={onChange}
-                                        required="required"
-                                    />
-                                </div>
-                                <div className="col-lg-12 mt-3 mb-3">
                                     <h2>Trial Information</h2>
                                 </div>
 
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Seeking Trials for </label>
+                                        <label> Seeking Trials for <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={specialityList !== undefined && specialityList}
                                             value={profileInputData.speciality}
@@ -334,7 +265,7 @@ const PatientCompleteProfile = () => {
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Mental Health Condition </label>
+                                        <label> Mental Health Condition <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={conditionList !== undefined && conditionList}
                                             value={profileInputData.condition}
@@ -353,47 +284,89 @@ const PatientCompleteProfile = () => {
                                         <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="trials_for" value="Family_Or_Friends" labelText="Family/Friends" />
                                     </div>
                                 </div>
+
+                                {
+                                    trialFor &&
+                                    <>
+                                        <div className="col-lg-12 mt-3 mb-3">
+                                            <h2>Share Your Physician Details <small>(if any)</small></h2>
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="text"
+                                                name="physician_fname"
+                                                placeholder="First Name"
+                                                labelText="First Name"
+                                                onChange={onChange}
+                                            />
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="text"
+                                                name="physician_lname"
+                                                placeholder="Last Name"
+                                                labelText="Last Name"
+                                                onChange={onChange}
+                                            />
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="email"
+                                                name="physician_email"
+                                                placeholder="Enter Email"
+                                                labelText="Email"
+                                                onChange={onChange}
+                                            />
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <InputText
+                                                type="number"
+                                                name="physician_phone_number"
+                                                placeholder="Enter Phone Number"
+                                                labelText="Phone Number"
+                                                onChange={onChange}
+                                            />
+                                        </div>
+                                    </>
+                                }
+
                                 <div className="col-lg-12 mt-3 mb-3">
-                                    <h2>Share Your Physician Details <small>(if any)</small></h2>
+                                    <h2>Add Bank Details</h2>
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="physician_fname"
-                                        placeholder="First Name"
-                                        labelText="First Name"
-                                        required="required"
+                                        name="bank_name"
+                                        placeholder="Enter Bank Name"
+                                        labelText="Name of Bank"
                                         onChange={onChange}
                                     />
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
                                         type="text"
-                                        name="physician_lname"
-                                        placeholder="Last Name"
-                                        labelText="Last Name"
+                                        name="account_holder_name"
+                                        placeholder="Enter Name"
+                                        labelText="Account Holder Name"
                                         onChange={onChange}
-                                        required="required"
-                                    />
-                                </div>
-                                <div className="col-lg-6">
-                                    <InputText
-                                        type="email"
-                                        name="physician_email"
-                                        placeholder="Enter Email"
-                                        labelText="Email"
-                                        onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
                                     <InputText
                                         type="number"
-                                        name="physician_phone_number"
-                                        placeholder="Enter Phone Number"
-                                        labelText="Phone Number"
+                                        name="account_number"
+                                        placeholder="Enter Account Number"
+                                        labelText="Account Number"
                                         onChange={onChange}
-                                        required="required"
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="number"
+                                        name="routing_number"
+                                        placeholder="Enter Routing Number"
+                                        labelText="Routing Number"
+                                        onChange={onChange}
                                     />
                                 </div>
 
