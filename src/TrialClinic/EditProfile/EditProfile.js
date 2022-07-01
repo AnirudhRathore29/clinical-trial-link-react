@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./../../TrialSponsors/EditProfile/Profile.css"
 import { useHistory } from "react-router-dom";
-import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidOnlyLetters, isValidZipcode } from "./../../views/Components/Validation/Validation"
 import "./../../Patient/EditProfile/EditProfile.css"
 import PlacesAutocomplete, {
     geocodeByAddress,
@@ -116,13 +116,13 @@ const ClinicEditProfile = () => {
                 speciality: specialityListAPI,
                 condition: conditionListAPI,
                 brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.brief_intro : "",
-                principal_investigator_name: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_name : "",
-                principal_investigator_email: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_email : "",
-                principal_investigator_brief_intro: profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.principal_investigator_brief_intro : "",
-                bank_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.bank_name : "",
-                account_holder_name: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_holder_name : "",
-                account_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.account_number : "",
-                routing_number: profileSelector.data.user_bank_detail !== undefined ? profileSelector.data.user_bank_detail.routing_number : "",
+                principal_investigator_name: profileSelector.data.user_meta_info !== null ? profileSelector.data.user_meta_info.principal_investigator_name : "",
+                principal_investigator_email: profileSelector.data.user_meta_info !== null ? profileSelector.data.user_meta_info.principal_investigator_email : "",
+                principal_investigator_brief_intro: profileSelector.data.user_meta_info !== null ? profileSelector.data.user_meta_info.principal_investigator_brief_intro : "",
+                bank_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : "",
                 listing_image: profileSelector.data.listing_image,
                 documents: sponsorUploadedDoc
             });
@@ -305,13 +305,6 @@ const ClinicEditProfile = () => {
     const validate = (values) => {
         const isClinicNameVaild = isValidOnlyLetters(values.clinic_name, "clinic name")
         const isZipcodeVaild = isValidZipcode(values.zip_code)
-        const isNameVaild = isValidOnlyLetters(values.principal_investigator_name, "principal investigator name")
-        const isEmailVaild = isValidEmailAddress(values.principal_investigator_email)
-        const isBanknameVaild = isValidOnlyLetters(values.bank_name, "bank name")
-        const isHoldernameVaild = isValidOnlyLetters(values.account_holder_name, "account holder name")
-        const isAccountnumVaild = isValidAccountNumber(values.account_number)
-        const isRoutingnumVaild = isValidRoutingNumber(values.routing_number)
-
         if (!isClinicNameVaild.status) {
             toast.error(isClinicNameVaild.message, { theme: "colored" })
             return false
@@ -320,24 +313,6 @@ const ClinicEditProfile = () => {
             return false
         } else if (values.documents.length > 5) {
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
-            return false
-        } else if (!isNameVaild.status) {
-            toast.error(isNameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
-            return false
-        } else if (!isBanknameVaild.status) {
-            toast.error(isBanknameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isHoldernameVaild.status) {
-            toast.error(isHoldernameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isAccountnumVaild.status) {
-            toast.error(isAccountnumVaild.message, { theme: "colored" })
-            return false
-        } else if (!isRoutingnumVaild.status) {
-            toast.error(isRoutingnumVaild.message, { theme: "colored" })
             return false
         }
         return true;
@@ -397,6 +372,7 @@ const ClinicEditProfile = () => {
             if (Object.keys(profileUploadSelector.profile_edit).length !== 0 && !profileUploadSelector.loading) {
                 toast.success(profileUploadSelector.profile_edit.message, { theme: "colored" })
                 history.push("/trial-clinic/dashboard")
+                dispatch(ProfileAction())
             } else if (Object.keys(profileUploadSelector.error).length !== 0 && !profileUploadSelector.loading) {
                 toast.error(profileUploadSelector.error.message, { theme: "colored" })
                 setProfileSubmitClick(false)
@@ -511,7 +487,7 @@ const ClinicEditProfile = () => {
                                                 >
                                                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                         <div className="form-group">
-                                                            <label> Address </label>
+                                                            <label> Address <span className="text-danger"> *</span></label>
                                                             <div className="suggestion-wrapper">
                                                                 <input
                                                                     placeholder="Enter Address"
@@ -528,7 +504,8 @@ const ClinicEditProfile = () => {
                                                                         {suggestions.map((suggestion, index) => {
                                                                             const style = {
                                                                                 backgroundColor: suggestion.active ? "#4096ee" : "#fff",
-                                                                                cursor: suggestion.active && "pointer"
+                                                                                cursor: suggestion.active && "pointer",
+                                                                                color: suggestion.active ? "#fff" : "#000",
                                                                             };
                                                                             return (
                                                                                 <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
@@ -594,7 +571,7 @@ const ClinicEditProfile = () => {
                                         <h2 className="section-title mt-4">Other Info</h2>
                                         <div className="row">
                                             <div className="col-lg-6 form-group">
-                                                <label> Specialty </label>
+                                                <label> Specialty <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={specialityList !== undefined && specialityList}
                                                     value={profileInputData.speciality}
@@ -606,7 +583,7 @@ const ClinicEditProfile = () => {
                                                 />
                                             </div>
                                             <div className="col-lg-6 form-group">
-                                                <label> Condition </label>
+                                                <label> Condition <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
                                                     value={profileInputData.condition}

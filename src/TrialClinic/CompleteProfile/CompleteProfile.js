@@ -13,7 +13,7 @@ import { TrialClinicCompleteProfileAction } from "../../redux/actions/profileAct
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { isValidEmailAddress, isValidOnlyLetters, isValidZipcode, isValidAccountNumber, isValidRoutingNumber } from "./../../views/Components/Validation/Validation"
+import { isValidOnlyLetters, isValidZipcode } from "./../../views/Components/Validation/Validation"
 import "./../../Patient/EditProfile/EditProfile.css"
 import PlacesAutocomplete, {
     geocodeByAddress,
@@ -173,13 +173,6 @@ const ClinicCompleteProfile = () => {
     const Vaildation = (value, file) => {
         const isClinicNameVaild = isValidOnlyLetters(value.clinic_name, "clinic name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
-        const isNameVaild = isValidOnlyLetters(value.principal_investigator_name, "principal investigator name")
-        const isEmailVaild = isValidEmailAddress(value.principal_investigator_email)
-        const isBanknameVaild = isValidOnlyLetters(value.bank_name, "bank name")
-        const isHoldernameVaild = isValidOnlyLetters(value.account_holder_name, "account holder name")
-        const isAccountnumVaild = isValidAccountNumber(value.account_number)
-        const isRoutingnumVaild = isValidRoutingNumber(value.routing_number)
-
         if (!isClinicNameVaild.status) {
             toast.error(isClinicNameVaild.message, { theme: "colored" })
             return false
@@ -188,24 +181,6 @@ const ClinicCompleteProfile = () => {
             return false
         } else if (file?.length > 5) {
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
-            return false
-        } else if (!isNameVaild.status) {
-            toast.error(isNameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
-            return false
-        } else if (!isBanknameVaild.status) {
-            toast.error(isBanknameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isHoldernameVaild.status) {
-            toast.error(isHoldernameVaild.message, { theme: "colored" })
-            return false
-        } else if (!isAccountnumVaild.status) {
-            toast.error(isAccountnumVaild.message, { theme: "colored" })
-            return false
-        } else if (!isRoutingnumVaild.status) {
-            toast.error(isRoutingnumVaild.message, { theme: "colored" })
             return false
         }
         return true
@@ -276,7 +251,7 @@ const ClinicCompleteProfile = () => {
 
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Speciality </label>
+                                        <label> Speciality <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={specialityList !== undefined && specialityList}
                                             value={profileInputData.speciality}
@@ -291,7 +266,7 @@ const ClinicCompleteProfile = () => {
 
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Condition </label>
+                                        <label> Condition <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={conditionList !== undefined && conditionList}
                                             value={profileInputData.condition}
@@ -333,7 +308,7 @@ const ClinicCompleteProfile = () => {
                                     >
                                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                             <div className="form-group">
-                                                <label> Address </label>
+                                                <label> Address <span className="text-danger"> *</span></label>
                                                 <div className="suggestion-wrapper">
                                                     <input
                                                         placeholder="Enter Address"
@@ -421,7 +396,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Name"
                                         labelText="Name"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
 
@@ -432,7 +406,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Email"
                                         labelText="Email"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
 
@@ -442,7 +415,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Brief Intro"
                                         labelText="Brief Intro"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
 
@@ -456,7 +428,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Bank Name"
                                         labelText="Name of Bank"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -466,7 +437,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Name"
                                         labelText="Account Holder Name"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -476,7 +446,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Account Number"
                                         labelText="Account Number"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
                                 <div className="col-lg-6">
@@ -486,7 +455,6 @@ const ClinicCompleteProfile = () => {
                                         placeholder="Enter Routing Number"
                                         labelText="Routing Number"
                                         onChange={onChange}
-                                        required="required"
                                     />
                                 </div>
 
