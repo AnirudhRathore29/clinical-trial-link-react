@@ -43,17 +43,19 @@ const ClinicTrialApplication = () => {
     }
 
     useEffect(() => {
-        trialAppDetailSelector?.bookingSlots.map((slots) => {
-            slots.selected = false
-            trialAppDetailSelector.data.appointment_slots.map((selectedSlots) => {
-                if (selectedSlots.booking_slot_id === slots.id) {
-                    slots.selected = true
-                }
+        if (detailsModal) {
+            trialAppDetailSelector?.bookingSlots.forEach((slots)=>{
+                slots.selected = false
+                trialAppDetailSelector.data.appointment_slots.forEach((selectedSlots)=>{
+                    if (selectedSlots.booking_slot_id === slots.id) {
+                        slots.selected = true
+                    }
+                })
+                bookingSlotData.push(slots)
             })
-            bookingSlotData.push(slots)
-        })
-        setTrialAppDetailData(trialAppDetailSelector)
-    }, [trialAppDetailSelector]);
+            setTrialAppDetailData(trialAppDetailSelector)
+        }
+    }, [trialAppDetailSelector, bookingSlotData, detailsModal]);
 
 
     useEffect(() => {
@@ -73,6 +75,7 @@ const ClinicTrialApplication = () => {
         setDetailsModal(false)
         setTrialAppDetailData(undefined)
         setBookingSlotData([])
+        dispatch(TrialApplicationsDetailsAction())
     };
 
     const handleLoadMore = (key) => {
@@ -85,6 +88,8 @@ const ClinicTrialApplication = () => {
             if (slots.id === Number(event.target.value)) {
                 slots.selected = !slots.selected
             }
+
+            return <></>
         })
     };
 
@@ -94,10 +99,8 @@ const ClinicTrialApplication = () => {
             if (Object.keys(trialAppStatusSelector.trial_status).length > 0 && !trialAppStatusSelector.loading) {
                 setStatusLoading(false)
                 handleClose()
-                setTrialAppDetailData(undefined)
                 setRecruitingClickBtn(false)
                 setRecruitingCompletedClickBtn(false)
-                setBookingSlotData([])
                 toast.success(trialAppStatusSelector.trial_status.data.message, { theme: "colored" })
             } else if (Object.keys(trialAppStatusSelector.error).length > 0 && !trialAppStatusSelector.loading) {
                 toast.error(trialAppStatusSelector.error.message, { theme: "colored" })
@@ -125,6 +128,7 @@ const ClinicTrialApplication = () => {
             setRecruitingCompletedClickBtn(true)
         }
     }
+
     return (
         <>
             <div className="clinical-dashboard my-appointment-section">
@@ -279,7 +283,7 @@ const ClinicTrialApplication = () => {
                     </div>
                 </div>
             </div>
-            
+
             <CommonModal className="custom-size-modal" show={detailsModal} onHide={handleClose} keyboard={false}
                 ModalTitle={
                     trialAppDetailData !== undefined &&
