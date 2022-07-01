@@ -332,9 +332,9 @@ const ClinicEditProfile = () => {
         formData.append("address", profileInputData.address);
         formData.append("zip_code", profileInputData.zip_code);
         formData.append("brief_intro", profileInputData.brief_intro);
-        formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
-        formData.append("principal_investigator_email", profileInputData.principal_investigator_email);
-        formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro);
+        formData.append("principal_investigator_name", profileInputData.principal_investigator_name !== null ? profileInputData.principal_investigator_name : "");
+        formData.append("principal_investigator_email", profileInputData.principal_investigator_email !== null ? profileInputData.principal_investigator_email : "");
+        formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro !== null ? profileInputData.principal_investigator_brief_intro : "");
         formData.append("bank_name", profileInputData.bank_name);
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
@@ -653,7 +653,7 @@ const ClinicEditProfile = () => {
                                                         placeholder="Enter Name"
                                                         labelText="Name"
                                                         onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_meta_info.principal_investigator_name}
+                                                        defaultValue={profileSelector.data.user_meta_info.principal_investigator_name !== null ? profileSelector.data.user_meta_info.principal_investigator_name : ""}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6">
@@ -663,7 +663,7 @@ const ClinicEditProfile = () => {
                                                         placeholder="Enter email"
                                                         labelText="Email"
                                                         onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_meta_info.principal_investigator_email}
+                                                        defaultValue={profileSelector.data.user_meta_info.principal_investigator_email !== null ? profileSelector.data.user_meta_info.principal_investigator_email : ""}
                                                     />
                                                 </div>
                                                 <div className="col-lg-12">
@@ -672,7 +672,7 @@ const ClinicEditProfile = () => {
                                                         labelText="Brief Intro"
                                                         onChange={onChange}
                                                         name="principal_investigator_brief_intro"
-                                                        defaultData={profileSelector.data.user_meta_info.principal_investigator_brief_intro}
+                                                        defaultData={profileSelector.data.user_meta_info.principal_investigator_brief_intro !== null ? profileSelector.data.user_meta_info.principal_investigator_brief_intro : ""}
                                                     />
                                                 </div>
                                             </div>
@@ -692,55 +692,55 @@ const ClinicEditProfile = () => {
                                             </span>
                                         </h2>
 
-                                        {profileSelector.data.user_bank_detail !== null &&
-                                            <div className={hideBankDetails ? "sharing-disable row" : "row"}>
-                                                <div className="col-lg-6">
-                                                    <InputText
-                                                        type="text"
-                                                        name="bank_name"
-                                                        placeholder="Enter Bank Name"
-                                                        labelText="Name of Bank"
-                                                        onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_bank_detail.bank_name}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <InputText
-                                                        type="text"
-                                                        name="account_holder_name"
-                                                        placeholder="Enter Name"
-                                                        labelText="Account Holder Name"
-                                                        onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_bank_detail.account_holder_name}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <InputText
-                                                        type="text"
-                                                        name="account_number"
-                                                        placeholder="Enter Account Number"
-                                                        labelText="Account Number"
-                                                        onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_bank_detail.account_number}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <InputText
-                                                        type="text"
-                                                        name="routing_number"
-                                                        placeholder="Enter Routing Number"
-                                                        labelText="Routing Number"
-                                                        onChange={onChange}
-                                                        defaultValue={profileSelector.data.user_bank_detail.routing_number}
-                                                    />
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className='info-bx br-none p-0 mb-5'>
-                                                        <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Receive payments from the sponsor
-                                                    </div>
+
+                                        <div className={hideBankDetails ? "sharing-disable row" : "row"}>
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="bank_name"
+                                                    placeholder="Enter Bank Name"
+                                                    labelText="Name of Bank"
+                                                    onChange={onChange}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.bank_name : ""}
+                                                />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="account_holder_name"
+                                                    placeholder="Enter Name"
+                                                    labelText="Account Holder Name"
+                                                    onChange={onChange}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_holder_name : ""}
+                                                />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="account_number"
+                                                    placeholder="Enter Account Number"
+                                                    labelText="Account Number"
+                                                    onChange={onChange}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_number : ""}
+                                                />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="routing_number"
+                                                    placeholder="Enter Routing Number"
+                                                    labelText="Routing Number"
+                                                    onChange={onChange}
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : ""}
+                                                />
+                                            </div>
+                                            <div className="col-lg-12">
+                                                <div className='info-bx br-none p-0 mb-5'>
+                                                    <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Receive payments from the sponsor
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
+
                                         <Button
                                             isButton="true"
                                             BtnType="submit"
