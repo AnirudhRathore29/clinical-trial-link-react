@@ -1,7 +1,36 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from "react-redux";
 import '../../Patient/MyChats/myChats.css';
+import firebase from 'firebase'
+import db from '../../utils/Firebase';
+import { chatDateFormat, getTimeFromDate } from '../../utils/Utils';
+import moment from 'moment';
 
-const SponsorsMyChats = () => {
+const SponsorsMyChats = (props) => {
+    const scroll = useRef()
+    const [messages, setMessages] = useState([])
+    const [formValue, setFormValue] = useState('');
 
+    useEffect(() => {
+        db.collection('messages').orderBy('createdAt').limit(25).onSnapshot(snapshot => {
+            // console.log("snapshot.docs.map(doc => doc.data()", snapshot.docs.map(doc => doc.data()))
+            setMessages(snapshot.docs.map(doc => doc.data()))
+        })
+    }, [])
+
+    const sendMessage = async (e) => {
+        e.preventDefault()
+        const { id, profile_image } = props.auth.user
+        db.collection('messages').add({
+            text: formValue,
+            photoURL: profile_image,
+            uid: id,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            date: moment().format("DD/MM/YYYY")
+        })
+        setFormValue('');
+        scroll.current.scrollIntoView({ behavior: 'smooth' })
+    }
     return (
         <>
             <div className="clinical-dashboard my-favorites-section">
@@ -13,85 +42,16 @@ const SponsorsMyChats = () => {
                     <div className="chat-container">
                         <aside>
                             <div className="conversations">
+                                {/* active */}
                                 <div className="thread">
                                     <div className="details">
-                                        <div className="user-head online">
+                                        <div className="user-head">
                                             <img src="/images/user-img-1.jpg" alt="user" />
                                         </div>
                                         <div className="user-name">Stephanie Phillips</div>
                                         <div className="last-message">Yeah, the presentation is scheduled for tomorrow, will you be able to make it?</div>
                                     </div>
                                     <div className="last new">12:32</div>
-                                </div>
-                                <div className="thread active">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-2.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joe Faraah</div>
-                                        <div className="last-message">You: Awesome, Thanks. I look forward to meeting you in the morning.</div>
-                                    </div>
-                                    <div className="last">12:32</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-3.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joshua Spackle Mid land West View</div>
-                                        <div className="last-message">Got it! Thanks for sending that!</div>
-                                    </div>
-                                    <div className="last">16:47</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-2.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joe Faraah</div>
-                                        <div className="last-message">You: Awesome, Thanks. I look forward to meeting you in the morning.</div>
-                                    </div>
-                                    <div className="last">12:32</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-3.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joshua Spackle Mid land West View</div>
-                                        <div className="last-message">Got it! Thanks for sending that!</div>
-                                    </div>
-                                    <div className="last">16:47</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-2.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joe Faraah</div>
-                                        <div className="last-message">You: Awesome, Thanks. I look forward to meeting you in the morning.</div>
-                                    </div>
-                                    <div className="last">12:32</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-3.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joshua Spackle Mid land West View</div>
-                                        <div className="last-message">Got it! Thanks for sending that!</div>
-                                    </div>
-                                    <div className="last">16:47</div>
-                                </div>
-                                <div className="thread">
-                                    <div className="details">
-                                        <div className="user-head offline">
-                                            <img src="/images/user-img-3.jpg" alt="user" />
-                                        </div>
-                                        <div className="user-name">Joshua Spackle Mid land West View</div>
-                                        <div className="last-message">Got it! Thanks for sending that!</div>
-                                    </div>
-                                    <div className="last">16:47</div>
                                 </div>
                             </div>
                         </aside>
@@ -102,51 +62,31 @@ const SponsorsMyChats = () => {
                                         <img src="/images/user-img-1.jpg" alt="user" />
                                     </div>
                                     <div className="name">Joe Faraah</div>
-                                    <div className="status online" />
+                                    {/* <div className="status online" /> */}
                                 </div>
                                 <div className="chat-header-btn">
                                     <div className="call"><i className="fas fa-phone-volume" /></div>
                                 </div>
                             </div>
                             <div className="messages" id="messages">
-                                <div className="date-split">Nothing up here!</div>
-                                <div className="message">
-                                    <div className="content">I've updated the website content now Fiona, I hope that's all okay? Please let me know of any additional changes</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="message fromme">
-                                    <div className="content">Ah! That's Great, Joe. IOU you one!<br />I've got to go now, I'll catch up with you tomorrow.</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="message">
-                                    <div className="content">No Worries, I'm glad you're happy!</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="message">
-                                    <div className="content">Sure thing, talk to you later, Fiona</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="date-split">TODAY</div>
-                                <div className="message fromme">
-                                    <div className="content">Hey Joe, Can you check over the images for me, please?</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="message">
-                                    <div className="content">I've already done it, I'll get the presentation together now.</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
-                                <div className="message fromme">
-                                    <div className="content">Awesome, Thanks. I look forward to meeting you in the morning.</div>
-                                    <p className='message-time'>12:32</p>
-                                </div>
+                                {messages && messages.map(({ uid, text, createdAt, date }) => (
+                                    <React.Fragment key={createdAt} >
+                                        {/* <div className="date-split">{chatDateFormat(date)}</div> */}
+                                        <div className={`message ${uid === props.auth.user.id ? 'fromme' : ''}`}>
+                                            <div className="content">{text}</div>
+                                            <p className='message-time'>{getTimeFromDate(createdAt)}</p>
+                                        </div>
+                                    </React.Fragment>
+                                ))}
+                                <div ref={scroll}></div>
                             </div>
-                            <div className="bottom-bar">
-                                <textarea className="msg-input" placeholder="New Message" defaultValue={""} />
+                            <form onSubmit={sendMessage} className="bottom-bar">
+                                <input value={formValue} onChange={(e) => setFormValue(e.target.value)} className="msg-input" placeholder="New Message" />
                                 <div className="chat-user-options">
-                                    {/* <div className="attachment-btn"><i className="fas fa-paperclip" /><input className="form-control" type="file" /></div> */}
-                                    <div className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></div>
+                                    <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
                                 </div>
-                            </div></main>
+                            </form>
+                        </main>
                     </div>
                 </div>
             </div>
@@ -154,4 +94,9 @@ const SponsorsMyChats = () => {
     );
 };
 
-export default SponsorsMyChats;
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(SponsorsMyChats);

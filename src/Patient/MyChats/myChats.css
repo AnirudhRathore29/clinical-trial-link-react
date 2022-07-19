@@ -128,7 +128,7 @@
   .chat-container main .top-bar .user-info {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: 1fr 1fr;
+    /* grid-template-rows: 1fr 1fr; */
     grid-template-areas: "user-image user-name" "user-image user-status";
     align-items: center;
     color: var(--TextColor);
@@ -191,7 +191,7 @@
     height: calc(100% - 16rem);
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 2rem 1rem;
   }
   .chat-container main .messages .date-split {
@@ -265,6 +265,9 @@
     outline: none;
     resize: none;
   }
+  .chat-container main .bottom-bar .msg-input:hover, .chat-container main .bottom-bar .msg-input:focus {
+    box-shadow: inset 0 0 0 10rem var(--lightBg)!important;
+  }
   .chat-container main .bottom-bar .msg-input::placeholder {
     color: #c6c6c6;
   }
@@ -282,6 +285,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
   }
   .chat-user-options .send-btn:hover {
     background-color: var(--PrimaryColor);
@@ -320,7 +324,7 @@
     object-fit: cover;
     object-position: center;
   }
-  .chat-container .user-head:after {
+  /* .chat-container .user-head:after {
     content: "";
     display: block;
     position: absolute;
@@ -337,7 +341,7 @@
   }
   .chat-container .user-head.away:after {
     background-color: #fda14c;
-  }
+  } */
   .form-bg-icon {
     background-repeat: no-repeat;
     background-size: 2.4rem;
