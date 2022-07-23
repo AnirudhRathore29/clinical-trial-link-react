@@ -6,36 +6,51 @@ import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
 import "react-datepicker/dist/react-datepicker.css";
-import { TrialAppointmentClinicListAction } from '../../redux/actions/TrialSponsorAction';
+import { TrialAppointmentClinicListAction, ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 
 const SponsorsAppointmentsClinics = () => {
     const dispatch = useDispatch();
     const { id } = useParams()
     const trialAppClinicListSelector = useSelector(state => state.My_trials.trial_app_clinic_list.data)
+    const appointmentDetailSelector = useSelector(state => state.My_trials.trial_detail.data)
     const isloading = useSelector(state => state.My_trials);
+
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     /* popup show hide */
     const [show, setShow] = useState(false);
+    const [appointmentDetail, setAppointmentDetail] = useState();
 
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
-    /* popup show hide */
 
     useEffect(() => {
         dispatch(TrialAppointmentClinicListAction(id, { page: loadMoreData }))
     }, [dispatch, loadMoreData])
 
+    useEffect(() => {
+        setAppointmentDetail(appointmentDetailSelector)
+    }, [appointmentDetailSelector]);
+
+    const handleAppointmentModalOpen = (id) => {
+        dispatch(ViewTrialsAction(id))
+        setShow(true)
+    };
+    const handleClose = () => {
+        setShow(false)
+        setAppointmentDetail()
+    };
+    /* popup show hide */
+
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
     }
+    console.log("appointmentDetail", appointmentDetail)
 
-    console.log("trialAppClinicListSelector", trialAppClinicListSelector)
     return (
         <>
             <div className="clinical-dashboard">
@@ -77,7 +92,7 @@ const SponsorsAppointmentsClinics = () => {
                                                 </td>
                                                 <td>
                                                     <div className='btn-group-custom'>
-                                                        <button className="btn-action btn-green" onClick={() => handleShow()}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                                        <button className="btn-action btn-green" onClick={() => handleAppointmentModalOpen(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                                         <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                                     </div>
@@ -126,55 +141,59 @@ const SponsorsAppointmentsClinics = () => {
                 ModalTitle="Appointment Details"
                 onClick={handleClose}
                 ModalData={
-                    <>
-                        <div className='appointment-detail'>
-                            <img src="/images/sponsors-img.jpg" alt="clinic-img" />
-                            <div className=''>
-                                <h2>Barnes Jewish Hospital</h2>
-                                <span className='badge badge-primary d-inline-block mb-3'>Approved</span>
-                                <p className='mb-0'>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
-                            </div>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Trial for </h2>
-                            <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Address </h2>
-                            <p>Atlanta, Georgia, United States</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Trial Compensation </h2>
-                            <p>To be Decided by Company</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Principal Investigator</h2>
-                            <p>Dr Aikenhead</p>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Document</h2>
-                            <div className='row mt-3'>
-                                <div className='col-lg-6'>
-                                    <img src="/images/document-img.jpg" alt="document" />
-                                </div>
-                                <div className='col-lg-6'>
-                                    <img src="/images/document-img.jpg" alt="document" />
+                    appointmentDetail !== undefined ?
+                        <>
+                            <div className='appointment-detail'>
+                                <img src="/images/sponsors-img.jpg" alt="clinic-img" />
+                                <div className=''>
+                                    <h2> {appointmentDetail.data.trial_name} </h2>
+                                    {appointmentDetail.data.status === 1 && <span className='badge badge-primary d-inline-block mb-3'>Approved</span>}
+                                    {/* <p className='mb-0'>Jan 25, 2022 (09:00 AM to 11:00 AM)</p> */}
+                                    <p className='mb-0'>{moment(appointmentDetail.data.created_at).format("MMMM DD, YYYY")}</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='appointment-detail-col'>
-                            <h2>Additional Information</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed.</p>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr'>
-                            <Button
-                                isLink="true"
-                                URL="/trial-sponsors/patient-list"
-                                BtnColor="primary"
-                                BtnText="View All Patients List"
-                            />
-                        </div>
-                    </>
+                            <div className='appointment-detail-col'>
+                                <h2>Trial for </h2>
+                                <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
+                            </div>
+                            <div className='appointment-detail-col'>
+                                <h2>Address </h2>
+                                <p>Atlanta, Georgia, United States</p>
+                            </div>
+                            <div className='appointment-detail-col'>
+                                <h2>Trial Compensation </h2>
+                                <p>To be Decided by Company</p>
+                            </div>
+                            <div className='appointment-detail-col'>
+                                <h2>Principal Investigator</h2>
+                                <p>Dr Aikenhead</p>
+                            </div>
+                            <div className='appointment-detail-col'>
+                                <h2>Document</h2>
+                                <div className='row mt-3'>
+                                    <div className='col-lg-6'>
+                                        <img src="/images/document-img.jpg" alt="document" />
+                                    </div>
+                                    <div className='col-lg-6'>
+                                        <img src="/images/document-img.jpg" alt="document" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='appointment-detail-col'>
+                                <h2>Additional Information</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed.</p>
+                            </div>
+                            <div className='clnicaltrial-detail-ftr'>
+                                <Button
+                                    isLink="true"
+                                    URL="/trial-sponsors/patient-list"
+                                    BtnColor="primary"
+                                    BtnText="View All Patients List"
+                                />
+                            </div>
+                        </>
+                        :
+                        <LogoLoader />
                 }
             />
         </>
