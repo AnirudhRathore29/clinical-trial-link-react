@@ -6,7 +6,7 @@ import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
 import "react-datepicker/dist/react-datepicker.css";
-import { TrialAppointmentClinicListAction, ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
+import { TrialAppointmentClinicListAction, TrialRequestDetailAction } from '../../redux/actions/TrialSponsorAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import moment from 'moment';
@@ -18,7 +18,7 @@ const SponsorsAppointmentsClinics = () => {
     const dispatch = useDispatch();
     const { id } = useParams()
     const trialAppClinicListSelector = useSelector(state => state.My_trials.trial_app_clinic_list.data)
-    const appointmentDetailSelector = useSelector(state => state.My_trials.trial_detail.data)
+    const appointmentDetailSelector = useSelector(state => state.My_trials.new_request_detail.data)
     const isloading = useSelector(state => state.My_trials);
 
 
@@ -37,7 +37,7 @@ const SponsorsAppointmentsClinics = () => {
     }, [appointmentDetailSelector]);
 
     const handleAppointmentModalOpen = (id) => {
-        dispatch(ViewTrialsAction(id))
+        dispatch(TrialRequestDetailAction(id))
         setShow(true)
     };
     const handleClose = () => {
@@ -144,45 +144,64 @@ const SponsorsAppointmentsClinics = () => {
                     appointmentDetail !== undefined ?
                         <>
                             <div className='appointment-detail'>
-                                <img src="/images/sponsors-img.jpg" alt="clinic-img" />
-                                <div className=''>
-                                    <h2> {appointmentDetail.data.trial_name} </h2>
+                                <img src={appointmentDetail.data.trial_clinic_user_info.listing_image !== null ? appointmentDetail.data.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={appointmentDetail.data.trial_clinic_user_info.clinic_name} />
+
+                                <div>
+                                    <h2> {appointmentDetail.data.trial_clinic_user_info !== undefined && appointmentDetail.data.trial_clinic_user_info.clinic_name} </h2>
                                     {appointmentDetail.data.status === 1 && <span className='badge badge-primary d-inline-block mb-3'>Approved</span>}
-                                    {/* <p className='mb-0'>Jan 25, 2022 (09:00 AM to 11:00 AM)</p> */}
-                                    <p className='mb-0'>{moment(appointmentDetail.data.created_at).format("MMMM DD, YYYY")}</p>
+                                    <p className='mb-0'>{moment(appointmentDetail.data.approved_date).format("MMMM DD, YYYY")}</p>
                                 </div>
                             </div>
-                            <div className='appointment-detail-col'>
-                                <h2>Trial for </h2>
-                                <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
-                            </div>
-                            <div className='appointment-detail-col'>
-                                <h2>Address </h2>
-                                <p>Atlanta, Georgia, United States</p>
-                            </div>
-                            <div className='appointment-detail-col'>
-                                <h2>Trial Compensation </h2>
-                                <p>To be Decided by Company</p>
-                            </div>
-                            <div className='appointment-detail-col'>
-                                <h2>Principal Investigator</h2>
-                                <p>Dr Aikenhead</p>
-                            </div>
-                            <div className='appointment-detail-col'>
-                                <h2>Document</h2>
-                                <div className='row mt-3'>
-                                    <div className='col-lg-6'>
-                                        <img src="/images/document-img.jpg" alt="document" />
-                                    </div>
-                                    <div className='col-lg-6'>
-                                        <img src="/images/document-img.jpg" alt="document" />
+
+                            {appointmentDetail.data.clinic_trial_info !== undefined &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Trial for </h2>
+                                    <p> {appointmentDetail.data.clinic_trial_info.trial_name}</p>
+                                </div>
+                            }
+
+                            {appointmentDetail.data.trial_clinic_user_info !== undefined &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Address </h2>
+                                    <p> {appointmentDetail.data.trial_clinic_user_info.address}, {appointmentDetail.data.trial_clinic_user_info.state_info.name} </p>
+                                </div>
+                            }
+
+                            {appointmentDetail.data.clinic_trial_info !== undefined &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Trial Compensation </h2>
+                                    <p> {appointmentDetail.data.clinic_trial_info.compensation} </p>
+                                </div>
+                            }
+
+                            {appointmentDetail.data.trial_clinic_user_info !== undefined &&
+                                appointmentDetail.data.trial_clinic_user_info.user_meta_info.hide_principal_investigator_details === 0 &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Principal Investigator</h2>
+                                    <p> {appointmentDetail.data.trial_clinic_user_info.user_meta_info.principal_investigator_name} </p>
+                                </div>
+                            }
+
+                            {appointmentDetail.data.appointment_documents?.length > 0 &&
+                                <div className='appointment-detail-col'>
+                                    <h2>Document</h2>
+                                    <div className='row mt-3'>
+                                        {appointmentDetail.data.appointment_documents.map((value, index) => {
+                                            return (
+                                                <div className='col-lg-6 mb-3' key={index}>
+                                                    <img src={value.document} alt={appointmentDetail.data.trial_clinic_user_info.clinic_name} />
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </div>
-                            </div>
+                            }
+
                             <div className='appointment-detail-col'>
                                 <h2>Additional Information</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim, sit amet viverra lorem sagittis. In sit amet pulvinar orci. Integer ultrices ipsum vel gravida varius. Ut vitae ex tincidunt urna sagittis ullamcorper ut congue elit. Etiam placerat turpis ligula, et lacinia nisl porttitor sed.</p>
+                                <p> {appointmentDetail.data.brief_intro} </p>
                             </div>
+
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isLink="true"
