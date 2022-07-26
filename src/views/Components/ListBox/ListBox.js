@@ -5,7 +5,7 @@ const ListBox = ({ className, imgUrl, location, state, description, title, dista
     return (
         <div className={`clinic-list-bx ${className}`}>
             <div className='clinic-img'>
-                <img src={imgUrl !== null ? getImageUrl() + imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
+                <img src={imgUrl !== null ? imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
             </div>
             <div className='clinic-info'>
                 <h2>{title}</h2>

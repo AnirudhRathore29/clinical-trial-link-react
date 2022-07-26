@@ -7,6 +7,7 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../Patient/TrialClinicDetails/TrialClinicDetails.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
+import MapIframe from '../../views/Components/MapIframe/MapIframe';
 
 const PhysicianClinicDetails = () => {
 
@@ -78,13 +79,13 @@ const PhysicianClinicDetails = () => {
                             </div>
                             <SponsorsBx />
                             <div className="trialClinic-info-bx mt-5">
-                                <h2>Clinical Trials 
-                                <Button
-                                    isLink="true"
-                                    URL="/physician/trial-listing"
-                                    BtnColor="green btn-sm"
-                                    BtnText="View All"
-                                />
+                                <h2>Clinical Trials
+                                    <Button
+                                        isLink="true"
+                                        URL="/physician/trial-listing"
+                                        BtnColor="green btn-sm"
+                                        BtnText="View All"
+                                    />
                                 </h2>
                                 <OwlCarousel {...options2}>
                                     <ClinicTrial
@@ -116,16 +117,16 @@ const PhysicianClinicDetails = () => {
                         </div>
                         <div className="col-lg-4">
                             <div className="trialClinic-side-bx Clinic-map-view">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199449.42991383024!2d-90.561729281034!3d38.63974312559989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d8cb73a8250543%3A0xa331c23a38649978!2sBarnes%20Jewish%20Hospital!5e0!3m2!1sen!2sin!4v1644306553902!5m2!1sen!2sin" title="myFrame" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
+                                {/* <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} /> */}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <PatientBookingProcess 
+            <PatientBookingProcess
                 onlyChat="true"
-                
+
                 show={show}
                 handleClose={handleClose}
                 show2={show2}

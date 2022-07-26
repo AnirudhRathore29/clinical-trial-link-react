@@ -9,7 +9,7 @@ const MyAppointmentBx = ({ className, imgUrl, visitNumber, onClick, title, time,
                 onClick={onClick}
             >
                 <div className='my-appointment-img'>
-                    <img src={imgUrl !== null ? getImageUrl() + imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
+                    <img src={imgUrl !== null ? imgUrl : "/images/placeholder-img.jpg"} alt="clinic-img" />
                 </div>
                 <div className='my-appointment-info'>
                     <h2>{title}</h2>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TrialClinicDetailsAction } from '../../redux/actions/TrialSponsorAction';
 import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
+import MapIframe from '../../views/Components/MapIframe/MapIframe';
 
 const SponsorsClinicDetails = () => {
     const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const SponsorsClinicDetails = () => {
 
                         <div className="col-lg-4">
                             <div className="trialClinic-side-bx Clinic-map-view">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199449.42991383024!2d-90.561729281034!3d38.63974312559989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d8cb73a8250543%3A0xa331c23a38649978!2sBarnes%20Jewish%20Hospital!5e0!3m2!1sen!2sin!4v1644306553902!5m2!1sen!2sin" title="myFrame" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
+                                {/* <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} /> */}
                                 <div className='btn-group-custom mt-3'>
                                     <Button
                                         isLink="true"

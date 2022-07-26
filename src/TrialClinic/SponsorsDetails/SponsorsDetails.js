@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
-import { getImageUrl } from '../../redux/constants';
+import MapIframe from '../../views/Components/MapIframe/MapIframe';
+// import { getImageUrl } from '../../redux/constants';
 
 const ClinicSponsorsDetails = () => {
     const dispatch = useDispatch();
@@ -98,7 +99,7 @@ const ClinicSponsorsDetails = () => {
                                     </div>
                                     {sponsoreDetails.data.listing_image !== null &&
                                         <div className='trialClinic-img'>
-                                            <img src={getImageUrl() + sponsoreDetails.data.listing_image} alt={sponsoreDetails.data.sponsor_name} />
+                                            <img src={sponsoreDetails.data.listing_image} alt={sponsoreDetails.data.sponsor_name} />
                                         </div>
                                     }
                                 </div>
@@ -115,7 +116,6 @@ const ClinicSponsorsDetails = () => {
                                         </ul>
                                     </div>
                                 }
-
 
                                 {sponsoreDetails.data.user_condition.length !== 0 &&
                                     <div className="trialClinic-info-bx mt-5">
@@ -169,11 +169,13 @@ const ClinicSponsorsDetails = () => {
                                     </div>
                                 }
                             </div>
+
                             <div className="col-lg-4">
                                 <div className="trialClinic-side-bx Clinic-map-view">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.4412110851426!2d16.296517715649095!3d48.14029857922361!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476da8613ddc04c5%3A0xaf19e87ed948c0f7!2sABF%20Pharmaceutical%20Services%20GmbH!5e0!3m2!1sen!2sin!4v1644922065756!5m2!1sen!2sin" title="myFrame" style={{ border: 0 }} allowFullScreen="" loading="lazy"></iframe>
+                                    <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} />
                                 </div>
                             </div>
+                            
                         </div>
                         :
                         <LogoLoader />

@@ -18,7 +18,7 @@ const SponsorsBx = ({ data }) => {
                 {data.map((value, index) => {
                     return (
                         <div className='item' key={index}>
-                            <img src={getImageUrl() + value.sponsor_user_info.profile_image} alt="Sponsors" />
+                            <img src={value.sponsor_user_info.profile_image} alt="Sponsors" />
                         </div>
                     )
                 })}

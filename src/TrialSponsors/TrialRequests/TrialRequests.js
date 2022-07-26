@@ -103,7 +103,7 @@ const SponsorTrialRequests = () => {
                                             <tr key={index}>
                                                 <td>
                                                     <div className='patient-img'>
-                                                        <img src={value.trial_clinic_user_info.listing_image !== null ? getImageUrl() + value.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={value.trial_clinic_user_info.clinic_name} />
+                                                        <img src={value.trial_clinic_user_info.listing_image !== null ? value.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={value.trial_clinic_user_info.clinic_name} />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -174,7 +174,7 @@ const SponsorTrialRequests = () => {
                         <>
                             <div className='appointment-detail' key={requestDetailData.id}>
 
-                                <img src={requestDetailData.trial_clinic_user_info.listing_image !== null ? getImageUrl() + requestDetailData.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
+                                <img src={requestDetailData.trial_clinic_user_info.listing_image !== null ? requestDetailData.trial_clinic_user_info.listing_image : "/images/placeholder-img.jpg"} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
 
                                 {requestDetailData.trial_clinic_user_info !== undefined &&
                                     <div>
@@ -206,7 +206,7 @@ const SponsorTrialRequests = () => {
                                         {requestDetailData.appointment_documents.map((value, index) => {
                                             return (
                                                 <div className='col-lg-6 mb-3' key={index}>
-                                                    <img src={getImageUrl() + value.document} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
+                                                    <img src={value.document} alt={requestDetailData.trial_clinic_user_info.clinic_name} />
                                                 </div>
                                             )
                                         })}
