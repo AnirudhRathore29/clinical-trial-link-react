@@ -164,10 +164,9 @@ const TrialClinicDetails = () => {
                                     </div>
                                 }
                             </div>
-
                             <div className="col-lg-4">
                                 <div className="trialClinic-side-bx Clinic-map-view">
-                                    {/* <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} /> */}
+                                    <MapIframe latitude={patientClinicDetails.data.latitude} longitude={patientClinicDetails.data.longitude} />
                                 </div>
                             </div>
 

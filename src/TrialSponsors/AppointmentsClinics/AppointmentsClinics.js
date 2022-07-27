@@ -55,6 +55,13 @@ const SponsorsAppointmentsClinics = () => {
         history.push(`/trial-sponsors/patient-list/${id}`)
     }
 
+    const handleRedirectUser2Chat = (id) => {
+        history.push({
+            pathname: "/trial-sponsors/my-chats",
+            state: id
+        })
+    }
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -92,13 +99,16 @@ const SponsorsAppointmentsClinics = () => {
                                                 </td>
                                                 <td className='no-wrap'>
                                                     {moment(value.updated_date).format("MMMM DD, YYYY")}
-                                                    {/* , <br /> (09:00 AM to 11:00 AM)</td> */}
                                                 </td>
                                                 <td>
                                                     <div className='btn-group-custom'>
                                                         <button className="btn-action btn-green" onClick={() => handleAppointmentModalOpen(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+
                                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+
+                                                        <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value.id)}>
+                                                            <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>

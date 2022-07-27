@@ -8,6 +8,8 @@ import moment from 'moment';
 
 const SponsorsMyChats = (props) => {
     const scroll = useRef()
+    const { id } = props.auth.user
+    const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([])
     const [formValue, setFormValue] = useState('');
 
@@ -17,6 +19,89 @@ const SponsorsMyChats = (props) => {
             setMessages(snapshot.docs.map(doc => doc.data()))
         })
     }, [])
+
+    console.log("props", props)
+    // useEffect(() => {
+    //     const { id } = props.auth.user
+    //     var msgData = [];
+    //     db.collection('List')
+    //         .doc(id.toString())
+    //         .collection('userDetails')
+    //         .onSnapshot(snapshot => {
+    //             console.log("snapshot", snapshot)
+    //             snapshot.docChanges().map((change) => {
+    //                 if (change.type === 'modified') {
+    //                     const newData = change.doc.data();
+    //                     const newMap = msgData.map((data, id) =>
+    //                         data.reciverId == newData.reciverId ? newData : data,
+    //                     );
+    //                     msgData = newMap;
+    //                 } else {
+    //                     msgData.push(change.doc.data());
+    //                 }
+    //                 var newList = msgData.sort(function (x, y) {
+    //                     return y.date - x.date;
+    //                 });
+    //                 setChatList(newList);
+    //             });
+    //         });
+    // }, [])
+
+    console.log("chatList", chatList)
+
+    useEffect(() => {
+        var msgData = [];
+        var usersChatId = combine2UserId(id);
+        db.collection('Chat')
+            .doc(usersChatId.toString())
+            .collection('messages')
+            .orderBy('date', 'desc')
+            .limit(50)
+            .onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    console.log("docChanges", change)
+                    msgData.push(change.doc.data());
+                });
+                console.log("msgData", msgData)
+                setChatList(msgData);
+            });
+
+        //set current user count 0
+        db.collection('List')
+            .doc(id.toString())
+            .collection('userDetails')
+            .get()
+            .then(documentSnapshot => {
+                documentSnapshot.docs.forEach(change => {
+                    if (change.id === props.location.state.toString()) {
+                        db.collection('List')
+                            .doc(id.toString())
+                            .collection('userDetails')
+                            .doc(props.location.state.toString())
+                            .update({
+                                count: 0,
+                            });
+                    }
+                });
+            });
+    }, [])
+
+
+    useEffect(() => {
+        
+    })
+
+    const combine2UserId = (id) => {
+        var currentUser = id;
+        var userReciever = props.location.state;
+        var chatIDpre = [];
+        chatIDpre.push(currentUser);
+        chatIDpre.push(userReciever);
+        chatIDpre.sort(function (a, b) {
+            return a - b;
+        });
+        return chatIDpre.join('_');
+    }
 
     const sendMessage = async (e) => {
         e.preventDefault()

@@ -23,12 +23,12 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, show2, handleCl
 
     useEffect(() => {
         if (bookingSubmit) {
-            if (Object.keys(bookingTrialSelector.book_appointment).length !== 0) {
+            if (Object.keys(bookingTrialSelector.book_appointment).length !== 0 && !bookingTrialSelector.loading) {
                 toast.success(bookingTrialSelector.book_appointment.data.message, { theme: "colored" });
                 setThanksObj(bookingTrialSelector.book_appointment.data.data);
                 handleShow3();
                 setBookingSubmit(false)
-            } else if (Object.keys(bookingTrialSelector.error).length !== 0) {
+            } else if (Object.keys(bookingTrialSelector.error).length !== 0 && !bookingTrialSelector.loading) {
                 toast.error(bookingTrialSelector.error.message, { theme: "colored" })
                 setBookingSubmit(false)
             }
