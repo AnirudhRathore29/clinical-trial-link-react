@@ -16,6 +16,11 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidZipcode } from "./../../views/Components/Validation/Validation"
+import "./../../Patient/EditProfile/EditProfile.css"
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+} from "react-places-autocomplete";
 
 toast.configure();
 const PatientCompleteProfile = () => {
@@ -27,11 +32,15 @@ const PatientCompleteProfile = () => {
     const [conditionList, setConditionList] = useState([]);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
     const [trialFor, setTrialFor] = useState(true)
+    const [address, setAddress] = useState("");
     const [profileInputData, setProfileInputData] = useState({
         state_id: "",
         zip_code: "",
         dob: null,
         gender: "M",
+        address: "",
+        latitude: null,
+        longitude: null,
         bank_name: "",
         account_holder_name: "",
         account_number: "",
@@ -115,6 +124,13 @@ const PatientCompleteProfile = () => {
         });
     };
 
+    const addressPlacePicker = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
+        setAddress(value);
+    };
+
     const specialityOnChange = (e) => {
         setProfileInputData({ ...profileInputData, speciality: e })
         const speArr = e.map(value => value.id)
@@ -155,6 +171,9 @@ const PatientCompleteProfile = () => {
             zip_code: profileInputData.zip_code,
             dob: profileInputData.dob,
             gender: profileInputData.gender,
+            address: profileInputData.address,
+            latitude: profileInputData.latitude,
+            latitude: profileInputData.latitude,
             bank_name: profileInputData.bank_name,
             account_holder_name: profileInputData.account_holder_name,
             account_number: profileInputData.account_number,
@@ -234,6 +253,47 @@ const PatientCompleteProfile = () => {
                                         required="required"
                                         placeholderText="Select DOB"
                                     />
+                                </div>
+
+                                <div className="col-lg-6">
+                                    <PlacesAutocomplete
+                                        value={address}
+                                        onChange={setAddress}
+                                        onSelect={addressPlacePicker}
+                                    >
+                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                            <div className="form-group">
+                                                <label> Address <span className="text-danger"> *</span></label>
+                                                <div className="suggestion-wrapper">
+                                                    <input
+                                                        placeholder="Enter Address"
+                                                        required={true}
+                                                        name="address"
+                                                        {...getInputProps({
+                                                            placeholder: "Enter address",
+                                                            className: "form-control"
+                                                        })}
+                                                    />
+                                                    {suggestions?.length > 0 &&
+                                                        <ul className="location-suggestion-block">
+                                                            {loading ? <li>...loading</li> : null}
+                                                            {suggestions.map((suggestion, index) => {
+                                                                const style = {
+                                                                    backgroundColor: suggestion.active ? "#4096ee" : "#fff",
+                                                                    cursor: suggestion.active && "pointer"
+                                                                };
+                                                                return (
+                                                                    <li key={index} {...getSuggestionItemProps(suggestion, { style })}>
+                                                                        {suggestion.description}
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
                                 </div>
 
                                 <div className="col-lg-6 form-group">

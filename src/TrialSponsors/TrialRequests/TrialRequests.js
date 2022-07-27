@@ -29,7 +29,7 @@ const SponsorTrialRequests = () => {
     const [clickStatusReject, setClickStatusReject] = useState(false)
     const [clickStatusApprove, setClickStatusApprove] = useState(false)
 
-    
+
     useEffect(() => {
         requestDetailSelector !== undefined && setRequestDetailData(requestDetailSelector.data)
     }, [requestDetailSelector])
@@ -52,24 +52,24 @@ const SponsorTrialRequests = () => {
     }
 
     const handleRequestStatusUpdate = (id, status) => {
-        dispatch(TrialRequestAppStatusUpdateAction({trial_clinic_appointment_id:id, status}))
-        if(status === "1"){
+        dispatch(TrialRequestAppStatusUpdateAction({ trial_clinic_appointment_id: id, status }))
+        if (status === "1") {
             setClickStatusApprove(true)
         } else {
             setClickStatusReject(true)
         }
     }
-    
+
     useEffect(() => {
-        if(clickStatusApprove || clickStatusReject){
-            if(Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading){
+        if (clickStatusApprove || clickStatusReject) {
+            if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
                 toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
                 setShow(false);
                 setClickStatusApprove(false)
                 setClickStatusReject(false)
                 setRequestDetailData(undefined)
                 dispatch(NewTrialRequestAction({ page: loadMoreData }))
-            } else if(Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading){
+            } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
                 toast.error(requestStatusSelector.error.message, { theme: "colored" });
                 setClickStatusApprove(false)
                 setClickStatusReject(false)
@@ -138,11 +138,9 @@ const SponsorTrialRequests = () => {
                                 :
                                 [1, 2, 3, 4].map((_, index) => {
                                     return (
-                                        <tr className='bg-transparent'>
+                                        <tr className='bg-transparent' key={index}>
                                             <td className='p-0' colSpan="5">
-                                                <div key={index}>
-                                                    <Skeleton height={125} />
-                                                </div>
+                                                <Skeleton height={125} />
                                             </td>
                                         </tr>
                                     )

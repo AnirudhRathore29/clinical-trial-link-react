@@ -114,7 +114,7 @@ const routes = [
 	{ path: '/trial-sponsors/clinic-details/:id', exact: true, name: 'SponsorsClinicDetails', component: SponsorsClinicDetails, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/my-trials', exact: true, name: 'SponsorsMyStudies', component: SponsorsMyStudies, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/appointments-clinics/:id', exact: true, name: 'SponsorsAppointmentsClinics', component: SponsorsAppointmentsClinics, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
-	{ path: '/trial-sponsors/patient-list', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/patient-list/:id', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile, meta: {"role": RolesConfig.TRIAL_SPONSORS} },

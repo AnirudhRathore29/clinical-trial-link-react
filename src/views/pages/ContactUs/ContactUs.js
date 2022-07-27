@@ -11,7 +11,6 @@ const ContactUs = () => {
     });
 
     const ContactSubmit = () => {
-        //console.log("contact form data", Formdata);
     }
 
     return (

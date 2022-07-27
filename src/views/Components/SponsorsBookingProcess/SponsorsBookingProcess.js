@@ -74,7 +74,6 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
     }, [handleClose2, handleShow3])
 
     const Validation = (intro, file) => {
-        console.log("file", file.length)
         if (file.length === 0) {
             toast.error(`The Document field is required.`, { theme: "colored" })
             return false

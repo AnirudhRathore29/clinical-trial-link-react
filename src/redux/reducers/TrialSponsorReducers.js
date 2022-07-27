@@ -11,7 +11,10 @@ import {
 	NEW_TRIAL_REQUEST_DETAIL_SUCCESS, NEW_TRIAL_REQUEST_DETAIL_ERROR,
 	NEW_TRIAL_REQUEST_STATUS_UPDATE_SUCCESS, NEW_TRIAL_REQUEST_STATUS_UPDATE_ERROR,
 	MY_TRIAL_SUCCESS, MY_TRIAL_ERROR,
-	TRIAL_APP_CLINIC_LIST_SUCCESS, TRIAL_APP_CLINIC_LIST_ERROR
+	TRIAL_APP_CLINIC_LIST_SUCCESS, TRIAL_APP_CLINIC_LIST_ERROR,
+	TRIAL_PATIENT_LIST_SUCCESS, TRIAL_PATIENT_LIST_ERROR,
+	TRIAL_PATIENT_DETAIL_SUCCESS, TRIAL_PATIENT_DETAIL_ERROR,
+	TRIAL_MANAGE_CLINIC_SUCCESS, TRIAL_MANAGE_CLINIC_ERROR
 } from '../actions/types';
 const initialState = {
 	data: {},
@@ -26,7 +29,10 @@ const initialState = {
 	new_request_detail: {},
 	new_request_status: {},
 	my_trial: {},
-	trial_app_clinic_list: {}
+	trial_app_clinic_list: {},
+	patient_list: {},
+	patient_detail: {},
+	manage_clinic: {}
 };
 
 export default function TrialsReducers(state = initialState, action) {
@@ -198,8 +204,51 @@ export default function TrialsReducers(state = initialState, action) {
 				error: action.payload,
 				trial_app_clinic_list: {}
 			};
+
+		case TRIAL_PATIENT_LIST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_list: action.payload,
+				error: {}
+			};
+		case TRIAL_PATIENT_LIST_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+				patient_list: {}
+			};
+		case TRIAL_PATIENT_DETAIL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_detail: action.payload,
+				error: {}
+			};
+		case TRIAL_PATIENT_DETAIL_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+				patient_detail: {}
+			};
+
+		case TRIAL_MANAGE_CLINIC_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				manage_clinic: action.payload,
+				error: {}
+			};
+		case TRIAL_MANAGE_CLINIC_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+				manage_clinic: {}
+			};
 		default:
 			return state;
 	}
 }
-

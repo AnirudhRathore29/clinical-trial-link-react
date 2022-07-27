@@ -12,7 +12,6 @@ import { useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
-// import { getImageUrl } from '../../redux/constants';
 
 const ClinicSponsorsDetails = () => {
     const dispatch = useDispatch();

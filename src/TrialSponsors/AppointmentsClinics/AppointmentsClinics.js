@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import '../../Patient/Dashboard/Dashboard.css';
@@ -16,6 +16,7 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 
 const SponsorsAppointmentsClinics = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const { id } = useParams()
     const trialAppClinicListSelector = useSelector(state => state.My_trials.trial_app_clinic_list.data)
     const appointmentDetailSelector = useSelector(state => state.My_trials.new_request_detail.data)
@@ -49,7 +50,10 @@ const SponsorsAppointmentsClinics = () => {
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
     }
-    console.log("appointmentDetail", appointmentDetail)
+
+    const handleViewPatientDetail = (id) => {
+        history.push(`/trial-sponsors/patient-list/${id}`)
+    }
 
     return (
         <>
@@ -109,11 +113,9 @@ const SponsorsAppointmentsClinics = () => {
                                 :
                                 [1, 2, 3, 4].map((_, index) => {
                                     return (
-                                        <tr className='bg-transparent'>
+                                        <tr className='bg-transparent' key={index}>
                                             <td className='p-0' colSpan="6">
-                                                <div key={index}>
-                                                    <Skeleton height={125} />
-                                                </div>
+                                                <Skeleton height={125} />
                                             </td>
                                         </tr>
                                     )
@@ -178,7 +180,7 @@ const SponsorsAppointmentsClinics = () => {
                                 appointmentDetail.data.trial_clinic_user_info.user_meta_info.hide_principal_investigator_details === 0 &&
                                 <div className='appointment-detail-col'>
                                     <h2>Principal Investigator</h2>
-                                    <p> {appointmentDetail.data.trial_clinic_user_info.user_meta_info.principal_investigator_name} </p>
+                                    <p> {appointmentDetail.data.trial_clinic_user_info.user_meta_info.principal_investigator_name ? appointmentDetail.data.trial_clinic_user_info.user_meta_info.principal_investigator_name : "-"} </p>
                                 </div>
                             }
 
@@ -204,8 +206,9 @@ const SponsorsAppointmentsClinics = () => {
 
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
-                                    isLink="true"
-                                    URL="/trial-sponsors/patient-list"
+                                    isButton="true"
+                                    BtnType="button"
+                                    onClick={() => handleViewPatientDetail(appointmentDetail.data.id)}
                                     BtnColor="primary"
                                     BtnText="View All Patients List"
                                 />

@@ -5,7 +5,7 @@ const PatientListBx = ({ imgUrl, description, patientName, status, statusClass, 
         <>
             <div className='patient-list-bx' onClick={onClick}>
                 <div className='patient-img'>
-                    <img src={`/images/${imgUrl}`} alt="patient" />
+                    <img src={imgUrl} alt={patientName} />
                 </div>
                 <div className='patient-details'>
                     <h2>{patientName}</h2>
