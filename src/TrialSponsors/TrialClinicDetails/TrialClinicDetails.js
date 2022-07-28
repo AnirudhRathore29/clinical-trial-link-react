@@ -4,12 +4,13 @@ import '../../Patient/TrialClinicDetails/TrialClinicDetails.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { TrialClinicDetailsAction } from '../../redux/actions/TrialSponsorAction';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
 
 const SponsorsClinicDetails = () => {
     const dispatch = useDispatch();
+    const history =  useHistory();
     const { id } = useParams()
     const clinicDetailSelector = useSelector(state => state.My_trials.clinic_detail.data);
     const [clinicDetailData, setClinicDetailData] = useState()
@@ -29,6 +30,18 @@ const SponsorsClinicDetails = () => {
         };
     }, [dispatch]);
 
+    const handleRedirectUser2Chat = (data) => {
+        let values = {
+            full_name: data.clinic_name,
+            id: data.id,
+            profile_image: data.listing_image,
+        }
+        history.push({
+            pathname: "/trial-sponsors/my-chats",
+            state: values
+        })
+    }
+
     return (
         <div className="clinical-dashboard">
             <div className="container">
@@ -45,11 +58,6 @@ const SponsorsClinicDetails = () => {
                                     <img src="/images/clinic-img5.jpg" className='img-fluid' alt={clinicDetailData.data.clinic_name} />
                                 </div>
                             </div>
-
-                            {/* <div className="trialClinic-info-bx mt-5">
-                                <h2>Specialty</h2>
-                                <p>Lorem ipsum dolor sit amet,</p>
-                            </div> */}
 
                             {clinicDetailData.data.user_speciality.length !== 0 &&
                                 <div className="trialClinic-info-bx mt-5">
@@ -91,10 +99,10 @@ const SponsorsClinicDetails = () => {
                                 <MapIframe latitude={clinicDetailData.data.latitude} longitude={clinicDetailData.data.longitude} />
                                 <div className='btn-group-custom mt-3'>
                                     <Button
-                                        isLink="true"
-                                        URL="/trial-sponsors/my-chats"
+                                        isButton="true"
                                         BtnColor="green"
                                         BtnText="Message"
+                                        onClick={() => handleRedirectUser2Chat(clinicDetailData.data)}
                                     />
                                     <Button
                                         isButton="true"

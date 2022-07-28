@@ -4,6 +4,7 @@ import '../../Patient/MyChats/myChats.css';
 import db from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
+import { chatDateFormat } from '../../utils/Utils';
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
@@ -13,8 +14,8 @@ const SponsorsMyChats = (props) => {
     const [recieverCounter, setRecieveerCounter] = useState(0);
     const [message, setMessage] = useState('');
     const [reciverIdx, setReciverIdx] = useState(props.location.state ? props.location.state.id : "");
-    const [reciverName, setReciverName] = useState(props.location.state ? props.location.state.clinic_name : "");
-    const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.listing_image : "");
+    const [reciverName, setReciverName] = useState(props.location.state ? props.location.state.full_name : "");
+    const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.profile_image : "");
     const [chatWindowDown, setChatWindowDown] = useState(0)
 
     // console.log("chatMessagesList", chatMessagesList)
@@ -39,7 +40,6 @@ const SponsorsMyChats = (props) => {
         if (reciverIdx && reciverName && currentUserDetail) {
             var msgData = [];
             var usersChatId = combine2UserId(currentUserDetail.id);
-            console.log("usersChatId", usersChatId)
             db.collection('Chat')
                 .doc(usersChatId.toString())
                 .collection('messages')
@@ -50,7 +50,6 @@ const SponsorsMyChats = (props) => {
                     snapshot.docChanges().forEach(change => {
                         msgData.push(change.doc.data());
                     });
-                    console.log("msgData", msgData)
                     setChatMessagesList(msgData);
                 });
 
@@ -150,10 +149,7 @@ const SponsorsMyChats = (props) => {
                     recieverName: currentUserDetail.full_name,
                     message: message,
                     date: Date.now(),
-                    profileImage:
-                        currentUserDetail.profile_image === null
-                            ? null
-                            : currentUserDetail.profile_image,
+                    profileImage: currentUserDetail.profile_image === null ? null : currentUserDetail.profile_image,
                     count: parseInt(recieverCounter) + 1,
                 });
 
@@ -167,14 +163,11 @@ const SponsorsMyChats = (props) => {
                     recieverName: reciverName,
                     message: message,
                     date: Date.now(),
-                    profileImage:
-                        reciverImage === null ? null : reciverImage,
+                    profileImage: reciverImage === null ? null : reciverImage,
                     count: 0,
                 });
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
-
-            // scroll.current.scrollIntoView({ behavior: 'smooth' })
         }
     }
 
@@ -182,6 +175,9 @@ const SponsorsMyChats = (props) => {
         var timestemp = new Date(item.date);
         if (index === 0) {
             var preDate = item.date;
+            // return (
+            //     <div className="date-split if"> {chatDateFormat(item.date)} </div>
+            // );
             let currentDate = moment(new Date()).format('DD/MM/YYYY');
             let msgDate = moment(preDate).format('DD/MM/YYYY');
             if (currentDate === msgDate) {
@@ -194,6 +190,11 @@ const SponsorsMyChats = (props) => {
                 );
             }
         } else {
+            // if (moment(preDate).format('DD MMM YYYY') !== moment(item.date).format('DD MMM YYYY')) {
+            //     return (
+            //         <div className="date-split else"> {chatDateFormat(item.date)} </div>
+            //     );
+            // }
             if (moment(preDate).format('DD MMM YYYY') !== moment(item.date).format('DD MMM YYYY')) {
                 preDate = item.date;
                 let currentDate = moment(new Date()).format('DD/MM/YYYY');

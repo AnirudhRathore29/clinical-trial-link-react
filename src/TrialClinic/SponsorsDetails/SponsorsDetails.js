@@ -8,13 +8,14 @@ import '../../Patient/TrialClinicDetails/TrialClinicDetails.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import { SponsorDetailAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
 
 const ClinicSponsorsDetails = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const detailSelector = useSelector(state => state.trial_clinic.sponsore_detail.data);
     const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data)
     const { id } = useParams()
@@ -83,6 +84,29 @@ const ClinicSponsorsDetails = () => {
     }
     const handleClose3 = () => setShow3(false);
 
+    const handleViewMoreList = (id) => {
+        let values = {
+            full_name: sponsoreDetails.data.sponsor_name,
+            id: sponsoreDetails.data.id,
+            profile_image: sponsoreDetails.data.listing_image,
+        }
+        history.push({
+            pathname: `/trial-clinic/sponsors-trial-listing/${id}`,
+            state: values
+        })
+    }
+
+    const handleRedirectUser2Chat = () => {
+        let values = {
+            full_name: sponsoreDetails.data.sponsor_name,
+            id: sponsoreDetails.data.id,
+            profile_image: sponsoreDetails.data.listing_image,
+        }
+        history.push({
+            pathname: "/trial-clinic/my-chats",
+            state: values
+        })
+    }
     return (
         <>
             <div className="clinical-dashboard">
@@ -140,10 +164,11 @@ const ClinicSponsorsDetails = () => {
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Clinical Trials
                                             <Button
-                                                isLink="true"
-                                                URL={"/trial-clinic/sponsors-trial-listing/" + sponsoreDetails.data.id}
+                                                isButton="true"
+                                                BtnType="button"
                                                 BtnColor="green btn-sm"
                                                 BtnText="View All"
+                                                onClick={() => handleViewMoreList(sponsoreDetails.data.id)}
                                             />
                                         </h2>
                                         <OwlCarousel {...options2}>
@@ -174,7 +199,7 @@ const ClinicSponsorsDetails = () => {
                                     <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} />
                                 </div>
                             </div>
-                            
+
                         </div>
                         :
                         <LogoLoader />
@@ -186,6 +211,7 @@ const ClinicSponsorsDetails = () => {
                 show={show}
                 handleClose={handleClose}
                 show2={show2}
+                onClickChat={handleRedirectUser2Chat}
 
                 handleClose2={handleClose2}
                 handleShow2={handleShow2}

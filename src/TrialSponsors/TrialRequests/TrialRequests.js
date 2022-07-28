@@ -3,20 +3,20 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import '../../Patient/MyAppointments/MyAppointments.css';
 import './TrialRequests.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { NewTrialRequestAction, TrialRequestDetailAction, TrialRequestAppStatusUpdateAction } from '../../redux/actions/TrialSponsorAction';
-import { getImageUrl } from '../../redux/constants';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
 const SponsorTrialRequests = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const loadingSelector = useSelector(state => state.My_trials)
     const newRequestSelector = useSelector(state => state.My_trials.new_request.data)
     const requestDetailSelector = useSelector(state => state.My_trials.new_request_detail.data)
@@ -77,6 +77,18 @@ const SponsorTrialRequests = () => {
         }
     }, [clickStatusApprove, clickStatusReject, requestStatusSelector, dispatch, loadMoreData])
 
+    const handleRedirectUser2Chat = (data) => {
+        let values = {
+            full_name: data.trial_clinic_user_info.clinic_name,
+            id: data.trial_clinic_user_info.id,
+            profile_image: data.trial_clinic_user_info.listing_image,
+        }
+        history.push({
+            pathname: "/trial-sponsors/my-chats",
+            state: values
+        })
+    }
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -123,7 +135,10 @@ const SponsorTrialRequests = () => {
                                                 <td>
                                                     <div className='btn-group-custom auto-width'>
                                                         <button className="btn-action btn-green" onClick={() => TrialRequestDetailModalShow(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
-                                                        <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+
+                                                        <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
+                                                            <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>

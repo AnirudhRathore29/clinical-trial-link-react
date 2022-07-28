@@ -56,9 +56,14 @@ const SponsorsAppointmentsClinics = () => {
     }
 
     const handleRedirectUser2Chat = (data) => {
+        let values = {
+            full_name: data.trial_clinic_user_info.clinic_name,
+            id: data.trial_clinic_user_info.id,
+            profile_image: data.trial_clinic_user_info.listing_image,
+        }
         history.push({
             pathname: "/trial-sponsors/my-chats",
-            state: data.trial_clinic_user_info
+            state: values
         })
     }
 

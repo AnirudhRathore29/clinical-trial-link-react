@@ -6,15 +6,16 @@ import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../../Patient/MyFavorites/MyFavorites.css';
 import '../../Patient/TrialListing/TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { SponsorsTrialListAction } from '../../redux/actions/TrialClinicAction';
 import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const ClinicSponsorsTrialListing = () => {
+const ClinicSponsorsTrialListing = (props) => {
     const { id } = useParams()
+    const history =  useHistory();
     const dispatch = useDispatch();
     const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data);
     const sponsorsTrialListSelector = useSelector(state => state.trial_clinic.stlData.data);
@@ -71,6 +72,12 @@ const ClinicSponsorsTrialListing = () => {
         SponsorListFilterSubmit()
     }
 
+    const handleRedirectUser2Chat = () => {
+        history.push({
+            pathname: "/trial-clinic/my-chats",
+            state: props.location.state
+        })
+    }
     return (
         <>
             <div className="clinical-dashboard main-trial-listing">
@@ -168,6 +175,7 @@ const ClinicSponsorsTrialListing = () => {
                 show={show}
                 handleClose={handleClose}
                 show2={show2}
+                onClickChat={handleRedirectUser2Chat}
 
                 handleClose2={handleClose2}
                 handleShow2={handleShow2}

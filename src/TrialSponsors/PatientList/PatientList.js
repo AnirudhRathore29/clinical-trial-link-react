@@ -98,6 +98,10 @@ const SponsorsPatientList = () => {
         setLoadMoreData(loadMoreData + 1)
     }
 
+    const handleRedirectUser2Chat = () => {
+        
+    }
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -173,7 +177,9 @@ const SponsorsPatientList = () => {
                                                                         <>
                                                                             <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
 
-                                                                            <Link to="/trial-sponsors/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                                                            <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
+                                                                                <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
+                                                                            </button>
                                                                         </>
                                                                     }
                                                                 </div>
