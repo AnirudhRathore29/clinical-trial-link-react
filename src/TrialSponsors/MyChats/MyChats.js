@@ -7,7 +7,6 @@ import classNames from "classnames";
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
-    const recieverUserDetail = props.location.state ? props.location.state : ""
     const currentUserDetail = props.auth.user
     const [chatMessagesList, setChatMessagesList] = useState([]);
     const [chatList, setChatList] = useState([]);
@@ -16,10 +15,14 @@ const SponsorsMyChats = (props) => {
     const [reciverIdx, setReciverIdx] = useState(props.location.state ? props.location.state.id : "");
     const [reciverName, setReciverName] = useState(props.location.state ? props.location.state.clinic_name : "");
     const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.listing_image : "");
+    const [chatWindowDown, setChatWindowDown] = useState(0)
 
-    console.log("reciverIdx", reciverIdx)
-    console.log("reciverName", reciverName)
-    console.log("reciverImage", reciverImage)
+    // console.log("chatMessagesList", chatMessagesList)
+
+    // console.log("reciverIdx", reciverIdx)
+    // console.log("reciverName", reciverName)
+    // console.log("reciverImage", reciverImage)
+
     useEffect(() => {
         if (containerRef && containerRef.current) {
             const element = containerRef.current;
@@ -30,12 +33,13 @@ const SponsorsMyChats = (props) => {
             })
         }
 
-    }, [containerRef, chatList])
+    }, [containerRef, chatList, reciverIdx, chatWindowDown])
 
     useEffect(() => {
-        if (recieverUserDetail && currentUserDetail) {
+        if (reciverIdx && reciverName && currentUserDetail) {
             var msgData = [];
             var usersChatId = combine2UserId(currentUserDetail.id);
+            console.log("usersChatId", usersChatId)
             db.collection('Chat')
                 .doc(usersChatId.toString())
                 .collection('messages')
@@ -57,11 +61,11 @@ const SponsorsMyChats = (props) => {
                 .get()
                 .then(documentSnapshot => {
                     documentSnapshot.docs.forEach(change => {
-                        if (change.id === recieverUserDetail.id.toString()) {
+                        if (change.id === reciverIdx.toString()) {
                             db.collection('List')
                                 .doc(currentUserDetail.id.toString())
                                 .collection('userDetails')
-                                .doc(recieverUserDetail.id.toString())
+                                .doc(reciverIdx.toString())
                                 .update({
                                     count: 0,
                                 });
@@ -69,49 +73,48 @@ const SponsorsMyChats = (props) => {
                     });
                 });
         }
-    }, [recieverCounter])
+    }, [recieverCounter, reciverIdx])
 
 
     useEffect(() => {
         // get List data from reciever id
-        if (recieverUserDetail) {
-            if (recieverUserDetail.id) {
-                db.collection('List')
-                    .doc(recieverUserDetail.id.toString())
-                    .collection('userDetails')
-                    .onSnapshot(snapshot => {
-                        snapshot.docChanges().forEach(change => {
-                            if (change.doc.data().reciverId === currentUserDetail.id.toString()) {
-                                setRecieveerCounter(change.doc.data().count);
-                            }
-                        });
-                    });
+        if ((reciverIdx && reciverName)) {
 
-                // set current user count 0
-                db.collection('List')
-                    .doc(currentUserDetail.id.toString())
-                    .collection('userDetails')
-                    .get()
-                    .then(documentSnapshot => {
-                        documentSnapshot.docs.forEach(change => {
-                            if (change.id.toString() === recieverUserDetail.id.toString()) {
-                                db.collection('List')
-                                    .doc(currentUserDetail.id.toString())
-                                    .collection('userDetails')
-                                    .doc(recieverUserDetail.id.toString())
-                                    .update({
-                                        count: 0,
-                                    });
-                            }
-                        });
+            db.collection('List')
+                .doc(reciverIdx.toString())
+                .collection('userDetails')
+                .onSnapshot(snapshot => {
+                    snapshot.docChanges().forEach(change => {
+                        if (change.doc.data().reciverId === currentUserDetail.id.toString()) {
+                            setRecieveerCounter(change.doc.data().count);
+                        }
                     });
-            }
+                });
+
+            // set current user count 0
+            db.collection('List')
+                .doc(currentUserDetail.id.toString())
+                .collection('userDetails')
+                .get()
+                .then(documentSnapshot => {
+                    documentSnapshot.docs.forEach(change => {
+                        if (change.id.toString() === reciverIdx.toString()) {
+                            db.collection('List')
+                                .doc(currentUserDetail.id.toString())
+                                .collection('userDetails')
+                                .doc(reciverIdx.toString())
+                                .update({
+                                    count: 0,
+                                });
+                        }
+                    });
+                });
         }
     });
 
     const combine2UserId = (id) => {
         var currentUser = id;
-        var userReciever = recieverUserDetail.id;
+        var userReciever = reciverIdx;
         var chatIDpre = [];
         chatIDpre.push(currentUser);
         chatIDpre.push(userReciever);
@@ -132,18 +135,18 @@ const SponsorsMyChats = (props) => {
                     message: message.trim(),
                     date: Date.now(),
                     senderId: currentUserDetail.id,
-                    reciverId: recieverUserDetail.id,
+                    reciverId: Number(reciverIdx),
                     senderName: currentUserDetail.full_name,
-                    recieverName: recieverUserDetail.clinic_name,
+                    recieverName: reciverName,
                 });
 
             // chat list of reciever id
             db.collection('List')
-                .doc(recieverUserDetail.id.toString())
+                .doc(reciverIdx.toString())
                 .collection('userDetails')
                 .doc(currentUserDetail.id.toString())
                 .set({
-                    reciverId: currentUserDetail.id.toString(),
+                    reciverId: Number(currentUserDetail.id),
                     recieverName: currentUserDetail.full_name,
                     message: message,
                     date: Date.now(),
@@ -158,14 +161,14 @@ const SponsorsMyChats = (props) => {
             db.collection('List')
                 .doc(currentUserDetail.id.toString())
                 .collection('userDetails')
-                .doc(recieverUserDetail.id.toString())
+                .doc(reciverIdx.toString())
                 .set({
-                    reciverId: recieverUserDetail.id.toString(),
-                    recieverName: recieverUserDetail.clinic_name,
+                    reciverId: reciverIdx.toString(),
+                    recieverName: reciverName,
                     message: message,
                     date: Date.now(),
                     profileImage:
-                        recieverUserDetail.listing_image === null ? null : recieverUserDetail.listing_image,
+                        reciverImage === null ? null : reciverImage,
                     count: 0,
                 });
             setRecieveerCounter(recieverCounter + 1);
@@ -247,7 +250,12 @@ const SponsorsMyChats = (props) => {
         setReciverIdx(data.reciverId);
         setReciverName(data.recieverName);
         setReciverImage(data.profileImage);
+        setTimeout(() => {
+            setChatWindowDown(chatWindowDown + 1)
+        }, 1000);
     };
+
+    console.log("chatWindowDown", chatWindowDown)
     return (
         <div className="clinical-dashboard my-favorites-section">
             <div className="container">
@@ -263,7 +271,7 @@ const SponsorsMyChats = (props) => {
                                 <div
                                     className={classNames(
                                         "thread",
-                                        { "active": reciverIdx.toString() === item.reciverId }
+                                        { "active": reciverIdx.toString() === item.reciverId.toString() }
                                     )}
                                     key={index}
                                     onClick={() => handleselectChatOpen(item)}
@@ -303,7 +311,7 @@ const SponsorsMyChats = (props) => {
                             {chatMessagesList && chatMessagesList.map((item, index) => (
                                 <React.Fragment key={index} >
                                     {setDateValue(item, index)}
-                                    <div className={`message ${item.reciverId !== currentUserDetail.id ? 'fromme' : ''}`}>
+                                    <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
                                         <div className="content">{item.message}</div>
                                         <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
                                     </div>
