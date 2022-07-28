@@ -55,10 +55,10 @@ const SponsorsAppointmentsClinics = () => {
         history.push(`/trial-sponsors/patient-list/${id}`)
     }
 
-    const handleRedirectUser2Chat = (id) => {
+    const handleRedirectUser2Chat = (data) => {
         history.push({
             pathname: "/trial-sponsors/my-chats",
-            state: id
+            state: data.trial_clinic_user_info
         })
     }
 
@@ -106,7 +106,7 @@ const SponsorsAppointmentsClinics = () => {
 
                                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
 
-                                                        <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value.id)}>
+                                                        <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
                                                             <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
                                                         </button>
                                                     </div>

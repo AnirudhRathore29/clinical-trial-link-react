@@ -88,7 +88,7 @@ const SponsorsClinicDetails = () => {
 
                         <div className="col-lg-4">
                             <div className="trialClinic-side-bx Clinic-map-view">
-                                {/* <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} /> */}
+                                <MapIframe latitude={clinicDetailData.data.latitude} longitude={clinicDetailData.data.longitude} />
                                 <div className='btn-group-custom mt-3'>
                                     <Button
                                         isLink="true"

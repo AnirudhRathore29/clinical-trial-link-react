@@ -34,7 +34,7 @@ const ClinicPatientListPast = React.lazy(() => import('../TrialClinic/PatientLis
 const ClinicPaymentHistory = React.lazy(() => import('../TrialClinic/PaymentHistory/PaymentHistory'));
 const ClinicEditProfile = React.lazy(() => import('../TrialClinic/EditProfile/EditProfile'));
 const ClinicManagePatient = React.lazy(() => import('../TrialClinic/ManagePatient/ManagePatient'));
-const ClinicMyChats = React.lazy(() => import('../TrialClinic/MyChats/MyChats'));
+// const ClinicMyChats = React.lazy(() => import('../TrialClinic/MyChats/MyChats'));
 
 /* sponsors pages */
 const SponsorsCompleteProfile = React.lazy(() => import('../TrialSponsors/CompleteProfile/CompleteProfile'));
@@ -103,7 +103,7 @@ const routes = [
 	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/edit-profile', exact: true, name: 'ClinicEditProfile', component: ClinicEditProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/manage-patient', exact: true, name: 'ClinicManagePatient', component: ClinicManagePatient, meta: {"role": RolesConfig.TRIAL_CLINIC} },
-	{ path: '/trial-clinic/my-chats', exact: true, name: 'ClinicMyChats', component: ClinicMyChats, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 
 	/* Sponsors Routes */
 	{ path: '/trial-sponsors/complete-profile', exact: true, name: 'SponsorsCompleteProfile', component: SponsorsCompleteProfile, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
