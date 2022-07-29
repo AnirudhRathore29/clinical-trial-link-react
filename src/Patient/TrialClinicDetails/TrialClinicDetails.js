@@ -9,13 +9,13 @@ import './TrialClinicDetails.css'
 import '../MyFavorites/MyFavorites.css'
 import { PatientClinicDetailsAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
-import { getImageUrl } from '../../redux/constants';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
 
 const TrialClinicDetails = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const trialClinicDetailSelector = useSelector(state => state.patient.clinic_details.data);
     const { id } = useParams()
@@ -73,6 +73,17 @@ const TrialClinicDetails = () => {
         handleClose2();
     }
     const handleClose3 = () => setShow3(false);
+
+    const handleRedirectUser2Chat = () => {
+        history.push({
+            pathname: "/patient/my-chats",
+            state: {
+                full_name: patientClinicDetails.data.clinic_name,
+                id: patientClinicDetails.data.id,
+                profile_image: patientClinicDetails.data.listing_image,
+            }
+        })
+    }
 
     return (
         <>
@@ -181,6 +192,7 @@ const TrialClinicDetails = () => {
                 show={show}
                 handleClose={handleClose}
                 show2={show2}
+                onClickChat={handleRedirectUser2Chat}
 
                 handleClose2={handleClose2}
                 handleShow2={handleShow2}

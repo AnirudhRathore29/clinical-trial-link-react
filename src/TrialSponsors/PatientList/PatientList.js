@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import { InputText } from '../../views/Components/Common/Inputs/Inputs';
@@ -19,6 +19,7 @@ import HighchartsReact from 'highcharts-react-official'
 
 const SponsorsPatientList = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { id } = useParams()
     const trialAppPatientSelector = useSelector(state => state.My_trials.patient_list.data)
     const patientDetailSelector = useSelector(state => state.My_trials.patient_detail.data)
@@ -98,8 +99,15 @@ const SponsorsPatientList = () => {
         setLoadMoreData(loadMoreData + 1)
     }
 
-    const handleRedirectUser2Chat = () => {
-        
+    const handleRedirectUser2Chat = (data) => {
+        history.push({
+            pathname: "/trial-sponsors/my-chats",
+            state: {
+                full_name: data.patient_user_info.first_name + " " + data.patient_user_info.last_name,
+                id: data.patient_user_info.id,
+                profile_image: data.patient_user_info.profile_image,
+            }
+        })
     }
 
     return (

@@ -138,8 +138,9 @@ const ClinicCompleteProfile = () => {
     }
 
     const handleFileUpload = async (e) => {
-        const files = e.target.files;
+        const { value, files } = e.target;
         if (files.length > 0 && files.length <= totalFiles) {
+            // const extention = value.substr(value.lastIndexOf('.') + 1).toLowerCase();
             for (let i = 0; i < files.length; i++) {
                 const reader = new FileReader();
                 reader.readAsDataURL(files[i]);

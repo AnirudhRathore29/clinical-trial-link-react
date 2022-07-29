@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
-const PatientBookingProcess = ({ viewDetails, show, handleClose, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat, bookingSlotData, bookingId }) => {
+const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat, bookingSlotData, bookingId }) => {
     const dispatch = useDispatch();
     const bookingTrialSelector = useSelector(state => state.patient);
 
@@ -108,7 +108,10 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, show2, handleCl
                                     disabled={viewDetails.data.alreadyApplied}
                                 />
                                 <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+
+                                <button className="btn-action btn-primary" onClick={() => onClickChat()}>
+                                    <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
+                                </button>
                             </div>
                         </>
                         :

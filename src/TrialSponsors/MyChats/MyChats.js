@@ -4,7 +4,8 @@ import '../../Patient/MyChats/myChats.css';
 import db from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
-import { chatDateFormat } from '../../utils/Utils';
+import { capitalizeFirstLetter } from '../../utils/Utils';
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
@@ -18,12 +19,6 @@ const SponsorsMyChats = (props) => {
     const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.profile_image : "");
     const [chatWindowDown, setChatWindowDown] = useState(0)
 
-    // console.log("chatMessagesList", chatMessagesList)
-
-    // console.log("reciverIdx", reciverIdx)
-    // console.log("reciverName", reciverName)
-    // console.log("reciverImage", reciverImage)
-
     useEffect(() => {
         if (containerRef && containerRef.current) {
             const element = containerRef.current;
@@ -36,53 +31,80 @@ const SponsorsMyChats = (props) => {
 
     }, [containerRef, chatList, reciverIdx, chatWindowDown])
 
+    //Get Chat List Data
     useEffect(() => {
-        if (reciverIdx && reciverName && currentUserDetail) {
-            var msgData = [];
-            var usersChatId = combine2UserId(currentUserDetail.id);
-            db.collection('Chat')
-                .doc(usersChatId.toString())
-                .collection('messages')
-                .orderBy('date')
-                // .orderBy('date', 'desc')
-                .limit(50)
-                .onSnapshot(snapshot => {
-                    snapshot.docChanges().forEach(change => {
-                        msgData.push(change.doc.data());
+        let messageChatData = [];
+        db.collection('List')
+            .doc(currentUserDetail.id.toString())
+            .collection('userDetails')
+            .orderBy("date", "desc")
+            .onSnapshot(function (snapshot) {
+                snapshot.docChanges().forEach(function (change) {
+                    if (change.type === 'modified') {
+                        const newData = change.doc.data();
+                        const newMap = messageChatData.map((data) =>
+                            data.reciverId == newData.reciverId ? newData : data,
+                        );
+                        messageChatData = newMap;
+                    } else {
+                        messageChatData.push(change.doc.data());
+                    }
+                    const newList = messageChatData.sort(function (x, y) {
+                        return y.date - x.date;
                     });
-                    setChatMessagesList(msgData);
+                    setChatList(newList);
                 });
+            });
 
-            //set current user count 0
-            db.collection('List')
-                .doc(currentUserDetail.id.toString())
-                .collection('userDetails')
-                .get()
-                .then(documentSnapshot => {
-                    documentSnapshot.docs.forEach(change => {
-                        if (change.id === reciverIdx.toString()) {
-                            db.collection('List')
-                                .doc(currentUserDetail.id.toString())
-                                .collection('userDetails')
-                                .doc(reciverIdx.toString())
-                                .update({
-                                    count: 0,
-                                });
-                        }
-                    });
+        let msgData = [];
+        db.collection('Chat')
+            .doc(combine2UserId(currentUserDetail.id).toString())
+            .collection('messages')
+            .orderBy('date')
+            // .orderBy('date', 'desc')
+            // .limit(50)
+            .onSnapshot(function (snapshot) {
+                snapshot.docChanges().forEach(function (change) {
+                    msgData.push(change.doc.data());
                 });
-        }
-    }, [recieverCounter, reciverIdx])
+                setChatMessagesList(msgData);
+            });
+
+        //set current user count 0
+        db.collection('List')
+            .doc(currentUserDetail.id.toString())
+            .collection('userDetails')
+            .get()
+            .then((documentSnapshot) => {
+                documentSnapshot.docs.forEach(function (change) {
+                    if (change.id === reciverIdx.toString()) {
+                        db.collection('List')
+                            .doc(currentUserDetail.id.toString())
+                            .collection('userDetails')
+                            .doc(reciverIdx.toString())
+                            .update({
+                                count: 0,
+                            });
+                    }
+                });
+            });
+    }, [reciverIdx])
+
+
+    // useEffect(() => {
+    //     if (reciverIdx && reciverName && currentUserDetail) {
+
+    //     }
+    // }, [recieverCounter, reciverIdx])
 
 
     useEffect(() => {
         // get List data from reciever id
-        if ((reciverIdx && reciverName)) {
-
+        if (reciverIdx && reciverName) {
             db.collection('List')
                 .doc(reciverIdx.toString())
                 .collection('userDetails')
-                .onSnapshot(snapshot => {
+                .onSnapshot(function (snapshot) {
                     snapshot.docChanges().forEach(change => {
                         if (change.doc.data().reciverId === currentUserDetail.id.toString()) {
                             setRecieveerCounter(change.doc.data().count);
@@ -212,30 +234,7 @@ const SponsorsMyChats = (props) => {
         }
     }
 
-    //Get Chat List Data
-    useEffect(() => {
-        var messageChatData = [];
-        db.collection('List')
-            .doc(currentUserDetail.id.toString())
-            .collection('userDetails')
-            .onSnapshot(function (snapshot) {
-                snapshot.docChanges().map(change => {
-                    if (change.type === 'modified') {
-                        const newData = change.doc.data();
-                        const newMap = messageChatData.map((data, id) =>
-                            data.reciverId == newData.reciverId ? newData : data,
-                        );
-                        messageChatData = newMap;
-                    } else {
-                        messageChatData.push(change.doc.data());
-                    }
-                    var newList = messageChatData.sort((x, y) => {
-                        return y.date - x.date;
-                    });
-                    setChatList(newList);
-                });
-            });
-    }, [])
+    // console.log("chatList", chatList)
 
     //set Chat list time
     const setChatListTime = (item) => {
@@ -256,7 +255,7 @@ const SponsorsMyChats = (props) => {
         }, 1000);
     };
 
-    console.log("chatWindowDown", chatWindowDown)
+    console.log("chatMessagesList", chatMessagesList)
     return (
         <div className="clinical-dashboard my-favorites-section">
             <div className="container">
@@ -265,67 +264,80 @@ const SponsorsMyChats = (props) => {
                 </div>
 
                 <div className="chat-container">
-                    <aside>
-                        <div className="conversations">
-                            {/* active */}
-                            {chatList && chatList.map((item, index) => (
-                                <div
-                                    className={classNames(
-                                        "thread",
-                                        { "active": reciverIdx.toString() === item.reciverId.toString() }
-                                    )}
-                                    key={index}
-                                    onClick={() => handleselectChatOpen(item)}
-                                >
-                                    <div className="details">
-                                        <div className="user-head">
-                                            <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
-                                        </div>
-                                        <div className="user-name">{item.recieverName}</div>
-                                        <div className="last-message">{item.message}</div>
-                                    </div>
-                                    <div
-                                        className={classNames(
-                                            "last",
-                                            { "new": item.count > 0 }
-                                        )}
-                                    > {setChatListTime(item)} </div>
+                    {chatList.length > 0 || chatMessagesList.length > 0 ?
+                        <>
+                            <aside>
+                                <div className="conversations">
+                                    {chatList.length !== 0 && chatList.map((item, index) => {
+                                        return (
+                                            <div
+                                                className={classNames(
+                                                    "thread",
+                                                    { "active": reciverIdx.toString() === item.reciverId.toString() }
+                                                )}
+                                                key={index}
+                                                onClick={() => handleselectChatOpen(item)}
+                                            >
+                                                <div className="details">
+                                                    <div className="user-head">
+                                                        <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
+                                                    </div>
+                                                    <div className="user-name">{capitalizeFirstLetter(item.recieverName)}</div>
+                                                    <div className="last-message">{item.message}</div>
+                                                </div>
+                                                <div
+                                                    className={classNames(
+                                                        "last",
+                                                        { "new": item.count > 0 }
+                                                    )}
+                                                > <span> {setChatListTime(item)} </span> </div>
+                                            </div>
+                                        )
+                                    })}
                                 </div>
-                            ))}
-                        </div>
-                    </aside>
+                            </aside>
 
-                    <main>
-                        <div className="top-bar">
-                            <div className="user-info">
-                                <div className="user-head">
-                                    <img src={reciverImage ? reciverImage : "/images/placeholder-img.jpg"} alt={reciverName} />
-                                </div>
-                                <div className="name">{reciverName}</div>
-                                {/* <div className="status online" /> */}
-                            </div>
-                            <div className="chat-header-btn">
-                                <div className="call"><i className="fas fa-phone-volume" /></div>
-                            </div>
-                        </div>
-                        <div className="messages" id="messages" ref={containerRef}>
-                            {chatMessagesList && chatMessagesList.map((item, index) => (
-                                <React.Fragment key={index} >
-                                    {setDateValue(item, index)}
-                                    <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
-                                        <div className="content">{item.message}</div>
-                                        <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
+                            <main>
+                                {reciverName &&
+                                    <div className="top-bar">
+                                        <div className="user-info">
+                                            <div className="user-head">
+                                                <img src={reciverImage ? reciverImage : "/images/placeholder-img.jpg"} alt={reciverName} />
+                                            </div>
+                                            <div className="name">{capitalizeFirstLetter(reciverName)}</div>
+                                            {/* <div className="status online" /> */}
+                                        </div>
+                                        <div className="chat-header-btn">
+                                            <div className="call"><i className="fas fa-phone-volume" /></div>
+                                        </div>
                                     </div>
-                                </React.Fragment>
-                            ))}
+                                }
+                                <div className="messages" id="messages" ref={containerRef}>
+                                    {chatMessagesList.map((item, index) => (
+                                        <React.Fragment key={index} >
+                                            {setDateValue(item, index)}
+                                            <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
+                                                <div className="content">{item.message}</div>
+                                                <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
+                                            </div>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                                {reciverName &&
+                                    <form onSubmit={sendChatMessage} className="bottom-bar">
+                                        <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
+                                        <div className="chat-user-options">
+                                            <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
+                                        </div>
+                                    </form>
+                                }
+                            </main>
+                        </>
+                        :
+                        <div className='w-100 chat-empty-block'>
+                            <NoDataFound />
                         </div>
-                        <form onSubmit={sendChatMessage} className="bottom-bar">
-                            <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
-                            <div className="chat-user-options">
-                                <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
-                            </div>
-                        </form>
-                    </main>
+                    }
                 </div>
             </div>
         </div>

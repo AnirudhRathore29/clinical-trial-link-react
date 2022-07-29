@@ -16,7 +16,7 @@ const PatientTrialClinicDetails = React.lazy(() => import('../Patient/TrialClini
 const PatientMyAppointments = React.lazy(() => import('../Patient/MyAppointments/MyAppointments'));
 const PatientClinicListing = React.lazy(() => import('../Patient/ClinicListing/ClinicListing'));
 const PatientMyFavorites = React.lazy(() => import('../Patient/MyFavorites/MyFavorites'));
-const PatientMyChats = React.lazy(() => import('../Patient/MyChats/myChats'));
+// const PatientMyChats = React.lazy(() => import('../Patient/MyChats/myChats'));
 const PatientPaymentHistory = React.lazy(() => import('../Patient/PaymentHistory/PaymentHistory'));
 const PatientTrialListing = React.lazy(() => import('../Patient/TrialListing/TrialListing'));
 
@@ -85,7 +85,7 @@ const routes = [
 	{ path: '/patient/trial-clinic-details/:id', exact: true, name: 'PatientTrialClinicDetails', component: PatientTrialClinicDetails, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/my-chats', exact: true, name: 'PatientMyChats', component: PatientMyChats, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/trial-listing/:id', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 

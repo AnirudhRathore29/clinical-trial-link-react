@@ -20,6 +20,10 @@ export const chatDateFormat = date => {
         sameElse: 'DD/MM/YYYY'
     }
     var dateFromat = moment().calendar(date, formats)
-    console.log("dateFromat",dateFromat)
+    console.log("dateFromat", dateFromat)
     return dateFromat;
+}
+
+export const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
