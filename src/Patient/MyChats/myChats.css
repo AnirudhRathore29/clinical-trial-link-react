@@ -89,9 +89,9 @@
 .chat-container aside .conversations .thread .last {
   color: #ffffff;
   height: 2.2rem;
-  width: 5rem;
-  min-width: 5rem;
-  text-align: center;
+  width: 7rem;
+  min-width: 7rem;
+  text-align: right;
   line-height: 2.2rem;
   font-size: 1.2rem;
   border-radius: 1.1rem;

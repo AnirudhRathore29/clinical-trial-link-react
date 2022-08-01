@@ -10,18 +10,18 @@ import moment from "moment";
 //     return pad(hours) + ":" + pad(minutes)
 // }
 
-export const chatDateFormat = date => {
-    var formats = {
+export const chatDateFormat = myDate => {
+    var fromNow = moment(myDate).fromNow();
+    return moment(myDate).calendar(null, {
+        lastWeek: '[Last] dddd',
+        lastDay: '[Yesterday]',
         sameDay: '[Today]',
         nextDay: '[Tomorrow]',
-        nextWeek: 'dddd',
-        lastDay: '[Yesterday]',
-        lastWeek: '[Last] dddd',
-        sameElse: 'DD/MM/YYYY'
-    }
-    var dateFromat = moment().calendar(date, formats)
-    console.log("dateFromat", dateFromat)
-    return dateFromat;
+        nextWeek: 'dddd',           
+        sameElse: function () {
+            return "[" + fromNow + "]";
+        }
+    });
 }
 
 export const capitalizeFirstLetter = (string) => {

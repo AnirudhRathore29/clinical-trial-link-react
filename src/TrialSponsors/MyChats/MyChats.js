@@ -4,7 +4,7 @@ import '../../Patient/MyChats/myChats.css';
 import db from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
-import { capitalizeFirstLetter } from '../../utils/Utils';
+import { capitalizeFirstLetter, chatDateFormat } from '../../utils/Utils';
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
@@ -67,6 +67,7 @@ const SponsorsMyChats = (props) => {
                     msgData.push(change.doc.data());
                 });
                 setChatMessagesList(msgData);
+                // updateFunction(msgData)
             });
 
         //set current user count 0
@@ -90,12 +91,23 @@ const SponsorsMyChats = (props) => {
     }, [reciverIdx])
 
 
-    // useEffect(() => {
-    //     if (reciverIdx && reciverName && currentUserDetail) {
-
+    // function updateFunction(msgData) {
+    //     for (let pos = 0; pos < msgData.length; pos++) {
+    //         let mDate = msgData[pos].date;
+    //         let mValue = 0;
+    //         for (let index = 0; index < msgData.length; index++) {
+    //             const element = msgData[index];
+    //             if (mDate == element.date) {
+    //                 mDate = element.date;
+    //                 mValue++;
+    //             }
+    //             if (mValue == 2) {
+    //                 msgData.splice(index, 1);
+    //             }
+    //         }
     //     }
-    // }, [recieverCounter, reciverIdx])
-
+    //     setChatMessagesList(msgData);
+    // }
 
     useEffect(() => {
         // get List data from reciever id
@@ -192,48 +204,22 @@ const SponsorsMyChats = (props) => {
         }
     }
 
+    let previousDate = '';
     const setDateValue = (item, index) => {
-        var timestemp = new Date(item.date);
         if (index === 0) {
-            var preDate = item.date;
-            // return (
-            //     <div className="date-split if"> {chatDateFormat(item.date)} </div>
-            // );
-            let currentDate = moment(new Date()).format('DD/MM/YYYY');
-            let msgDate = moment(preDate).format('DD/MM/YYYY');
-            if (currentDate === msgDate) {
-                return (
-                    <div className="date-split"> Today </div>
-                );
-            } else {
-                return (
-                    <div className="date-split"> {moment(timestemp).format('DD MMM YYYY')} </div>
-                );
-            }
+            previousDate = item.date;
+            return (
+                <div className="date-split if"> {chatDateFormat(item.date)} </div>
+            );
         } else {
-            // if (moment(preDate).format('DD MMM YYYY') !== moment(item.date).format('DD MMM YYYY')) {
-            //     return (
-            //         <div className="date-split else"> {chatDateFormat(item.date)} </div>
-            //     );
-            // }
-            if (moment(preDate).format('DD MMM YYYY') !== moment(item.date).format('DD MMM YYYY')) {
-                preDate = item.date;
-                let currentDate = moment(new Date()).format('DD/MM/YYYY');
-                let msgDate = moment(preDate).format('DD/MM/YYYY');
-                if (currentDate === msgDate) {
-                    return (
-                        <div className="date-split"> Today </div>
-                    );
-                } else {
-                    return (
-                        <div className="date-split"> {moment(new Date(item.date)).format('DD MMM YYYY')} </div>
-                    );
-                }
+            if (moment(previousDate).format('DD MMM YYYY') !== moment(item.date).format('DD MMM YYYY')) {
+                previousDate = item.date;
+                return (
+                    <div className="date-split else"> {chatDateFormat(item.date)} </div>
+                );
             }
         }
     }
-
-    // console.log("chatList", chatList)
 
     //set Chat list time
     const setChatListTime = (item) => {
@@ -253,9 +239,6 @@ const SponsorsMyChats = (props) => {
             setChatWindowDown(chatWindowDown + 1)
         }, 1000);
     };
-
-    console.log("chatMessagesList", chatMessagesList);
-    console.log("chatList", chatList);
 
     return (
         <div className="clinical-dashboard my-favorites-section">
