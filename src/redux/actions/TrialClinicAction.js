@@ -8,7 +8,8 @@ import {
     TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR,
     TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
     TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
-    TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR
+    TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
+    CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -165,6 +166,21 @@ export const TrialApplicationsStatusUpdateAction = (data) => async (dispatch) =>
         })
         .catch(error => {
             dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const NewTrialRequestListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/new-appointment-request-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

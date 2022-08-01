@@ -5,7 +5,6 @@ import db from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
 import { capitalizeFirstLetter } from '../../utils/Utils';
-import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
@@ -255,7 +254,9 @@ const SponsorsMyChats = (props) => {
         }, 1000);
     };
 
-    console.log("chatMessagesList", chatMessagesList)
+    console.log("chatMessagesList", chatMessagesList);
+    console.log("chatList", chatList);
+
     return (
         <div className="clinical-dashboard my-favorites-section">
             <div className="container">
@@ -264,80 +265,72 @@ const SponsorsMyChats = (props) => {
                 </div>
 
                 <div className="chat-container">
-                    {chatList.length > 0 || chatMessagesList.length > 0 ?
-                        <>
-                            <aside>
-                                <div className="conversations">
-                                    {chatList.length !== 0 && chatList.map((item, index) => {
-                                        return (
-                                            <div
-                                                className={classNames(
-                                                    "thread",
-                                                    { "active": reciverIdx.toString() === item.reciverId.toString() }
-                                                )}
-                                                key={index}
-                                                onClick={() => handleselectChatOpen(item)}
-                                            >
-                                                <div className="details">
-                                                    <div className="user-head">
-                                                        <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
-                                                    </div>
-                                                    <div className="user-name">{capitalizeFirstLetter(item.recieverName)}</div>
-                                                    <div className="last-message">{item.message}</div>
-                                                </div>
-                                                <div
-                                                    className={classNames(
-                                                        "last",
-                                                        { "new": item.count > 0 }
-                                                    )}
-                                                > <span> {setChatListTime(item)} </span> </div>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </aside>
-
-                            <main>
-                                {reciverName &&
-                                    <div className="top-bar">
-                                        <div className="user-info">
+                    <aside>
+                        <div className="conversations">
+                            {chatList.length !== 0 && chatList.map((item, index) => {
+                                return (
+                                    <div
+                                        className={classNames(
+                                            "thread",
+                                            { "active": reciverIdx.toString() === item.reciverId.toString() }
+                                        )}
+                                        key={index}
+                                        onClick={() => handleselectChatOpen(item)}
+                                    >
+                                        <div className="details">
                                             <div className="user-head">
-                                                <img src={reciverImage ? reciverImage : "/images/placeholder-img.jpg"} alt={reciverName} />
+                                                <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
                                             </div>
-                                            <div className="name">{capitalizeFirstLetter(reciverName)}</div>
-                                            {/* <div className="status online" /> */}
+                                            <div className="user-name">{capitalizeFirstLetter(item.recieverName)}</div>
+                                            <div className="last-message">{item.message}</div>
                                         </div>
-                                        <div className="chat-header-btn">
-                                            <div className="call"><i className="fas fa-phone-volume" /></div>
-                                        </div>
+                                        <div
+                                            className={classNames(
+                                                "last",
+                                                { "new": item.count > 0 }
+                                            )}
+                                        > <span> {setChatListTime(item)} </span> </div>
                                     </div>
-                                }
-                                <div className="messages" id="messages" ref={containerRef}>
-                                    {chatMessagesList.map((item, index) => (
-                                        <React.Fragment key={index} >
-                                            {setDateValue(item, index)}
-                                            <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
-                                                <div className="content">{item.message}</div>
-                                                <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
-                                            </div>
-                                        </React.Fragment>
-                                    ))}
-                                </div>
-                                {reciverName &&
-                                    <form onSubmit={sendChatMessage} className="bottom-bar">
-                                        <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
-                                        <div className="chat-user-options">
-                                            <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
-                                        </div>
-                                    </form>
-                                }
-                            </main>
-                        </>
-                        :
-                        <div className='w-100 chat-empty-block'>
-                            <NoDataFound />
+                                )
+                            })}
                         </div>
-                    }
+                    </aside>
+
+                    <main>
+                        {reciverName &&
+                            <div className="top-bar">
+                                <div className="user-info">
+                                    <div className="user-head">
+                                        <img src={reciverImage ? reciverImage : "/images/profile-img1.jpg"} alt={reciverName} />
+                                    </div>
+                                    <div className="name">{capitalizeFirstLetter(reciverName)}</div>
+                                    {/* <div className="status online" /> */}
+                                </div>
+                                <div className="chat-header-btn">
+                                    <div className="call"><i className="fas fa-phone-volume" /></div>
+                                </div>
+                            </div>
+                        }
+                        <div className="messages" id="messages" ref={containerRef}>
+                            {chatMessagesList.map((item, index) => (
+                                <React.Fragment key={index} >
+                                    {setDateValue(item, index)}
+                                    <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
+                                        <div className="content">{item.message}</div>
+                                        <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
+                                    </div>
+                                </React.Fragment>
+                            ))}
+                        </div>
+                        {reciverName &&
+                            <form onSubmit={sendChatMessage} className="bottom-bar">
+                                <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
+                                <div className="chat-user-options">
+                                    <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
+                                </div>
+                            </form>
+                        }
+                    </main>
                 </div>
             </div>
         </div>

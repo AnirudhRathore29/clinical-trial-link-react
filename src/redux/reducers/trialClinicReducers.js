@@ -7,7 +7,8 @@ import {
 	TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR,
 	TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
 	TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
-	TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR
+	TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
+	CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -19,7 +20,8 @@ const initialState = {
 	dashboard: {},
 	trial_app: {},
 	trial_app_detail: {},
-	trial_status: {}
+	trial_status: {},
+	new_trial_request: {}
 };
 
 export default function TrialClinicReducer(state = initialState, action) {
@@ -141,6 +143,20 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				trial_status: {},
+				error: action.payload,
+			};
+		case CLINIC_NEW_TRIAL_REQUEST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				new_trial_request: action.payload,
+				error: {}
+			};
+		case CLINIC_NEW_TRIAL_REQUEST_ERROR:
+			return {
+				...state,
+				loading: false,
+				new_trial_request: {},
 				error: action.payload,
 			};
 		default:

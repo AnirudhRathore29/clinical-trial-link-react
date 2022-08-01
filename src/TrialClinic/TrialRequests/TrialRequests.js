@@ -1,15 +1,46 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import './TrialRequests.css'
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { NewTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
+import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const ClinicTrialRequests = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const loadingSelector = useSelector(state => state.trial_clinic)
+    const newRequestSelector = useSelector(state => state.trial_clinic.new_trial_request.data)
+
+    const [loadMoreData, setLoadMoreData] = useState(1);
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+
+    useEffect(() => {
+        dispatch(NewTrialRequestListAction({ page: loadMoreData }))
+    }, [dispatch, loadMoreData])
+
+    const handleLoadMore = () => {
+        setLoadMoreData(loadMoreData + 1)
+    }
+
+    const handleRedirectUser2Chat = (data) => {
+        history.push({
+            pathname: "/trial-clinic/my-chats",
+            state: {
+                full_name: data.patient_user_info.first_name + " " + data.patient_user_info.last_name,
+                id: data.patient_user_info.id,
+                profile_image: data.patient_user_info.profile_image,
+            }
+        })
+    }
 
     return (
         <>
@@ -31,247 +62,94 @@ const ClinicTrialRequests = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {newRequestSelector !== undefined ?
+                                newRequestSelector.data.data?.length !== 0 ?
+                                    newRequestSelector.data.data.map((value, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>
+                                                    <div className='patient-img'>
+                                                        <img src={value.patient_user_info.profile_image !== null ? value.patient_user_info.profile_image : "/images/profile-img1.jpg"} alt={value.patient_user_info.first_name} />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {value.patient_user_info !== null &&
+                                                        <>
+                                                            <h2> {value.patient_user_info.first_name} {value.patient_user_info.last_name} </h2>
+                                                            <p className='no-wrap'>
+                                                                <span><strong>Gender : </strong>
+                                                                    {value.patient_user_info.gender === "M" ? "Male" 
+                                                                        :
+                                                                        value.patient_user_info.gender === "F" ? "Female"
+                                                                        :
+                                                                        "Nonbinary"
+                                                                    }
+                                                                </span>
+                                                                <span><strong>DOB :</strong> {moment(value.patient_user_info.dob).format("MMMM DD, YYYY")} </span>
+                                                            </p>
+                                                            <p className='no-wrap'><strong>Phone Number :</strong> {value.patient_user_info.phone_number} </p>
+                                                        </>
+                                                    }
+                                                </td>
+                                                <td> {value.clinic_trial_info !== null && value.clinic_trial_info.trial_name} </td>
+                                                <td> {value.patient_user_info !== null && value.patient_user_info.address + ", " + value.patient_user_info.state_info.name} </td>
+                                                <td className='no-wrap'>{moment(value.appointment_date).format("MMMM DD, YYYY")}, <br />
+                                                    ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})
+                                                </td>
+                                                <td>
+                                                    <div className='btn-group-custom'>
+                                                        <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
+                                                            <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
+                                                        </button>
 
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img1.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>David Smith</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img2.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Olivia Doe</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img3.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>Mike Hoover</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img4.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>David Smith</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/avatar2.svg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>David Smith</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img1.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>David Smith</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className='patient-img'>
-                                        <img src="/images/profile-img3.jpg" alt="patient" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>David Smith</h2>
-                                    <p className='no-wrap'><span><strong>Gender :</strong> Male</span> <span><strong>DOB :</strong> March 26, 1991</span></p>
-                                    <p className='no-wrap'><strong>Phone Number :</strong> +01 919 719 2505</p>
-                                </td>
-                                <td>
-                                    Adolescents with ADHD and a Parent with
-                                    Bipolar Disorder
-                                </td>
-                                <td>Morrisville, NC, United States</td>
-                                <td className='no-wrap'>Jan 25, 2022, <br /> (09:00 AM to 11:00 AM)</td>
-                                <td>
-                                    <div className='btn-group-custom'>
-                                        <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="green btn-sm"
-                                            BtnText="Reject"
-                                            onClick={handleShow}
-                                        />
-                                        <Button
-                                            isButton="true"
-                                            BtnColor="primary btn-sm"
-                                            BtnText="Approve"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
+                                                        <Button
+                                                            isButton="true"
+                                                            BtnColor="green btn-sm"
+                                                            BtnText="Reject"
+                                                            onClick={handleShow}
+                                                        />
+                                                        <Button
+                                                            isButton="true"
+                                                            BtnColor="primary btn-sm"
+                                                            BtnText="Approve"
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                    :
+                                    <tr>
+                                        <td colSpan="6">
+                                            <NoDataFound />
+                                        </td>
+                                    </tr>
+                                :
+                                [1, 2, 3, 4].map((_, index) => {
+                                    return (
+                                        <tr className='bg-transparent' key={index}>
+                                            <td className='p-0' colSpan="6">
+                                                <Skeleton height={125} />
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
+
+                    {newRequestSelector && newRequestSelector.data.total > 16 &&
+                        <div className='col-12 mt-5 text-center'>
+                            <Button
+                                isButton="true"
+                                BtnColor="primary"
+                                BtnText="Load More"
+                                onClick={handleLoadMore}
+                                disabled={newRequestSelector.data.last_page === newRequestSelector.data.current_page || loadingSelector.loading}
+                                hasSpinner={loadingSelector.loading}
+                            />
+                        </div>
+                    }
                 </div>
             </div>
 

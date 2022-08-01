@@ -89,7 +89,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                                     <div className="user-image">
                                         <img
                                             src={profileDetails.profile_image ?
-                                                getImageUrl() + profileDetails.profile_image
+                                                profileDetails.profile_image
                                                 : '/images/avatar2.svg'}
                                             alt="avatar"
                                         />
