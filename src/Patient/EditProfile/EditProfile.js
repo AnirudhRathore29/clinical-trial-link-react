@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InputText, SelectBox } from "../../views/Components/Common/Inputs/Inputs";
+import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
@@ -389,6 +389,30 @@ const PatientEditProfile = () => {
                                                     placeholder="Phone Number"
                                                     labelText="Phone Number"
                                                     isDisabled={true}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-12">
+                                                <SelectBox
+                                                    labelText="Select Race"
+                                                    optionData=
+                                                    {
+                                                        <>
+                                                            <option value="">Select Race</option>
+                                                            <option value="">Asian</option>
+                                                            <option value="">Black or African American</option>
+                                                            <option value="">Hispanic or Latino</option>
+                                                            <option value="">Native Hawaiian or Other Pacific Islander</option>
+                                                            <option value="">White</option>
+                                                            <option value="">Other</option>
+                                                        </>
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="col-lg-12">
+                                                <TextArea
+                                                    placeholder="Here..."
+                                                    labelText="Medical Conditions and Medications"
                                                 />
                                             </div>
 

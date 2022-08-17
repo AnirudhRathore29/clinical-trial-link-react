@@ -132,6 +132,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                         <>
                             <li><Link to="/trial-clinic/manage-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
                             <li><Link to="/trial-clinic/trial-applications"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> Trial Applications</Link></li>
+                            <li><Link to="/trial-clinic/screen-trial-request"><box-icon type='solid' name='message-square-add' color='#ffffff'></box-icon> Screen Trial Request</Link></li>
                             <li><Link to="/trial-clinic/my-appointments"><box-icon name='calendar' type='solid' color='#ffffff'></box-icon> My Appointments</Link></li>
                             <li><Link to="/trial-clinic/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
                         </>

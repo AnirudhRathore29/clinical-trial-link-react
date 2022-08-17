@@ -60,7 +60,9 @@ export const SelectBox = (props) => {
                 className={`form-control ${props.className}`}
                 id={props.id}
                 onChange={props.onChange}
+                onFocus={props.onFocus}
                 required={props.required}
+                value={props.value}
             >
                 {
                     props.optionData

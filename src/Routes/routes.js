@@ -24,6 +24,8 @@ const PatientTrialListing = React.lazy(() => import('../Patient/TrialListing/Tri
 const ClinicCompleteProfile = React.lazy(() => import('../TrialClinic/CompleteProfile/CompleteProfile'));
 const ClinicDashboard = React.lazy(() => import('../TrialClinic/Dashboard/Dashboard'));
 const ClinicTrialRequests = React.lazy(() => import('../TrialClinic/TrialRequests/TrialRequests'));
+const ClinicTrialScreenRequest = React.lazy(() => import('../TrialClinic/TrialRequests/ScreenRequest'));
+const ClinicTrialScreenRequestDetail = React.lazy(() => import('../TrialClinic/TrialRequests/ScreenRequestDetail'));
 const ClinicSponsorsListing = React.lazy(() => import('../TrialClinic/SponsorsListing/SponsorsListing'));
 const ClinicSponsorsDetails = React.lazy(() => import('../TrialClinic/SponsorsDetails/SponsorsDetails'));
 const ClinicSponsorsTrialListing = React.lazy(() => import('../TrialClinic/SponsorsTrialListing/SponsorsTrialListing'));
@@ -93,6 +95,8 @@ const routes = [
 	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/dashboard', exact: true, name: 'ClinicDashboard', component: ClinicDashboard, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/trial-requests', exact: true, name: 'ClinicTrialRequests', component: ClinicTrialRequests, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/screen-trial-request', exact: true, name: 'ClinicTrialScreenRequest', component: ClinicTrialScreenRequest, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/screen-trial-request/:id', exact: true, name: 'ClinicTrialScreenRequestDetail', component: ClinicTrialScreenRequestDetail, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/sponsors-listing', exact: true, name: 'ClinicSponsorsListing', component: ClinicSponsorsListing, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/sponsors-details/:id', exact: true, name: 'ClinicSponsorsDetails', component: ClinicSponsorsDetails, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/sponsors-trial-listing/:id', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing, meta: {"role": RolesConfig.TRIAL_CLINIC} },

@@ -63,7 +63,7 @@ textarea:focus{ outline: 0 !important; box-shadow: none !important; }
 .repeat-section{padding: 10rem 0;}
 
 .row{margin: 0 -15px;}
-.row div[class*="col"]{padding: 0 15px;}
+.row>div[class*="col"]{padding: 0 15px;}
 .gutter-size-30{margin: 0 -3rem;}
 .gutter-size-30>div[class*="col"]{padding: 0 3rem;}
 .border-left1px{border-left: 1px solid #ededed;}
