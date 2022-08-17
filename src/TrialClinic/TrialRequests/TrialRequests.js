@@ -7,7 +7,7 @@ import './TrialRequests.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { NewTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
+import { NewTrialRequestListAction, NewTrialRequestStatusUpdateAction } from '../../redux/actions/TrialClinicAction';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
@@ -16,6 +16,8 @@ const ClinicTrialRequests = () => {
     const history = useHistory();
     const loadingSelector = useSelector(state => state.trial_clinic)
     const newRequestSelector = useSelector(state => state.trial_clinic.new_trial_request.data)
+
+    console.log("newRequestSelector", newRequestSelector);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [show, setShow] = useState(false);
@@ -41,6 +43,17 @@ const ClinicTrialRequests = () => {
             }
         })
     }
+
+    const UpdateStatus = (data) => {
+        console.log("data", data);
+        dispatch(NewTrialRequestStatusUpdateAction(data))
+    }
+
+    useEffect(() => {
+        if(loadingSelector && loadingSelector.trial_status.status === 200){
+            dispatch(NewTrialRequestListAction({ page: loadMoreData }))
+        }
+    }, [dispatch])
 
     return (
         <>
@@ -78,11 +91,11 @@ const ClinicTrialRequests = () => {
                                                             <h2> {value.patient_user_info.first_name} {value.patient_user_info.last_name} </h2>
                                                             <p className='no-wrap'>
                                                                 <span><strong>Gender : </strong>
-                                                                    {value.patient_user_info.gender === "M" ? "Male" 
+                                                                    {value.patient_user_info.gender === "M" ? "Male"
                                                                         :
                                                                         value.patient_user_info.gender === "F" ? "Female"
-                                                                        :
-                                                                        "Nonbinary"
+                                                                            :
+                                                                            "Nonbinary"
                                                                     }
                                                                 </span>
                                                                 <span><strong>DOB :</strong> {moment(value.patient_user_info.dob).format("MMMM DD, YYYY")} </span>
@@ -112,6 +125,9 @@ const ClinicTrialRequests = () => {
                                                             isButton="true"
                                                             BtnColor="primary btn-sm"
                                                             BtnText="Screen"
+                                                            hasSpinner={loadingSelector.loading}
+                                                            disabled={loadingSelector.loading}
+                                                            onClick={() => UpdateStatus({ patient_appointment_id: value.id, status: 1 })}
                                                         />
                                                     </div>
                                                 </td>

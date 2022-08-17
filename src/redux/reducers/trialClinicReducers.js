@@ -25,6 +25,7 @@ const initialState = {
 };
 
 export default function TrialClinicReducer(state = initialState, action) {
+	console.log("TrialClinicReducer", action);
 	switch (action.type) {
 		case LOADING:
 			return {

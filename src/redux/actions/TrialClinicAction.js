@@ -14,6 +14,10 @@ import {
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 export function Request() {
     return {
@@ -181,6 +185,23 @@ export const NewTrialRequestListAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const NewTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/update-patient-appointment-status", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_SUCCESS, payload: response });
+            console.log("response", response);
+            toast.success(response.data.message, { theme: "colored" })
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

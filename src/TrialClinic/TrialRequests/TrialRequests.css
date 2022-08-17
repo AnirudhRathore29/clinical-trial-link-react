@@ -5,6 +5,7 @@
 .patient-list-table th,
 .patient-list-table td{padding: 2.5rem 2rem;}
 .patient-list-table td{font-weight: 300;}
+.patient-list-table td .btn{min-width: 10rem;padding: 1rem;}
 .patient-list-table h2{font-weight: bold;}
 .patient-list-table p{margin: 0;}
 .patient-list-table p strong{font-weight: 500;}
