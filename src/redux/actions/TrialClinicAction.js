@@ -9,7 +9,7 @@ import {
     TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
     TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
     TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
-    CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR
+    CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_SUCCESS, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -22,6 +22,11 @@ toast.configure();
 export function Request() {
     return {
         type: LOADING
+    };
+}
+export function StatusLoading() {
+    return {
+        type: STATUS_LOADING
     };
 }
 export function SponsorListSuccess(response) {
@@ -190,18 +195,52 @@ export const NewTrialRequestListAction = (data) => async (dispatch) => {
 }
 
 export const NewTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
-    dispatch(Request());
+    if(data.type === 2){
+        dispatch(Request());
+    } else {
+        dispatch(StatusLoading());
+    }
     axios
-        .post(getCurrentHost() + "/trialclinic/update-patient-appointment-status", data, {
+        .post(getCurrentHost() + "/trialclinic/update-patient-appointment-status", data.data, {
             headers: authHeader()
         })
         .then(response => {
-            dispatch({ type: TRIAL_APPLICATION_STATUS_SUCCESS, payload: response });
-            console.log("response", response);
+            dispatch({ type: NEW_TRIAL_REQUEST_STATUS_SUCCESS, payload: response });
             toast.success(response.data.message, { theme: "colored" })
         })
         .catch(error => {
-            dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
+            dispatch({ type: NEW_TRIAL_REQUEST_STATUS_ERROR, payload: error.response.data });
+            toast.error(error.response.data.message, { theme: "colored" })
+            HandleError(error.response.data)
+        });
+}
+
+export const NewScreenTrialRequestListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/screen-appointment-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const NewScreenTrialRequestDetailAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + `/trialclinic/view-patient-trial-application/${data}`, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

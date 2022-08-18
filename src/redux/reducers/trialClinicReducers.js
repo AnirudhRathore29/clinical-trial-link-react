@@ -8,11 +8,12 @@ import {
 	TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
 	TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
 	TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
-	CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR
+	CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
 	loading: false,
+	status_loading: false,
 	error: {},
 	sponsore_detail: {},
 	apply_trial: {},
@@ -21,7 +22,10 @@ const initialState = {
 	trial_app: {},
 	trial_app_detail: {},
 	trial_status: {},
-	new_trial_request: {}
+	new_trial_request: {},
+	new_screen_trial_request: {},
+	new_screen_trial_detail: {},
+	patient_trial_request_status: {}
 };
 
 export default function TrialClinicReducer(state = initialState, action) {
@@ -30,7 +34,12 @@ export default function TrialClinicReducer(state = initialState, action) {
 		case LOADING:
 			return {
 				...state,
-				loading: true
+				loading: true,
+			};
+		case STATUS_LOADING:
+			return {
+				...state,
+				status_loading: true,
 			};
 		case SPONSORE_LIST_SUCCESS:
 			return {
@@ -158,6 +167,50 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				new_trial_request: {},
+				error: action.payload,
+			};
+		case NEW_TRIAL_REQUEST_STATUS_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				status_loading: false,
+				patient_trial_request_status: action.payload,
+				error: {}
+			};
+		case NEW_TRIAL_REQUEST_STATUS_ERROR:
+			return {
+				...state,
+				loading: false,
+				status_loading: false,
+				patient_trial_request_status: {},
+				error: action.payload,
+			};
+		case CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				new_screen_trial_request: action.payload,
+				error: {}
+			};
+		case CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR:
+			return {
+				...state,
+				loading: false,
+				new_screen_trial_request: {},
+				error: action.payload,
+			};
+		case CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				new_screen_trial_detail: action.payload,
+				error: {}
+			};
+		case CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR:
+			return {
+				...state,
+				loading: false,
+				new_screen_trial_detail: {},
 				error: action.payload,
 			};
 		default:

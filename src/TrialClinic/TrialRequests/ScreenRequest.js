@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../views/Components/Common/Buttons/Buttons';
-import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
-import CommonModal from '../../views/Components/Common/Modal/Modal';
 import './TrialRequests.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { NewTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
+import { NewScreenTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
@@ -15,16 +13,12 @@ const ClinicTrialScreenRequest = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const loadingSelector = useSelector(state => state.trial_clinic)
-    const newRequestSelector = useSelector(state => state.trial_clinic.new_trial_request.data)
+    const newRequestSelector = useSelector(state => state.trial_clinic.new_screen_trial_request.data)
 
     const [loadMoreData, setLoadMoreData] = useState(1);
-    const [show, setShow] = useState(false);
-
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
 
     useEffect(() => {
-        dispatch(NewTrialRequestListAction({ page: loadMoreData }))
+        dispatch(NewScreenTrialRequestListAction({ page: loadMoreData }))
     }, [dispatch, loadMoreData])
 
     const handleLoadMore = () => {
@@ -42,8 +36,8 @@ const ClinicTrialScreenRequest = (props) => {
         })
     }
 
-    const ScreenRequestDetails = () => {
-        props.history.push("/trial-clinic/screen-trial-request/25")
+    const ScreenRequestDetails = (id) => {
+        props.history.push(`/trial-clinic/screen-trial-request/${id}`)
     }
 
     return (
@@ -61,7 +55,7 @@ const ClinicTrialScreenRequest = (props) => {
                                 <th>Patient Details</th>
                                 <th>Trial for</th>
                                 <th>Location</th>
-                                <th>Status</th>
+                                {/* <th>Status</th> */}
                                 <th>Date & Time</th>
                                 <th>Action</th>
                             </tr>
@@ -98,7 +92,7 @@ const ClinicTrialScreenRequest = (props) => {
                                                 </td>
                                                 <td> {value.clinic_trial_info !== null && value.clinic_trial_info.trial_name} </td>
                                                 <td> {value.patient_user_info !== null && value.patient_user_info.address + ", " + value.patient_user_info.state_info.name} </td>
-                                                <td> <span className='badge badge-primary d-inline-block'>Approved</span> </td>
+                                                {/* <td> <span className='badge badge-primary d-inline-block'>Approved</span> </td> */}
                                                 <td className='no-wrap'>{moment(value.appointment_date).format("MMMM DD, YYYY")}, <br />
                                                     ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})
                                                 </td>
@@ -108,7 +102,7 @@ const ClinicTrialScreenRequest = (props) => {
                                                             <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
                                                         </button>
 
-                                                        <button className="btn-action btn-green" onClick={ScreenRequestDetails}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                                        <button className="btn-action btn-green" onClick={()=>ScreenRequestDetails(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -116,7 +110,7 @@ const ClinicTrialScreenRequest = (props) => {
                                     })
                                     :
                                     <tr>
-                                        <td colSpan="7">
+                                        <td colSpan="6">
                                             <NoDataFound />
                                         </td>
                                     </tr>
@@ -124,7 +118,7 @@ const ClinicTrialScreenRequest = (props) => {
                                 [1, 2, 3, 4].map((_, index) => {
                                     return (
                                         <tr className='bg-transparent' key={index}>
-                                            <td className='p-0' colSpan="7">
+                                            <td className='p-0' colSpan="6">
                                                 <Skeleton height={125} />
                                             </td>
                                         </tr>
@@ -148,41 +142,6 @@ const ClinicTrialScreenRequest = (props) => {
                     }
                 </div>
             </div>
-
-            <CommonModal show={show} onHide={handleClose} keyboard={false}
-                ModalTitle="Reject Request"
-                onClick={handleClose}
-                ModalData={
-                    <>
-                        <SelectBox
-                            labelText="Reason for Rejection"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Select Cancellation Reason</option>
-                                    <option value="">Cancellation Reason 1</option>
-                                    <option value="">Cancellation Reason 2</option>
-                                    <option value="">Cancellation Reason 3</option>
-                                    <option value="">Cancellation Reason 4</option>
-                                </>
-                            }
-                        />
-
-                        <TextArea
-                            placeholder="Enter Rejection Details"
-                            labelText="Rejection Details"
-                        />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-100"
-                                BtnText="Confirm"
-                                onClick={handleClose}
-                            />
-                        </div>
-                    </>
-                }
-            />
         </>
     );
 };

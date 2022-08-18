@@ -155,29 +155,6 @@ const Patient = () => {
                         onChange={onChange}
                     />
                 </div>
-                <div className="col-lg-12">
-                    <SelectBox
-                        labelText="Select Race"
-                        optionData=
-                        {
-                            <>
-                                <option value="">Select Race</option>
-                                <option value="">Asian</option>
-                                <option value="">Black or African American</option>
-                                <option value="">Hispanic or Latino</option>
-                                <option value="">Native Hawaiian or Other Pacific Islander</option>
-                                <option value="">White</option>
-                                <option value="">Other</option>
-                            </>
-                        }
-                    />
-                </div>
-                <div className="col-lg-12">
-                    <TextArea
-                        placeholder="Here..."
-                        labelText="Medical Conditions and Medications"
-                    />
-                </div>
                 <div className="col-lg-6">
                     <InputText
                         type={Password ? "text" : "password"}

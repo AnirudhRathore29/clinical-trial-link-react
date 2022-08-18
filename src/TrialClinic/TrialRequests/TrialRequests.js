@@ -10,6 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { NewTrialRequestListAction, NewTrialRequestStatusUpdateAction } from '../../redux/actions/TrialClinicAction';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 
 const ClinicTrialRequests = () => {
     const dispatch = useDispatch();
@@ -21,8 +22,19 @@ const ClinicTrialRequests = () => {
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [show, setShow] = useState(false);
+    const [CancellationFormFields, setCancellationFormFields] = useState({
+        default_cancel_reason_id: '',
+        cancellation_detail: '',
+        patient_appointment_id: '',
+        status: 2
+    })
 
-    const handleShow = () => setShow(true);
+    console.log("CancellationFormFields", CancellationFormFields);
+
+    const handleShow = (id) => {
+        setCancellationFormFields({ ...CancellationFormFields, patient_appointment_id: id })
+        setShow(true);
+    }
     const handleClose = () => setShow(false);
 
     useEffect(() => {
@@ -44,16 +56,31 @@ const ClinicTrialRequests = () => {
         })
     }
 
-    const UpdateStatus = (data) => {
-        console.log("data", data);
-        dispatch(NewTrialRequestStatusUpdateAction(data))
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setCancellationFormFields((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    };
+
+    const ScreenUpdateStatus = (data) => {
+        dispatch(NewTrialRequestStatusUpdateAction({type: 2, data}))
+    }
+
+    const RejectReasonSubmit = (e) => {
+        e.preventDefault()
+        dispatch(NewTrialRequestStatusUpdateAction({type: 1, data: CancellationFormFields}))
     }
 
     useEffect(() => {
-        if(loadingSelector && loadingSelector.trial_status.status === 200){
+        if (loadingSelector.patient_trial_request_status && loadingSelector.patient_trial_request_status.status === 200) {
+            setShow(false);
             dispatch(NewTrialRequestListAction({ page: loadMoreData }))
         }
-    }, [dispatch])
+    }, [loadingSelector.patient_trial_request_status])
 
     return (
         <>
@@ -119,7 +146,7 @@ const ClinicTrialRequests = () => {
                                                             isButton="true"
                                                             BtnColor="green btn-sm"
                                                             BtnText="Reject"
-                                                            onClick={handleShow}
+                                                            onClick={() => handleShow(value.id)}
                                                         />
                                                         <Button
                                                             isButton="true"
@@ -127,7 +154,7 @@ const ClinicTrialRequests = () => {
                                                             BtnText="Screen"
                                                             hasSpinner={loadingSelector.loading}
                                                             disabled={loadingSelector.loading}
-                                                            onClick={() => UpdateStatus({ patient_appointment_id: value.id, status: 1 })}
+                                                            onClick={() => ScreenUpdateStatus({ patient_appointment_id: value.id, status: 1 })}
                                                         />
                                                     </div>
                                                 </td>
@@ -174,32 +201,40 @@ const ClinicTrialRequests = () => {
                 onClick={handleClose}
                 ModalData={
                     <>
-                        <SelectBox
-                            labelText="Reason for Rejection"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Select Cancellation Reason</option>
-                                    <option value="">Cancellation Reason 1</option>
-                                    <option value="">Cancellation Reason 2</option>
-                                    <option value="">Cancellation Reason 3</option>
-                                    <option value="">Cancellation Reason 4</option>
-                                </>
-                            }
-                        />
-
-                        <TextArea
-                            placeholder="Enter Rejection Details"
-                            labelText="Rejection Details"
-                        />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-100"
-                                BtnText="Confirm"
-                                onClick={handleClose}
+                        <Form onSubmit={RejectReasonSubmit}>
+                            <SelectBox
+                                labelText="Reason for Rejection"
+                                name="default_cancel_reason_id"
+                                onChange={onChange}
+                                optionData=
+                                {
+                                    <>
+                                        <option value="0">Select Cancellation Reason</option>
+                                        <option value="1">Cancellation Reason 1</option>
+                                        <option value="2">Cancellation Reason 2</option>
+                                        <option value="3">Cancellation Reason 3</option>
+                                        <option value="4">Cancellation Reason 4</option>
+                                    </>
+                                }
                             />
-                        </div>
+
+                            <TextArea
+                                placeholder="Enter Rejection Details"
+                                name="cancellation_detail"
+                                labelText="Rejection Details"
+                                onChange={onChange}
+                            />
+                            <div className='clnicaltrial-detail-ftr mt-0'>
+                                <Button
+                                    isButton="true"
+                                    BtnType="submit"
+                                    BtnColor="primary w-100"
+                                    BtnText="Confirm"
+                                    hasSpinner={loadingSelector.status_loading}
+                                    disabled={loadingSelector.status_loading}
+                                />
+                            </div>
+                        </Form>
                     </>
                 }
             />

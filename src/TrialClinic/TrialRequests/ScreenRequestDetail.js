@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import DatePicker from "react-datepicker";
+import { useParams } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import './TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
+import { NewScreenTrialRequestDetailAction } from '../../redux/actions/TrialClinicAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ClinicTrialScreenRequestDetail = () => {
     const [addVisitModal, setAddVisitModal] = useState(false);
@@ -14,6 +17,18 @@ const ClinicTrialScreenRequestDetail = () => {
     const [ConfirmationModal, setConfirmationModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
     const [startDate, setStartDate] = useState(new Date());
+
+    const loadingSelector = useSelector(state => state.trial_clinic)
+    const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
+
+    console.log("screenPatientDetail", screenPatientDetail);
+    
+    const {id} = useParams()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(NewScreenTrialRequestDetailAction(id))
+    }, [dispatch])
 
     console.log("SelectedStatus", SelectedStatus);
     const addVisitModalClose = () => {

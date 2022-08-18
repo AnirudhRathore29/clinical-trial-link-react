@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { InputText, SelectBox } from "../../views/Components/Common/Inputs/Inputs";
+import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import Button from "../../views/Components/Common/Buttons/Buttons"
 import DatePicker from "react-datepicker";
@@ -296,6 +296,23 @@ const PatientCompleteProfile = () => {
                                     </PlacesAutocomplete>
                                 </div>
 
+                                <div className="col-lg-6">
+                                    <SelectBox
+                                        labelText="Select Race"
+                                        optionData=
+                                        {
+                                            <>
+                                                <option value="">Select Race</option>
+                                                <option value="">Asian</option>
+                                                <option value="">Black or African American</option>
+                                                <option value="">Hispanic or Latino</option>
+                                                <option value="">Native Hawaiian or Other Pacific Islander</option>
+                                                <option value="">White</option>
+                                                <option value="">Other</option>
+                                            </>
+                                        }
+                                    />
+                                </div>
                                 <div className="col-lg-6 form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
@@ -303,6 +320,12 @@ const PatientCompleteProfile = () => {
                                         <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Female" value="F" />
                                         <RadioBtn className="radio-btn" onChange={onChange} type="radio" name="gender" labelText="Nonbinary" value="NB" />
                                     </div>
+                                </div>
+                                <div className="col-lg-12">
+                                    <TextArea
+                                        placeholder="Here..."
+                                        labelText="Medical Conditions and Medications"
+                                    />
                                 </div>
 
                                 <div className="col-lg-12 mt-3 mb-3">
