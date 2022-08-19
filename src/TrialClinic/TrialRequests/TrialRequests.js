@@ -11,14 +11,18 @@ import { NewTrialRequestListAction, NewTrialRequestStatusUpdateAction } from '..
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
+import { GetCancelReasonsAction } from '../../redux/actions/commonAction';
 
 const ClinicTrialRequests = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const GetCurrentRoleId = useSelector(state => state.auth.user.role)
     const loadingSelector = useSelector(state => state.trial_clinic)
     const newRequestSelector = useSelector(state => state.trial_clinic.new_trial_request.data)
+    const GetCancelReasonsSelector = useSelector(state => state.common_data.data)
 
     console.log("newRequestSelector", newRequestSelector);
+    console.log("GetCancelReasonsSelector", GetCancelReasonsSelector && GetCancelReasonsSelector.data);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [show, setShow] = useState(false);
@@ -40,6 +44,10 @@ const ClinicTrialRequests = () => {
     useEffect(() => {
         dispatch(NewTrialRequestListAction({ page: loadMoreData }))
     }, [dispatch, loadMoreData])
+
+    useEffect(() => {
+        dispatch(GetCancelReasonsAction(GetCurrentRoleId))
+    }, [dispatch, GetCurrentRoleId])
 
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
@@ -209,11 +217,13 @@ const ClinicTrialRequests = () => {
                                 optionData=
                                 {
                                     <>
-                                        <option value="0">Select Cancellation Reason</option>
-                                        <option value="1">Cancellation Reason 1</option>
-                                        <option value="2">Cancellation Reason 2</option>
-                                        <option value="3">Cancellation Reason 3</option>
-                                        <option value="4">Cancellation Reason 4</option>
+                                        <option value="0" hidden>Select Cancellation Reason</option>
+                                        {GetCancelReasonsSelector && GetCancelReasonsSelector.data.map((value, index) => {
+                                            return (
+                                                <option key={index} value={value.id}>{value.reason}</option>
+                                            )
+                                        })
+                                        }
                                     </>
                                 }
                             />

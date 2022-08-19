@@ -45,6 +45,8 @@ const PatientCompleteProfile = () => {
         account_holder_name: "",
         account_number: "",
         routing_number: "",
+        race:"",
+        medical_cond:"",
         trials_for: "Myself",
         speciality: [],
         condition: [],
@@ -54,6 +56,7 @@ const PatientCompleteProfile = () => {
         physician_phone_number: ""
     });
 
+    console.log("profileInputData", profileInputData);
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -154,6 +157,7 @@ const PatientCompleteProfile = () => {
     }, [CPSubmitClick, profileComSelector, history])
 
     const Vaildation = (value) => {
+        console.log("value", value);
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         if (!isZipcodeVaild.status) {
             toast.error(isZipcodeVaild.message, { theme: "colored" })
@@ -170,6 +174,8 @@ const PatientCompleteProfile = () => {
             state_id: profileInputData.state_id,
             zip_code: profileInputData.zip_code,
             dob: profileInputData.dob,
+            race: profileInputData.race,
+            medical_cond: profileInputData.medical_cond,
             gender: profileInputData.gender,
             address: profileInputData.address,
             latitude: profileInputData.latitude,
@@ -299,16 +305,18 @@ const PatientCompleteProfile = () => {
                                 <div className="col-lg-6">
                                     <SelectBox
                                         labelText="Select Race"
+                                        onChange={onChange}
+                                        name="race"
                                         optionData=
                                         {
                                             <>
-                                                <option value="">Select Race</option>
-                                                <option value="">Asian</option>
-                                                <option value="">Black or African American</option>
-                                                <option value="">Hispanic or Latino</option>
-                                                <option value="">Native Hawaiian or Other Pacific Islander</option>
-                                                <option value="">White</option>
-                                                <option value="">Other</option>
+                                                <option value="0" hidden>Select Race</option>
+                                                <option value="Asian">Asian</option>
+                                                <option value="Black or African American">Black or African American</option>
+                                                <option value="Hispanic or Latino">Hispanic or Latino</option>
+                                                <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
+                                                <option value="White">White</option>
+                                                <option value="Other">Other</option>
                                             </>
                                         }
                                     />
@@ -325,6 +333,8 @@ const PatientCompleteProfile = () => {
                                     <TextArea
                                         placeholder="Here..."
                                         labelText="Medical Conditions and Medications"
+                                        name="medical_cond"
+                                        onChange={onChange}
                                     />
                                 </div>
 

@@ -36,6 +36,9 @@ const PatientEditProfile = () => {
     const profileSelector = useSelector(state => state.profile.data.data);
     const UpdateProfileSelector = useSelector(state => state.profile)
 
+    console.log("profileSelector", profileSelector);
+    console.log("UpdateProfileSelector", UpdateProfileSelector);
+
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [binary, setBinary] = useState();
@@ -53,6 +56,8 @@ const PatientEditProfile = () => {
         state_id: "",
         zip_code: "",
         dob: null,
+        race:"",
+        medical_cond:"",
         address: "",
         latitude: null,
         longitude: null,
@@ -104,6 +109,8 @@ const PatientEditProfile = () => {
                 state_id: profileSelector.data.state_id,
                 zip_code: profileSelector.data.zip_code,
                 dob: new Date(profileSelector.data.dob),
+                race: profileSelector.data.user_meta_info.race,
+                medical_cond:profileSelector.data.user_meta_info.medical_cond,
                 address: profileSelector.data.address,
                 gender: profileSelector.data.gender,
                 trials_for: profileSelector.data.user_meta_info.trials_for,
@@ -262,6 +269,8 @@ const PatientEditProfile = () => {
         formData.append("zip_code", profileInputData.zip_code)
         formData.append("dob", moment(profileInputData.dob).format("YYYY-MM-DD"))
         formData.append("address", profileInputData.address);
+        formData.append("race", profileInputData.race);
+        formData.append("medical_cond", profileInputData.medical_cond);
         formData.append("gender", profileInputData.gender)
         formData.append("trials_for", profileInputData.trials_for)
         if (binary !== undefined) {
@@ -395,16 +404,18 @@ const PatientEditProfile = () => {
                                             <div className="col-lg-12">
                                                 <SelectBox
                                                     labelText="Select Race"
+                                                    name="race"
+                                                    onChange={onChange}
                                                     optionData=
                                                     {
                                                         <>
-                                                            <option value="">Select Race</option>
-                                                            <option value="">Asian</option>
-                                                            <option value="">Black or African American</option>
-                                                            <option value="">Hispanic or Latino</option>
-                                                            <option value="">Native Hawaiian or Other Pacific Islander</option>
-                                                            <option value="">White</option>
-                                                            <option value="">Other</option>
+                                                            <option value="0" hidden>Select Race</option>
+                                                            <option value="Asian" selected={profileSelector.data.user_meta_info.race === "Asian" ? true : false}>Asian</option>
+                                                            <option value="Black or African American" selected={profileSelector.data.user_meta_info.race === "Black or African American" ? true : false}>Black or African American</option>
+                                                            <option value="Hispanic or Latino" selected={profileSelector.data.user_meta_info.race === "Hispanic or Latino" ? true : false}>Hispanic or Latino</option>
+                                                            <option value="Native Hawaiian or Other Pacific Islander" selected={profileSelector.data.user_meta_info.race === "Native Hawaiian or Other Pacific Islander" ? true : false}>Native Hawaiian or Other Pacific Islander</option>
+                                                            <option value="White" selected={profileSelector.data.user_meta_info.race === "White" ? true : false}>White</option>
+                                                            <option value="Other" selected={profileSelector.data.user_meta_info.race === "Other" ? true : false}>Other</option>
                                                         </>
                                                     }
                                                 />
@@ -413,6 +424,9 @@ const PatientEditProfile = () => {
                                                 <TextArea
                                                     placeholder="Here..."
                                                     labelText="Medical Conditions and Medications"
+                                                    onChange={onChange}
+                                                    name="medical_cond"
+                                                    defaultData={profileSelector.data.user_meta_info.medical_cond}
                                                 />
                                             </div>
 

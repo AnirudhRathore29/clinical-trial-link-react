@@ -34,3 +34,17 @@ export const StatesAction = (data) => async (dispatch) => {
             HandleError(error.response.data)
         });
 }
+
+export const GetCancelReasonsAction = (data) => async (dispatch) => {
+    axios
+        .get(getCurrentHost() + `/get-cancel-reasons/${data}`, {
+            headers: authHeader(),
+        })
+        .then(response => {
+            dispatch(ActionSuccess(response));
+        })
+        .catch(error => {
+            dispatch(ActionError(error.response.data));
+            HandleError(error.response.data)
+        });
+}
