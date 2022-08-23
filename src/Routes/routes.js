@@ -31,6 +31,8 @@ const ClinicSponsorsDetails = React.lazy(() => import('../TrialClinic/SponsorsDe
 const ClinicSponsorsTrialListing = React.lazy(() => import('../TrialClinic/SponsorsTrialListing/SponsorsTrialListing'));
 const ClinicTrialApplication = React.lazy(() => import('../TrialClinic/TrialApplications/TrialApplications'));
 const ClinicMyAppointments = React.lazy(() => import('../TrialClinic/MyAppointments/MyAppointments'));
+const ClinicMyAppointmentsDetails = React.lazy(() => import('../TrialClinic/MyAppointments/MyAppointmentsDetails'));
+const ClinicPayment = React.lazy(() => import('../TrialClinic/MyAppointments/Payment'));
 const ClinicPatientList = React.lazy(() => import('../TrialClinic/PatientList/PatientList'));
 const ClinicPatientListPast = React.lazy(() => import('../TrialClinic/PatientList/PatientListPast'));
 const ClinicPaymentHistory = React.lazy(() => import('../TrialClinic/PaymentHistory/PaymentHistory'));
@@ -102,6 +104,8 @@ const routes = [
 	{ path: '/trial-clinic/sponsors-trial-listing/:id', exact: true, name: 'ClinicSponsorsTrialListing', component: ClinicSponsorsTrialListing, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/trial-applications', exact: true, name: 'ClinicTrialApplication', component: ClinicTrialApplication, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/my-appointments', exact: true, name: 'ClinicMyAppointments', component: ClinicMyAppointments, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/appointments/:id', exact: true, name: 'ClinicMyAppointmentsDetails', component: ClinicMyAppointmentsDetails, meta: {"role": RolesConfig.TRIAL_CLINIC} },
+	{ path: '/trial-clinic/payment', exact: true, name: 'ClinicPayment', component: ClinicPayment, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/patient-list', exact: true, name: 'ClinicPatientList', component: ClinicPatientList, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/patient-list-past', exact: true, name: 'ClinicPatientListPast', component: ClinicPatientListPast, meta: {"role": RolesConfig.TRIAL_CLINIC} },
 	{ path: '/trial-clinic/payment-history', exact: true, name: 'ClinicPaymentHistory', component: ClinicPaymentHistory, meta: {"role": RolesConfig.TRIAL_CLINIC} },

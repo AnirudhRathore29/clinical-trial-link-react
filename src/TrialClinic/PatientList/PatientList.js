@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal'
-import RadioBtn from "../../views/Components/Common/RadioBtn/RadioBtn";
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
-import OtpInput from 'react-otp-input';
 import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
@@ -14,50 +12,13 @@ import "react-datepicker/dist/react-datepicker.css";
 const ClinicPatientList = () => {
     /* popup show hide */
     const [show, setShow] = useState(false);
-    const [show2, setShow2] = useState(false);
-    const [show3, setShow3] = useState(false);
-    const [show4, setShow4] = useState(false);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
-
-    const handleShow2 = () => setShow2(true);
-    const handleClose2 = () => setShow2(false);
-
-
-    const handleShow3 = () => {
-        setShow3(true);
-        handleClose2();
-    }
-    const handleClose3 = () => setShow3(false);
-
-
-    const handleShow4 = () => {
-        setShow4(true);
-        handleClose3();
-    }
-    const handleClose4 = () => setShow4(false);
-    /* popup show hide */
-
     /* datetime */
     const [startDate, setStartDate] = useState(new Date());
     /* datetime */
-
-    /* payment option popup */
-    const [otpSent, setOtpSent] = useState(false);
-    const [paymentOption, setPaymentOption] = useState(false);
-
-    const OtpSent = () => {
-        setOtpSent(true);
-    }
-
-    const PaymentOption = () => {
-        setPaymentOption(!paymentOption);
-    }
-    /* payment option popup */
-
-    const [otp, setOtp] = useState();
     return (
         <>
             <div className="clinical-dashboard">
@@ -106,7 +67,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -132,7 +93,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -158,7 +119,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -184,7 +145,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -210,7 +171,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -236,7 +197,7 @@ const ClinicPatientList = () => {
                                 <td>
                                     <div className='btn-group-custom'>
 
-                                        <button className="btn-action btn-green" onClick={handleShow2}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                         <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
                                         <Link to="/trial-clinic/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
                                     </div>
@@ -291,7 +252,7 @@ const ClinicPatientList = () => {
                 }
             />
 
-            <CommonModal className="custom-size-modal" show={show2} onHide={handleClose2} keyboard={false}
+            {/* <CommonModal className="custom-size-modal" show={show2} onHide={handleClose2} keyboard={false}
                 ModalTitle="Appointment Details"
                 onClick={handleClose2}
                 ModalData={
@@ -335,9 +296,9 @@ const ClinicPatientList = () => {
                         </div>
                     </>
                 }
-            />
+            /> */}
 
-            <CommonModal show={show3} onHide={handleClose3} keyboard={false}
+            {/* <CommonModal show={show3} onHide={handleClose3} keyboard={false}
                 ModalTitle="Appointment Status"
                 onClick={handleClose3}
                 size="md"
@@ -360,9 +321,9 @@ const ClinicPatientList = () => {
                         </div>
                     </>
                 }
-            />
+            /> */}
 
-            <CommonModal show={show4} onHide={handleClose4} keyboard={false}
+            {/* <CommonModal show={show4} onHide={handleClose4} keyboard={false}
                 ModalTitle="Choose Payment Option"
                 onClick={handleClose4}
                 size="md"
@@ -469,7 +430,7 @@ const ClinicPatientList = () => {
                         </div>
                     </>
                 }
-            />
+            /> */}
         </>
     );
 };

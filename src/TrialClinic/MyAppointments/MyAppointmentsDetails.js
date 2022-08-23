@@ -5,13 +5,13 @@ import CommonModal from '../../views/Components/Common/Modal/Modal';
 import DatePicker from "react-datepicker";
 import { useParams } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
-import './TrialRequests.css'
+import '../TrialRequests/TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import { NewScreenTrialRequestDetailAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ClinicTrialScreenRequestDetail = () => {
+const MyAppointmentsDetails = () => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
@@ -66,7 +66,7 @@ const ClinicTrialScreenRequestDetail = () => {
             <div className="clinical-dashboard screenPatientDetail">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Patient Details</h1>
+                        <h1>Appointment Details</h1>
                     </div>
                     <div className='repeat-white-bx mb-5'>
                         <div className='PatientDetailsHeader'>
@@ -75,7 +75,7 @@ const ClinicTrialScreenRequestDetail = () => {
                                 <div className=''>
                                     <h2 className='mb-2'>Barnes Jewish Hospital</h2>
                                     <span className='badge badge-primary d-inline-block mb-2'>Approved</span>
-                                    <p><strong>Visit Number :</strong> 25632156</p>
+                                    <p><strong>Trial Visit Number :</strong> 25632156</p>
                                 </div>
                             </div>
                             <div>
@@ -87,9 +87,9 @@ const ClinicTrialScreenRequestDetail = () => {
                                     optionData={
                                         <>
                                             <option hidden value="0">Update Status</option>
-                                            <option value="1">Not Eligible</option>
-                                            <option value="2">Pending (Reschedule)</option>
-                                            <option value="3">Approve</option>
+                                            <option value="1">Complete</option>
+                                            <option value="2">Incomplete</option>
+                                            <option value="3">Early Termination</option>
                                         </>
                                     }
                                 />
@@ -98,50 +98,45 @@ const ClinicTrialScreenRequestDetail = () => {
                         <div className='row'>
                             <div className='col-lg-4'>
                                 <div className='appointment-detail-col'>
-                                    <h2>Gender</h2>
-                                    <p>Female</p>
+                                    <h2>Date & Time</h2>
+                                    <p>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
                                 </div>
                             </div>
                             <div className='col-lg-4'>
                                 <div className='appointment-detail-col'>
-                                    <h2>DOB</h2>
-                                    <p>September 12, 1995</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Phone Number</h2>
-                                    <p>9235248354</p>
+                                    <h2>Clinic Address</h2>
+                                    <p>Atlanta, Georgia, United States</p>
                                 </div>
                             </div>
                             <div className='col-lg-4'>
                                 <div className='appointment-detail-col'>
                                     <h2>Trial for</h2>
-                                    <p>Brain Study</p>
+                                    <p>Adolescents with ADHD and a Parent with Bipolar Disorder</p>
                                 </div>
                             </div>
                             <div className='col-lg-4'>
                                 <div className='appointment-detail-col'>
-                                    <h2>Location</h2>
-                                    <p>adress home 1, Alaska</p>
+                                    <h2>Trial Compensation</h2>
+                                    <p>To be Decided at Clinic</p>
                                 </div>
                             </div>
                             <div className='col-lg-4'>
                                 <div className='appointment-detail-col'>
-                                    <h2>Date & Time</h2>
-                                    <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
+                                    <h2>Sponsor</h2>
+                                    <p>Emerson Resources</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className='repeat-white-bx'>
-                        <h2 className="section-title"> Screening Visits </h2>
+                        <h2 className="section-title"> Trial Visits </h2>
 
                         <div className='row'>
                             <div className='col-lg-4'>
                                 <div className='patientVisit'>
                                     <h3><strong>Visit Number :</strong> 25632156</h3>
                                     <p>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
+                                    <span className='badge badge-success d-inline-block mb-3'>Completed</span>
                                     <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
                                 </div>
                             </div>
@@ -149,6 +144,7 @@ const ClinicTrialScreenRequestDetail = () => {
                                 <div className='patientVisit'>
                                     <h3><strong>Visit Number :</strong> 25632156</h3>
                                     <p>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
+                                    <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span>
                                     <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
                                 </div>
                             </div>
@@ -163,9 +159,9 @@ const ClinicTrialScreenRequestDetail = () => {
                                         optionData={
                                             <>
                                                 <option hidden>Update Status</option>
-                                                <option value="1">Not Eligible</option>
-                                                <option value="2">Pending (Reschedule)</option>
-                                                <option value="3">Approve</option>
+                                                <option value="1">Complete</option>
+                                                <option value="2">Incomplete</option>
+                                                <option value="3">Early Termination</option>
                                             </>
                                         }
                                     />
@@ -242,13 +238,13 @@ const ClinicTrialScreenRequestDetail = () => {
             />
 
             <CommonModal show={CancelReasonModal} onHide={CancelReasonModalClose} keyboard={false} size="md"
-                ModalTitle="Enter Reason"
+                ModalTitle="Appointment Notes"
                 onClick={CancelReasonModalClose}
                 ModalData={
                     <form autoComplete="off">
                         <TextArea
                             placeholder="Enter Here..."
-                            labelText="Enter Cancelation Reason"
+                            labelText="Enter Appointment Notes"
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -266,4 +262,4 @@ const ClinicTrialScreenRequestDetail = () => {
     );
 };
 
-export default ClinicTrialScreenRequestDetail;
+export default MyAppointmentsDetails;
