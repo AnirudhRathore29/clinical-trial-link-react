@@ -160,6 +160,7 @@ const ClinicTrialScreenRequestDetail = () => {
                                         name="condition"
                                         onChange={CheckStatus}
                                         FormGroupClass="mb-0"
+                                        value={SelectedStatus}
                                         optionData={
                                             <>
                                                 <option hidden>Update Status</option>

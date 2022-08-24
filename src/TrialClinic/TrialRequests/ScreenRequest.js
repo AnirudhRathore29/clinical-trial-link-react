@@ -8,10 +8,20 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { NewScreenTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import CommonModal from '../../views/Components/Common/Modal/Modal';
+import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
+import DatePicker from "react-datepicker";
 
 const ClinicTrialScreenRequest = (props) => {
+    const [AddPatientModal, setAddPatientModal] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+
+    const AddPatientModalShow = () => setAddPatientModal(true);
+    const AddPatientModalClose = () => setAddPatientModal(false);
+
     const dispatch = useDispatch();
     const history = useHistory();
+
     const loadingSelector = useSelector(state => state.trial_clinic)
     const newRequestSelector = useSelector(state => state.trial_clinic.new_screen_trial_request.data)
 
@@ -46,6 +56,13 @@ const ClinicTrialScreenRequest = (props) => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Screen Trial Request</h1>
+                        <Button
+                            isButton="true"
+                            BtnType="submit"
+                            BtnColor="green btn-sm"
+                            BtnText="Add Patient"
+                            onClick={AddPatientModalShow}
+                        />
                     </div>
 
                     <table className='patient-list-table'>
@@ -142,6 +159,49 @@ const ClinicTrialScreenRequest = (props) => {
                     }
                 </div>
             </div>
+
+            <CommonModal show={AddPatientModal} onHide={AddPatientModalClose} keyboard={false}
+                ModalTitle="Add Patient"
+                onClick={AddPatientModalClose}
+                ModalData={
+                    <>
+                        <InputText
+                            type="text"
+                            placeholder="Enter Patient Name"
+                            labelText="Patient Name"
+                        />
+                        <InputText
+                            type="email"
+                            placeholder="Enter Email"
+                            labelText="Email"
+                        />
+                        <div className="form-group">
+                            <label>Date</label>
+                            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
+                        </div>
+                        <SelectBox
+                            labelText="Available Time"
+                            optionData=
+                            {
+                                <>
+                                    <option value="">Select Available Time</option>
+                                    <option value="">10:00AM - 8:00PM</option>
+                                    <option value="">10:00AM - 8:00PM</option>
+                                    <option value="">10:00AM - 8:00PM</option>
+                                    <option value="">10:00AM - 8:00PM</option>
+                                </>
+                            }
+                        />
+                        <div className='clnicaltrial-detail-ftr mt-0'>
+                            <Button
+                                isButton="true"
+                                BtnColor="primary w-100"
+                                BtnText="Add Patient"
+                            />
+                        </div>
+                    </>
+                }
+            />
         </>
     );
 };

@@ -15,16 +15,18 @@ const MyAppointmentsDetails = () => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
+    const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
     const [startDate, setStartDate] = useState(new Date());
 
     const loadingSelector = useSelector(state => state.trial_clinic)
     const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
 
-    console.log("screenPatientDetail", screenPatientDetail);
-    
-    const {id} = useParams()
+    const { id } = useParams()
     const dispatch = useDispatch()
+
+    console.log("screenPatientDetail", screenPatientDetail);
+
 
     useEffect(() => {
         dispatch(NewScreenTrialRequestDetailAction(id))
@@ -39,11 +41,17 @@ const MyAppointmentsDetails = () => {
     const CancelReasonModalClose = () => {
         setSelectedStatus(0)
         setCancelReasonModal(false)
+        setCompleteTrialModal(true)
     }
 
     const ConfirmationModalClose = () => {
         setSelectedStatus(0)
         setConfirmationModal(false)
+    }
+
+    const CompleteTrialModalClose = () => {
+        setCompleteTrialModal(false)
+        setAddVisitModal(true)
     }
 
     const CheckStatus = (e) => {
@@ -154,11 +162,12 @@ const MyAppointmentsDetails = () => {
                                     <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
                                     <SelectBox
                                         name="condition"
-                                        onChange={CheckStatus}
                                         FormGroupClass="mb-0"
+                                        onChange={CheckStatus}
+                                        value={SelectedStatus}
                                         optionData={
                                             <>
-                                                <option hidden>Update Status</option>
+                                                <option hidden value="0">Update Status</option>
                                                 <option value="1">Complete</option>
                                                 <option value="2">Incomplete</option>
                                                 <option value="3">Early Termination</option>
@@ -201,7 +210,7 @@ const MyAppointmentsDetails = () => {
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isButton="true"
-                                BtnType="submit"
+                                BtnType="button"
                                 BtnColor="primary w-100"
                                 BtnText="Confirm"
                                 onClick={addVisitModalClose}
@@ -256,6 +265,33 @@ const MyAppointmentsDetails = () => {
                             />
                         </div>
                     </form>
+                }
+            />
+
+            <CommonModal show={CompleteTrialModal} onHide={CompleteTrialModalClose} keyboard={false} size="md"
+                onClick={CompleteTrialModalClose}
+                ModalData={
+                    <>
+                        <button type="button" className="btn-close" aria-label="Close" onClick={CompleteTrialModalClose}></button>
+                        <div className='congrats-bx'>
+                            <h2>Trial Visit Successfully Completed</h2>
+                            <p>Lorem ipsum dolor amet sectetur adipiscing vehicula diam nis in congue tortor sem, varius eu nulla volutpatmollis . </p>
+                        </div>
+                        <div className='clnicaltrial-detail-ftr mt-0'>
+                            <Button
+                                isLink="true"
+                                URL="/trial-clinic/payment"
+                                BtnColor="green btn-sm"
+                                BtnText="End of Study"
+                            />
+                            <Button
+                                isButton="true"
+                                BtnColor="primary btn-sm"
+                                BtnText="Create New Visit"
+                                onClick={CompleteTrialModalClose}
+                            />
+                        </div>
+                    </>
                 }
             />
         </>

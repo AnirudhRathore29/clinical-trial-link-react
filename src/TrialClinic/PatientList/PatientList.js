@@ -1,21 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../views/Components/Common/Buttons/Buttons';
-import CommonModal from '../../views/Components/Common/Modal/Modal'
-import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
-import DatePicker from "react-datepicker";
 import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClinicPatientList = () => {
-    /* popup show hide */
-    const [show, setShow] = useState(false);
-
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
-
     /* datetime */
     const [startDate, setStartDate] = useState(new Date());
     /* datetime */
@@ -25,13 +15,6 @@ const ClinicPatientList = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Patient List <span>Bipolar Depression Study with 6 Month Open Label Therapy</span></h1>
-                        <Button
-                            isButton="true"
-                            BtnType="submit"
-                            BtnColor="green btn-sm"
-                            BtnText="Add Patient"
-                            onClick={handleShow}
-                        />
                     </div>
 
                     <table className='patient-list-table'>
@@ -207,50 +190,6 @@ const ClinicPatientList = () => {
                     </table>
                 </div>
             </div>
-
-
-            <CommonModal show={show} onHide={handleClose} keyboard={false}
-                ModalTitle="Add Patient"
-                onClick={handleClose}
-                ModalData={
-                    <>
-                        <InputText
-                            type="text"
-                            placeholder="Enter Patient Name"
-                            labelText="Patient Name"
-                        />
-                        <InputText
-                            type="email"
-                            placeholder="Enter Email"
-                            labelText="Email"
-                        />
-                        <div className="form-group">
-                            <label>Date</label>
-                            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
-                        </div>
-                        <SelectBox
-                            labelText="Available Time"
-                            optionData=
-                            {
-                                <>
-                                    <option value="">Select Available Time</option>
-                                    <option value="">10:00AM - 8:00PM</option>
-                                    <option value="">10:00AM - 8:00PM</option>
-                                    <option value="">10:00AM - 8:00PM</option>
-                                    <option value="">10:00AM - 8:00PM</option>
-                                </>
-                            }
-                        />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary w-100"
-                                BtnText="Add Patient"
-                            />
-                        </div>
-                    </>
-                }
-            />
 
             {/* <CommonModal className="custom-size-modal" show={show2} onHide={handleClose2} keyboard={false}
                 ModalTitle="Appointment Details"
