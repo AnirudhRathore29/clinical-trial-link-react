@@ -274,6 +274,7 @@ const MyAppointmentsDetails = () => {
                     <>
                         <button type="button" className="btn-close" aria-label="Close" onClick={CompleteTrialModalClose}></button>
                         <div className='congrats-bx'>
+                            <img src="/images/congrats.svg" alt="Congratulations" />
                             <h2>Trial Visit Successfully Completed</h2>
                             <p>Lorem ipsum dolor amet sectetur adipiscing vehicula diam nis in congue tortor sem, varius eu nulla volutpatmollis . </p>
                         </div>

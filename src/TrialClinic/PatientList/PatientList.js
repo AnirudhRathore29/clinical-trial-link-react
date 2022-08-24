@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../../views/Components/Common/Buttons/Buttons.css'
 import '../../Patient/Dashboard/Dashboard.css';
 import '../TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';

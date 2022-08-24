@@ -8,8 +8,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import './TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { NewScreenTrialRequestDetailAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const ClinicTrialScreenRequestDetail = () => {
     const [addVisitModal, setAddVisitModal] = useState(false);
@@ -22,8 +25,8 @@ const ClinicTrialScreenRequestDetail = () => {
     const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
 
     console.log("screenPatientDetail", screenPatientDetail);
-    
-    const {id} = useParams()
+
+    const { id } = useParams()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -68,112 +71,132 @@ const ClinicTrialScreenRequestDetail = () => {
                     <div className="heading-bx">
                         <h1>Patient Details</h1>
                     </div>
-                    <div className='repeat-white-bx mb-5'>
-                        <div className='PatientDetailsHeader'>
-                            <div className='appointment-detail patient-appointment-details'>
-                                <img src="/images/avatar-img3.jpg" alt="clinic-img" />
-                                <div className=''>
-                                    <h2 className='mb-2'>Barnes Jewish Hospital</h2>
-                                    <span className='badge badge-primary d-inline-block mb-2'>Approved</span>
-                                    <p><strong>Visit Number :</strong> 25632156</p>
+                    {
+                        screenPatientDetail !== undefined
+                            ?
+                            <>
+                                <div className='repeat-white-bx mb-5'>
+                                    <div className='PatientDetailsHeader'>
+                                        <div className='appointment-detail patient-appointment-details'>
+                                            {/* <img src="/images/avatar-img3.jpg" alt="clinic-img" /> */}
+                                            <img src={screenPatientDetail.data.patient_user_info.profile_image !== null ? screenPatientDetail.data.patient_user_info.profile_image : "/images/profile-img1.jpg"} alt={screenPatientDetail.data.patient_user_info.first_name} />
+                                            <div className=''>
+                                                <h2 className='mb-2'>{screenPatientDetail.data.clinic_trial_info.trial_name}</h2>
+                                                <span className='badge badge-primary d-inline-block mb-2'>Approved</span>
+                                                <p><strong>Visit Number :</strong> 25632156</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <SelectBox
+                                                name="condition"
+                                                FormGroupClass="mb-0"
+                                                onChange={CheckStatus}
+                                                value={SelectedStatus}
+                                                optionData={
+                                                    <>
+                                                        <option hidden value="0">Update Status</option>
+                                                        <option value="1">Not Eligible</option>
+                                                        <option value="2">Pending (Reschedule)</option>
+                                                        <option value="3">Approve</option>
+                                                    </>
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='row'>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Gender</h2>
+                                                <p>{
+                                                    screenPatientDetail.data.patient_user_info.gender === "F" ? "Female"
+                                                        :
+                                                        screenPatientDetail.data.patient_user_info.gender === "M" ? "Male"
+                                                            :
+                                                            "Non Binary"
+                                                }</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>DOB</h2>
+                                                <p>{moment(screenPatientDetail.data.patient_user_info.dob).format("MMMM DD, YYYY")}</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Phone Number</h2>
+                                                <p>{screenPatientDetail.data.patient_user_info.phone_number}</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Trial for</h2>
+                                                <p>{screenPatientDetail.data.clinic_trial_info.trial_name}</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Location</h2>
+                                                <p>{screenPatientDetail.data.patient_user_info.address + ", " + screenPatientDetail.data.patient_user_info.state_info.name}</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Date & Time</h2>
+                                                <p>{moment(screenPatientDetail.data.appointment_date).format("MMMM DD, YYYY")},
+                                                    ({screenPatientDetail.data.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {screenPatientDetail.data.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <SelectBox
-                                    name="condition"
-                                    FormGroupClass="mb-0"
-                                    onChange={CheckStatus}
-                                    value={SelectedStatus}
-                                    optionData={
-                                        <>
-                                            <option hidden value="0">Update Status</option>
-                                            <option value="1">Not Eligible</option>
-                                            <option value="2">Pending (Reschedule)</option>
-                                            <option value="3">Approve</option>
-                                        </>
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Gender</h2>
-                                    <p>Female</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>DOB</h2>
-                                    <p>September 12, 1995</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Phone Number</h2>
-                                    <p>9235248354</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Trial for</h2>
-                                    <p>Brain Study</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Location</h2>
-                                    <p>adress home 1, Alaska</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='appointment-detail-col'>
-                                    <h2>Date & Time</h2>
-                                    <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='repeat-white-bx'>
-                        <h2 className="section-title"> Screening Visits </h2>
+                                <div className='repeat-white-bx'>
+                                    <h2 className="section-title"> Screening Visits </h2>
 
-                        <div className='row'>
-                            <div className='col-lg-4'>
-                                <div className='patientVisit'>
-                                    <h3><strong>Visit Number :</strong> 25632156</h3>
-                                    <p>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
-                                    <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='patientVisit'>
-                                    <h3><strong>Visit Number :</strong> 25632156</h3>
-                                    <p>Jan 25, 2022 (09:00 AM to 11:00 AM)</p>
-                                    <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
-                                </div>
-                            </div>
-                            <div className='col-lg-4'>
-                                <div className='patientVisit'>
-                                    <h3><strong>Visit Number :</strong> 25632156</h3>
-                                    <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
-                                    <SelectBox
-                                        name="condition"
-                                        onChange={CheckStatus}
-                                        FormGroupClass="mb-0"
-                                        value={SelectedStatus}
-                                        optionData={
-                                            <>
-                                                <option hidden>Update Status</option>
-                                                <option value="1">Not Eligible</option>
-                                                <option value="2">Pending (Reschedule)</option>
-                                                <option value="3">Approve</option>
-                                            </>
+                                    <div className='row'>
+                                        {
+                                            screenPatientDetail.totalVisits && screenPatientDetail.totalVisits.map((value, index) => {
+                                                return (
+                                                    <div className='col-lg-4' key={index}>
+                                                        <div className='patientVisit'>
+                                                            <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
+                                                            <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
+                                                                ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
+                                                            <p>{value.visit_note}</p>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
                                         }
-                                    />
+                                        {/* <div className='col-lg-4'>
+                                        <div className='patientVisit'>
+                                            <h3><strong>Visit Number :</strong> 25632156</h3>
+                                            <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
+                                            <SelectBox
+                                                name="condition"
+                                                onChange={CheckStatus}
+                                                FormGroupClass="mb-0"
+                                                value={SelectedStatus}
+                                                optionData={
+                                                    <>
+                                                        <option hidden>Update Status</option>
+                                                        <option value="1">Not Eligible</option>
+                                                        <option value="2">Pending (Reschedule)</option>
+                                                        <option value="3">Approve</option>
+                                                    </>
+                                                }
+                                            />
+                                        </div>
+                                    </div> */}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </>
+                            :
+                            [1, 2,].map((_, index) => {
+                                return (
+                                    <Skeleton key={index} height={250} className="mb-5" />
+                                )
+                            })
+                    }
                 </div>
             </div>
 
