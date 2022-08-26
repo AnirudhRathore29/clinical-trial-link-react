@@ -191,6 +191,7 @@ export default function TrialClinicReducer(state = initialState, action) {
 				loading: false,
 				new_screen_trial_request: action.payload,
 				new_screen_trial_detail: {},
+				trial_status: {},
 				error: {}
 			};
 		case CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR:

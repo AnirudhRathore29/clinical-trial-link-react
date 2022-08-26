@@ -244,3 +244,19 @@ export const NewScreenTrialRequestDetailAction = (data) => async (dispatch) => {
             HandleError(error.response.data)
         });
 }
+
+export const NewScreenTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/mark-patient-appt-visit-status", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_SUCCESS, payload: response });
+            toast.success(response.data.message, { theme: "colored" })
+        })
+        .catch(error => {
+            dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}

@@ -10,21 +10,29 @@ import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { NewScreenTrialRequestDetailAction } from '../../redux/actions/TrialClinicAction';
+import { NewScreenTrialRequestDetailAction, NewScreenTrialRequestStatusUpdateAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-const ClinicTrialScreenRequestDetail = () => {
+const ClinicTrialScreenRequestDetail = (props) => {
+    const loadingSelector = useSelector(state => state.trial_clinic)
+    const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
+
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
+    const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
+    const [StatusUpdateFields, setStatusUpdateFields] = useState({
+        visit_note: ""
+    })
 
-    const loadingSelector = useSelector(state => state.trial_clinic)
-    const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
-
+    console.log("StatusUpdateFields", StatusUpdateFields);
     console.log("screenPatientDetail", screenPatientDetail);
+    console.log("loadingSelector", loadingSelector);
+    console.log("SelectedStatus", SelectedStatus);
+    console.log("startDate", startDate);
 
     const { id } = useParams()
     const dispatch = useDispatch()
@@ -33,7 +41,6 @@ const ClinicTrialScreenRequestDetail = () => {
         dispatch(NewScreenTrialRequestDetailAction(id))
     }, [dispatch])
 
-    console.log("SelectedStatus", SelectedStatus);
     const addVisitModalClose = () => {
         setSelectedStatus(0)
         setAddVisitModal(false)
@@ -49,21 +56,64 @@ const ClinicTrialScreenRequestDetail = () => {
         setConfirmationModal(false)
     }
 
-    const CheckStatus = (e) => {
-        console.log("CheckStatus", e);
-        setConfirmationModal(true)
-        setSelectedStatus(e.target.value)
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setStatusUpdateFields((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
     }
 
-    const ChangeStatus = () => {
+    const OnChangeStatus = (data) => {
+        setConfirmationModal(true)
+        setSelectedStatus(data.value)
+        setPatientAppointmentId(data.patient_appointment_id)
+    }
+
+    const ConfirmationSubmit = () => {
         if (SelectedStatus === "2" || SelectedStatus === "3") {
             setAddVisitModal(true)
             setConfirmationModal(false)
-        } else {
+        }
+        else {
             setCancelReasonModal(true)
             setConfirmationModal(false)
         }
     }
+
+    const UpdateStatusSubmit = (id) => {
+        // if (id === 1) {
+        //     const data = {
+        //         patient_appointment_id: PatientAppointmentId,
+        //         status: SelectedStatus,
+        //         visit_note: StatusUpdateFields.visit_note
+        //     }
+        // } else if (id === 2) {
+        //     const data = {
+        //         patient_appointment_id: PatientAppointmentId,
+        //         status: SelectedStatus,
+        //         appointment_date: screenPatientDetail && screenPatientDetail.data.appointment_date,
+        //         trial_clinic_appointment_slot_id: screenPatientDetail && screenPatientDetail.data.trial_clinic_appointment_slot_id,
+        //         visit_note: StatusUpdateFields.visit_note
+        //     }
+        // }
+        const data = {
+            patient_appointment_id: PatientAppointmentId,
+            status: SelectedStatus,
+            visit_note: StatusUpdateFields.visit_note
+        }
+        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+    }
+
+    useEffect(() => {
+        if (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) {
+            setCancelReasonModal(false)
+            props.history.push("/trial-clinic/screen-trial-request")
+        }
+    }, [dispatch, loadingSelector.trial_status])
+
     return (
         <>
             <div className="clinical-dashboard screenPatientDetail">
@@ -82,25 +132,9 @@ const ClinicTrialScreenRequestDetail = () => {
                                             <img src={screenPatientDetail.data.patient_user_info.profile_image !== null ? screenPatientDetail.data.patient_user_info.profile_image : "/images/profile-img1.jpg"} alt={screenPatientDetail.data.patient_user_info.first_name} />
                                             <div className=''>
                                                 <h2 className='mb-2'>{screenPatientDetail.data.clinic_trial_info.trial_name}</h2>
-                                                <span className='badge badge-primary d-inline-block mb-2'>Approved</span>
+                                                {/* <span className='badge badge-primary d-inline-block mb-2'>Approved</span> */}
                                                 <p><strong>Visit Number :</strong> 25632156</p>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <SelectBox
-                                                name="condition"
-                                                FormGroupClass="mb-0"
-                                                onChange={CheckStatus}
-                                                value={SelectedStatus}
-                                                optionData={
-                                                    <>
-                                                        <option hidden value="0">Update Status</option>
-                                                        <option value="1">Not Eligible</option>
-                                                        <option value="2">Pending (Reschedule)</option>
-                                                        <option value="3">Approve</option>
-                                                    </>
-                                                }
-                                            />
                                         </div>
                                     </div>
                                     <div className='row'>
@@ -161,32 +195,31 @@ const ClinicTrialScreenRequestDetail = () => {
                                                             <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                             <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                 ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
-                                                            <p>{value.visit_note}</p>
+                                                            <p className='mb-0'>{value.visit_note}</p>
+                                                            {value.status === 0 
+                                                                ?
+                                                                <SelectBox
+                                                                    name="status"
+                                                                    onChange={(e) => OnChangeStatus({ patient_appointment_id: value.patient_appointment_id, value: e.target.value })}
+                                                                    FormGroupClass="mb-0 mt-3"
+                                                                    value={SelectedStatus}
+                                                                    optionData={
+                                                                        <>
+                                                                            <option hidden>Update Status</option>
+                                                                            <option value="1">Not Eligible</option>
+                                                                            <option value="2">Pending (Reschedule)</option>
+                                                                            <option value="3">Approve</option>
+                                                                        </>
+                                                                    }
+                                                                />
+                                                                :
+                                                                null
+                                                            }
                                                         </div>
                                                     </div>
                                                 )
                                             })
                                         }
-                                        {/* <div className='col-lg-4'>
-                                        <div className='patientVisit'>
-                                            <h3><strong>Visit Number :</strong> 25632156</h3>
-                                            <p>August 17, 2022, (11:00 AM to 01:00 PM)</p>
-                                            <SelectBox
-                                                name="condition"
-                                                onChange={CheckStatus}
-                                                FormGroupClass="mb-0"
-                                                value={SelectedStatus}
-                                                optionData={
-                                                    <>
-                                                        <option hidden>Update Status</option>
-                                                        <option value="1">Not Eligible</option>
-                                                        <option value="2">Pending (Reschedule)</option>
-                                                        <option value="3">Approve</option>
-                                                    </>
-                                                }
-                                            />
-                                        </div>
-                                    </div> */}
                                     </div>
                                 </div>
                             </>
@@ -215,11 +248,13 @@ const ClinicTrialScreenRequestDetail = () => {
                         <div className="available-time">
                             <h2>Available Time</h2>
                             <div className="time-row">
-                                <label><input type="radio" name="available_time" defaultChecked /><span>09:00 AM - 11:00 AM</span></label>
-                                <label><input type="radio" name="available_time" /><span>11:00 AM - 01:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>01:00 PM - 03:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>03:00 PM - 05:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>05:00 PM - 07:00 PM</span></label>
+                                {
+                                    screenPatientDetail && screenPatientDetail.trialAppointmentSlots.map((value, index) => {
+                                        return (
+                                            <label key={index}><input type="radio" name="available_time"/><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <TextArea
@@ -253,12 +288,13 @@ const ClinicTrialScreenRequestDetail = () => {
                                 isButton="true"
                                 BtnColor="primary btn-sm"
                                 BtnText="Cancel"
+                                onClick={ConfirmationModalClose}
                             />
                             <Button
                                 isButton="true"
                                 BtnColor="green btn-sm"
                                 BtnText="Submit"
-                                onClick={ChangeStatus}
+                                onClick={ConfirmationSubmit}
                             />
                         </div>
                     </>
@@ -266,13 +302,15 @@ const ClinicTrialScreenRequestDetail = () => {
             />
 
             <CommonModal show={CancelReasonModal} onHide={CancelReasonModalClose} keyboard={false} size="md"
-                ModalTitle="Enter Reason"
+                ModalTitle="Cancelation Reason"
                 onClick={CancelReasonModalClose}
                 ModalData={
                     <form autoComplete="off">
                         <TextArea
                             placeholder="Enter Here..."
                             labelText="Enter Cancelation Reason"
+                            name="visit_note"
+                            onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -280,7 +318,9 @@ const ClinicTrialScreenRequestDetail = () => {
                                 BtnType="button"
                                 BtnColor="primary w-100"
                                 BtnText="Submit"
-                                onClick={CancelReasonModalClose}
+                                hasSpinner={loadingSelector.loading}
+                                disabled={loadingSelector.loading}
+                                onClick={()=> UpdateStatusSubmit(1)}
                             />
                         </div>
                     </form>

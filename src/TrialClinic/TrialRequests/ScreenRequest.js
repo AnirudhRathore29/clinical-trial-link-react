@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { NewScreenTrialRequestListAction } from '../../redux/actions/TrialClinicAction';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
@@ -44,10 +44,6 @@ const ClinicTrialScreenRequest = (props) => {
                 profile_image: data.patient_user_info.profile_image,
             }
         })
-    }
-
-    const ScreenRequestDetails = (id) => {
-        props.history.push(`/trial-clinic/screen-trial-request/${id}`)
     }
 
     return (
@@ -118,8 +114,7 @@ const ClinicTrialScreenRequest = (props) => {
                                                         <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
                                                             <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
                                                         </button>
-
-                                                        <button className="btn-action btn-green" onClick={()=>ScreenRequestDetails(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
+                                                        <Link className="btn-action btn-green" to={`/trial-clinic/screen-trial-request/${value.id}`}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                                     </div>
                                                 </td>
                                             </tr>
