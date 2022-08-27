@@ -84,21 +84,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
     }
 
     const UpdateStatusSubmit = (id) => {
-        // if (id === 1) {
-        //     const data = {
-        //         patient_appointment_id: PatientAppointmentId,
-        //         status: SelectedStatus,
-        //         visit_note: StatusUpdateFields.visit_note
-        //     }
-        // } else if (id === 2) {
-        //     const data = {
-        //         patient_appointment_id: PatientAppointmentId,
-        //         status: SelectedStatus,
-        //         appointment_date: screenPatientDetail && screenPatientDetail.data.appointment_date,
-        //         trial_clinic_appointment_slot_id: screenPatientDetail && screenPatientDetail.data.trial_clinic_appointment_slot_id,
-        //         visit_note: StatusUpdateFields.visit_note
-        //     }
-        // }
         const data = {
             patient_appointment_id: PatientAppointmentId,
             status: SelectedStatus,
@@ -107,10 +92,25 @@ const ClinicTrialScreenRequestDetail = (props) => {
         dispatch(NewScreenTrialRequestStatusUpdateAction(data))
     }
 
+    const addScreeningVisit = (e) => {
+        e.preventDefault();
+        const data = {
+            patient_appointment_id: PatientAppointmentId,
+            status: SelectedStatus,
+            appointment_date: moment(startDate).format("l"),
+            trial_clinic_appointment_slot_id: screenPatientDetail && screenPatientDetail.data.trial_clinic_appointment_slot_id,
+            visit_note: StatusUpdateFields.visit_note
+        }
+        console.log("data", data);
+        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+    }
+
     useEffect(() => {
         if (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) {
             setCancelReasonModal(false)
-            props.history.push("/trial-clinic/screen-trial-request")
+            setAddVisitModal(false)
+            // props.history.push("/trial-clinic/screen-trial-request")
+            dispatch(NewScreenTrialRequestDetailAction(id))
         }
     }, [dispatch, loadingSelector.trial_status])
 
@@ -259,7 +259,9 @@ const ClinicTrialScreenRequestDetail = (props) => {
                         </div>
                         <TextArea
                             placeholder="Enter Here..."
-                            labelText="Enter Text Note"
+                            labelText="Text Note"
+                            name="visit_note"
+                            onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -267,7 +269,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 BtnType="submit"
                                 BtnColor="primary w-100"
                                 BtnText="Confirm"
-                                onClick={addVisitModalClose}
+                                onClick={addScreeningVisit}
                             />
                         </div>
                     </form>
