@@ -25,13 +25,14 @@ const ClinicTrialScreenRequestDetail = (props) => {
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [StatusUpdateFields, setStatusUpdateFields] = useState({
-        visit_note: ""
+        visit_note: "",
+        available_time: ''
     })
 
     console.log("StatusUpdateFields", StatusUpdateFields);
     console.log("screenPatientDetail", screenPatientDetail);
     console.log("loadingSelector", loadingSelector);
-    console.log("SelectedStatus", SelectedStatus);
+    console.log("SelectedStatus", typeof SelectedStatus);
     console.log("startDate", startDate);
 
     const { id } = useParams()
@@ -97,8 +98,8 @@ const ClinicTrialScreenRequestDetail = (props) => {
         const data = {
             patient_appointment_id: PatientAppointmentId,
             status: SelectedStatus,
-            appointment_date: moment(startDate).format("l"),
-            trial_clinic_appointment_slot_id: screenPatientDetail && screenPatientDetail.data.trial_clinic_appointment_slot_id,
+            appointment_date: moment(startDate).format("YYYY-MM-DD"),
+            trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
             visit_note: StatusUpdateFields.visit_note
         }
         console.log("data", data);
@@ -106,11 +107,13 @@ const ClinicTrialScreenRequestDetail = (props) => {
     }
 
     useEffect(() => {
-        if (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) {
-            setCancelReasonModal(false)
+        if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "2")) {
             setAddVisitModal(false)
-            // props.history.push("/trial-clinic/screen-trial-request")
+            setSelectedStatus(0)
             dispatch(NewScreenTrialRequestDetailAction(id))
+        } else if((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "1" || "3")) {
+            setCancelReasonModal(false)
+            props.history.push("/trial-clinic/screen-trial-request")
         }
     }, [dispatch, loadingSelector.trial_status])
 
@@ -234,7 +237,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
             </div>
 
             <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
-                ModalTitle="Add Another Visit"
+                ModalTitle={SelectedStatus === "2" ? "Reschedule Screening" : "Trial Appointment"}
                 onClick={addVisitModalClose}
                 ModalData={
                     <form autoComplete="off">
@@ -251,7 +254,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 {
                                     screenPatientDetail && screenPatientDetail.trialAppointmentSlots.map((value, index) => {
                                         return (
-                                            <label key={index}><input type="radio" name="available_time"/><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
+                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time"/><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
                                         )
                                     })
                                 }
@@ -269,6 +272,8 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 BtnType="submit"
                                 BtnColor="primary w-100"
                                 BtnText="Confirm"
+                                hasSpinner={loadingSelector.loading}
+                                disabled={loadingSelector.loading}
                                 onClick={addScreeningVisit}
                             />
                         </div>

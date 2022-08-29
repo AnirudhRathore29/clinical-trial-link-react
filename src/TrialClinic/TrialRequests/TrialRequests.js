@@ -25,6 +25,7 @@ const ClinicTrialRequests = () => {
     console.log("GetCancelReasonsSelector", GetCancelReasonsSelector && GetCancelReasonsSelector.data);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [ScreenLoader, setScreenLoader] = useState(null);
     const [show, setShow] = useState(false);
     const [CancellationFormFields, setCancellationFormFields] = useState({
         default_cancel_reason_id: '',
@@ -32,7 +33,7 @@ const ClinicTrialRequests = () => {
         patient_appointment_id: '',
         status: 2
     })
-
+    
     console.log("CancellationFormFields", CancellationFormFields);
 
     const handleShow = (id) => {
@@ -75,18 +76,20 @@ const ClinicTrialRequests = () => {
     };
 
     const ScreenUpdateStatus = (data) => {
-        dispatch(NewTrialRequestStatusUpdateAction({type: 2, data}))
+        setScreenLoader(data.patient_appointment_id)
+        dispatch(NewTrialRequestStatusUpdateAction({ type: 2, data }))
     }
 
     const RejectReasonSubmit = (e) => {
         e.preventDefault()
-        dispatch(NewTrialRequestStatusUpdateAction({type: 1, data: CancellationFormFields}))
+        dispatch(NewTrialRequestStatusUpdateAction({ type: 1, data: CancellationFormFields }))
     }
 
     useEffect(() => {
         if (loadingSelector.patient_trial_request_status && loadingSelector.patient_trial_request_status.status === 200) {
             setShow(false);
             dispatch(NewTrialRequestListAction({ page: loadMoreData }))
+            setScreenLoader(null)
         }
     }, [loadingSelector.patient_trial_request_status])
 
@@ -160,8 +163,8 @@ const ClinicTrialRequests = () => {
                                                             isButton="true"
                                                             BtnColor="primary btn-sm"
                                                             BtnText="Screen"
-                                                            hasSpinner={loadingSelector.loading}
-                                                            disabled={loadingSelector.loading}
+                                                            hasSpinner={ScreenLoader === value.id}
+                                                            disabled={ScreenLoader === value.id}
                                                             onClick={() => ScreenUpdateStatus({ patient_appointment_id: value.id, status: 1 })}
                                                         />
                                                     </div>

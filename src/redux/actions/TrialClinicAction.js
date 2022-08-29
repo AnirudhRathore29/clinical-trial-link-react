@@ -9,7 +9,7 @@ import {
     TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
     TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
     TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
-    CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_SUCCESS, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR
+    CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_ERROR, NEW_TRIAL_REQUEST_STATUS_REJECT_SUCCESS, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR, CLINIC_APPOINTMENT_LIST_SUCCESS, CLINIC_APPOINTMENT_LIST_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -257,6 +257,21 @@ export const NewScreenTrialRequestStatusUpdateAction = (data) => async (dispatch
         })
         .catch(error => {
             dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const MyAppointmentListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/get-my-appointment-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_APPOINTMENT_LIST_SUCCESS, payload: response.data.data });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_APPOINTMENT_LIST_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }
