@@ -221,6 +221,7 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				clinic_appointment_list: action.payload,
+				new_trial_request: {},
 				error: {}
 			};
 		case CLINIC_APPOINTMENT_LIST_ERROR:

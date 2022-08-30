@@ -120,7 +120,7 @@ const ClinicTrialRequests = () => {
                                             <tr key={index}>
                                                 <td>
                                                     <div className='patient-img'>
-                                                        <img src={value.patient_user_info.profile_image !== null ? value.patient_user_info.profile_image : "/images/profile-img1.jpg"} alt={value.patient_user_info.first_name} />
+                                                        <img src={value.patient_user_info.profile_image !== null ? value.patient_user_info.profile_image : "/images/placeholder-img.jpg"} alt={value.patient_user_info.first_name} />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -183,7 +183,7 @@ const ClinicTrialRequests = () => {
                                     return (
                                         <tr className='bg-transparent' key={index}>
                                             <td className='p-0' colSpan="6">
-                                                <Skeleton height={125} />
+                                                <Skeleton height={100} />
                                             </td>
                                         </tr>
                                     )

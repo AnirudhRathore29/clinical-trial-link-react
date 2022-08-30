@@ -275,3 +275,18 @@ export const MyAppointmentListAction = (data) => async (dispatch) => {
             HandleError(error.response.data)
         });
 }
+
+export const TrialPatientListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/trialclinic/get-my-appointments-patient-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
