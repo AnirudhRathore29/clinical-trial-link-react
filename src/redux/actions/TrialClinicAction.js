@@ -290,3 +290,18 @@ export const TrialPatientListAction = (data) => async (dispatch) => {
             HandleError(error.response.data)
         });
 }
+
+export const PatientAppointMentDetailAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + `/trialclinic/view-approved-patient-trial-application/${data}`, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}

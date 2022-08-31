@@ -131,12 +131,9 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 <div className='repeat-white-bx mb-5'>
                                     <div className='PatientDetailsHeader'>
                                         <div className='appointment-detail patient-appointment-details'>
-                                            {/* <img src="/images/avatar-img3.jpg" alt="clinic-img" /> */}
-                                            <img src={screenPatientDetail.data.patient_user_info.profile_image !== null ? screenPatientDetail.data.patient_user_info.profile_image : "/images/profile-img1.jpg"} alt={screenPatientDetail.data.patient_user_info.first_name} />
+                                            <img src={screenPatientDetail.data.patient_user_info.profile_image !== null ? screenPatientDetail.data.patient_user_info.profile_image : "/images/placeholder-img.jpg"} alt={screenPatientDetail.data.patient_user_info.first_name} />
                                             <div className=''>
                                                 <h2 className='mb-2'>{screenPatientDetail.data.clinic_trial_info.trial_name}</h2>
-                                                {/* <span className='badge badge-primary d-inline-block mb-2'>Approved</span> */}
-                                                <p><strong>Visit Number :</strong> 25632156</p>
                                             </div>
                                         </div>
                                     </div>
