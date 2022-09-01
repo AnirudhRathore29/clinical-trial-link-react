@@ -30,6 +30,7 @@ const Payment = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Payment</h1>
+                        <button type='button' className='btn-text'>Skip Payment and Create Visit</button>
                     </div>
                     <div className='repeat-white-bx container-small'>
                         <h2>Choose Payment Option</h2>

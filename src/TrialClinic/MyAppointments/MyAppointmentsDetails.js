@@ -14,7 +14,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import moment from 'moment';
 
-const MyAppointmentsDetails = () => {
+const MyAppointmentsDetails = (props) => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
@@ -22,6 +22,10 @@ const MyAppointmentsDetails = () => {
     const [SelectedStatus, setSelectedStatus] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
+    const [StatusUpdateFields, setStatusUpdateFields] = useState({
+        visit_note: "",
+        available_time: ''
+    })
 
     const loadingSelector = useSelector(state => state.trial_clinic)
     const AppointmentDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
@@ -36,6 +40,7 @@ const MyAppointmentsDetails = () => {
     }, [dispatch])
 
     console.log("SelectedStatus", SelectedStatus);
+
     const addVisitModalClose = () => {
         setSelectedStatus(0)
         setAddVisitModal(false)
@@ -44,7 +49,6 @@ const MyAppointmentsDetails = () => {
     const CancelReasonModalClose = () => {
         setSelectedStatus(0)
         setCancelReasonModal(false)
-        setCompleteTrialModal(true)
     }
 
     const ConfirmationModalClose = () => {
@@ -57,13 +61,23 @@ const MyAppointmentsDetails = () => {
         setAddVisitModal(true)
     }
 
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setStatusUpdateFields((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
     const OnChangeStatus = (data) => {
         setConfirmationModal(true)
         setSelectedStatus(data.value)
         setPatientAppointmentId(data.patient_appointment_id)
     }
 
-    const ChangeStatus = () => {
+    const ConfirmationSubmit = () => {
         if (SelectedStatus === "2" || SelectedStatus === "3") {
             setAddVisitModal(true)
             setConfirmationModal(false)
@@ -72,6 +86,42 @@ const MyAppointmentsDetails = () => {
             setConfirmationModal(false)
         }
     }
+
+    const UpdateStatusSubmit = () => {
+        const data = {
+            patient_appointment_id: PatientAppointmentId,
+            status: SelectedStatus,
+            visit_note: StatusUpdateFields.visit_note
+        }
+        console.log("UpdateStatusSubmit", data);
+        // dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+    }
+
+    const addScreeningVisit = (e) => {
+        e.preventDefault();
+        const data = {
+            patient_appointment_id: PatientAppointmentId,
+            status: SelectedStatus,
+            appointment_date: moment(startDate).format("YYYY-MM-DD"),
+            trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
+            visit_note: StatusUpdateFields.visit_note
+        }
+        console.log("addScreeningVisit", data);
+        // dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+    }
+
+    useEffect(() => {
+        if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "4" || "5")) {
+            setCancelReasonModal(false)
+            setCompleteTrialModal(true)
+            setSelectedStatus(0)
+            // dispatch(PatientAppointMentDetailAction(id))
+        } else if((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
+            setCancelReasonModal(false)
+            // props.history.push("/trial-clinic/my-appointments")
+        }
+    }, [dispatch, loadingSelector.trial_status])
+
     return (
         <>
             <div className="clinical-dashboard AppointmentDetail screenPatientDetail">
@@ -116,7 +166,7 @@ const MyAppointmentsDetails = () => {
                                         <div className='col-lg-4'>
                                             <div className='appointment-detail-col'>
                                                 <h2>Trial Compensation</h2>
-                                                <p>{AppointmentDetail.data.clinic_trial_info.compensation ? AppointmentDetail.data.clinic_trial_info.compensation : "To be Decided at Clinic" }</p>
+                                                <p>{AppointmentDetail.data.clinic_trial_info.compensation ? `$ ${AppointmentDetail.data.clinic_trial_info.compensation}` : "To be Decided at Clinic"}</p>
                                             </div>
                                         </div>
                                         <div className='col-lg-4'>
@@ -139,7 +189,15 @@ const MyAppointmentsDetails = () => {
                                                             <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                             <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                 ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
-                                                            <span className='badge badge-success d-inline-block mb-3'>Completed</span>
+                                                            {
+                                                                value.status === 0 ?
+                                                                <span className='badge badge-primary d-inline-block mb-3'>Pending</span>:
+                                                                value.status === 1 ?
+                                                                <span className='badge badge-success d-inline-block mb-3'>Completed</span>:
+                                                                value.status === 2 ?
+                                                                <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span>:
+                                                                null
+                                                            }
                                                             <p className='mb-0'>{value.visit_note}</p>
                                                             {value.status === 0
                                                                 ?
@@ -179,7 +237,7 @@ const MyAppointmentsDetails = () => {
             </div>
 
             <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
-                ModalTitle="Add Another Visit"
+                ModalTitle={SelectedStatus === "2" ? "Reschedule Screening" : "Trial Appointment"}
                 onClick={addVisitModalClose}
                 ModalData={
                     <form autoComplete="off">
@@ -193,24 +251,30 @@ const MyAppointmentsDetails = () => {
                         <div className="available-time">
                             <h2>Available Time</h2>
                             <div className="time-row">
-                                <label><input type="radio" name="available_time" defaultChecked /><span>09:00 AM - 11:00 AM</span></label>
-                                <label><input type="radio" name="available_time" /><span>11:00 AM - 01:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>01:00 PM - 03:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>03:00 PM - 05:00 PM</span></label>
-                                <label><input type="radio" name="available_time" /><span>05:00 PM - 07:00 PM</span></label>
+                                {
+                                    AppointmentDetail && AppointmentDetail.trialAppointmentSlots.map((value, index) => {
+                                        return (
+                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time" /><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <TextArea
                             placeholder="Enter Here..."
-                            labelText="Enter Text Note"
+                            labelText="Text Note"
+                            name="visit_note"
+                            onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isButton="true"
-                                BtnType="button"
+                                BtnType="submit"
                                 BtnColor="primary w-100"
                                 BtnText="Confirm"
-                                onClick={addVisitModalClose}
+                                hasSpinner={loadingSelector.loading}
+                                disabled={loadingSelector.loading}
+                                onClick={addScreeningVisit}
                             />
                         </div>
                     </form>
@@ -231,12 +295,13 @@ const MyAppointmentsDetails = () => {
                                 isButton="true"
                                 BtnColor="primary btn-sm"
                                 BtnText="Cancel"
+                                onClick={ConfirmationModalClose}
                             />
                             <Button
                                 isButton="true"
                                 BtnColor="green btn-sm"
                                 BtnText="Submit"
-                                onClick={ChangeStatus}
+                                onClick={ConfirmationSubmit}
                             />
                         </div>
                     </>
@@ -244,13 +309,15 @@ const MyAppointmentsDetails = () => {
             />
 
             <CommonModal show={CancelReasonModal} onHide={CancelReasonModalClose} keyboard={false} size="md"
-                ModalTitle="Appointment Notes"
+                ModalTitle="Text Note"
                 onClick={CancelReasonModalClose}
                 ModalData={
                     <form autoComplete="off">
                         <TextArea
                             placeholder="Enter Here..."
-                            labelText="Enter Appointment Notes"
+                            labelText="Note"
+                            name="visit_note"
+                            onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -258,7 +325,9 @@ const MyAppointmentsDetails = () => {
                                 BtnType="button"
                                 BtnColor="primary w-100"
                                 BtnText="Submit"
-                                onClick={CancelReasonModalClose}
+                                hasSpinner={loadingSelector.loading}
+                                disabled={loadingSelector.loading}
+                                onClick={UpdateStatusSubmit}
                             />
                         </div>
                     </form>

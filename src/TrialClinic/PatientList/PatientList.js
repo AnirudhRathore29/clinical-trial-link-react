@@ -89,7 +89,7 @@ const ClinicPatientList = () => {
                                                 <td className='no-wrap'>{value.appointment_date} <br /> {value.trial_clinic_appointment_slot_info.booking_slot_info.from_time + ' to ' + value.trial_clinic_appointment_slot_info.booking_slot_info.to_time}</td>
                                                 <td>
                                                     <div className='btn-group-custom'>
-                                                        <Link to="/trial-clinic/appointments/25" className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
+                                                        <Link to={`/trial-clinic/appointments/${value.id}`} className="btn-action btn-green"><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></Link>
                                                         <a href={`tel:${value.patient_user_info.phone_number}`} className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
                                                         <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
                                                             <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
