@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import "react-datepicker/dist/react-datepicker.css";
 import '../TrialRequests/TrialRequests.css'
@@ -6,31 +6,89 @@ import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import OtpInput from 'react-otp-input';
-import { InputText } from '../../views/Components/Common/Inputs/Inputs';
+import { InputText, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import CommonModal from '../../views/Components/Common/Modal/Modal';
+import DatePicker from "react-datepicker";
+import { useDispatch, useSelector } from 'react-redux';
+import { NewScreenTrialRequestStatusUpdateAction, PatientAppointMentDetailAction } from '../../redux/actions/TrialClinicAction';
+import moment from 'moment';
 
-const Payment = () => {
-    /* payment option popup */
+const Payment = (props) => {
+    const [otp, setOtp] = useState();
     const [otpSent, setOtpSent] = useState(false);
     const [paymentOption, setPaymentOption] = useState(false);
+    const [addVisitModal, setAddVisitModal] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [StatusUpdateFields, setStatusUpdateFields] = useState({
+        visit_note: "",
+        available_time: ''
+    })
 
-    const OtpSent = () => {
-        setOtpSent(true);
+    const AppointmentDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
+    const loadingSelector = useSelector(state => state.trial_clinic)
+
+    const id = props.location && props.location.state.AppointmentDetailId
+    const PatientAppointmentId = props.location && props.location.state.PatientAppointmentId
+    const dispatch = useDispatch()
+
+    const OtpSent = () => setOtpSent(true);
+    const PaymentOption = () => setPaymentOption(!paymentOption);
+    const addVisitModalClose = () => setAddVisitModal(false)
+
+    console.log("props", props);
+    console.log("AppointmentDetail", AppointmentDetail);
+    console.log("loadingSelector", loadingSelector);
+    console.log("id", id);
+
+    useEffect(() => {
+        dispatch(PatientAppointMentDetailAction(id))
+    }, [dispatch])
+
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setStatusUpdateFields((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
     }
 
-    const PaymentOption = () => {
-        setPaymentOption(!paymentOption);
+    const addScreeningVisit = (e) => {
+        e.preventDefault();
+        const data = {
+            patient_appointment_id: PatientAppointmentId,
+            status: props.location && props.location.state.status,
+            appointment_date: moment(startDate).format("YYYY-MM-DD"),
+            trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
+            visit_note: StatusUpdateFields.visit_note
+        }
+        console.log("addScreeningVisit", data);
+        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
     }
-    /* payment option popup */
 
-    const [otp, setOtp] = useState();
+    const CompletePayment = () => {
+        const data = {
+            patient_appointment_id: props.location && props.location.state.PatientAppointmentId,
+            status: props.location && props.location.state.status,
+            visit_note: props.location && props.location.state.visit_note
+        }
+        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+    }
 
+    useEffect(() => {
+        if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "4")) {
+            setAddVisitModal(false)
+            props.history.push(`/trial-clinic/appointments/${id}`)
+        }
+    }, [dispatch, loadingSelector.trial_status])
     return (
         <>
             <div className="clinical-dashboard screenPatientDetail">
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Payment</h1>
-                        <button type='button' className='btn-text'>Skip Payment and Create Visit</button>
+                        <button type='button' className='btn-text' onClick={() => setAddVisitModal(true)}>Skip Payment and Create Visit</button>
                     </div>
                     <div className='repeat-white-bx container-small'>
                         <h2>Choose Payment Option</h2>
@@ -129,11 +187,57 @@ const Payment = () => {
                                 BtnType="submit"
                                 BtnColor="primary w-100"
                                 BtnText="Paid"
+                                onClick={CompletePayment}
                             />
                         </div>
                     </div>
                 </div>
             </div>
+
+            <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
+                ModalTitle="Trial Appointment"
+                onClick={addVisitModalClose}
+                ModalData={
+                    <form autoComplete="off">
+                        <div className='calender-outer'>
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                inline
+                            />
+                        </div>
+                        <div className="available-time">
+                            <h2>Available Time</h2>
+                            <div className="time-row">
+                                {
+                                    AppointmentDetail && AppointmentDetail.trialAppointmentSlots.map((value, index) => {
+                                        return (
+                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time" /><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <TextArea
+                            placeholder="Enter Here..."
+                            labelText="Text Note"
+                            name="visit_note"
+                            onChange={onchange}
+                        />
+                        <div className='clnicaltrial-detail-ftr mt-0'>
+                            <Button
+                                isButton="true"
+                                BtnType="submit"
+                                BtnColor="primary w-100"
+                                BtnText="Confirm"
+                                hasSpinner={loadingSelector.loading}
+                                disabled={loadingSelector.loading}
+                                onClick={addScreeningVisit}
+                            />
+                        </div>
+                    </form>
+                }
+            />
         </>
     );
 };
