@@ -15,6 +15,10 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import moment from 'moment';
 import { Form } from 'react-bootstrap';
 import { GetCancelReasonsAction } from '../../redux/actions/commonAction';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 const MyAppointmentsDetails = (props) => {
     const [addVisitModal, setAddVisitModal] = useState(false);
@@ -101,23 +105,46 @@ const MyAppointmentsDetails = (props) => {
         }
     }
 
-    const UpdateStatusSubmit = (e) => {
-        e.preventDefault()
-        if (SelectedStatus === "5") {
-            console.log("SelectedStatus === 5");
-            setAddVisitModal(true)
-            setCancelReasonModal(false)
-        } else if (SelectedStatus === "4") {
-            setCompleteTrialModal(true)
-            setCancelReasonModal(false)
-        } else if (SelectedStatus === "7") {
+    const UpdateStatusSubmit = (data) => {
+        if (SelectedStatus === "7") {
+            console.log("SelectedStatus === 7");
             const data = {
                 cancellation_detail: StatusUpdateFields.cancellation_detail,
                 default_cancel_reason_id: StatusUpdateFields.default_cancel_reason_id,
                 patient_appointment_id: PatientAppointmentId,
                 status: SelectedStatus,
             }
-            dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+            // dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+        }
+        if(SelectedStatus === "5" || SelectedStatus === "4" && StatusUpdateFields.visit_note.length > 0){
+            if (SelectedStatus === "5") {
+                console.log("SelectedStatus === 5");
+                setAddVisitModal(true)
+                setCancelReasonModal(false)
+            } else if (SelectedStatus === "4" && data === "endStudy") {
+                props.history.push({
+                    pathname: "/trial-clinic/payment",
+                    state: {
+                        AppointmentDetailId: id,
+                        PatientAppointmentId: PatientAppointmentId,
+                        status: SelectedStatus,
+                        visit_note: StatusUpdateFields.visit_note
+                    }
+                })
+            } else if (SelectedStatus === "4" && data === "newVisit") {
+                props.history.push({
+                    pathname: "/trial-clinic/payment",
+                    state: {
+                        createNewTrial: true,
+                        AppointmentDetailId: id,
+                        PatientAppointmentId: PatientAppointmentId,
+                        status: SelectedStatus,
+                        visit_note: StatusUpdateFields.visit_note
+                    }
+                })
+            }
+        } else {
+            toast.error("Text note is required!", { theme: "colored" })
         }
     }
 
@@ -177,7 +204,7 @@ const MyAppointmentsDetails = (props) => {
                                         <div className='col-lg-4'>
                                             <div className='appointment-detail-col'>
                                                 <h2>Clinic Address</h2>
-                                                <p>Atlanta, Georgia, United States</p>
+                                                <p>{AppointmentDetail.data.trial_clinic_user_info.address}</p>
                                             </div>
                                         </div>
                                         <div className='col-lg-4'>
@@ -195,7 +222,7 @@ const MyAppointmentsDetails = (props) => {
                                         <div className='col-lg-4'>
                                             <div className='appointment-detail-col'>
                                                 <h2>Sponsor</h2>
-                                                <p>Emerson Resources</p>
+                                                <p>{AppointmentDetail.data.clinic_trial_info.user_info.sponsor_name}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -329,28 +356,68 @@ const MyAppointmentsDetails = (props) => {
                 ModalTitle="Text Note"
                 onClick={CancelReasonModalClose}
                 ModalData={
-                    <form onSubmit={UpdateStatusSubmit} autoComplete="off">
+                    <form autoComplete="off">
                         <TextArea
                             placeholder="Enter Here..."
                             labelText="Note"
                             name="visit_note"
                             onChange={onchange}
                         />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Submit"
-                                hasSpinner={loadingSelector.loading}
-                                disabled={loadingSelector.loading}
-                            />
-                        </div>
+                        {
+                            SelectedStatus === "4" ?
+                                <div className='clnicaltrial-detail-ftr mt-0'>
+                                    <Button
+                                        isButton="true"
+                                        BtnColor="green btn-sm"
+                                        BtnType="button"
+                                        BtnText="End of Study"
+                                        onClick={() => UpdateStatusSubmit("endStudy")}
+                                    // onClick={() => props.history.push({
+                                    //     pathname: "/trial-clinic/payment",
+                                    //     state: {
+                                    //         AppointmentDetailId: id,
+                                    //         PatientAppointmentId: PatientAppointmentId,
+                                    //         status: SelectedStatus,
+                                    //         visit_note: StatusUpdateFields.visit_note
+                                    //     }
+                                    // })}
+                                    />
+                                    <Button
+                                        isButton="true"
+                                        BtnColor="primary btn-sm"
+                                        BtnType="button"
+                                        BtnText="Pay & Create New Visit"
+                                        onClick={() => UpdateStatusSubmit("newVisit")}
+                                    // onClick={() => props.history.push({
+                                    //     pathname: "/trial-clinic/payment",
+                                    //     state: {
+                                    //         createNewTrial: true,
+                                    //         AppointmentDetailId: id,
+                                    //         PatientAppointmentId: PatientAppointmentId,
+                                    //         status: SelectedStatus,
+                                    //         visit_note: StatusUpdateFields.visit_note
+                                    //     }
+                                    // })}
+                                    />
+                                </div>
+                                :
+                                <div className='clnicaltrial-detail-ftr mt-0'>
+                                    <Button
+                                        isButton="true"
+                                        BtnType="button"
+                                        BtnColor="primary w-100"
+                                        BtnText="Submit"
+                                        onClick={UpdateStatusSubmit}
+                                        hasSpinner={loadingSelector.loading}
+                                        disabled={loadingSelector.loading}
+                                    />
+                                </div>
+                        }
                     </form>
                 }
             />
 
-            <CommonModal show={CompleteTrialModal} onHide={CompleteTrialModalClose} keyboard={false} size="md"
+            {/* <CommonModal show={CompleteTrialModal} onHide={CompleteTrialModalClose} keyboard={false} size="md"
                 onClick={CompleteTrialModalClose}
                 ModalData={
                     <>
@@ -362,10 +429,18 @@ const MyAppointmentsDetails = (props) => {
                         </div>
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
-                                isLink="true"
-                                URL="/trial-clinic/payment"
+                                isButton="true"
                                 BtnColor="green btn-sm"
                                 BtnText="End of Study"
+                                onClick={() => props.history.push({
+                                    pathname: "/trial-clinic/payment",
+                                    state: {
+                                        AppointmentDetailId: id,
+                                        PatientAppointmentId: PatientAppointmentId,
+                                        status: SelectedStatus,
+                                        visit_note: StatusUpdateFields.visit_note
+                                    }
+                                })}
                             />
                             <Button
                                 isButton="true"
@@ -385,18 +460,19 @@ const MyAppointmentsDetails = (props) => {
                         </div>
                     </>
                 }
-            />
+            /> */}
 
             <CommonModal show={TerminationReasonModal} onHide={TerminationReasonModalClose} keyboard={false}
                 ModalTitle="Reject Request"
                 onClick={TerminationReasonModalClose}
                 ModalData={
                     <>
-                        <Form onSubmit={UpdateStatusSubmit}>
+                        <Form onSubmit={(e) => {e.preventDefault(); UpdateStatusSubmit()}}>
                             <SelectBox
                                 labelText="Reason for Rejection"
                                 name="default_cancel_reason_id"
                                 onChange={onchange}
+                                required={true}
                                 optionData=
                                 {
                                     <>
@@ -415,6 +491,7 @@ const MyAppointmentsDetails = (props) => {
                                 placeholder="Enter Rejection Details"
                                 name="cancellation_detail"
                                 labelText="Rejection Details"
+                                required={true}
                                 onChange={onchange}
                             />
                             <div className='clnicaltrial-detail-ftr mt-0'>

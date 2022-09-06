@@ -6,7 +6,7 @@ import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import OtpInput from 'react-otp-input';
-import { InputText, TextArea } from '../../views/Components/Common/Inputs/Inputs';
+import { InputText } from '../../views/Components/Common/Inputs/Inputs';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,7 +61,7 @@ const Payment = (props) => {
             status: props.location && props.location.state.status,
             appointment_date: moment(startDate).format("YYYY-MM-DD"),
             trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
-            visit_note: StatusUpdateFields.visit_note
+            visit_note: props.location && props.location.state.visit_note
         }
         console.log("addScreeningVisit", data);
         dispatch(NewScreenTrialRequestStatusUpdateAction(data))
@@ -88,7 +88,9 @@ const Payment = (props) => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Payment</h1>
-                        <button type='button' className='btn-text' onClick={() => setAddVisitModal(true)}>Skip Payment and Create Visit</button>
+                        {
+                            props.location && props.location.state.createNewTrial && <button type='button' className='btn-text' onClick={() => setAddVisitModal(true)}>Skip Payment and Create Visit</button>
+                        }
                     </div>
                     <div className='repeat-white-bx container-small'>
                         <h2>Choose Payment Option</h2>
@@ -218,12 +220,6 @@ const Payment = (props) => {
                                 }
                             </div>
                         </div>
-                        <TextArea
-                            placeholder="Enter Here..."
-                            labelText="Text Note"
-                            name="visit_note"
-                            onChange={onchange}
-                        />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isButton="true"

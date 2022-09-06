@@ -237,7 +237,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                 ModalTitle={SelectedStatus === "2" ? "Reschedule Screening" : "Trial Appointment"}
                 onClick={addVisitModalClose}
                 ModalData={
-                    <form autoComplete="off">
+                    <form onSubmit={addScreeningVisit} autoComplete="off">
                         <div className='calender-outer'>
                             <DatePicker
                                 selected={startDate}
@@ -262,6 +262,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                             labelText="Text Note"
                             name="visit_note"
                             onChange={onchange}
+                            required={true}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
@@ -271,7 +272,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 BtnText="Confirm"
                                 hasSpinner={loadingSelector.loading}
                                 disabled={loadingSelector.loading}
-                                onClick={addScreeningVisit}
                             />
                         </div>
                     </form>

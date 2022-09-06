@@ -155,6 +155,7 @@ const ClinicTrialApplication = () => {
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
+                                                                description={value.clinic_trial_info.trial_name}
                                                             />
                                                         </div>
                                                     )
@@ -201,6 +202,7 @@ const ClinicTrialApplication = () => {
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
+                                                                description={value.clinic_trial_info.trial_name}
                                                             />
                                                         </div>
                                                     )
@@ -248,6 +250,7 @@ const ClinicTrialApplication = () => {
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
+                                                                description={value.clinic_trial_info.trial_name}
                                                             />
                                                         </div>
                                                     )

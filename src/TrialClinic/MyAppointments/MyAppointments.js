@@ -105,7 +105,7 @@ const ClinicMyAppointments = () => {
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
-                                                            <Link to={`/trial-clinic/patient-list/${value.id}`}>
+                                                            <Link to={`/trial-clinic/patient-list-past/${value.id}`}>
                                                                 <MyAppointmentBx
                                                                     imgUrl={value.sponsor_user_info.listing_image}
                                                                     title={value.sponsor_user_info.sponsor_name}
@@ -122,6 +122,7 @@ const ClinicMyAppointments = () => {
                                                                                         null
                                                                     }
                                                                     location={`${value.sponsor_user_info.address}, ${value.sponsor_user_info.state_info.name}`}
+                                                                    description={value.clinic_trial_info.trial_name}
                                                                 />
                                                             </Link>
                                                         </div>
