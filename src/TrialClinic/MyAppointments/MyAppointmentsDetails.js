@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import '../TrialRequests/TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
-import { NewScreenTrialRequestStatusUpdateAction, NewTrialRequestStatusUpdateAction, PatientAppointMentDetailAction } from '../../redux/actions/TrialClinicAction';
+import { NewScreenTrialRequestStatusUpdateAction, PatientAppointMentDetailAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -24,7 +24,7 @@ const MyAppointmentsDetails = (props) => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
-    const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
+    // const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
     const [TerminationReasonModal, setTerminationReasonModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
@@ -73,7 +73,7 @@ const MyAppointmentsDetails = (props) => {
         setConfirmationModal(false)
     }
 
-    const CompleteTrialModalClose = () => setCompleteTrialModal(false)
+    // const CompleteTrialModalClose = () => setCompleteTrialModal(false)
     const TerminationReasonModalClose = () => setTerminationReasonModal(false)
 
     const onchange = (e) => {
@@ -107,18 +107,16 @@ const MyAppointmentsDetails = (props) => {
 
     const UpdateStatusSubmit = (data) => {
         if (SelectedStatus === "7") {
-            console.log("SelectedStatus === 7");
             const data = {
                 cancellation_detail: StatusUpdateFields.cancellation_detail,
                 default_cancel_reason_id: StatusUpdateFields.default_cancel_reason_id,
                 patient_appointment_id: PatientAppointmentId,
                 status: SelectedStatus,
             }
-            // dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+            dispatch(NewScreenTrialRequestStatusUpdateAction(data))
         }
-        if(SelectedStatus === "5" || SelectedStatus === "4" && StatusUpdateFields.visit_note.length > 0){
+        if((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length > 0)){
             if (SelectedStatus === "5") {
-                console.log("SelectedStatus === 5");
                 setAddVisitModal(true)
                 setCancelReasonModal(false)
             } else if (SelectedStatus === "4" && data === "endStudy") {
@@ -143,7 +141,7 @@ const MyAppointmentsDetails = (props) => {
                     }
                 })
             }
-        } else {
+        } else if((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length <= 0)) {
             toast.error("Text note is required!", { theme: "colored" })
         }
     }
@@ -166,6 +164,7 @@ const MyAppointmentsDetails = (props) => {
             setAddVisitModal(false)
             setSelectedStatus(0)
             dispatch(PatientAppointMentDetailAction(id))
+            setStatusUpdateFields({...StatusUpdateFields, visit_note:""})
         } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
             setTerminationReasonModal(false)
             props.history.push("/trial-clinic/my-appointments")
@@ -372,15 +371,6 @@ const MyAppointmentsDetails = (props) => {
                                         BtnType="button"
                                         BtnText="End of Study"
                                         onClick={() => UpdateStatusSubmit("endStudy")}
-                                    // onClick={() => props.history.push({
-                                    //     pathname: "/trial-clinic/payment",
-                                    //     state: {
-                                    //         AppointmentDetailId: id,
-                                    //         PatientAppointmentId: PatientAppointmentId,
-                                    //         status: SelectedStatus,
-                                    //         visit_note: StatusUpdateFields.visit_note
-                                    //     }
-                                    // })}
                                     />
                                     <Button
                                         isButton="true"
@@ -388,16 +378,6 @@ const MyAppointmentsDetails = (props) => {
                                         BtnType="button"
                                         BtnText="Pay & Create New Visit"
                                         onClick={() => UpdateStatusSubmit("newVisit")}
-                                    // onClick={() => props.history.push({
-                                    //     pathname: "/trial-clinic/payment",
-                                    //     state: {
-                                    //         createNewTrial: true,
-                                    //         AppointmentDetailId: id,
-                                    //         PatientAppointmentId: PatientAppointmentId,
-                                    //         status: SelectedStatus,
-                                    //         visit_note: StatusUpdateFields.visit_note
-                                    //     }
-                                    // })}
                                     />
                                 </div>
                                 :
