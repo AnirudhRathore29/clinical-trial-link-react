@@ -44,6 +44,10 @@ const SponsorsTrials = () => {
     const [statusLoading, setStatusLoading] = useState(false)
     const [recruitingData, setRecruitingData] = useState()
 
+    console.log("createTrials", createTrials);
+    console.log("createTrialSelector", createTrialSelector);
+    console.log("RecruitingStatusSelector", RecruitingStatusSelector);
+
     const [createTrialFieldData, setCreateTrialFieldData] = useState({
         trial_name: "",
         compensation: "",
@@ -173,8 +177,15 @@ const SponsorsTrials = () => {
                 additional_information: ""
             })
             setSelectedFile(undefined)
+            dispatch(ListTrials({ page: loadMoreData }))
         }
     }, [createTrials])
+
+    useEffect(() => {
+        if (RecruitingStatusSelector !== undefined && RecruitingStatusSelector.data.status_code === 200) {
+            dispatch(ListTrials({ page: loadMoreData }))
+        }
+    }, [RecruitingStatusSelector])
 
     const handleCreateTrialSubmit = (event) => {
         event.preventDefault();
@@ -233,7 +244,7 @@ const SponsorsTrials = () => {
             trial_id: id
         }
         dispatch(TrialRecruitingUpdateAction(data))
-        dispatch(ListTrials({ page: loadMoreData }))
+        // dispatch(ListTrials({ page: loadMoreData }))
         setRecruitingClickBtn(true)
     }
 
