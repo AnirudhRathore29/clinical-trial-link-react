@@ -82,6 +82,7 @@ function App() {
 						<PrivateRoute path="/trial-clinic/payment-history" name="ClinicPaymentHistory" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/edit-profile" name="ClinicEditProfile" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/manage-patient" name="ClinicManagePatient" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
+						<PrivateRoute path="/trial-clinic/patient-visits" name="PatientAllVisit" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 						<PrivateRoute path="/trial-clinic/my-chats" name="SponsorsMyChats" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />
 
 						{/* sponsor private Routes */}

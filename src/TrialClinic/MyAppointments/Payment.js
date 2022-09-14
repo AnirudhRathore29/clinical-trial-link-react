@@ -19,6 +19,8 @@ const Payment = (props) => {
     const [paymentOption, setPaymentOption] = useState(false);
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
+    const [clicked, setClicked] = useState(false);
+    const [payingForCurrentVisit, setPayingForCurrentVisit] = useState(false);
     const [StatusUpdateFields, setStatusUpdateFields] = useState({
         visit_note: "",
         available_time: ''
@@ -33,11 +35,15 @@ const Payment = (props) => {
 
     const OtpSent = () => setOtpSent(true);
     const PaymentOption = () => setPaymentOption(!paymentOption);
-    const addVisitModalClose = () => setAddVisitModal(false)
+    const addVisitModalClose = () => {
+        setAddVisitModal(false)
+        setPayingForCurrentVisit(false)
+    }
 
     console.log("props", props);
     console.log("AppointmentDetail", AppointmentDetail);
     console.log("loadingSelector", loadingSelector);
+    console.log("payingForCurrentVisit", payingForCurrentVisit);
     console.log("id", id);
 
     useEffect(() => {
@@ -60,6 +66,7 @@ const Payment = (props) => {
             patient_appointment_id: PatientAppointmentId,
             status: props.location && props.location.state.status,
             appointment_date: moment(startDate).format("YYYY-MM-DD"),
+            is_paying: payingForCurrentVisit ? 1 : 0,
             trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
             visit_note: props.location && props.location.state.visit_note
         }
@@ -67,19 +74,28 @@ const Payment = (props) => {
         dispatch(NewScreenTrialRequestStatusUpdateAction(data))
     }
 
-    const CompletePayment = () => {
-        const data = {
-            patient_appointment_id: props.location && props.location.state.PatientAppointmentId,
-            status: props.location && props.location.state.status,
-            visit_note: props.location && props.location.state.visit_note
+    const CompletePayment = (id) => {
+        if (id === "6") {
+            setClicked(true)
+            const data = {
+                patient_appointment_id: props.location && props.location.state.PatientAppointmentId,
+                status: props.location && props.location.state.status,
+                visit_note: props.location && props.location.state.visit_note
+            }
+            console.log("end of study");
+            dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+        } else {
+            setPayingForCurrentVisit(true)
+            setAddVisitModal(true)
         }
-        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
     }
 
     useEffect(() => {
         if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "4")) {
             setAddVisitModal(false)
             props.history.push(`/trial-clinic/appointments/${id}`)
+        } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "6")) {
+            props.history.push(`/trial-clinic/my-appointments`)
         }
     }, [dispatch, loadingSelector.trial_status])
     return (
@@ -122,22 +138,41 @@ const Payment = (props) => {
                                         }
                                         {
                                             otpSent ?
-                                                <div className='from-group otp-bx-outer mb-4'>
-                                                    <label>Enter OTP</label>
-                                                    <OtpInput
-                                                        containerStyle="otp-bx"
-                                                        value={otp}
-                                                        name="otp"
-                                                        onChange={setOtp}
-                                                        isInputNum="true"
-                                                        numInputs={4}
-                                                        inputStyle="form-control"
-                                                        shouldAutoFocus={true}
-                                                    />
-                                                    <div className='resend-otp'>
-                                                        <button>Resend OTP?</button>
+                                                <>
+                                                    <div className='from-group otp-bx-outer mb-4'>
+                                                        <label>Enter OTP</label>
+                                                        <OtpInput
+                                                            containerStyle="otp-bx"
+                                                            value={otp}
+                                                            name="otp"
+                                                            onChange={setOtp}
+                                                            isInputNum="true"
+                                                            numInputs={4}
+                                                            inputStyle="form-control"
+                                                            shouldAutoFocus={true}
+                                                        />
+                                                        <div className='resend-otp'>
+                                                            <button>Resend OTP?</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                    <InputText
+                                                        type="text"
+                                                        name="amount"
+                                                        placeholder="Enter Amount"
+                                                        labelText="Amount ($)"
+                                                    />
+
+                                                    <Button
+                                                        isButton="true"
+                                                        BtnType="submit"
+                                                        BtnColor="primary w-100 mb-4"
+                                                        BtnText="Paid"
+                                                        hasSpinner={clicked && loadingSelector.loading}
+                                                        disabled={clicked && loadingSelector.loading}
+                                                        onClick={() => CompletePayment(props.location.state.status)}
+                                                    />
+                                                </>
                                                 :
                                                 null
                                         }
@@ -173,24 +208,31 @@ const Payment = (props) => {
                                             placeholder="Enter Routing Number"
                                             labelText="Routing Number"
                                         />
+                                        <InputText
+                                            type="text"
+                                            name="amount"
+                                            placeholder="Enter Amount"
+                                            labelText="Amount ($)"
+                                        />
+                                        {props.location.state.status === "4" &&
+                                            <div className='info-bx'>
+                                                <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Payment will be processed once new visit is scheduled at the trial clinic.
+                                            </div>
+                                        }
+
+                                        <Button
+                                            isButton="true"
+                                            BtnType="submit"
+                                            BtnColor="primary w-100"
+                                            BtnText="Paid"
+                                            hasSpinner={clicked && loadingSelector.loading}
+                                            disabled={clicked && loadingSelector.loading}
+                                            onClick={() => CompletePayment(props.location.state.status)}
+                                        />
                                     </>
                                     :
                                     null
                             }
-                            <InputText
-                                type="text"
-                                name="amount"
-                                placeholder="Enter Amount"
-                                labelText="Amount ($)"
-                            />
-
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Paid"
-                                onClick={CompletePayment}
-                            />
                         </div>
                     </div>
                 </div>

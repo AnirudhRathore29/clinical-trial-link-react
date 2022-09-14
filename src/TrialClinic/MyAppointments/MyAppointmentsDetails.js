@@ -125,7 +125,7 @@ const MyAppointmentsDetails = (props) => {
                     state: {
                         AppointmentDetailId: id,
                         PatientAppointmentId: PatientAppointmentId,
-                        status: SelectedStatus,
+                        status: "6",
                         visit_note: StatusUpdateFields.visit_note
                     }
                 })

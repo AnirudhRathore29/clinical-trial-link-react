@@ -8,7 +8,7 @@ import {
 	TRIAL_APPLICATION_SUCCESS, TRIAL_APPLICATION_ERROR,
 	TRIAL_APPLICATION_DETAIL_SUCCESS, TRIAL_APPLICATION_DETAIL_ERROR,
 	TRIAL_APPLICATION_STATUS_SUCCESS, TRIAL_APPLICATION_STATUS_ERROR,
-	CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR, CLINIC_APPOINTMENT_LIST_SUCCESS, CLINIC_APPOINTMENT_LIST_ERROR
+	CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR, NEW_TRIAL_REQUEST_STATUS_SUCCESS, NEW_TRIAL_REQUEST_STATUS_ERROR, STATUS_LOADING, CLINIC_NEW_SCREEN_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_REQUEST_ERROR, CLINIC_NEW_SCREEN_TRIAL_DETAIL_SUCCESS, CLINIC_NEW_SCREEN_TRIAL_DETAIL_ERROR, CLINIC_APPOINTMENT_LIST_SUCCESS, CLINIC_APPOINTMENT_LIST_ERROR, MANGE_PATIENT_LIST_SUCCESS, MANGE_PATIENT_LIST_ERROR, MANGE_PATIENT_DETAIL_SUCCESS, MANGE_PATIENT_DETAIL_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -26,6 +26,8 @@ const initialState = {
 	new_screen_trial_request: {},
 	new_screen_trial_detail: {},
 	patient_trial_request_status: {},
+	manage_patient_list: {},
+	manage_patient_detail: {},
 	clinic_appointment_list: undefined
 };
 
@@ -231,6 +233,35 @@ export default function TrialClinicReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				clinic_appointment_list: {},
+				error: action.payload,
+			};
+		case MANGE_PATIENT_LIST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				manage_patient_list: action.payload,
+				clinic_appointment_list: undefined,
+				error: {}
+			};
+		case MANGE_PATIENT_LIST_ERROR:
+			return {
+				...state,
+				loading: false,
+				manage_patient_list: {},
+				error: action.payload,
+			};
+		case MANGE_PATIENT_DETAIL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				manage_patient_detail: action.payload,
+				error: {}
+			};
+		case MANGE_PATIENT_DETAIL_ERROR:
+			return {
+				...state,
+				loading: false,
+				manage_patient_detail: {},
 				error: action.payload,
 			};
 		default:

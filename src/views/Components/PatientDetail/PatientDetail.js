@@ -1,6 +1,6 @@
 import Button from "../Common/Buttons/Buttons";
 
-const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, seekingTrialsFor, condition, doctorProfileImg, doctorName, doctorPhoneNumber }) => {
+const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, seekingTrialsFor, condition, doctorProfileImg, doctorFirstName, doctorLastName, doctorPhoneNumber }) => {
     return (
         <>
             <div className='row patient-detail-row'>
@@ -53,27 +53,29 @@ const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, see
                     </div>
                 </div>
             </div>
-            <div className='invite-col'>
-                <h2>Primary Physician Details</h2>
-                <div className='invite-col-inner'>
-                    <div className='doctor-img'>
-                        <img src={`/images/${doctorProfileImg}`} alt="doctor" />
-                    </div>
-                    <div className='doctor-detail'>
-                        <div>
-                            <h2>{doctorName}</h2>
-                            <p>{doctorPhoneNumber}</p>
+            {doctorFirstName &&
+                <div className='invite-col'>
+                    <h2>Primary Physician Details</h2>
+                    <div className='invite-col-inner'>
+                        <div className='doctor-img'>
+                            <img src="/images/placeholder-img.jpg" alt={doctorFirstName} />
                         </div>
-                        <div>
-                            <Button
-                                isButton="true"
-                                BtnColor="primary btn-sm"
-                                BtnText="Invite"
-                            />
+                        <div className='doctor-detail'>
+                            <div>
+                                <h2>{doctorFirstName} {doctorLastName}</h2>
+                                <p>{doctorPhoneNumber}</p>
+                            </div>
+                            <div>
+                                <Button
+                                    isButton="true"
+                                    BtnColor="primary btn-sm"
+                                    BtnText="Invite"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </>
     );
 };
