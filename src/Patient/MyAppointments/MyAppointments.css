@@ -1,4 +1,4 @@
-.my-appointment-section .my-appointment-img img{height: 20rem;}
+.my-appointment-section .my-appointment-img img{height: 100%;}
 .my-appointment-section .my-appointment-bx{text-align: left;cursor: pointer;}
 
 .appointment-detail{display: flex;align-items: center; padding: 1rem; border: 1px solid #C3D9FF;border-radius: 1rem;margin-bottom: 2rem;color: var(--TextColor);}
