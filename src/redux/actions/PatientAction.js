@@ -6,11 +6,15 @@ import {
     PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR,
     PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR,
     PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR,
-    PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR
+    PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 export function Request() {
     return {
@@ -134,6 +138,37 @@ export const MyAppointmentsDetailAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: PATIENT_APPOINTMENT_DETAIL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const CancelAppointmentAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/patient/cancel-appointment", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_APPOINTMENT_CANCEL_SUCCESS, payload: response });
+            toast.success(response.data.message, { theme: "colored" })
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_APPOINTMENT_CANCEL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const PatientAllVisitAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + `/trialclinic/patient-all-visit`, data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_APPOINTMENT_VISIT_SUCCESS, payload: response.data.data });
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_APPOINTMENT_VISIT_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

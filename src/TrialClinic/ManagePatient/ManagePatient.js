@@ -130,8 +130,8 @@ const ClinicManagePatient = () => {
                                                         imgUrl={value.patient_user_info.profile_image}
                                                         patientName={`${value.patient_user_info.first_name} ${value.patient_user_info.last_name}`}
                                                         statusClass={
-                                                            value.status === 0 || value.status === 1 || value.status === 6 ? "primary" :
-                                                                value.status === 2 || value.status === 3 || value.status === 4 || value.status === 9 || value.status === 10 ? "danger" :
+                                                            value.status === 0 || value.status === 1 || value.status === 6 || value.status === 5 ? "primary" :
+                                                                value.status === 2 || value.status === 3 || value.status === 4 || value.status === 8 || value.status === 9 || value.status === 10 ? "danger" :
                                                                     value.status === 7 ? "success" : null
                                                         }
                                                         status={
@@ -140,10 +140,12 @@ const ClinicManagePatient = () => {
                                                                     value.status === 2 ? "Rejected" :
                                                                         value.status === 3 ? "Cancelled" :
                                                                             value.status === 4 ? "Not eligible" :
-                                                                                value.status === 6 ? "Screen Approved" :
-                                                                                    value.status === 7 ? "Complete" :
-                                                                                        value.status === 9 ? "End of study" :
-                                                                                            value.status === 10 ? "Early Terminated" : null
+                                                                                value.status === 5 ? "Screening Pending Approval" :
+                                                                                    value.status === 6 ? "Screen Approved" :
+                                                                                        value.status === 7 ? "Complete" :
+                                                                                            value.status === 8 ? "Incomplete" :
+                                                                                                value.status === 9 ? "End of study" :
+                                                                                                    value.status === 10 ? "Early Terminated" : null
                                                         }
                                                         description={value.clinic_trial_info.trial_name}
                                                         onClick={() => SetPatientDetailModalShow(value.id)}
@@ -193,8 +195,8 @@ const ClinicManagePatient = () => {
                                 imgUrl={PatientDetailState.data.patient_user_info.profile_image}
                                 patientName={`${PatientDetailState.data.patient_user_info.first_name} ${PatientDetailState.data.patient_user_info.last_name}`}
                                 statusClass={
-                                    PatientDetailState.data.status === 0 || PatientDetailState.data.status === 1 || PatientDetailState.data.status === 6 ? "primary" :
-                                        PatientDetailState.data.status === 2 || PatientDetailState.data.status === 3 || PatientDetailState.data.status === 4 || PatientDetailState.data.status === 9 || PatientDetailState.data.status === 10 ? "danger" :
+                                    PatientDetailState.data.status === 0 || PatientDetailState.data.status === 1 || PatientDetailState.data.status === 6 || PatientDetailState.data.status === 5 ? "primary" :
+                                        PatientDetailState.data.status === 2 || PatientDetailState.data.status === 3 || PatientDetailState.data.status === 4 || PatientDetailState.data.status === 9 || PatientDetailState.data.status === 8 || PatientDetailState.data.status === 10 ? "danger" :
                                             PatientDetailState.data.status === 7 ? "success" : null
                                 }
                                 status={
@@ -203,10 +205,12 @@ const ClinicManagePatient = () => {
                                             PatientDetailState.data.status === 2 ? "Rejected" :
                                                 PatientDetailState.data.status === 3 ? "Cancelled" :
                                                     PatientDetailState.data.status === 4 ? "Not eligible" :
-                                                        PatientDetailState.data.status === 6 ? "Screen Approved" :
-                                                            PatientDetailState.data.status === 7 ? "Complete" :
-                                                                PatientDetailState.data.status === 9 ? "End of study" :
-                                                                    PatientDetailState.data.status === 10 ? "Early Terminated" : null
+                                                        PatientDetailState.data.status === 5 ? "Screening Pending Approval" :
+                                                            PatientDetailState.data.status === 6 ? "Screen Approved" :
+                                                                PatientDetailState.data.status === 7 ? "Complete" :
+                                                                    PatientDetailState.data.status === 8 ? "Incomplete" :
+                                                                        PatientDetailState.data.status === 9 ? "End of study" :
+                                                                            PatientDetailState.data.status === 10 ? "Early Terminated" : null
                                 }
                                 description={PatientDetailState.data.clinic_trial_info.trial_name}
                             />
@@ -222,9 +226,10 @@ const ClinicManagePatient = () => {
                                 state={PatientDetailState.data.patient_user_info.state_info.name}
                                 zipCode={PatientDetailState.data.patient_user_info.zip_code}
                                 dob={PatientDetailState.data.patient_user_info.dob}
-                                trialFor={PatientDetailState.data.clinic_trial_info.trial_name}
+                                trialFor={PatientDetailState.data.patient_user_info.user_meta_info.trials_for}
                                 seekingTrialsFor={PatientDetailState.data.seeking_trials_for}
                                 condition={PatientDetailState.data.conditions}
+                                race={PatientDetailState.data.patient_user_info.user_meta_info.race}
                                 doctorFirstName={PatientDetailState.data.patient_user_info.physician_fname}
                                 doctorLastName={PatientDetailState.data.patient_user_info.physician_lname}
                                 doctorPhoneNumber={PatientDetailState.data.patient_user_info.physician_phone_number}

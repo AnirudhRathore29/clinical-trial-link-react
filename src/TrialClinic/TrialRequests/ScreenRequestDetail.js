@@ -309,22 +309,22 @@ const ClinicTrialScreenRequestDetail = (props) => {
                 ModalTitle="Cancelation Reason"
                 onClick={CancelReasonModalClose}
                 ModalData={
-                    <form autoComplete="off">
+                    <form autoComplete="off" onSubmit={(e)=> {e.preventDefault(); UpdateStatusSubmit(1)}}>
                         <TextArea
                             placeholder="Enter Here..."
                             labelText="Enter Cancelation Reason"
                             name="visit_note"
+                            required={true}
                             onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isButton="true"
-                                BtnType="button"
+                                BtnType="submit"
                                 BtnColor="primary w-100"
                                 BtnText="Submit"
                                 hasSpinner={loadingSelector.loading}
                                 disabled={loadingSelector.loading}
-                                onClick={()=> UpdateStatusSubmit(1)}
                             />
                         </div>
                     </form>

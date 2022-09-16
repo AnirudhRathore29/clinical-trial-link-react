@@ -21,6 +21,9 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
     const [bookingSubmit, setBookingSubmit] = useState(false);
     const [thanksObj, setThanksObj] = useState()
 
+    console.log("bookingSlots", bookingSlots);
+    console.log("bookingTrialSelector", bookingTrialSelector);
+
     useEffect(() => {
         if (bookingSubmit) {
             if (Object.keys(bookingTrialSelector.book_appointment).length !== 0 && !bookingTrialSelector.loading) {
@@ -45,6 +48,12 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
         dispatch(PatientBookAppointmentAction(data))
         setBookingSubmit(true)
     }
+
+    useEffect(() => {
+        if(bookingTrialSelector.book_appointment !== undefined && bookingTrialSelector.book_appointment.data.data.status_code === 200){
+            setBookingSlots()
+        }
+    })
 
     return (
         <>
@@ -105,7 +114,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                     BtnColor="green"
                                     BtnText={!viewDetails.data.alreadyApplied ? "Book Now" : "Already Booked"}
                                     onClick={() => handleShow2(viewDetails.data.id)}
-                                    disabled={viewDetails.data.alreadyApplied}
+                                    disabled={viewDetails.data.alreadyApplied == false ? viewDetails.data.is_recruiting === 0 ? true : false : viewDetails.data.alreadyApplied}
                                 />
                                 <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
 

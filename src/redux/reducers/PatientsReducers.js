@@ -5,7 +5,7 @@ import {
 	PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR,
 	PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR,
 	PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR,
-	PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR
+	PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -16,7 +16,9 @@ const initialState = {
 	clinic_details: {},
 	clinic_details_list: {},
 	view_trial: {},
-	book_appointment: {}
+	book_appointment: {},
+	appointment_cancel: {},
+	patient_all_visits: {},
 };
 
 export default function PatientsReducer(state = initialState, action) {
@@ -136,6 +138,34 @@ export default function PatientsReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				appointment_detail: {},
+				error: action.payload,
+			};
+		case PATIENT_APPOINTMENT_CANCEL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				appointment_cancel: action.payload,
+				error: {}
+			};
+		case PATIENT_APPOINTMENT_CANCEL_ERROR:
+			return {
+				...state,
+				loading: false,
+				appointment_cancel: {},
+				error: action.payload,
+			};
+		case PATIENT_APPOINTMENT_VISIT_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_all_visits: action.payload,
+				error: {}
+			};
+		case PATIENT_APPOINTMENT_VISIT_ERROR:
+			return {
+				...state,
+				loading: false,
+				patient_all_visits: {},
 				error: action.payload,
 			};
 		default:

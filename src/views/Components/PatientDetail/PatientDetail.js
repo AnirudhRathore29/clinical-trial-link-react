@@ -1,6 +1,6 @@
 import Button from "../Common/Buttons/Buttons";
 
-const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, seekingTrialsFor, condition, doctorProfileImg, doctorFirstName, doctorLastName, doctorPhoneNumber }) => {
+const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, seekingTrialsFor, condition, doctorProfileImg, doctorFirstName, doctorLastName, doctorPhoneNumber, race }) => {
     return (
         <>
             <div className='row patient-detail-row'>
@@ -50,6 +50,12 @@ const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, see
                     <div>
                         <h4>Condition</h4>
                         <h2>{condition}</h2>
+                    </div>
+                </div>
+                <div className='col-lg-6'>
+                    <div>
+                        <h4>Race</h4>
+                        <h2>{race}</h2>
                     </div>
                 </div>
             </div>
