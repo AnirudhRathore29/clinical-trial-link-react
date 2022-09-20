@@ -5,7 +5,7 @@ import '../../Patient/ClinicListing/ClinicListing.css'
 import '../../TrialClinic/TrialRequests/TrialRequests.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PatientAllVisitAction } from '../../redux/actions/TrialClinicAction';
+import { PatientAllVisitAction } from '../../redux/actions/PatientAction';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton'

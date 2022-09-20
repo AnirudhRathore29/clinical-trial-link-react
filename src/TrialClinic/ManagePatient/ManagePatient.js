@@ -214,26 +214,105 @@ const ClinicManagePatient = () => {
                                 }
                                 description={PatientDetailState.data.clinic_trial_info.trial_name}
                             />
-                            <PatientDetail
-                                phoneNumber={PatientDetailState.data.patient_user_info.phone_number}
-                                gender={
-                                    PatientDetailState.data.patient_user_info.gender === "F" ? "Female"
-                                        :
-                                        PatientDetailState.data.patient_user_info.gender === "M" ? "Male"
-                                            :
-                                            "Non Binary"
-                                }
-                                state={PatientDetailState.data.patient_user_info.state_info.name}
-                                zipCode={PatientDetailState.data.patient_user_info.zip_code}
-                                dob={PatientDetailState.data.patient_user_info.dob}
-                                trialFor={PatientDetailState.data.patient_user_info.user_meta_info.trials_for}
-                                seekingTrialsFor={PatientDetailState.data.seeking_trials_for}
-                                condition={PatientDetailState.data.conditions}
-                                race={PatientDetailState.data.patient_user_info.user_meta_info.race}
-                                doctorFirstName={PatientDetailState.data.patient_user_info.physician_fname}
-                                doctorLastName={PatientDetailState.data.patient_user_info.physician_lname}
-                                doctorPhoneNumber={PatientDetailState.data.patient_user_info.physician_phone_number}
-                            />
+                            <div className='row patient-detail-row'>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Phone Number</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.phone_number}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Gender</h4>
+                                        <h2>
+                                            {
+                                                PatientDetailState.data.patient_user_info.gender === "F" ? "Female"
+                                                    :
+                                                    PatientDetailState.data.patient_user_info.gender === "M" ? "Male"
+                                                        :
+                                                        "Non Binary"
+                                            }
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>State</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.state_info.name}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Zip Code</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.zip_code}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Date Of Birth</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.dob}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Trials for</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.trials_for}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-12'>
+                                    <div>
+                                        <h4>Seeking Trials for</h4>
+                                        <ul className='condition-ul'>
+                                            {PatientDetailState.data.seeking_trials_for_array !== undefined && PatientDetailState.data.seeking_trials_for_array.map((value, index) => {
+                                                return (
+                                                    <li key={index}>{value}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className='col-lg-12'>
+                                    <div>
+                                        <h4>Condition</h4>
+                                        <ul className='condition-ul'>
+                                            {PatientDetailState.data.conditions_array !== undefined && PatientDetailState.data.conditions_array.map((value, index) => {
+                                                return (
+                                                    <li key={index}>{value}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6'>
+                                    <div>
+                                        <h4>Race</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.race}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            {PatientDetailState.data.patient_user_info.physician_fname &&
+                                <div className='invite-col'>
+                                    <h2>Primary Physician Details</h2>
+                                    <div className='invite-col-inner'>
+                                        <div className='doctor-img'>
+                                            <img src="/images/placeholder-img.jpg" alt={PatientDetailState.data.patient_user_info.physician_fname} />
+                                        </div>
+                                        <div className='doctor-detail'>
+                                            <div>
+                                                <h2>{PatientDetailState.data.patient_user_info.physician_fname} {PatientDetailState.data.patient_user_info.physician_lname}</h2>
+                                                <p>{PatientDetailState.data.patient_user_info.physician_phone_number}</p>
+                                            </div>
+                                            <div>
+                                                <Button
+                                                    isButton="true"
+                                                    BtnColor="primary btn-sm"
+                                                    BtnText="Invite"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
 
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button

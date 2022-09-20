@@ -1,4 +1,5 @@
 import Button from "../Common/Buttons/Buttons";
+import '../../../Patient/MyFavorites/MyFavorites.css'
 
 const PatientDetail = ({ phoneNumber, gender, state, zipCode, dob, trialFor, seekingTrialsFor, condition, doctorProfileImg, doctorFirstName, doctorLastName, doctorPhoneNumber, race }) => {
     return (

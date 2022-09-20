@@ -161,7 +161,7 @@ export const CancelAppointmentAction = (data) => async (dispatch) => {
 export const PatientAllVisitAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + `/trialclinic/patient-all-visit`, data, {
+        .post(getCurrentHost() + `/patient/get-patient-trial-visits`, data, {
             headers: authHeader()
         })
         .then(response => {

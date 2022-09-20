@@ -49,11 +49,13 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
         setBookingSubmit(true)
     }
 
+    console.log("bookingTrialSelector", bookingTrialSelector);
+
     useEffect(() => {
-        if(bookingTrialSelector.book_appointment !== undefined && bookingTrialSelector.book_appointment.data.data.status_code === 200){
+        if(!bookingTrialSelector.book_appointment && bookingTrialSelector.book_appointment.data.data.status_code === 200){
             setBookingSlots()
         }
-    })
+    }, [bookingTrialSelector])
 
     return (
         <>
