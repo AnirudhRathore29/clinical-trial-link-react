@@ -147,7 +147,7 @@ const ClinicTrialApplication = () => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
                                                             <MyAppointmentBx
-                                                                // onClick={handleTrialDetailModalOpen}
+                                                                onClick={() => handleTrialDetailModalOpen(value.id)}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
                                                                 title={value.sponsor_user_info.sponsor_name}
                                                                 status={value.status === 0 && "Pending"}

@@ -455,13 +455,13 @@ const PatientMyAppointments = () => {
             />
 
             <CommonModal show={AppointmentCancelModal} onHide={AppointmentCancelModalClose} keyboard={false}
-                ModalTitle="Cancel Screening"
+                ModalTitle="Cancel Appointment"
                 onClick={AppointmentCancelModalClose}
                 ModalData={
                     <>
                         <Form onSubmit={(e) => { e.preventDefault(); ConfirmationModalShow() }}>
                             <SelectBox
-                                labelText="Reason for Rejection"
+                                labelText="Reason for Cancel"
                                 name="default_cancel_reason_id"
                                 onChange={onchange}
                                 required={true}
