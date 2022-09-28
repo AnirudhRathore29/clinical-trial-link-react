@@ -14,7 +14,7 @@ import {
 	TRIAL_APP_CLINIC_LIST_SUCCESS, TRIAL_APP_CLINIC_LIST_ERROR,
 	TRIAL_PATIENT_LIST_SUCCESS, TRIAL_PATIENT_LIST_ERROR,
 	TRIAL_PATIENT_DETAIL_SUCCESS, TRIAL_PATIENT_DETAIL_ERROR,
-	TRIAL_MANAGE_CLINIC_SUCCESS, TRIAL_MANAGE_CLINIC_ERROR
+	TRIAL_MANAGE_CLINIC_SUCCESS, TRIAL_MANAGE_CLINIC_ERROR, SPONSOR_MANGE_PATIENT_LIST_SUCCESS, SPONSOR_MANGE_PATIENT_LIST_ERROR, SPONSOR_MANGE_PATIENT_DETAIL_SUCCESS, SPONSOR_MANGE_PATIENT_DETAIL_ERROR, PATIENT_ALL_VISIT_SUCCESS, PATIENT_ALL_VISIT_ERROR,
 } from '../actions/types';
 const initialState = {
 	data: {},
@@ -32,7 +32,10 @@ const initialState = {
 	trial_app_clinic_list: {},
 	patient_list: {},
 	patient_detail: {},
-	manage_clinic: {}
+	manage_clinic: {},
+	manage_patient_list: {},
+	manage_patient_detail: {},
+	patient_all_visit: {}
 };
 
 export default function TrialsReducers(state = initialState, action) {
@@ -247,6 +250,49 @@ export default function TrialsReducers(state = initialState, action) {
 				loading: false,
 				error: action.payload,
 				manage_clinic: {}
+			};
+		case SPONSOR_MANGE_PATIENT_LIST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				manage_patient_list: action.payload,
+				patient_all_visit: {},
+				error: {}
+			};
+		case SPONSOR_MANGE_PATIENT_LIST_ERROR:
+			return {
+				...state,
+				loading: false,
+				manage_patient_list: {},
+				error: action.payload,
+			};
+		case SPONSOR_MANGE_PATIENT_DETAIL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				manage_patient_detail: action.payload,
+				error: {}
+			};
+		case SPONSOR_MANGE_PATIENT_DETAIL_ERROR:
+			return {
+				...state,
+				loading: false,
+				manage_patient_detail: {},
+				error: action.payload,
+			};
+		case PATIENT_ALL_VISIT_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_all_visit: action.payload,
+				error: {}
+			};
+		case PATIENT_ALL_VISIT_ERROR:
+			return {
+				...state,
+				loading: false,
+				patient_all_visit: {},
+				error: action.payload,
 			};
 		default:
 			return state;

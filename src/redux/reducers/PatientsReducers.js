@@ -117,6 +117,7 @@ export default function PatientsReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				appointment_list: action.payload,
+				patient_all_visits: {},
 				error: {}
 			};
 		case PATIENT_APPOINTMENT_LIST_ERROR:

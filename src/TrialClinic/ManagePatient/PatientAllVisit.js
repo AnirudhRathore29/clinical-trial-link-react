@@ -21,7 +21,7 @@ const PatientAllVisit = () => {
     const [LoadMoreState, setLoadMoreState] = useState(1)
 
     const dispatch = useDispatch();
-    const {id} = useParams();
+    const { id } = useParams();
 
     console.log("PatientAllVisitList", PatientAllVisitList);
     console.log("SelectedTabState", SelectedTabState);
@@ -114,7 +114,9 @@ const PatientAllVisit = () => {
                                                                             <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
                                                                             value.status === 5 ?
                                                                                 <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
-                                                                                null
+                                                                                value.status === 7 ?
+                                                                                    <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                    null
                                                                 }
                                                                 <p className='mb-0'>{value.visit_note}</p>
                                                             </div>

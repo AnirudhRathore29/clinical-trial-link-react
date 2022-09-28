@@ -4,7 +4,6 @@ import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Input
 import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import PatientListBx from '../../views/Components/PatientListBx/PatientListBx';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
-import PatientDetail from '../../views/Components/PatientDetail/PatientDetail';
 import '../../Patient/ClinicListing/ClinicListing.css';
 import { ManagePatientDetailAction, ManagePatientListAction } from '../../redux/actions/TrialClinicAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +11,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
+import '../../Patient/MyFavorites/MyFavorites.css';
 
 const ClinicManagePatient = () => {
     const loadingSelector = useSelector(state => state.trial_clinic)
@@ -255,6 +255,12 @@ const ClinicManagePatient = () => {
                                 </div>
                                 <div className='col-lg-6'>
                                     <div>
+                                        <h4>Race</h4>
+                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.race}</h2>
+                                    </div>
+                                </div>
+                                <div className='col-lg-12'>
+                                    <div>
                                         <h4>Trials for</h4>
                                         <h2>{PatientDetailState.data.patient_user_info.user_meta_info.trials_for}</h2>
                                     </div>
@@ -281,12 +287,6 @@ const ClinicManagePatient = () => {
                                                 )
                                             })}
                                         </ul>
-                                    </div>
-                                </div>
-                                <div className='col-lg-6'>
-                                    <div>
-                                        <h4>Race</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.race}</h2>
                                     </div>
                                 </div>
                             </div>

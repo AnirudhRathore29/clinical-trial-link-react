@@ -426,9 +426,9 @@ const PatientMyAppointments = () => {
                                     <p>{DetailSelectorState.cancellation_detail}</p>
                                 </div>
                             }
-                            <div className={DetailSelectorState.status === 0 || DetailSelectorState.status === 1 ? "clnicaltrial-detail-ftr" : "clnicaltrial-detail-ftr justify-content-center"}>
+                            <div className={DetailSelectorState.status === 0 ? "clnicaltrial-detail-ftr" : "clnicaltrial-detail-ftr justify-content-center"}>
                                 {
-                                    DetailSelectorState.status === 0 || DetailSelectorState.status === 1 ?
+                                    DetailSelectorState.status === 0 ?
                                         <Button
                                             isButton="true"
                                             BtnType="submit"

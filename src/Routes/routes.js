@@ -58,6 +58,7 @@ const SponsorsEditProfile = React.lazy(() => import('../TrialSponsors/EditProfil
 const SponsorsManageClinics = React.lazy(() => import('../TrialSponsors/ManageClinics/ManageClinics'));
 const SponsorsManagePatient = React.lazy(() => import('../TrialSponsors/ManagePatient/ManagePatient'));
 const SponsorsMyChats = React.lazy(() => import('../TrialSponsors/MyChats/MyChats'));
+const SponsorPatientAllVisit = React.lazy(() => import('../TrialSponsors/ManagePatient/PatientAllVisit'));
 
 /* physician pages */
 const PhysicianCompleteProfile = React.lazy(() => import('../Physician/CompleteProfile/CompleteProfile'));
@@ -133,6 +134,7 @@ const routes = [
 	{ path: '/trial-sponsors/manage-clinics', exact: true, name: 'SponsorsManageClinics', component: SponsorsManageClinics, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/patient-visits/:id', exact: true, name: 'SponsorPatientAllVisit', component: SponsorPatientAllVisit, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 
 	/* Physician Routes */
 	{ path: '/physician/complete-profile', exact: true, name: 'PhysicianCompleteProfile', component: PhysicianCompleteProfile, meta: {"role": RolesConfig.PHYSICIAN} },

@@ -15,7 +15,7 @@ import {
     TRIAL_APP_CLINIC_LIST_SUCCESS, TRIAL_APP_CLINIC_LIST_ERROR,
     TRIAL_PATIENT_LIST_SUCCESS, TRIAL_PATIENT_LIST_ERROR,
     TRIAL_PATIENT_DETAIL_SUCCESS, TRIAL_PATIENT_DETAIL_ERROR,
-    TRIAL_MANAGE_CLINIC_SUCCESS, TRIAL_MANAGE_CLINIC_ERROR
+    TRIAL_MANAGE_CLINIC_SUCCESS, TRIAL_MANAGE_CLINIC_ERROR, SPONSOR_MANGE_PATIENT_DETAIL_SUCCESS, SPONSOR_MANGE_PATIENT_DETAIL_ERROR, SPONSOR_MANGE_PATIENT_LIST_SUCCESS, SPONSOR_MANGE_PATIENT_LIST_ERROR, PATIENT_ALL_VISIT_SUCCESS, PATIENT_ALL_VISIT_ERROR
 } from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
@@ -359,6 +359,51 @@ export const TrialManageClinicsListAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: TRIAL_MANAGE_CLINIC_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const SponsorManagePatientListAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .post(getCurrentHost() + "/sponsor/get-manage-patient-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: SPONSOR_MANGE_PATIENT_LIST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: SPONSOR_MANGE_PATIENT_LIST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const SponsorManagePatientDetailAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .get(getCurrentHost() + `/sponsor/get-patient-detail/${data}`, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: SPONSOR_MANGE_PATIENT_DETAIL_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: SPONSOR_MANGE_PATIENT_DETAIL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const SponsorPatientAllVisitAction = (data) => async (dispatch) => {
+    dispatch(isLoading());
+    axios
+        .post(getCurrentHost() + `/sponsor/get-patient-trial-visits`, data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_ALL_VISIT_SUCCESS, payload: response.data.data });
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_ALL_VISIT_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

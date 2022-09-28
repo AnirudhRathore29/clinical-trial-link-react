@@ -45,6 +45,7 @@ const SponsorsTrials = () => {
     const [recruitingData, setRecruitingData] = useState()
 
     console.log("createTrials", createTrials);
+    console.log("recruitingData", recruitingData);
     console.log("createTrialSelector", createTrialSelector);
     console.log("RecruitingStatusSelector", RecruitingStatusSelector);
 
@@ -79,7 +80,10 @@ const SponsorsTrials = () => {
     //Create Trial Modal Function
     const handleShowCreateTrialModal = () => setCreateTrialModalOpen(true);
 
-    const handleCreateTrialModalClose = () => setCreateTrialModalOpen(false);
+    const handleCreateTrialModalClose = () => {
+        setCreateTrialModalOpen(false);
+        setRecruitingData("")
+    }
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -230,8 +234,8 @@ const SponsorsTrials = () => {
             if (recruitingData && recruitingData.status === 200) {
                 if (Object.keys(recruitingData.data).length !== 0) {
                     setStatusLoading(false)
-                    hanleTrialDetailModalClose()
                     setRecruitingData("")
+                    hanleTrialDetailModalClose()
                 }
                 setRecruitingClickBtn(false)
             }

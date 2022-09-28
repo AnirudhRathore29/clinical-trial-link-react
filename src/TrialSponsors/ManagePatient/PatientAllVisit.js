@@ -5,23 +5,23 @@ import '../../Patient/ClinicListing/ClinicListing.css'
 import '../../TrialClinic/TrialRequests/TrialRequests.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PatientAllVisitAction } from '../../redux/actions/PatientAction';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import moment from 'moment';
+import { SponsorPatientAllVisitAction } from '../../redux/actions/TrialSponsorAction';
 
-const PatientAllVisit = () => {
-    const PatientAllVisitList = useSelector(state => state.patient.patient_all_visits)
-    const isLoading = useSelector(state => state.patient)
+const SponsorPatientAllVisit = () => {
+    const PatientAllVisitList = useSelector(state => state.My_trials.patient_all_visit)
+    const isLoading = useSelector(state => state.My_trials)
 
     const [SelectedTabState, setSelectedTabState] = useState("Screening");
     const [ListSelectorState, setListSelectorState] = useState(undefined);
     const [LoadMoreState, setLoadMoreState] = useState(1)
 
     const dispatch = useDispatch();
-    const {id} = useParams();
+    const { id } = useParams();
 
     console.log("PatientAllVisitList", PatientAllVisitList);
     console.log("SelectedTabState", SelectedTabState);
@@ -38,7 +38,7 @@ const PatientAllVisit = () => {
     }
 
     useEffect(() => {
-        dispatch(PatientAllVisitAction({ page: LoadMoreState, patient_appointment_id: id, visit_type: SelectedTabState }))
+        dispatch(SponsorPatientAllVisitAction({ page: LoadMoreState, patient_appointment_id: id, visit_type: SelectedTabState }))
     }, [dispatch, SelectedTabState, LoadMoreState])
 
     useEffect(() => {
@@ -114,9 +114,9 @@ const PatientAllVisit = () => {
                                                                             <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
                                                                             value.status === 5 ?
                                                                                 <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
-                                                                            value.status === 7 ?
-                                                                                <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
-                                                                                null
+                                                                                value.status === 7 ?
+                                                                                    <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                    null
                                                                 }
                                                                 <p className='mb-0'>{value.visit_note}</p>
                                                             </div>
@@ -157,4 +157,4 @@ const PatientAllVisit = () => {
     );
 };
 
-export default PatientAllVisit;
+export default SponsorPatientAllVisit;
