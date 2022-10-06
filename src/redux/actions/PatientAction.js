@@ -6,7 +6,7 @@ import {
     PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR,
     PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR,
     PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR,
-    PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR
+    PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR, PATIENT_MY_FAV_TRIAL_SUCCESS, PATIENT_MY_FAV_TRIAL_ERROR, PATIENT_MY_FAV_TRIAL_LIST_SUCCESS, PATIENT_MY_FAV_TRIAL_LIST_ERROR
 } from './types';
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
@@ -78,6 +78,37 @@ export const PatientClinicAppTrialListAction = (id, data) => async (dispatch) =>
         })
         .catch(error => {
             dispatch({ type: PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const PatientMyFavTrialAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/patient/mark-fav-trials", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_MY_FAV_TRIAL_SUCCESS, payload: response });
+            toast.success(response.data.message, { theme: "colored" })
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_MY_FAV_TRIAL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const PatientMyFavTrialListAction = () => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + "/patient/get-fav-trials", {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_MY_FAV_TRIAL_LIST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_MY_FAV_TRIAL_LIST_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

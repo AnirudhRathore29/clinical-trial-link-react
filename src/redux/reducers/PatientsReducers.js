@@ -5,7 +5,7 @@ import {
 	PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR,
 	PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR,
 	PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR,
-	PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR
+	PATIENT_BOOK_APPOINTMENT_SUCCESS, PATIENT_BOOK_APPOINTMENT_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_DETAIL_SUCCESS, PATIENT_APPOINTMENT_DETAIL_ERROR, PATIENT_APPOINTMENT_CANCEL_SUCCESS, PATIENT_APPOINTMENT_CANCEL_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR, PATIENT_MY_FAV_TRIAL_SUCCESS, PATIENT_MY_FAV_TRIAL_ERROR, PATIENT_MY_FAV_TRIAL_LIST_SUCCESS, PATIENT_MY_FAV_TRIAL_LIST_ERROR
 } from './../actions/types';
 const initialState = {
 	data: {},
@@ -19,6 +19,8 @@ const initialState = {
 	book_appointment: {},
 	appointment_cancel: {},
 	patient_all_visits: {},
+	patient_my_fav_trials: {},
+	patient_my_fav_trials_list: {},
 };
 
 export default function PatientsReducer(state = initialState, action) {
@@ -167,6 +169,34 @@ export default function PatientsReducer(state = initialState, action) {
 				...state,
 				loading: false,
 				patient_all_visits: {},
+				error: action.payload,
+			};
+		case PATIENT_MY_FAV_TRIAL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_my_fav_trials: action.payload,
+				error: {}
+			};
+		case PATIENT_MY_FAV_TRIAL_ERROR:
+			return {
+				...state,
+				loading: false,
+				patient_my_fav_trials: {},
+				error: action.payload,
+			};
+		case PATIENT_MY_FAV_TRIAL_LIST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				patient_my_fav_trials_list: action.payload,
+				error: {}
+			};
+		case PATIENT_MY_FAV_TRIAL_LIST_ERROR:
+			return {
+				...state,
+				loading: false,
+				patient_my_fav_trials_list: {},
 				error: action.payload,
 			};
 		default:

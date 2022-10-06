@@ -1,30 +1,75 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { PatientMyFavTrialAction, PatientMyFavTrialListAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import './MyFavorites.css';
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 
 const PatientMyFavorites = () => {
+    const dispatch = useDispatch();
+    const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
+    const myFavTrialListSelector = useSelector(state => state.patient.patient_my_fav_trials_list.data);
+    const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
 
     const [show, setShow] = useState(false);
-
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
-
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
 
+    console.log("myFavTrialListSelector", myFavTrialListSelector);
+    console.log("viewTrialDetailSelector", viewTrialDetailSelector);
+
+    const handleClinicTrialModalOpen = (id) => {
+        dispatch(PatientViewTrialsAction(id))
+        setShow(true)
+    };
+    const handleClose = () => {
+        setViewTrialDetails(undefined)
+        setShow(false);
+    }
     const handleShow2 = () => {
         setShow2(true);
         handleClose();
     }
     const handleClose2 = () => setShow2(false);
-
-    const [show3, setShow3] = useState(false);
-
     const handleShow3 = () => {
         setShow3(true);
         handleClose2();
     }
     const handleClose3 = () => setShow3(false);
+
+    const handleRedirectUser2Chat = () => {
+        // history.push({
+        //     pathname: "/patient/my-chats",
+        //     state: {
+        //         full_name: patientClinicDetails.data.clinic_name,
+        //         id: patientClinicDetails.data.id,
+        //         profile_image: patientClinicDetails.data.listing_image,
+        //     }
+        // })
+    }
+
+    const MyFavTrial = (id) => {
+        dispatch(PatientMyFavTrialAction({ trial_clinic_appointment_id: id }))
+    }
+
+    useEffect(() => {
+        dispatch(PatientMyFavTrialListAction())
+    }, [dispatch])
+
+    useEffect(() => {
+        setViewTrialDetails(viewTrialDetailSelector)
+        return () => { setViewTrialDetails(undefined) }
+    }, [viewTrialDetailSelector]);
+
+    useEffect(() => {
+        if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+            dispatch(PatientMyFavTrialListAction())
+        }
+    }, [favTrialSelector])
 
     return (
         <>
@@ -35,99 +80,61 @@ const PatientMyFavorites = () => {
                     </div>
 
                     <div className='row'>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Study Seeking Patients with Bipolar Depression"
-                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Study Seeking Patients with Bipolar Depression"
-                                description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Depression Associated with Bipolar Disorder"
-                                description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
-                        <div className='col-lg-6'>
-                            <ClinicTrial
-                                className="mb-4 white-trial-bx"
-                                onClick={handleShow}
-                                title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                iconType="solid"
-                                iconColor="#356AA0"
-                            />
-                        </div>
+                        {myFavTrialListSelector !== undefined ?
+                            myFavTrialListSelector.data.length > 0 ?
+                                myFavTrialListSelector.data.map((value, index) => {
+                                    return (
+                                        <div className='col-lg-6' key={index}>
+                                            <ClinicTrial
+                                                className="mb-4 white-trial-bx"
+                                                onClick={() => handleClinicTrialModalOpen(value.trial_clinic_appointment_info.id)}
+                                                title={value.trial_clinic_appointment_info.clinic_trial_info.trial_name}
+                                                description={value.trial_clinic_appointment_info.clinic_trial_info.description}
+                                                status={
+                                                    value.trial_clinic_appointment_info.is_recruiting === 1 ?
+                                                        <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting </span>
+                                                        :
+                                                        <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
+                                                }
+                                                onClickFav={() => MyFavTrial(value.trial_clinic_appointment_info.id)}
+                                                iconType="solid"
+                                                iconColor="#356AA0"
+                                            />
+                                        </div>
+                                    )
+                                })
+                                :
+                                <NoDataFound />
+                            :
+                            [1, 2, 3, 4].map((_, index) => {
+                                return (
+                                    <div className='col-lg-6 mb-5' key={index}>
+                                        <Skeleton height={200} />
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
 
-            <PatientBookingProcess show={show} handleClose={handleClose} show2={show2} handleClose2={handleClose2} handleShow2={handleShow2} show3={show3} handleClose3={handleClose3} handleShow3={handleShow3} />
+            <PatientBookingProcess
+                show={show}
+                handleClose={handleClose}
+                show2={show2}
+                onClickChat={handleRedirectUser2Chat}
+
+                handleClose2={handleClose2}
+                handleShow2={handleShow2}
+                show3={show3}
+
+                handleClose3={handleClose3}
+                handleShow3={handleShow3}
+
+                viewDetails={viewTrialDetails}
+                bookingSlotData={viewTrialDetailSelector?.data?.appointment_slots}
+                bookingId={viewTrialDetailSelector?.data?.id}
+            />
 
         </>
     );

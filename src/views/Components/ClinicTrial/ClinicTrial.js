@@ -1,10 +1,10 @@
-const ClinicTrial = ({ onClick, title, description, status, iconType, iconColor, className, ShareFav, dateTime, trialAmount }) => {
+const ClinicTrial = ({ onClick, onClickFav, title, description, status, iconType, iconColor, className, ShareFav, dateTime, trialAmount }) => {
     return (
         <>
-            <div className={`item clinicalTrial-bx ${className}`} onClick={onClick}>
-                <h2>{title}</h2>
+            <div className={`item clinicalTrial-bx ${className}`}>
+                <h2 onClick={onClick}>{title}</h2>
                 { description &&
-                    <p className="description">{description}</p>
+                    <p className="description" onClick={onClick}>{description}</p>
                 }
                 { dateTime &&
                     <p className="hasIcon-p"><box-icon name='calendar' color="#356AA0" size="20px"></box-icon> {dateTime}</p>
@@ -19,7 +19,7 @@ const ClinicTrial = ({ onClick, title, description, status, iconType, iconColor,
                         null
                         :
                         <div>
-                            <button className='icon-btn'><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>
+                            <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>
                             <button className='icon-btn'><box-icon name='share-alt' color={iconColor}></box-icon></button>
                         </div>
                     }

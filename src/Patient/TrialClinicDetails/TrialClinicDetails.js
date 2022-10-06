@@ -7,7 +7,7 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import './TrialClinicDetails.css'
 import '../MyFavorites/MyFavorites.css'
-import { PatientClinicDetailsAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
+import { PatientClinicDetailsAction, PatientMyFavTrialAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
@@ -18,10 +18,14 @@ const TrialClinicDetails = () => {
     const history = useHistory()
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const trialClinicDetailSelector = useSelector(state => state.patient.clinic_details.data);
+    const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
     const { id } = useParams()
 
     const [patientClinicDetails, setPatientClinicDetails] = useState();
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
+
+    console.log("favTrialSelector", favTrialSelector);
+    console.log("trialClinicDetailSelector", trialClinicDetailSelector);
 
     useEffect(() => {
         setPatientClinicDetails(trialClinicDetailSelector)
@@ -51,6 +55,10 @@ const TrialClinicDetails = () => {
         dispatch(PatientViewTrialsAction(id))
         setShow(true)
     };
+
+    const MyFavTrial = (id) => {
+        dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
+    }
 
     const handleClose = () => {
         setShow(false)
@@ -84,6 +92,12 @@ const TrialClinicDetails = () => {
             }
         })
     }
+
+    useEffect(() => {
+        if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+            dispatch(PatientClinicDetailsAction(id))
+        }
+    }, [favTrialSelector])
 
     return (
         <>
@@ -167,6 +181,7 @@ const TrialClinicDetails = () => {
                                                                     :
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
                                                             }
+                                                            onClickFav={() => MyFavTrial(value.id)}
                                                         />
                                                     </React.Fragment>
                                                 )

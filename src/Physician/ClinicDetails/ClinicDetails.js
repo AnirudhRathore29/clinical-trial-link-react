@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
@@ -7,13 +7,44 @@ import Button from '../../views/Components/Common/Buttons/Buttons';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import '../../Patient/TrialClinicDetails/TrialClinicDetails.css'
 import '../../Patient/MyFavorites/MyFavorites.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
+import { PhysicianClinicDetailsAction, PhysicianViewTrialsAction } from '../../redux/actions/PhysicianAction';
 
-const PhysicianClinicDetails = () => {
+const TrialClinicDetails = () => {
+    const dispatch = useDispatch();
+    const history = useHistory()
+    const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
+    const trialClinicDetailSelector = useSelector(state => state.patient.clinic_details.data);
+    const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
+    const { id } = useParams()
+
+    const [patientClinicDetails, setPatientClinicDetails] = useState();
+    const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
+
+    console.log("favTrialSelector", favTrialSelector);
+    console.log("trialClinicDetailSelector", trialClinicDetailSelector);
+    console.log("patientClinicDetails", patientClinicDetails);
+
+    useEffect(() => {
+        setPatientClinicDetails(trialClinicDetailSelector)
+    }, [trialClinicDetailSelector]);
+
+    useEffect(() => {
+        setViewTrialDetails(viewTrialDetailSelector)
+        return () => { setViewTrialDetails(undefined) }
+    }, [viewTrialDetailSelector]);
+
+    useEffect(() => {
+        dispatch(PhysicianClinicDetailsAction(id))
+        return () => { dispatch(PhysicianClinicDetailsAction()) }
+    }, [dispatch, id])
 
     const options2 = {
         items: 3,
-        loop: true,
+        loop: false,
         nav: false,
         margin: 20,
         dots: true
@@ -21,8 +52,19 @@ const PhysicianClinicDetails = () => {
 
     const [show, setShow] = useState(false);
 
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
+    const handleClinicTrialModalOpen = (id) => {
+        dispatch(PhysicianViewTrialsAction(id))
+        setShow(true)
+    };
+
+    const MyFavTrial = (id) => {
+        // dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
+    }
+
+    const handleClose = () => {
+        setShow(false)
+        setViewTrialDetails(undefined)
+    };
 
     //
     const [show2, setShow2] = useState(false);
@@ -33,7 +75,6 @@ const PhysicianClinicDetails = () => {
     }
     const handleClose2 = () => setShow2(false);
 
-    //
     const [show3, setShow3] = useState(false);
 
     const handleShow3 = () => {
@@ -42,104 +83,128 @@ const PhysicianClinicDetails = () => {
     }
     const handleClose3 = () => setShow3(false);
 
+    const handleRedirectUser2Chat = () => {
+        history.push({
+            pathname: "/patient/my-chats",
+            state: {
+                full_name: patientClinicDetails.data.clinic_name,
+                id: patientClinicDetails.data.id,
+                profile_image: patientClinicDetails.data.listing_image,
+            }
+        })
+    }
+
+    useEffect(() => {
+        if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+            dispatch(PhysicianClinicDetailsAction(id))
+        }
+    }, [favTrialSelector])
+
     return (
         <>
             <div className="clinical-dashboard">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-8">
-                            <div className="trialClinic-detail-bx">
-                                <h1>Barnes Jewish Hospital <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
-                                <div className="trialClinic-location">
-                                    <span><box-icon name='map' color="#356AA0"></box-icon> Atlanta, Georgia, United States</span>
-                                    <span><box-icon name='map-alt' color="#356AA0"></box-icon> 5000.52 Mi</span>
+                    {patientClinicDetails !== undefined ?
+                        <div className="row">
+                            <div className="col-lg-8">
+                                <div className="trialClinic-detail-bx">
+                                    <h1> {patientClinicDetails.data.clinic_name} <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                    <div className="trialClinic-location">
+                                        <span><box-icon name='map' color="#356AA0"></box-icon>  {patientClinicDetails.data.address}, {patientClinicDetails.data.state_info.name} </span>
+                                        <span><box-icon name='map-alt' color="#356AA0"></box-icon> 0.00 Mi</span>
+                                    </div>
+
+                                    {patientClinicDetails.data.listing_image !== null &&
+                                        <div className='trialClinic-img'>
+                                            <img src={patientClinicDetails.data.listing_image} alt={patientClinicDetails.data.clinic_name} />
+                                        </div>
+                                    }
                                 </div>
-                                <div className='trialClinic-img'>
-                                    <img src="/images/trial-clinic-img.jpg" alt="Barnes Jewish Hospital" />
+
+                                {patientClinicDetails.data.user_speciality.length !== 0 &&
+                                    <div className="trialClinic-info-bx mt-5">
+                                        <h2>Specialty</h2>
+                                        <ul className='condition-ul'>
+                                            {patientClinicDetails.data.user_speciality.map((value, index) => {
+                                                return (
+                                                    <li key={index}>{value.speciality_info.speciality_title}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </div>
+                                }
+
+                                {patientClinicDetails.data.user_condition.length !== 0 &&
+                                    <div className="trialClinic-info-bx mt-5">
+                                        <h2>Condition</h2>
+                                        <ul className='condition-ul'>
+                                            {patientClinicDetails.data.user_condition.map((value, index) => {
+                                                return (
+                                                    <li key={index}>{value.condition_info.condition_title}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </div>
+                                }
+
+                                {patientClinicDetails.data.user_meta_info.brief_intro !== null &&
+                                    <div className="trialClinic-info-bx mt-5">
+                                        <h2>Description</h2>
+                                        <p> {patientClinicDetails.data.user_meta_info.brief_intro} </p>
+                                    </div>
+                                }
+
+                                {patientClinicDetails.data.sponsors.length > 0 &&
+                                    <SponsorsBx data={patientClinicDetails.data.sponsors} />
+                                }
+
+                                {patientClinicDetails.data.clinic_trials !== null &&
+                                    <div className="trialClinic-info-bx mt-5">
+                                        <h2>Clinical Trials
+                                            <Button
+                                                isLink="true"
+                                                URL={"/patient/trial-listing/" + patientClinicDetails.data.id}
+                                                BtnColor="green btn-sm"
+                                                BtnText="View All"
+                                            />
+                                        </h2>
+                                        <OwlCarousel {...options2}>
+                                            {patientClinicDetails.data.clinic_trials.map((value, index) => {
+                                                return (
+                                                    <React.Fragment key={index}>
+                                                        <ClinicTrial
+                                                            onClick={() => handleClinicTrialModalOpen(value.id)}
+                                                            title={value.clinic_trial_info.trial_name}
+                                                            description={value.clinic_trial_info.description}
+                                                            status={
+                                                                value.is_recruiting === 1 ?
+                                                                    <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting </span>
+                                                                    :
+                                                                    <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
+                                                            }
+                                                            onClickFav={() => MyFavTrial(value.id)}
+                                                        />
+                                                    </React.Fragment>
+                                                )
+                                            })}
+                                        </OwlCarousel>
+                                    </div>
+                                }
+                            </div>
+                            <div className="col-lg-4">
+                                <div className="trialClinic-side-bx Clinic-map-view">
+                                    <MapIframe latitude={patientClinicDetails.data.latitude} longitude={patientClinicDetails.data.longitude} />
                                 </div>
                             </div>
-                            <div className="trialClinic-info-bx mt-5">
-                                <h2>Specialty</h2>
-                                <p>Lorem ipsum dolor sit amet,</p>
-                            </div>
-                            <div className="trialClinic-info-bx mt-5">
-                                <h2>Condition</h2>
-                                <ul className='condition-ul'>
-                                    <li>Opioid Use Disorder</li>
-                                    <li>Hemorrhoids</li>
-                                    <li>Dementia</li>
-                                    <li>Bipolar Disorder</li>
-                                    <li>Alzheimer’s Disease</li>
-                                    <li>Depression</li>
-                                </ul>
-                            </div>
-                            <div className="trialClinic-info-bx mt-5">
-                                <h2>Description</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat vitae urna nec hendrerit. Vivamus eu aliquet metus, eget eleifend massa. Suspendisse potenti. Curabitur eu est in erat semper maximus a ut felis. Sed libero nunc, volutpat non imperdiet vel, pretium at erat. Sed cursus tincidunt ultricies. Aenean blandit posuere lorem ac hendrerit. Nam nisl lacus, posuere eget sollicitudin a, pharetra et sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus lacinia dictum ante, porttitor rhoncus augue vehicula non. Praesent pretium placerat turpis nec fringilla. Vestibulum hendrerit lorem et nulla malesuada, sed luctus ante varius. Duis quis dolor lacinia, aliquam nisi ut, vestibulum magna. Sed pellentesque ornare ex nec vestibulum. Donec facilisis quam sit amet bibendum volutpat. Maecenas turpis lectus, sodales eu ligula nec, aliquam viverra erat. Proin scelerisque nulla quis tortor fringilla tempor. Vestibulum accumsan pretium lobortis. Sed ac neque id risus cursus pretium. Aliquam in mollis sem. Proin congue ante non eros interdum ultricies. Pellentesque in lacinia sapien.</p>
-                            </div>
-                            <SponsorsBx />
-                            <div className="trialClinic-info-bx mt-5">
-                                <h2>Clinical Trials
-                                    <Button
-                                        isLink="true"
-                                        URL="/physician/trial-listing"
-                                        BtnColor="green btn-sm"
-                                        BtnText="View All"
-                                    />
-                                </h2>
-                                <OwlCarousel {...options2}>
-                                    <ClinicTrial
-                                        onClick={handleShow}
-                                        title="Depression Associated with Bipolar Disorder"
-                                        description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                        status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                    />
-                                    <ClinicTrial
-                                        onClick={handleShow}
-                                        title="Study Seeking Patients with Bipolar Depression"
-                                        description="A Phase 3, Randomized, Double-Blind, Placebo Controlled, Parallel-Group, Multicenter, Foxed-Dose..."
-                                        status={<span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>}
-                                    />
-                                    <ClinicTrial
-                                        onClick={handleShow}
-                                        title="Bipolar Depression Study with 6 Month Open Label Therapy"
-                                        description="If you or someone you know suffers from bipolar depression, you may be eligible to participate in a..."
-                                        status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                    />
-                                    <ClinicTrial
-                                        onClick={handleShow}
-                                        title="Depression Associated with Bipolar Disorder"
-                                        description="Adults experiencing depression associated with bipolar disorder have the opportunity to participate in a..."
-                                        status={<span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>}
-                                    />
-                                </OwlCarousel>
-                            </div>
+
                         </div>
-                        <div className="col-lg-4">
-                            <div className="trialClinic-side-bx Clinic-map-view">
-                                {/* <MapIframe latitude={sponsoreDetails.data.latitude} longitude={sponsoreDetails.data.longitude} /> */}
-                            </div>
-                        </div>
-                    </div>
+                        :
+                        <LogoLoader />
+                    }
                 </div>
             </div>
-
-            <PatientBookingProcess
-                onlyChat="true"
-
-                show={show}
-                handleClose={handleClose}
-                show2={show2}
-
-                handleClose2={handleClose2}
-                handleShow2={handleShow2}
-                show3={show3}
-
-                handleClose3={handleClose3}
-                handleShow3={handleShow3}
-            />
         </>
     );
 };
 
-export default PhysicianClinicDetails;
+export default TrialClinicDetails;
