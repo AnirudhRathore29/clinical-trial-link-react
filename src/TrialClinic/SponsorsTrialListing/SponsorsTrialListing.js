@@ -26,6 +26,8 @@ const ClinicSponsorsTrialListing = (props) => {
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
 
+    console.log("sponsorsTrialListSelector", sponsorsTrialListSelector);
+
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
     }, [clinicDetailSelector]);
@@ -137,6 +139,7 @@ const ClinicSponsorsTrialListing = (props) => {
                                                             :
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                     }
+                                                    id={sponsorsTrialListSelector.data.id}
                                                 />
                                             </React.Fragment>
                                         )

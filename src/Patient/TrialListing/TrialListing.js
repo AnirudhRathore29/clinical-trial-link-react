@@ -126,6 +126,7 @@ const PatientTrialListing = () => {
                                                             :
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                     }
+                                                    id={PatientTrialListSelector.data.id}
                                                 />
                                             </React.Fragment>
                                         )

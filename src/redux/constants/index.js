@@ -1,8 +1,9 @@
-const server = {
+export const server = {
 	// prod: 'http://192.168.2.80:8000/api',
 	baseUrl: 'http://admin.clinicaltriallink.org/api',
 	prod: 'http://admin.clinicaltriallink.org/api',
-	imageUrl: "http://admin.clinicaltriallink.org"
+	imageUrl: "http://admin.clinicaltriallink.org",
+	frontBaseUrl: "http://clinicaltriallink.org/"
 };
 
 const getCurrentHost = () => {

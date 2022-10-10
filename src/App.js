@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import store from './redux/store';
 import PrivateRoute from './views/private-route/PrivateRoute';
 import { setCurrentUser } from './redux/actions/authAction'
@@ -28,9 +28,9 @@ const loading = (
 );
 
 if (localStorage.auth_security) {
-    const token = localStorage.auth_security;
+	const token = localStorage.auth_security;
 	var decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
-    store.dispatch(setCurrentUser(decoded));
+	store.dispatch(setCurrentUser(decoded));
 }
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
 					<Route exact path="/clinic-details" name="ClinicDetails" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/trial-listing" name="TrialListing" render={(props) => <FrontLayout className="inner-header" {...props} />} />
 					<Route exact path="/about-us" name="AboutUS" render={(props) => <FrontLayout className="inner-header" {...props} />} />
-					
+
 					<Route exact path="/login" name="Login" render={(props) => <Login {...props} />} />
 					<Route exact path="/sign-up" name="SignUp" render={(props) => <SignUp {...props} />} />
 					<Route exact path="/forgot-password" name="ForgotPassword" render={(props) => <ForgotPassword {...props} />} />

@@ -26,6 +26,7 @@ const TrialClinicDetails = () => {
 
     console.log("favTrialSelector", favTrialSelector);
     console.log("trialClinicDetailSelector", trialClinicDetailSelector);
+    console.log("patientClinicDetails", patientClinicDetails);
 
     useEffect(() => {
         setPatientClinicDetails(trialClinicDetailSelector)
@@ -95,7 +96,9 @@ const TrialClinicDetails = () => {
 
     useEffect(() => {
         if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+            console.log("favTrialSelector called");
             dispatch(PatientClinicDetailsAction(id))
+            setPatientClinicDetails()
         }
     }, [favTrialSelector])
 
@@ -182,6 +185,8 @@ const TrialClinicDetails = () => {
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
                                                             }
                                                             onClickFav={() => MyFavTrial(value.id)}
+                                                            iconType={value.is_favourite === 1 ? "solid" : null}
+                                                            id={patientClinicDetails.data.id}
                                                         />
                                                     </React.Fragment>
                                                 )

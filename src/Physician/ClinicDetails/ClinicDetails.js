@@ -12,6 +12,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import MapIframe from '../../views/Components/MapIframe/MapIframe';
 import { PhysicianClinicDetailsAction, PhysicianViewTrialsAction } from '../../redux/actions/PhysicianAction';
+import CommonModal from '../../views/Components/Common/Modal/Modal';
+import moment from 'moment';
 
 const TrialClinicDetails = () => {
     const dispatch = useDispatch();
@@ -23,10 +25,12 @@ const TrialClinicDetails = () => {
 
     const [patientClinicDetails, setPatientClinicDetails] = useState();
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
+    const [TrialDetailModalState, setTrialDetailModalState] = useState(false);
 
     console.log("favTrialSelector", favTrialSelector);
     console.log("trialClinicDetailSelector", trialClinicDetailSelector);
     console.log("patientClinicDetails", patientClinicDetails);
+    console.log("viewTrialDetails", viewTrialDetails);
 
     useEffect(() => {
         setPatientClinicDetails(trialClinicDetailSelector)
@@ -50,38 +54,15 @@ const TrialClinicDetails = () => {
         dots: true
     };
 
-    const [show, setShow] = useState(false);
-
     const handleClinicTrialModalOpen = (id) => {
         dispatch(PhysicianViewTrialsAction(id))
-        setShow(true)
+        setTrialDetailModalState(true)
     };
 
-    const MyFavTrial = (id) => {
-        // dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
-    }
-
-    const handleClose = () => {
-        setShow(false)
+    const TrialDetailModalClose = () => {
+        setTrialDetailModalState(false)
         setViewTrialDetails(undefined)
     };
-
-    //
-    const [show2, setShow2] = useState(false);
-
-    const handleShow2 = () => {
-        setShow2(true);
-        handleClose();
-    }
-    const handleClose2 = () => setShow2(false);
-
-    const [show3, setShow3] = useState(false);
-
-    const handleShow3 = () => {
-        setShow3(true);
-        handleClose2();
-    }
-    const handleClose3 = () => setShow3(false);
 
     const handleRedirectUser2Chat = () => {
         history.push({
@@ -182,7 +163,8 @@ const TrialClinicDetails = () => {
                                                                     :
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
                                                             }
-                                                            onClickFav={() => MyFavTrial(value.id)}
+                                                            favBtnDisable={true}
+                                                            id={patientClinicDetails.data.id}
                                                         />
                                                     </React.Fragment>
                                                 )
@@ -203,6 +185,66 @@ const TrialClinicDetails = () => {
                     }
                 </div>
             </div>
+
+
+            {/* <CommonModal className="custom-size-modal" show={TrialDetailModalState} onHide={TrialDetailModalClose} keyboard={false}
+                ModalTitle={
+                    viewDetails !== undefined &&
+                    <>
+                        <h2> {viewDetails.data.clinic_trial_info.trial_name} </h2>
+                        <div className="trialClinic-location">
+                            <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(viewDetails.data.clinic_trial_info.updated_date).format("MMM Do YY")}</span>
+                            {viewDetails.data.is_recruiting === 1 ?
+                                <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
+                                :
+                                <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                            }
+                        </div>
+                    </>
+                }
+                onClick={TrialDetailModalClose}
+                ModalData={
+                    viewDetails !== undefined ?
+                        <>
+                            <div className='sponser-price-info'>
+                                <div className='sponser-price-row'>
+                                    <div className='sponser-price-icon'>
+                                        <box-icon name='user' size="30px" color="#356AA0"></box-icon>
+                                    </div>
+                                    <div>
+                                        <h4>Sponsor</h4>
+                                        <h2> {viewDetails.data.sponsor_user_info.sponsor_name} </h2>
+                                    </div>
+                                </div>
+                                <div className='sponser-price-row'>
+                                    <div className='sponser-price-icon'>
+                                        <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
+                                    </div>
+                                    <div>
+                                        <h4>Trial Compensation</h4>
+                                        <h2> ${viewDetails.data.clinic_trial_info.compensation} </h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='info-bx'>
+                                <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
+                            </div>
+
+                            {viewDetails.data.clinic_trial_info.description !== null &&
+                                <div className='clnicaltrial-description'>
+                                    <h2>Description</h2>
+                                    <p> {viewDetails.data.clinic_trial_info.description} </p>
+                                </div>
+                            }
+
+                            <div className='clnicaltrial-detail-ftr'>
+                                <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat()}> <box-icon name='message-rounded-dots' color="#ffffff"></box-icon> </button>
+                            </div>
+                        </>
+                        :
+                        <LogoLoader />
+                }
+            /> */}
         </>
     );
 };

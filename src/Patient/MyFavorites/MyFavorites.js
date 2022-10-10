@@ -99,6 +99,7 @@ const PatientMyFavorites = () => {
                                                 onClickFav={() => MyFavTrial(value.trial_clinic_appointment_info.id)}
                                                 iconType="solid"
                                                 iconColor="#356AA0"
+                                                id={value.id}
                                             />
                                         </div>
                                     )

@@ -185,6 +185,7 @@ const ClinicSponsorsDetails = () => {
                                                                     :
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                             }
+                                                            id={sponsoreDetails.data.id}
                                                         />
                                                     </React.Fragment>
                                                 )
