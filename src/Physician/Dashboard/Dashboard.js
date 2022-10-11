@@ -66,8 +66,8 @@ const PhysicianDashboard = () => {
                         <div className='col-lg-6'>
                             {DashboardSelector && DashboardSelector.data.relatedTrialClinicdata.length !== 0 &&
                                 <div className="heading-bx">
-                                    <h1> Recommended Trials </h1>
-                                    <Link to="/physician/trial-listing" className='btn-text'>See All</Link>
+                                    <h1> Recommended Trial Clinics </h1>
+                                    <Link to="/physician/clinic-listing" className='btn-text'>See All</Link>
                                 </div>
                             }
                             {!isLoading.loading ?
@@ -105,7 +105,6 @@ const PhysicianDashboard = () => {
                             {DashboardSelector && DashboardSelector.data.advertisements.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Related Clinical Trials </h1>
-                                    <Link to="/physician/trial-listing" className='btn-text'>See All</Link>
                                 </div>
                             }
                             {!isLoading.loading ?

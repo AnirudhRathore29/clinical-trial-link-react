@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     LOADING,
     SPONSORE_LIST_SUCCESS, SPONSORE_LIST_ERROR,
-    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR, STATUS_LOADING, PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR, PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR,
+    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR, STATUS_LOADING, PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR, PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR, PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR,
 } from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
@@ -69,7 +69,7 @@ export const PhysicianClinicDetailsAction = (id) => async (dispatch) => {
 export const PhysicianViewTrialsAction = (id) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + "/patient/view-trial-detail/" + id, {
+        .get(getCurrentHost() + "/physician/view-trial-detail/" + id, {
             headers: authHeader()
         })
         .then(response => {
@@ -77,6 +77,21 @@ export const PhysicianViewTrialsAction = (id) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: PATIENT_VIEW_TRIAL_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const PhysicianClinicAppTrialListAction = (id, data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/physician/get-trialclinic-approved-trial-list/" + id, data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

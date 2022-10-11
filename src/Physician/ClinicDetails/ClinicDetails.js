@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import SponsorsBx from '../../views/Components/SponsorsBx/SponsorsBx';
 import Button from '../../views/Components/Common/Buttons/Buttons';
@@ -31,6 +30,7 @@ const TrialClinicDetails = () => {
     console.log("trialClinicDetailSelector", trialClinicDetailSelector);
     console.log("patientClinicDetails", patientClinicDetails);
     console.log("viewTrialDetails", viewTrialDetails);
+    console.log("viewTrialDetailSelector", viewTrialDetailSelector);
 
     useEffect(() => {
         setPatientClinicDetails(trialClinicDetailSelector)
@@ -66,7 +66,7 @@ const TrialClinicDetails = () => {
 
     const handleRedirectUser2Chat = () => {
         history.push({
-            pathname: "/patient/my-chats",
+            pathname: "/physician/my-chats",
             state: {
                 full_name: patientClinicDetails.data.clinic_name,
                 id: patientClinicDetails.data.id,
@@ -144,7 +144,7 @@ const TrialClinicDetails = () => {
                                         <h2>Clinical Trials
                                             <Button
                                                 isLink="true"
-                                                URL={"/patient/trial-listing/" + patientClinicDetails.data.id}
+                                                URL={"/physician/trial-listing/" + patientClinicDetails.data.id}
                                                 BtnColor="green btn-sm"
                                                 BtnText="View All"
                                             />
@@ -187,14 +187,14 @@ const TrialClinicDetails = () => {
             </div>
 
 
-            {/* <CommonModal className="custom-size-modal" show={TrialDetailModalState} onHide={TrialDetailModalClose} keyboard={false}
+            <CommonModal className="custom-size-modal" show={TrialDetailModalState} onHide={TrialDetailModalClose} keyboard={false}
                 ModalTitle={
-                    viewDetails !== undefined &&
+                    viewTrialDetails !== undefined &&
                     <>
-                        <h2> {viewDetails.data.clinic_trial_info.trial_name} </h2>
+                        <h2> {viewTrialDetails.data.clinic_trial_info.trial_name} </h2>
                         <div className="trialClinic-location">
-                            <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(viewDetails.data.clinic_trial_info.updated_date).format("MMM Do YY")}</span>
-                            {viewDetails.data.is_recruiting === 1 ?
+                            <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(viewTrialDetails.data.clinic_trial_info.updated_date).format("MMM Do YY")}</span>
+                            {viewTrialDetails.data.is_recruiting === 1 ?
                                 <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                 :
                                 <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
@@ -204,7 +204,7 @@ const TrialClinicDetails = () => {
                 }
                 onClick={TrialDetailModalClose}
                 ModalData={
-                    viewDetails !== undefined ?
+                    viewTrialDetails !== undefined ?
                         <>
                             <div className='sponser-price-info'>
                                 <div className='sponser-price-row'>
@@ -213,7 +213,7 @@ const TrialClinicDetails = () => {
                                     </div>
                                     <div>
                                         <h4>Sponsor</h4>
-                                        <h2> {viewDetails.data.sponsor_user_info.sponsor_name} </h2>
+                                        <h2> {viewTrialDetails.data.sponsor_user_info.sponsor_name} </h2>
                                     </div>
                                 </div>
                                 <div className='sponser-price-row'>
@@ -222,7 +222,7 @@ const TrialClinicDetails = () => {
                                     </div>
                                     <div>
                                         <h4>Trial Compensation</h4>
-                                        <h2> ${viewDetails.data.clinic_trial_info.compensation} </h2>
+                                        <h2> ${viewTrialDetails.data.clinic_trial_info.compensation} </h2>
                                     </div>
                                 </div>
                             </div>
@@ -230,21 +230,21 @@ const TrialClinicDetails = () => {
                                 <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
                             </div>
 
-                            {viewDetails.data.clinic_trial_info.description !== null &&
+                            {viewTrialDetails.data.clinic_trial_info.description !== null &&
                                 <div className='clnicaltrial-description'>
                                     <h2>Description</h2>
-                                    <p> {viewDetails.data.clinic_trial_info.description} </p>
+                                    <p> {viewTrialDetails.data.clinic_trial_info.description} </p>
                                 </div>
                             }
 
                             <div className='clnicaltrial-detail-ftr'>
-                                <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat()}> <box-icon name='message-rounded-dots' color="#ffffff"></box-icon> </button>
+                                <button className="btn btn-primary w-100" onClick={() => handleRedirectUser2Chat()}> Chat Now </button>
                             </div>
                         </>
                         :
                         <LogoLoader />
                 }
-            /> */}
+            />
         </>
     );
 };
