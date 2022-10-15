@@ -1,11 +1,30 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
+import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import ListBox from '../../views/Components/ListBox/ListBox';
 import '../../Patient/ClinicListing/ClinicListing.css';
-import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { PhysicianClinicListingAction } from '../../redux/actions/PhysicianAction';
 
-const PhysicianClinicListing = () => {
+const PatientClinicListing = () => {
+    const dispatch = useDispatch();
+    const clinicListingSelector = useSelector(state => state.patient.listing_clinic.data)
+    const loadingSelector = useSelector(state => state.patient)
+    const [loadMoreData, setLoadMoreData] = useState(1);
+
+    useEffect(() => {
+        dispatch(PhysicianClinicListingAction({ page: loadMoreData }))
+    }, [dispatch, loadMoreData])
+
+    const handleLoadMore = () => {
+        setLoadMoreData(loadMoreData + 1)
+    }
+
     return (
         <>
             <div className="clinical-dashboard main-clinic-listing">
@@ -22,13 +41,13 @@ const PhysicianClinicListing = () => {
                                     labelText="Condition"
                                     optionData={
                                         <>
-                                            <option>Select Condition</option>
+                                            <option>Select</option>
                                             <option>Condition 1</option>
                                             <option>Condition 2</option>
                                         </>
                                     }
                                 />
-                                <div className='form-group'>
+                                {/* <div className='form-group'>
                                     <label>Age Range</label>
                                     <div className='age-range'>
                                         <div className='age-range-bix'>
@@ -41,7 +60,8 @@ const PhysicianClinicListing = () => {
                                             <InputText type="number" placeholder="Max Age" max="60" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
+
                                 <div className="form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
@@ -50,7 +70,7 @@ const PhysicianClinicListing = () => {
                                         <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
                                     </div>
                                 </div>
-                                <InputText type="text" labelText="Zip Code" placeholder="Enter Zip Code" />
+                                <InputText type="text" labelText="Zip Code" placeholder="Enter zip code" />
                                 <InputText type="search" labelText="Keywords" placeholder="Enter Keywords" />
                                 <Button
                                     isButton="true"
@@ -61,68 +81,46 @@ const PhysicianClinicListing = () => {
                             </div>
                         </div>
                         <div className='col-lg-8'>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img1.jpg"
-                                    title="Barnes Jewish Hospital"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img3.jpg"
-                                    title="UC Health"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img1.jpg"
-                                    title="Bayou City Research"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
-                            <Link to="/physician/clinic-details">
-                                <ListBox
-                                    imgUrl="clinic-img2.jpg"
-                                    title="University of California"
-                                    location="Atlanta, Georgia, United States"
-                                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta nunc eu nibh dignissim,"
-                                    distance="5000.52 Mi"
-                                />
-                            </Link>
+                            {clinicListingSelector !== undefined ?
+                                clinicListingSelector.data?.data?.length !== 0 ?
+                                    clinicListingSelector.data?.data?.map((value, index) => {
+                                        return (
+                                            <Link to={"/physician/clinic-details/" + value.id} key={index}>
+                                                <ListBox
+                                                    imgUrl={value.listing_image}
+                                                    title={value.clinic_name}
+                                                    location={value.address}
+                                                    state={value.state_info.name}
+                                                    description={value.user_meta_info.brief_intro}
+                                                    distance="0 Mi"
+                                                />
+                                            </Link>
+                                        )
+                                    })
+                                    :
+                                    <NoDataFound />
+                                :
+                                [1, 2, 3].map((_, index) => {
+                                    return (
+                                        <div className='mb-3' key={index}>
+                                            <Skeleton height={240} borderRadius="1rem" style={{ marginBottom: 20 }} />
+                                        </div>
+                                    )
+                                })
+                            }
 
-                            <div className='mt-5 text-center'>
-                                <Button
-                                    isButton="true"
-                                    BtnColor="primary"
-                                    BtnText="Load More"
-                                />
-                            </div>
+                            {clinicListingSelector && clinicListingSelector.data.total > 16 &&
+                                <div className='mt-5 text-center'>
+                                    <Button
+                                        isButton="true"
+                                        BtnColor="primary"
+                                        BtnText="Load More"
+                                        onClick={handleLoadMore}
+                                        disabled={clinicListingSelector.data.last_page === clinicListingSelector.data.current_page}
+                                        hasSpinner={loadingSelector.loading}
+                                    />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -131,4 +129,4 @@ const PhysicianClinicListing = () => {
     );
 };
 
-export default PhysicianClinicListing;
+export default PatientClinicListing;
