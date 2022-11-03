@@ -146,7 +146,8 @@ const PatientMyChats = () => {
                                     {/* <div className="attachment-btn"><i className="fas fa-paperclip" /><input className="form-control" type="file" /></div> */}
                                     <div className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></div>
                                 </div>
-                            </div></main>
+                            </div>
+                        </main>
                     </div>
                 </div>
             </div>

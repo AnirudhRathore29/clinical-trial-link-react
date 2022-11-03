@@ -145,7 +145,7 @@ const routes = [
 	{ path: '/physician/trial-listing/:id', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/manage-patient', exact: true, name: 'PhysicianManagePatient', component: PhysicianManagePatient, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/patient-visits/:id', exact: true, name: 'PhysicianPatientAllVisit', component: PhysicianPatientAllVisit, meta: {"role": RolesConfig.PHYSICIAN} },
-	{ path: '/physician/my-chats', exact: true, name: 'PhysicianMyChats', component: PhysicianMyChats, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile, meta: {"role": RolesConfig.PHYSICIAN} },
 ];
 

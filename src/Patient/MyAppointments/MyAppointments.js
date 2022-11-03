@@ -4,7 +4,7 @@ import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './MyAppointments.css';
 import '../ClinicListing/ClinicListing.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +41,7 @@ const PatientMyAppointments = () => {
     })
 
     const dispatch = useDispatch();
+    const history = useHistory()
 
     console.log("AppointmentListSelector", AppointmentListSelector && AppointmentListSelector.data);
     console.log("SelectedTabState", SelectedTabState);
@@ -48,6 +49,7 @@ const PatientMyAppointments = () => {
     console.log("DetailSelectorState", DetailSelectorState);
     console.log("GetCancelReasonsSelector", GetCancelReasonsSelector);
     console.log("CancelAppointmentSelector", CancelAppointmentSelector);
+    console.log("AppointmentDetailSelector", AppointmentDetailSelector);
     console.log("inputFields", inputFields);
 
     const AppointmentDetailModalShow = (data) => {
@@ -110,6 +112,17 @@ const PatientMyAppointments = () => {
     const CancelAppointmentSubmit = () => {
         dispatch(CancelAppointmentAction(inputFields))
         console.log("canceldata", inputFields);
+    }
+
+    const handleRedirectUser2Chat = () => {
+        history.push({
+            pathname: "/patient/my-chats",
+            state: {
+                full_name: AppointmentDetailSelector.data.data.trial_clinic_user_info.clinic_name,
+                id: AppointmentDetailSelector.data.data.id,
+                profile_image: AppointmentDetailSelector.data.data.trial_clinic_user_info.listing_image,
+            }
+        })
     }
 
     useEffect(() => {
@@ -446,7 +459,7 @@ const PatientMyAppointments = () => {
                                     BtnText="View All Visits"
                                 />
                                 <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
-                                <Link to="/patient/my-chats" className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></Link>
+                                <button onClick={handleRedirectUser2Chat} className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></button>
                             </div>
                         </>
                         :

@@ -35,7 +35,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
                             null
                             :
                             <div>
-                                { favBtnDisable === true ? null : <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button> }
+                                { favBtnDisable ? null : <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button> }
                                 <button className='icon-btn' ref={target} onClick={ShareTrial}><box-icon name='share-alt' color={iconColor}></box-icon></button>
 
                                 <Overlay target={target.current} show={tooltip} placement="top">
