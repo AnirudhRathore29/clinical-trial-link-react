@@ -17,7 +17,7 @@ const Home = (props) => {
 
     useEffect(() => {
         dispatch(HomePageDetailAction())
-    }, [])
+    }, [dispatch])
     return (
         <>
             {

@@ -19,7 +19,7 @@ const TermsConditions = () => {
 
     useEffect(() => {
         dispatch(CmsPageDetailAction("terms-and-conditions"))
-    }, [])
+    }, [dispatch])
     return (
         <>
             {

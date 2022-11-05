@@ -20,7 +20,7 @@ const Faq = () => {
 
     useEffect(() => {
         dispatch(FaqDetailAction("terms-and-conditions"))
-    }, [])
+    }, [dispatch])
     return (
         <>
             {

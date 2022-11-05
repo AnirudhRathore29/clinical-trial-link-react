@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
 
     useEffect(() => {
         dispatch(CmsPageDetailAction("privacy-policy"))
-    }, [])
+    }, [dispatch])
     return (
         <>
             {
