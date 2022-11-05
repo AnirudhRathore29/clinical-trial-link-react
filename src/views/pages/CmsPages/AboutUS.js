@@ -1,29 +1,51 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CmsPageDetailAction } from "../../../redux/actions/cmsAction";
 import InnerBanner from "../../Components/Common/InnerBanner/InnerBanner";
+import { LogoLoader } from "../../Components/Common/LogoLoader/LogoLoader";
 import SectionTitle from "../../Components/Common/SectionTitle/SectionTitle";
 import './AboutUs.css';
 
 
 const AboutUS = () => {
+    const dispatch = useDispatch()
 
+    const AboutDetailSelector = useSelector(state => state.cms_content.cms_page_detail.data)
+    const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
+
+    console.log("AboutDetail", AboutDetailSelector);
+    console.log("LoadingSelectorSelector", LoadingSelectorSelector);
+
+
+    useEffect(() => {
+        dispatch(CmsPageDetailAction("about-us"))
+    }, [])
     return (
         <>
-            <InnerBanner
-                pageTitle="About Us"
-                subTitle={<>Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem <br /> Sed porttitor lectus nibh  sapien massa</>}
-            />
-            <div className="repeat-section about-us-section">
-                <div className="container">
-                    <div className="row align-items-center">
-                        <div className="col-lg-6">
-                            <SectionTitle title="And these are our principles" ShapeImage="heading-clip-1.svg" />
-                        </div>
-                        <div className="col-lg-6">
-                            <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla quis lorem ut libero malesuada feugiat.</p>
-                            <p>Donec rutrum congue leo eget malesuada. Donec rutrum congue leo eget malesuada. Curabitur aliquet quam id dui posuere blandit.</p>
-                        </div>
+            {
+                LoadingSelectorSelector ?
+                    <div className='fullPageLoader'>
+                        <LogoLoader />
                     </div>
-                </div>
-            </div>
+                    :
+                    AboutDetailSelector &&
+                    <>
+                        <InnerBanner
+                            pageTitle={AboutDetailSelector.data.title}
+                            subTitle={AboutDetailSelector.data.title_short_note}
+                        />
+                        <div className="repeat-section about-us-section">
+                            <div className="container">
+                                <div className="row align-items-center">
+                                    <div className="col-lg-6">
+                                        <SectionTitle title={AboutDetailSelector.data.description_side_title} ShapeImage="heading-clip-1.svg" />
+                                    </div>
+                                    <div className="col-lg-6" dangerouslySetInnerHTML={{ __html: AboutDetailSelector.data.description }} />
+                                </div>
+                            </div>
+                        </div>
+                    </>
+            }
         </>
     );
 };

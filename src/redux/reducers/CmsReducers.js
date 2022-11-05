@@ -1,4 +1,4 @@
-import { LOADING, GET_HOME_PAGE_DETAIL_SUCCESS, GET_HOME_PAGE_DETAIL_ERROR, GET_CMS_DETAIL_SUCCESS, GET_CMS_DETAIL_ERROR, GET_FAQ_DETAIL_SUCCESS, GET_FAQ_DETAIL_ERROR, GET_FOOTER_DETAIL_SUCCESS, GET_FOOTER_DETAIL_ERROR } from '../actions/types';
+import { LOADING, GET_HOME_PAGE_DETAIL_SUCCESS, GET_HOME_PAGE_DETAIL_ERROR, GET_CMS_DETAIL_SUCCESS, GET_CMS_DETAIL_ERROR, GET_FAQ_DETAIL_SUCCESS, GET_FAQ_DETAIL_ERROR, GET_FOOTER_DETAIL_SUCCESS, GET_FOOTER_DETAIL_ERROR, GET_CONTACT_PAGE_DETAIL_SUCCESS, GET_CONTACT_PAGE_DETAIL_ERROR } from '../actions/types';
 const initialState = {
 	data: {},
 	loading: false,
@@ -7,6 +7,7 @@ const initialState = {
 	cms_page_detail: {},
 	faq_page_detail: {},
 	footer_page_detail: {},
+	contact_page_detail: {},
 };
 
 export default function CmsReducers(state = initialState, action) {
@@ -70,6 +71,20 @@ export default function CmsReducers(state = initialState, action) {
 				...state,
 				loading: false,
 				footer_page_detail: {},
+				error: action.payload,
+			};
+		case GET_CONTACT_PAGE_DETAIL_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				contact_page_detail: action.payload,
+				error: {}
+			};
+		case GET_CONTACT_PAGE_DETAIL_ERROR:
+			return {
+				...state,
+				loading: false,
+				contact_page_detail: {},
 				error: action.payload,
 			};
 		default:

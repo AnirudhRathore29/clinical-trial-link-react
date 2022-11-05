@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ContactPageDetailAction } from "../../../redux/actions/cmsAction";
 import Button from "../../Components/Common/Buttons/Buttons";
 import InnerBanner from "../../Components/Common/InnerBanner/InnerBanner";
 import { InputText, TextArea } from "../../Components/Common/Inputs/Inputs";
 import "./ContactUs.css";
 
 const ContactUs = () => {
+
+    const dispatch = useDispatch()
+
+    const ContactPageDetailSelector = useSelector(state => state.cms_content.contact_page_detail.data)
+    const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
     const [Formdata, setFormData] = useState({
         email: "",
         password: "",
@@ -13,11 +20,19 @@ const ContactUs = () => {
     const ContactSubmit = () => {
     }
 
+    console.log("ContactPageDetail", ContactPageDetailSelector);
+    console.log("LoadingSelectorSelector", LoadingSelectorSelector);
+
+
+    useEffect(() => {
+        dispatch(ContactPageDetailAction())
+    }, [])
+
     return (
         <>
             <InnerBanner
-                pageTitle="Contact Us"
-                subTitle={<>Feel free to contact us and we will get back <br /> to you soon as we can.</>}
+                pageTitle={ContactPageDetailSelector && ContactPageDetailSelector.data.cms_detail.title}
+                subTitle={ContactPageDetailSelector && ContactPageDetailSelector.data.cms_detail.title_short_note}
             />
 
             <section className="repeat-section contact-section">
@@ -25,18 +40,23 @@ const ContactUs = () => {
                     <div className="row">
                         <div className="col-lg-5 d-flex">
                             <div className="inquire-bx">
-                                <div className="contact-bx">
-                                    <h2>Support</h2>
-                                    <p>React us at  <a href="mailto:support@clinicaltriallink.com">support@clinicaltriallink.com</a> and we will get back to you asap</p>
-                                </div>
-                                <div className="contact-bx">
-                                    <h2>Sales Enquiries</h2>
-                                    <p>Send us an email at <a href="mailto:sales@clinicaltriallink.com">sales@clinicaltriallink.com</a></p>
-                                </div>
-                                <div className="contact-bx">
-                                    <h2>Contact</h2>
-                                    <p>Contact us at  <a href="mailto:contact@clinicaltriallink.com">contact@clinicaltriallink.com</a></p>
-                                </div>
+                                {
+                                    ContactPageDetailSelector &&
+                                    ContactPageDetailSelector.data.site_setting_detail.map((value, index) => {
+                                        return (
+                                            <div className="contact-bx">
+                                                <h2>
+                                                    {
+                                                        value.slug === "contact_us_support_content" ? "Support" :
+                                                        value.slug === "contact_us_sales_enquiry_content" ? "Sales Enquiries" :
+                                                        value.slug === "site_email" ? "Contact" : null
+                                                    }
+                                                </h2>
+                                                <p dangerouslySetInnerHTML={{ __html: value.value}} />
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <div className="col-lg-6 offset-lg-1 contact-from-bx d-flex">
