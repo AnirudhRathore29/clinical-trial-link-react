@@ -5,6 +5,7 @@ import CommonReducer from './commonReducers';
 import TrialReducers from './TrialSponsorReducers'
 import TrialClinicReducer from './trialClinicReducers';
 import PatientsReducer from './PatientsReducers';
+import CmsReducers from './CmsReducers';
 
 export default combineReducers({
 	auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
 	common_data: CommonReducer,
 	My_trials: TrialReducers,
 	trial_clinic: TrialClinicReducer,
-	patient: PatientsReducer
+	patient: PatientsReducer,
+	cms_content: CmsReducers
 });

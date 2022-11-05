@@ -1,0 +1,7 @@
+.about-us-section p{font-size: 2rem;color: var(--TextColor);}
+.about-us-section p + p{margin-top: 2rem;}
+
+.accordion-button{font-size: 2rem;font-weight: 500;padding: 1.5rem;}
+.accordion-button::after{width: 18px;height: 18px;background-size: cover;}
+.accordion-button:focus,
+.accordion-button:not(.collapsed){color: var(--BlackColor);}

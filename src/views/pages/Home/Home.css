@@ -1,7 +1,8 @@
 .home-banner-section{background: url(../../../Assets/images/home-banner-bg.svg) bottom center;background-size: cover;min-height: 100vh;padding-top: 18.5rem;padding-bottom: 10rem;}
 .home-banner-caption h1{font-size: 6.4rem;color: var(--whiteColor);font-weight: bold;line-height: 1.4;}
 .home-banner-caption p{font-size: 3rem;color: var(--whiteColor);margin: 2rem 0;}
-.home-banner-img img{max-height: 65.2vh;margin-right: -4rem;min-height: 56.5rem;}
+.home-banner-img{width: 68.3rem; height: 68.3rem; border-radius: 42.5rem 0 42.5rem 42.5rem;overflow: hidden;background: var(--SecondaryColor);margin-left: auto;}
+.home-banner-img img{width: 100%;height: 100%;}
 
 .news-bx{padding: 1rem 3rem 1rem 1rem;display: inline-flex;align-items: center; background: #2982DC;border-radius: 200px;font-size: 2rem;color: var(--whiteColor);margin-bottom: 4rem;}
 .news-bx span{background: var(--SecondaryColor);border-radius: 50px;padding: 1rem 3rem;color: var(--TextColor);display: flex;align-items: center;justify-content: center; margin-right: 2rem;font-size: 1.6rem;font-weight: 500;}
@@ -21,9 +22,9 @@
 /***** What Clinical Trial End *****/
 
 .clinical-info-section{background: var(--lightBg);}
-.clinicalImgBx{box-shadow: 0 1.5rem 2.5rem rgba(195, 217, 255, 0.5);border-radius: 3rem;position: relative;}
+.clinicalImgBx{box-shadow: 0 1.5rem 2.5rem rgba(195, 217, 255, 0.5);border-radius: 3rem;position: relative;height: 60rem;background-color: var(--whiteColor);}
 .clinicalImgBx::after{content: "";width: 100%;height: 42.7rem;background: url(../../../Assets/images/round-shape.svg);background-size: cover;position: absolute;left: 0;top: -5.6rem;}
-.clinicalImgBx img{width: 100%;height: 60rem;border-radius: 3rem;position: relative;z-index: 1;object-fit: cover;}
+.clinicalImgBx img{width: 100%;height: 100%; border-radius: 3rem;position: relative;z-index: 1;object-fit: cover;}
 .clinical-info-section .container>.row + .row{margin-top: 16rem;}
 
 
@@ -35,3 +36,6 @@
 .why-choose-points li p{font-size: 2rem;color: var(--TextColorLight);}
 
 .our-plans{background: #f1f6e9;}
+
+/* Skeleton css */
+.home-banner-section .react-loading-skeleton{--base-color: #a7d3ff; --highlight-color: #7bb9f9;}

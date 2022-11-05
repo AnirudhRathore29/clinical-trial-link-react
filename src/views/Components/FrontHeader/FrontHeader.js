@@ -45,9 +45,9 @@ const Header = (props) => {
                             <li className="nav-item">
                                 <NavLink to="/about-us">About Us</NavLink>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <NavLink to="/ask">Ask the Expert</NavLink>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <NavLink to="/contact-us">Contact Us</NavLink>
                             </li>

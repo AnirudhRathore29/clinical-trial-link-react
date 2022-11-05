@@ -1,19 +1,37 @@
 import SectionTitle from "../Common/SectionTitle/SectionTitle";
 import { InputText } from '../Common/Inputs/Inputs';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './FrontFooter.css';
+import { useDispatch, useSelector } from "react-redux";
+import { FooterDetailAction } from "../../../redux/actions/cmsAction";
+import { useEffect } from "react";
 
 const Footer = () => {
+    const dispatch = useDispatch()
+
+    const FooterDetailSelector = useSelector(state => state.cms_content.footer_page_detail.data)
+    const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
+
+    console.log("FooterDetail", FooterDetailSelector);
+    console.log("LoadingSelectorSelector", LoadingSelectorSelector);
+
+    useEffect(() => {
+        dispatch(FooterDetailAction())
+    }, [])
     return (
         <>
             <footer className='clinicaltrial-ftr'>
                 <div className='download-app-bx'>
                     <div className='row align-items-center'>
                         <div className='col-lg-5'>
-                            <img src="/images/download-app-img.png" alt="download-app" />
+                            <img src={FooterDetailSelector && FooterDetailSelector.data.footer_banner_image ? FooterDetailSelector.data.footer_banner_image : "/images/download-app-img.png"} alt="download-app" />
                         </div>
                         <div className='col-lg-7'>
-                            <SectionTitle CustomClass="whiteTxt" title="Download the App Now" ShapeImage="heading-clip-2.svg" SubHeading={<p className="what-sec-text mx-0 pad-t-30">Lorem ipsum dolor sit amet consectetur dipiscing elit vivamus a dolor aliquam pulvinar augue ctum nibh curabitur vel lobortis eros nam eu lobortis pretium erat sit amet egestas neque.</p>} />
+                            <div className="sec-title whiteTxt">
+                                <h2 className="h2"> {FooterDetailSelector && FooterDetailSelector.data.footer_banner_title} </h2>
+                                <img src="/images/heading-clip-1.svg" alt="shape vector" />
+                                <p class="what-sec-text pad-t-30">{FooterDetailSelector && FooterDetailSelector.data.footer_content}</p>
+                            </div>
                             <div className="app-download-platform">
                                 <Link to="/"><img src="/images/play-store-btn.svg" alt="play store" /></Link>
                                 <Link to="/"><img src="/images/app-store-btn.svg" alt="play store" /></Link>
@@ -27,29 +45,27 @@ const Footer = () => {
                             <div className='row'>
                                 <div className='col-lg-6 clinicaltrial-ftr-col about-col'>
                                     <img src="/images/logo.svg" alt="clinical trial logo" />
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit  a dolor aliquam pulvinar augue at dictum nibh abitur vel lobortis eros am eu sem lobortis pretium erat sit amet egestas neque at mattis arcu eu dolor blandit.</p>
+                                    <p>{FooterDetailSelector && FooterDetailSelector.data.footer_banner_content}</p>
                                     <div className='social-links'>
-                                        <Link to=""><img src="/images/facebook.svg" alt="facebook" /></Link>
-                                        <Link to=""><img src="/images/insta.svg" alt="facebook" /></Link>
-                                        <Link to=""><img src="/images/twitter.svg" alt="facebook" /></Link>
-                                        <Link to=""><img src="/images/linkedin.svg" alt="facebook" /></Link>
+                                        <a href={FooterDetailSelector && FooterDetailSelector.data.facebook_url} target="_blank"><img src="/images/facebook.svg" alt="facebook" /></a>
+                                        <a href={FooterDetailSelector && FooterDetailSelector.data.instagram_url} target="_blank"><img src="/images/insta.svg" alt="facebook" /></a>
+                                        <a href={FooterDetailSelector && FooterDetailSelector.data.twitter_url} target="_blank"><img src="/images/twitter.svg" alt="facebook" /></a>
+                                        <a href={FooterDetailSelector && FooterDetailSelector.data.linkedin_url} target="_blank"><img src="/images/linkedin.svg" alt="facebook" /></a>
                                     </div>
                                 </div>
                                 <div className='col-lg-3 clinicaltrial-ftr-col'>
                                     <h2>Clinical Trial Link</h2>
                                     <ul>
-                                        <li><Link to="/">About Us</Link></li>
-                                        <li><Link to="/">Ask the Expert</Link></li>
-                                        <li><Link to="/">FAQ's</Link></li>
-                                        <li><Link to="/">Contact Us</Link></li>
+                                        <li><Link to="/about-us">About Us</Link></li>
+                                        <li><Link to="/faq">FAQ's</Link></li>
+                                        <li><Link to="/contact-us">Contact Us</Link></li>
                                     </ul>
                                 </div>
                                 <div className='col-lg-3 clinicaltrial-ftr-col'>
                                     <h2>Legal</h2>
                                     <ul>
-                                        <li><Link to="/">Privacy Policy</Link></li>
-                                        <li><Link to="/">Terms & Conditions</Link></li>
-                                        <li><Link to="/">Site Map</Link></li>
+                                        <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                                        <li><Link to="/terms-conditions">Terms & Conditions</Link></li>
                                     </ul>
                                 </div>
                             </div>

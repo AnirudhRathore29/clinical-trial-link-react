@@ -5,7 +5,10 @@ const Home = React.lazy(() => import('../views/pages/Home/Home'));
 const ClinicListing = React.lazy(() => import('../views/pages/ClinicListing/ClinicListing'));
 const ClinicDetails = React.lazy(() => import('../views/pages/ClinicDetails/ClinicDetails'));
 const TrialListing = React.lazy(() => import('../views/pages/TrialListing/TrialListing'));
-const AboutUs = React.lazy(() => import('../views/pages/AboutUs/AboutUS'));
+const AboutUs = React.lazy(() => import('../views/pages/CmsPages/AboutUS'));
+const TermsConditions = React.lazy(() => import('../views/pages/CmsPages/TermsConditions'));
+const PrivacyPolicy = React.lazy(() => import('../views/pages/CmsPages/PrivacyPolicy'));
+const Faq = React.lazy(() => import('../views/pages/CmsPages/Faq'));
 
 /* patient pages */
 const ContactUs = React.lazy(() => import('../views/pages/ContactUs/ContactUs'));
@@ -78,6 +81,9 @@ const routes = [
 	{ path: '/clinic-details', exact: true, name: 'ClinicDetails', component: ClinicDetails, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/trial-listing', exact: true, name: 'TrialListing', component: TrialListing, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/about-us', exact: true, name: 'AboutUs', component: AboutUs, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/terms-conditions', exact: true, name: 'TermsConditions', component: TermsConditions, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/privacy-policy', exact: true, name: 'PrivacyPolicy', component: PrivacyPolicy, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/faq', exact: true, name: 'Faq', component: Faq, meta: {"role": RolesConfig.PATIENT} },
 
 
 	// accessRole={RolesConfig.PATIENT}
