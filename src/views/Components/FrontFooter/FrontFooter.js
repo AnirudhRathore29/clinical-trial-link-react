@@ -30,7 +30,7 @@ const Footer = () => {
                             <div className="sec-title whiteTxt">
                                 <h2 className="h2"> {FooterDetailSelector && FooterDetailSelector.data.footer_banner_title} </h2>
                                 <img src="/images/heading-clip-1.svg" alt="shape vector" />
-                                <p className="what-sec-text pad-t-30">{FooterDetailSelector && FooterDetailSelector.data.footer_content}</p>
+                                <p className="what-sec-text pad-t-30">{FooterDetailSelector && FooterDetailSelector.data.footer_banner_content}</p>
                             </div>
                             <div className="app-download-platform">
                                 <Link to="/"><img src="/images/play-store-btn.svg" alt="play store" /></Link>
@@ -45,7 +45,7 @@ const Footer = () => {
                             <div className='row'>
                                 <div className='col-lg-6 clinicaltrial-ftr-col about-col'>
                                     <img src="/images/logo.svg" alt="clinical trial logo" />
-                                    <p>{FooterDetailSelector && FooterDetailSelector.data.footer_banner_content}</p>
+                                    <p>{FooterDetailSelector && FooterDetailSelector.data.footer_content}</p>
                                     <div className='social-links'>
                                         <a href={FooterDetailSelector && FooterDetailSelector.data.facebook_url} target="_blank"><img src="/images/facebook.svg" alt="facebook" /></a>
                                         <a href={FooterDetailSelector && FooterDetailSelector.data.instagram_url} target="_blank"><img src="/images/insta.svg" alt="facebook" /></a>

@@ -2,6 +2,7 @@
 
 .inquire-bx{height: 100%;display: flex;flex-direction: column;justify-content: space-between;}
 .contact-bx{padding: 3rem;border: 1px solid #C3D9FF;border-radius: 1rem;color: var(--TextColor);}
+.contact-bx + .contact-bx{margin-top: 1rem;}
 .contact-bx h2{font-size: 2.2rem;margin-bottom: 1.5rem;}
 .contact-bx p{font-size: 1.8rem;margin: 0;}
 .contact-bx p a{color: var(--PrimaryColor);}
