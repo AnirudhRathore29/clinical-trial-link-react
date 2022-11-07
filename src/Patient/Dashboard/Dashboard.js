@@ -100,26 +100,33 @@ const PatientDashboard = () => {
                         </div>
 
                         <div className='col-lg-6 offers-slider'>
-                            <div className="heading-bx">
-                                <h1>Related Clinical Trials</h1>
-                            </div>
-                            <OwlCarousel {...options}>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
-                                    </Link>
+                            {dashBoardSelector && dashBoardSelector.data.advertisements.length !== 0 &&
+                                <div className="heading-bx">
+                                    <h1> Related Clinical Trials </h1>
                                 </div>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
-                                    </Link>
-                                </div>
-                                <div className='item'>
-                                    <Link to="/">
-                                        <img src="/images/offers-img1.jpg" alt="offers" />
-                                    </Link>
-                                </div>
-                            </OwlCarousel>
+                            }
+                            {!loadingSelector.loading ?
+                                <OwlCarousel {...options}>
+                                    {dashBoardSelector && dashBoardSelector.data.advertisements.map((value, index) => {
+                                        return (
+                                            <div className='item' key={index}>
+                                                <Link to="/">
+                                                    <img src="/images/offers-img1.jpg" alt="offers" />
+                                                </Link>
+                                            </div>
+                                        )
+                                    })}
+                                </OwlCarousel>
+
+                                :
+                                [1].map((_, index) => {
+                                    return (
+                                        <div className='w-100' key={index}>
+                                            <Skeleton height={220} borderRadius="1rem" />
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>

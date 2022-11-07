@@ -25,9 +25,6 @@ const PhysicianEditProfile = () => {
     const profileSelector = useSelector(state => state.profile.data.data);
     const UpdateProfileSelector = useSelector(state => state.profile)
 
-    const [Password, SetPassword] = useState(false);
-    const [oldPassword, SetOldPassword] = useState(false);
-    const [confirmPassword, SetConfirmPassword] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
     const [profileSubmitClick, setProfileSubmitClick] = useState(false);
     const [binary, setBinary] = useState();
@@ -326,7 +323,7 @@ const PhysicianEditProfile = () => {
                                                     labelText="Brief Intro"
                                                     onChange={onChange}
                                                     name="brief_intro"
-                                                    defaultData={profileSelector.data.brief_intro}
+                                                    defaultData={profileSelector.data.user_meta_info.brief_intro}
                                                 />
                                             </div>
                                         </div>

@@ -30,7 +30,7 @@ const Footer = () => {
                             <div className="sec-title whiteTxt">
                                 <h2 className="h2"> {FooterDetailSelector && FooterDetailSelector.data.footer_banner_title} </h2>
                                 <img src="/images/heading-clip-1.svg" alt="shape vector" />
-                                <p class="what-sec-text pad-t-30">{FooterDetailSelector && FooterDetailSelector.data.footer_content}</p>
+                                <p className="what-sec-text pad-t-30">{FooterDetailSelector && FooterDetailSelector.data.footer_content}</p>
                             </div>
                             <div className="app-download-platform">
                                 <Link to="/"><img src="/images/play-store-btn.svg" alt="play store" /></Link>

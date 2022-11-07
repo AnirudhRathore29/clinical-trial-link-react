@@ -5,25 +5,55 @@ import Button from "../../Components/Common/Buttons/Buttons";
 import InnerBanner from "../../Components/Common/InnerBanner/InnerBanner";
 import { InputText, TextArea } from "../../Components/Common/Inputs/Inputs";
 import { LogoLoader } from "../../Components/Common/LogoLoader/LogoLoader";
+import { toast } from "react-toastify";
 import "./ContactUs.css";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 const ContactUs = () => {
+    const ContactPageDetailSelector = useSelector(state => state.cms_content.contact_page_detail.data)
+    const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
+    const [Formdata, setFormData] = useState();
+    const [Loader, setLoader] = useState(false);
 
     const dispatch = useDispatch()
 
-    const ContactPageDetailSelector = useSelector(state => state.cms_content.contact_page_detail.data)
-    const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
-    const [Formdata, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-
-    const ContactSubmit = () => {
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setFormData({...Formdata,  [name]: value})
     }
 
+    console.log("Formdata", Formdata);
     console.log("ContactPageDetail", ContactPageDetailSelector);
     console.log("LoadingSelectorSelector", LoadingSelectorSelector);
 
+    const ContactSubmit = () => {
+        setLoader(true)
+        const option = {
+            method: 'POST',
+            headers: {
+                'Content-Type':
+                    'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(Formdata)
+        }
+        fetch("http://admin.clinicaltriallink.org/api/contact-us-enquiry", option)
+            .then(response => response.json())
+            .then(response => {
+                setLoader(false)
+                if (response.status_code === 200) {
+                    toast.success(response.message, { theme: "colored" })
+                    setFormData()
+                } else {
+                    toast.error(response.message, { theme: "colored" })
+                }
+            })
+            .catch((error) => {
+                setLoader(false)
+                console.log("error", error);
+            })
+    }
 
     useEffect(() => {
         dispatch(ContactPageDetailAction())
@@ -53,15 +83,15 @@ const ContactUs = () => {
                                                 ContactPageDetailSelector &&
                                                 ContactPageDetailSelector.data.site_setting_detail.map((value, index) => {
                                                     return (
-                                                        <div className="contact-bx">
+                                                        <div className="contact-bx" key={index}>
                                                             <h2>
                                                                 {
                                                                     value.slug === "contact_us_support_content" ? "Support" :
-                                                                    value.slug === "contact_us_sales_enquiry_content" ? "Sales Enquiries" :
-                                                                    value.slug === "site_email" ? "Contact" : null
+                                                                        value.slug === "contact_us_sales_enquiry_content" ? "Sales Enquiries" :
+                                                                            value.slug === "site_email" ? "Contact" : null
                                                                 }
                                                             </h2>
-                                                            <p dangerouslySetInnerHTML={{ __html: value.value}} />
+                                                            <p dangerouslySetInnerHTML={{ __html: value.value }} />
                                                         </div>
                                                     )
                                                 })
@@ -75,54 +105,44 @@ const ContactUs = () => {
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="text"
-                                                        name="name"
-                                                        value={Formdata.first_name}
-                                                        placeholder="Full Name"
+                                                        name="first_name"
+                                                        placeholder="First Name"
                                                         labelText="First Name"
-                                                        onChange={(e) => {
-                                                            setFormData({ ...Formdata, first_name: e.target.value });
-                                                        }}
+                                                        onChange={onchange}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="text"
                                                         name="last_name"
-                                                        value={Formdata.last_name}
                                                         placeholder="Last Name"
                                                         labelText="Last Name"
-                                                        onChange={(e) => {
-                                                            setFormData({ ...Formdata, last_name: e.target.value });
-                                                        }}
+                                                        onChange={onchange}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="email"
                                                         name="email"
-                                                        value={Formdata.email}
                                                         placeholder="Email Address"
                                                         labelText="Email"
-                                                        onChange={(e) => {
-                                                            setFormData({ ...Formdata, email: e.target.value });
-                                                        }}
+                                                        onChange={onchange}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <InputText
                                                         type="number"
-                                                        name="phone_no"
-                                                        value={Formdata.phone_no}
+                                                        name="phone_number"
                                                         placeholder="Phone Number"
                                                         labelText="Phone Number"
-                                                        onChange={(e) => {
-                                                            setFormData({ ...Formdata, phone_no: e.target.value });
-                                                        }}
+                                                        onChange={onchange}
                                                     />
                                                 </div>
                                                 <div className="col-lg-12">
                                                     <TextArea
                                                         placeholder="Your Message"
+                                                        name="message"
+                                                        onChange={onchange}
                                                         labelText="Enter your Message"
                                                     />
                                                 </div>
@@ -133,6 +153,8 @@ const ContactUs = () => {
                                                 BtnColor="green w-100"
                                                 BtnText="Submit your Message"
                                                 onClick={ContactSubmit}
+                                                hasSpinner={Loader}
+                                                disabled={Loader}
                                             />
                                         </div>
                                     </div>

@@ -50,7 +50,7 @@ const Home = (props) => {
                                     <div className="sec-title text-center">
                                         <h2 className="h2"> {HomePageDetailSelector.data.sectionOne.title} </h2>
                                         <img src="/images/heading-clip-1.svg" alt="shape vector" />
-                                        <p class="what-sec-text pad-t-30">{HomePageDetailSelector.data.sectionOne.sub_title}</p>
+                                        <p className="what-sec-text pad-t-30">{HomePageDetailSelector.data.sectionOne.sub_title}</p>
                                         <div className='what-is-clinicaltrial' dangerouslySetInnerHTML={{ __html: HomePageDetailSelector.data.sectionOne.content }}></div>
                                     </div>
                                 }
