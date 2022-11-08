@@ -35,7 +35,7 @@ const TermsConditions = () => {
                             subTitle={TermsPageDetailSelector.data.title_short_note}
                         />
                         <div className="container">
-                            <div className="repeat-section about-us-section cms-content-section" dangerouslySetInnerHTML={{ __html: TermsPageDetailSelector.data.description }} />
+                            <div className="repeat-section cms-content-section" dangerouslySetInnerHTML={{ __html: TermsPageDetailSelector.data.description }} />
                         </div>
                     </>
             }

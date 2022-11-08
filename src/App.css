@@ -137,8 +137,15 @@ iframe[style*="fixed"]{display: none;}
 .fullPageLoader{position: fixed;left: 0;top: 0;width: 100%;height: 100%;background: var(--whiteColor);display: flex;align-items: center;justify-content: center;z-index: 999999;}
 .cms-content-section h2 { margin-bottom: 2rem; font-weight: 800; font-size: 3rem; }
 .cms-content-section h3 { font-size: 2.3rem; }
-.cms-content-section p { margin-bottom: 1rem; font-size: 1.7rem; }
+.cms-content-section p { margin-bottom: 1rem; font-size: 1.7rem; color: var(--TextColor);}
 .cms-content-section ul li { line-height: 1.8; margin-bottom: 1rem; }
+
+.cms-content-section table{margin: 2rem 0;}
+.cms-content-section table,
+.cms-content-section table tr td,
+.cms-content-section table tr th{border: 1px solid #cccccc;}
+
+.marker{background: #fff23c;}
 
 /****** Common Css End ******/
 

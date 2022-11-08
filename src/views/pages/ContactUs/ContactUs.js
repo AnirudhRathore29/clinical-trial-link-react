@@ -14,7 +14,13 @@ toast.configure();
 const ContactUs = () => {
     const ContactPageDetailSelector = useSelector(state => state.cms_content.contact_page_detail.data)
     const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
-    const [Formdata, setFormData] = useState();
+    const [Formdata, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        message: ''
+    });
     const [Loader, setLoader] = useState(false);
 
     const dispatch = useDispatch()
@@ -44,7 +50,13 @@ const ContactUs = () => {
                 setLoader(false)
                 if (response.status_code === 200) {
                     toast.success(response.message, { theme: "colored" })
-                    setFormData()
+                    setFormData({
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        phone_number: '',
+                        message: ''
+                    })
                 } else {
                     toast.error(response.message, { theme: "colored" })
                 }
@@ -106,6 +118,7 @@ const ContactUs = () => {
                                                     <InputText
                                                         type="text"
                                                         name="first_name"
+                                                        value={Formdata.first_name}
                                                         placeholder="First Name"
                                                         labelText="First Name"
                                                         onChange={onchange}
@@ -115,6 +128,7 @@ const ContactUs = () => {
                                                     <InputText
                                                         type="text"
                                                         name="last_name"
+                                                        value={Formdata.last_name}
                                                         placeholder="Last Name"
                                                         labelText="Last Name"
                                                         onChange={onchange}
@@ -124,6 +138,7 @@ const ContactUs = () => {
                                                     <InputText
                                                         type="email"
                                                         name="email"
+                                                        value={Formdata.email}
                                                         placeholder="Email Address"
                                                         labelText="Email"
                                                         onChange={onchange}
@@ -133,6 +148,7 @@ const ContactUs = () => {
                                                     <InputText
                                                         type="number"
                                                         name="phone_number"
+                                                        value={Formdata.phone_number}
                                                         placeholder="Phone Number"
                                                         labelText="Phone Number"
                                                         onChange={onchange}
@@ -142,6 +158,7 @@ const ContactUs = () => {
                                                     <TextArea
                                                         placeholder="Your Message"
                                                         name="message"
+                                                        value={Formdata.message}
                                                         onChange={onchange}
                                                         labelText="Enter your Message"
                                                     />

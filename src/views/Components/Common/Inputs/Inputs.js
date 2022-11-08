@@ -91,6 +91,7 @@ export const TextArea = (props) => {
                 onChange={props.onChange}
                 maxLength={props.maxLength}
                 defaultValue={props.defaultData}
+                value={props.value}
             ></textarea>
         </div>
     );
