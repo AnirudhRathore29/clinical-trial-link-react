@@ -54,7 +54,7 @@ const PhysicianDashboard = () => {
                         <div className="col-lg-6">
                             <DashboardInfoBx
                                 className="thirdColor"
-                                URL=""
+                                URL="/physician/approved-trials"
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
                                 title="Requests Approved by the clinical trial site"
                                 info={DashboardSelector !== undefined && DashboardSelector.data.totalPatients}

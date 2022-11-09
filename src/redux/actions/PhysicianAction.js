@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     LOADING,
     SPONSORE_LIST_SUCCESS, SPONSORE_LIST_ERROR,
-    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR, STATUS_LOADING, PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR, PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR, PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR, PATIENT_CLINIC_LISTING_SUCCESS, PATIENT_CLINIC_LISTING_ERROR, MANGE_PATIENT_LIST_SUCCESS, MANGE_PATIENT_LIST_ERROR, MANGE_PATIENT_DETAIL_SUCCESS, MANGE_PATIENT_DETAIL_ERROR, CLINIC_APPOINTMENT_LIST_SUCCESS, CLINIC_APPOINTMENT_LIST_ERROR,
+    TRIAL_CLINIC_DASHBOARD_SUCCESS, TRIAL_CLINIC_DASHBOARD_ERROR, STATUS_LOADING, PATIENT_CLINIC_DETAILS_SUCCESS, PATIENT_CLINIC_DETAILS_ERROR, PATIENT_VIEW_TRIAL_SUCCESS, PATIENT_VIEW_TRIAL_ERROR, PATIENT_TRIALCLINIC_TRIAL_LIST_SUCCESS, PATIENT_TRIALCLINIC_TRIAL_LIST_ERROR, PATIENT_CLINIC_LISTING_SUCCESS, PATIENT_CLINIC_LISTING_ERROR, MANGE_PATIENT_LIST_SUCCESS, MANGE_PATIENT_LIST_ERROR, MANGE_PATIENT_DETAIL_SUCCESS, MANGE_PATIENT_DETAIL_ERROR, CLINIC_APPOINTMENT_LIST_SUCCESS, CLINIC_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_LIST_SUCCESS, PATIENT_APPOINTMENT_LIST_ERROR, PATIENT_APPOINTMENT_VISIT_SUCCESS, PATIENT_APPOINTMENT_VISIT_ERROR, CLINIC_NEW_TRIAL_REQUEST_SUCCESS, CLINIC_NEW_TRIAL_REQUEST_ERROR,
 } from './types';
 import getCurrentHost from "../constants/index";
 import { authHeader } from './authHeader';
@@ -152,6 +152,51 @@ export const PhysicianPatientAllVisitAction = (data) => async (dispatch) => {
         })
         .catch(error => {
             dispatch({ type: CLINIC_APPOINTMENT_LIST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const PhysicianApprovedTrialsListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + "/physician/get-approved-trial-list", data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: PATIENT_APPOINTMENT_LIST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: PATIENT_APPOINTMENT_LIST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const ApprovedPatientListAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .post(getCurrentHost() + `/physician/get-approved-trial-patient-list`, data, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: CLINIC_NEW_TRIAL_REQUEST_ERROR, payload: error.response.data });
+            HandleError(error.response.data)
+        });
+}
+
+export const ApprovedPatientDetailAction = (data) => async (dispatch) => {
+    dispatch(Request());
+    axios
+        .get(getCurrentHost() + `/physician/get-patient-detail/${data}`, {
+            headers: authHeader()
+        })
+        .then(response => {
+            dispatch({ type: MANGE_PATIENT_DETAIL_SUCCESS, payload: response });
+        })
+        .catch(error => {
+            dispatch({ type: MANGE_PATIENT_DETAIL_ERROR, payload: error.response.data });
             HandleError(error.response.data)
         });
 }

@@ -17,7 +17,9 @@ const MyAppointmentBx = ({ className, imgUrl, visitNumber, onClick, title, time,
                     {visitNumber &&
                         <p className='location'><strong>Visit Number :</strong> {visitNumber}</p>
                     }
-                    <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> {location}, {state}</p>
+                    {location &&
+                        <p className='location'><box-icon name='map' color="#356AA0" size="18px"></box-icon> {location}, {state}</p>
+                    }
                     {time &&
                         <p className='location'><box-icon name='calendar' size="18px" color='#356AA0'></box-icon> {time}</p>
                     }
