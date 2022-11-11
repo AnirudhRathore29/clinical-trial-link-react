@@ -163,13 +163,16 @@ const ClinicSponsorsDetails = () => {
                                 {sponsoreDetails.data.clinic_trials !== null &&
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Clinical Trials
-                                            <Button
-                                                isButton="true"
-                                                BtnType="button"
-                                                BtnColor="green btn-sm"
-                                                BtnText="View All"
-                                                onClick={() => handleViewMoreList(sponsoreDetails.data.id)}
-                                            />
+                                            {
+                                                sponsoreDetails.data.clinic_trials.length > 0 &&
+                                                <Button
+                                                    isButton="true"
+                                                    BtnType="button"
+                                                    BtnColor="green btn-sm"
+                                                    BtnText="View All"
+                                                    onClick={() => handleViewMoreList(sponsoreDetails.data.id)}
+                                                />
+                                            }
                                         </h2>
                                         <OwlCarousel {...options2}>
                                             {sponsoreDetails.data.clinic_trials.map((value, index) => {

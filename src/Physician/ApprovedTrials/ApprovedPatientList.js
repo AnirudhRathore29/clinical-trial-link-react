@@ -4,6 +4,7 @@ import '../../views/Components/Common/Buttons/Buttons.css'
 import '../../Patient/Dashboard/Dashboard.css';
 import '../../TrialClinic/TrialRequests/TrialRequests.css';
 import '../../Patient/MyAppointments/MyAppointments.css';
+import '../../Patient/MyFavorites/MyFavorites.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from 'react-redux';
 import Skeleton from 'react-loading-skeleton'
@@ -29,6 +30,7 @@ const ApprovedPatientList = () => {
     const history = useHistory()
 
     console.log("PatientListSelector", PatientListSelector);
+    console.log("PatientDetailState", PatientDetailState);
     console.log("id", id);
 
     const SetPatientDetailModalShow = (id) => {
@@ -268,15 +270,6 @@ const ApprovedPatientList = () => {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className='clnicaltrial-detail-ftr'>
-                                <Button
-                                    isLink="true"
-                                    URL={`/physician/patient-visits/${PatientDetailState.data.id}`}
-                                    BtnColor="green"
-                                    BtnText="View All Visits"
-                                />
                             </div>
                         </>
                         :

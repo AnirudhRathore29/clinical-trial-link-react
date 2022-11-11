@@ -163,12 +163,15 @@ const TrialClinicDetails = () => {
                                 {patientClinicDetails.data.clinic_trials !== null &&
                                     <div className="trialClinic-info-bx mt-5">
                                         <h2>Clinical Trials
+                                        {
+                                                patientClinicDetails.data.clinic_trials.length > 0 &&
                                             <Button
                                                 isLink="true"
                                                 URL={"/patient/trial-listing/" + patientClinicDetails.data.id}
                                                 BtnColor="green btn-sm"
                                                 BtnText="View All"
                                             />
+                                        }
                                         </h2>
                                         <OwlCarousel {...options2}>
                                             {patientClinicDetails.data.clinic_trials.map((value, index) => {

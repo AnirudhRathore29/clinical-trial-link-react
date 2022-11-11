@@ -29,13 +29,13 @@ const ClinicTrialApplication = () => {
     const [selectorData, setSelectorData] = useState(undefined)
     const [detailsModal, setDetailsModal] = useState(false);
     const [bookingSlotData, setBookingSlotData] = useState([])
-
     const [statusLoading, setStatusLoading] = useState(false)
     const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
     const [recruitingCompletedClickBtn, setRecruitingCompletedClickBtn] = useState(false);
-
-
     const [trialAppDetailData, setTrialAppDetailData] = useState(undefined);
+
+    console.log("trialAppDetailSelector", trialAppDetailSelector);
+    console.log("bookingSlotData", bookingSlotData);
 
     const handleSelect = (key) => {
         setSelectorData(undefined)
@@ -55,7 +55,7 @@ const ClinicTrialApplication = () => {
             })
             setTrialAppDetailData(trialAppDetailSelector)
         }
-    }, [trialAppDetailSelector, bookingSlotData, detailsModal]);
+    }, [trialAppDetailSelector, bookingSlotData]);
 
 
     useEffect(() => {
@@ -73,8 +73,8 @@ const ClinicTrialApplication = () => {
 
     const handleClose = () => {
         setDetailsModal(false)
-        setTrialAppDetailData(undefined)
         setBookingSlotData([])
+        setTrialAppDetailData(undefined)
         dispatch(TrialApplicationsDetailsAction())
     };
 
