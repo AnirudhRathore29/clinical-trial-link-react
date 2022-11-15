@@ -220,6 +220,12 @@ const MyAppointmentsDetails = (props) => {
                                         </div>
                                         <div className='col-lg-4'>
                                             <div className='appointment-detail-col'>
+                                                <h2>Clinic Compensation</h2>
+                                                <p>$ {AppointmentDetail.data.compensation == null ? "0" : AppointmentDetail.data.compensation}</p>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
                                                 <h2>Sponsor</h2>
                                                 <p>{AppointmentDetail.data.clinic_trial_info.user_info.sponsor_name}</p>
                                             </div>

@@ -11,6 +11,9 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
+import getCurrentHost from '../../redux/constants';
+import { authHeader } from '../../redux/actions/authHeader';
+import { MultiSelect } from "react-multi-select-component";
 
 const SponsorsManageClinics = () => {
     const dispatch = useDispatch();
@@ -21,6 +24,15 @@ const SponsorsManageClinics = () => {
     const [show, setShow] = useState(false);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clinicDetail, setClinicDetail] = useState();
+    const [specialityList, setSpecialityList] = useState([]);
+    const [conditionList, setConditionList] = useState([]);
+    const [formData, setFormData] = useState({
+        specialities: [],
+        conditions: []
+    });
+
+    console.log("specialityList", specialityList !== undefined && specialityList);
+    console.log("formData", formData);
 
     useEffect(() => {
         dispatch(TrialManageClinicsListAction({ page: loadMoreData }))
@@ -43,6 +55,64 @@ const SponsorsManageClinics = () => {
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
     }
+
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setFormData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
+    useEffect(() => {
+        const configure = {
+            method: 'GET',
+            headers: authHeader(true)
+        }
+        fetch(getCurrentHost() + "/get-clinical-specialities", configure)
+            .then(response => response.json())
+            .then(response => {
+                let data = response.data
+
+                for (var i = 0; i < data.length; i++) {
+                    const object = Object.assign({}, data[i])
+                    object.label = data[i].speciality_title;
+                    object.value = data[i].id
+                    setSpecialityList((preValue) => [...preValue, object])
+                }
+            })
+    }, [])
+
+    function getCondition(specialities) {
+        const configure = {
+            method: "POST",
+            headers: authHeader(true),
+            body: JSON.stringify(specialities)
+        };
+        return fetch(getCurrentHost() + "/get-clinical-conditions", configure)
+            .then(response => response.json())
+            .then(response => {
+                const data = response.data
+
+                for (var i = 0; i < data.length; i++) {
+                    const object = Object.assign({}, data[i])
+                    object.label = data[i].condition_title
+                    object.value = data[i].id
+                    setConditionList((preValue) => [...preValue, object])
+                }
+            })
+    }
+
+    const specialityOnchange = (data) => {
+        setFormData({ ...formData, specialities: data })
+        const id = data.map((value) => value.id)
+        const updatedData = {
+            speciality: id
+        }
+        getCondition(updatedData)
+    }
     return (
         <>
             <div className="clinical-dashboard">
@@ -51,7 +121,7 @@ const SponsorsManageClinics = () => {
                         <h1>Manage Clinics</h1>
                         <Button
                             isButton="true"
-                            BtnColor="green btn-sm"
+                            BtnColor="green bn-stm"
                             BtnText="Download"
                         />
                     </div>
@@ -63,6 +133,24 @@ const SponsorsManageClinics = () => {
                                     type="text"
                                     labelText="Clinic Name"
                                     placeholder="Enter Clinic Name"
+                                />
+                                <MultiSelect
+                                    options={specialityList !== undefined && specialityList}
+                                    value={formData.specialities}
+                                    onChange={specialityOnchange}
+                                    disableSearch={true}
+                                    labelledBy="Speciality"
+                                    className="multiSelect-control"
+                                    name="specialities"
+                                />
+                                <MultiSelect
+                                    options={conditionList !== undefined && conditionList}
+                                    value={formData.conditions}
+                                    onChange={onchange}
+                                    disableSearch={true}
+                                    labelledBy="Condition"
+                                    className="multiSelect-control"
+                                    name="conditions"
                                 />
                                 <SelectBox
                                     name="specialty"

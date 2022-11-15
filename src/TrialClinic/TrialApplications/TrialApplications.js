@@ -15,6 +15,7 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import moment from 'moment';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { InputText } from '../../views/Components/Common/Inputs/Inputs';
 
 toast.configure();
 const ClinicTrialApplication = () => {
@@ -33,20 +34,32 @@ const ClinicTrialApplication = () => {
     const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
     const [recruitingCompletedClickBtn, setRecruitingCompletedClickBtn] = useState(false);
     const [trialAppDetailData, setTrialAppDetailData] = useState(undefined);
+    const [Formdata, setFormdata] = useState(undefined);
 
     console.log("trialAppDetailSelector", trialAppDetailSelector);
     console.log("bookingSlotData", bookingSlotData);
+    console.log("Formdata", Formdata !== undefined && Formdata.compensation);
 
     const handleSelect = (key) => {
         setSelectorData(undefined)
         setTabName(key)
     }
 
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setFormdata((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            };
+        });
+    };
+
     useEffect(() => {
         if (detailsModal) {
-            trialAppDetailSelector?.bookingSlots.forEach((slots)=>{
+            trialAppDetailSelector?.bookingSlots.forEach((slots) => {
                 slots.selected = false
-                trialAppDetailSelector.data.appointment_slots.forEach((selectedSlots)=>{
+                trialAppDetailSelector.data.appointment_slots.forEach((selectedSlots) => {
                     if (selectedSlots.booking_slot_id === slots.id) {
                         slots.selected = true
                     }
@@ -118,7 +131,8 @@ const ClinicTrialApplication = () => {
         let data = {
             trial_clinic_appointment_id: id,
             is_recruiting: status,
-            booking_slots: selectedSlotID
+            booking_slots: selectedSlotID,
+            compensation: Formdata !== undefined && Formdata.compensation
         }
         dispatch(TrialApplicationsStatusUpdateAction(data))
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
@@ -307,13 +321,22 @@ const ClinicTrialApplication = () => {
                     trialAppDetailData !== undefined ?
                         <>
                             <div className='sponser-price-info'>
-                                <div className='sponser-price-row w-100 br-none'>
+                                <div className='sponser-price-row'>
                                     <div className='sponser-price-icon'>
                                         <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
                                     </div>
                                     <div>
                                         <h4>To be Decided by Company</h4>
-                                        <h2> {trialAppDetailData.data.clinic_trial_info.compensation} </h2>
+                                        <h2> {trialAppDetailData.data.clinic_trial_info.compensation === null ? "0" : trialAppDetailData.data.clinic_trial_info.compensation} </h2>
+                                    </div>
+                                </div>
+                                <div className='sponser-price-row'>
+                                    <div className='sponser-price-icon'>
+                                        <box-icon name='dollar' size="30px" color="#356AA0"></box-icon>
+                                    </div>
+                                    <div>
+                                        <h4>Clinical Compensation</h4>
+                                        <h2> {trialAppDetailData.data.compensation === null ? "0" : trialAppDetailData.data.compensation} </h2>
                                     </div>
                                 </div>
                             </div>
@@ -345,6 +368,21 @@ const ClinicTrialApplication = () => {
                                 <div className='clnicaltrial-description'>
                                     <h2>Cancellation Reason</h2>
                                     <p>Not Eligible</p>
+                                </div>
+                            }
+
+                            {trialAppDetailData.data.is_recruiting === 0 &&
+                                <div className='clnicaltrial-description'>
+                                    <h2>Add Compensation</h2>
+                                    <InputText
+                                        type="number"
+                                        name="compensation"
+                                        required="required"
+                                        labelText="Compensation"
+                                        placeholder="Compensation"
+                                        defaultValue={trialAppDetailData.data.compensation}
+                                        onChange={onChange}
+                                    />
                                 </div>
                             }
 

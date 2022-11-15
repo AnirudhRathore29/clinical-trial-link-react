@@ -30,6 +30,8 @@ const SponsorsPatientList = () => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
 
+    console.log("patientDetail", patientDetail);
+
     const options = {
         chart: {
             plotBackgroundColor: null,
@@ -168,7 +170,7 @@ const SponsorsPatientList = () => {
                                                                     value.status === 3 ?
                                                                         <span className='badge badge-success d-inline-block mb-3'>Completed</span>
                                                                         :
-                                                                        <span className='badge badge-danger d-inline-block mb-3'> Kon hai tu </span>
+                                                                        <span className='badge badge-danger d-inline-block mb-3'> Cancelled </span>
                                                                 }
                                                             </td>
                                                             <td>
@@ -242,7 +244,7 @@ const SponsorsPatientList = () => {
                                 <img src={patientDetail.data.patient_user_info.profile_image !== null ? patientDetail.data.patient_user_info.profile_image : "/images/placeholder-img.jpg"} alt={patientDetail.data.patient_user_info.first_name} />
 
                                 <div>
-                                    <h2> {patientDetail.data.patient_user_info !== undefined && patientDetail.data.patient_user_info.first_name + " " + patientDetail.data.patient_user_info.last_name} </h2>
+                                    <h2> {patientDetail.data.patient_user_info.first_name + " " + patientDetail.data.patient_user_info.last_name} </h2>
                                     {patientDetail.data.status === 1 ?
                                         <span className='badge badge-primary d-inline-block mb-3'>Approved</span>
                                         :
@@ -260,19 +262,19 @@ const SponsorsPatientList = () => {
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Clinic Address</h2>
-                                <p> {patientDetail.data.trial_clinic_user_info !== undefined && patientDetail.data.trial_clinic_user_info.address} </p>
+                                <p> {patientDetail.data.trial_clinic_user_info.address} </p>
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Trial for</h2>
-                                <p> {patientDetail.data.clinic_trial_info !== undefined && patientDetail.data.clinic_trial_info.trial_name} </p>
+                                <p> {patientDetail.data.clinic_trial_info.trial_name} </p>
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Trial Compensation</h2>
-                                <p> {patientDetail.data.clinic_trial_info !== undefined && patientDetail.data.clinic_trial_info.compensation} </p>
+                                <p>$ {patientDetail.data.compensation == null ? "0" : patientDetail.data.compensation} </p>
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Trial Clinic</h2>
-                                <p> {patientDetail.data.trial_clinic_user_info !== undefined && patientDetail.data.trial_clinic_user_info.clinic_name} </p>
+                                <p> {patientDetail.data.trial_clinic_user_info.clinic_name} </p>
                             </div>
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button

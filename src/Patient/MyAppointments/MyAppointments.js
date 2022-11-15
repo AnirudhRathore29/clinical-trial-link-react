@@ -426,7 +426,7 @@ const PatientMyAppointments = () => {
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Trial Compensation</h2>
-                                <p>${DetailSelectorState.clinic_trial_info.compensation}</p>
+                                <p>$ {DetailSelectorState.compensation == null ? "0" : DetailSelectorState.compensation}</p>
                             </div>
                             <div className='appointment-detail-col'>
                                 <h2>Sponsor</h2>

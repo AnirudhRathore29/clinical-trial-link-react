@@ -181,6 +181,12 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                                     ({screenPatientDetail.data.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {screenPatientDetail.data.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
                                             </div>
                                         </div>
+                                        <div className='col-lg-4'>
+                                            <div className='appointment-detail-col'>
+                                                <h2>Compensation</h2>
+                                                <p>$ {screenPatientDetail.data.compensation == null ? "0" : screenPatientDetail.data.compensation}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className='repeat-white-bx'>
