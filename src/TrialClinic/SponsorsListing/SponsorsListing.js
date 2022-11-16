@@ -19,29 +19,31 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 const ClinicSponsorsListing = () => {
     const dispatch = useDispatch()
     const listSelector = useSelector(state => state.trial_clinic)
+    const isloading = useSelector(state => state.trial_clinic);
     const trialListData = listSelector.data.data
+
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [sponsoreListFilter, setsponsoreListFilter] = useState({
         keywords: "",
-        speciality: [],
-        condition: [],
+        specialities: [],
+        conditions: [],
     });
 
     async function SpecialitiesAction() {
         const requestOptions = {
             method: 'GET',
-            headers: authHeader(true)
+            headers: authHeader()
         };
-        return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 let data = response.data;
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].speciality_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].speciality_info.speciality_title;
+                    obj.value = data[i].speciality_info.id;
                     setSpecialityList(oldArray => [...oldArray, obj]);
                 }
             })
@@ -53,18 +55,18 @@ const ClinicSponsorsListing = () => {
     async function ConditionsAction(data) {
         const requestOptions = {
             method: 'POST',
-            headers: authHeader(true),
+            headers: authHeader(),
             body: JSON.stringify(data)
         };
-        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-conditions", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 var data = response.data;
                 var conditionsArr = [];
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].condition_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].condition_info.condition_title;
+                    obj.value = data[i].condition_info.id;
                     conditionsArr.push(obj)
                 }
                 setConditionList(conditionsArr);
@@ -78,11 +80,21 @@ const ClinicSponsorsListing = () => {
         SpecialitiesAction();
     }, [])
 
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setsponsoreListFilter((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
     const specialityOnChange = (e) => {
-        setsponsoreListFilter({ ...sponsoreListFilter, speciality: e })
-        const speArr = e.map(value => value.id)
+        setsponsoreListFilter({ ...sponsoreListFilter, specialities: e })
+        const speArr = e.map(value => value.speciality_info.id)
         let data = {
-            speciality: speArr
+            speciality_ids: speArr
         }
         ConditionsAction(data);
     }
@@ -93,13 +105,13 @@ const ClinicSponsorsListing = () => {
 
     const SponsorListFilterSubmit = (e) => {
         e.preventDefault();
-        const specialityArr = sponsoreListFilter.speciality.map(value => value.id);
-        const conditionArr = sponsoreListFilter.condition.map(value => value.id);
+        const specialityArr = sponsoreListFilter.specialities.map(value => value.speciality_info.id);
+        const conditionArr = sponsoreListFilter.conditions.map(value => value.condition_info.id);
         let data = {
             page: loadMoreData,
             keywords: sponsoreListFilter.keywords,
-            speciality: specialityArr,
-            condition: conditionArr,
+            specialities: specialityArr,
+            conditions: conditionArr,
         }
         dispatch(SponsorListAction(data))
     }
@@ -125,12 +137,12 @@ const ClinicSponsorsListing = () => {
                                         <label> Specialty </label>
                                         <MultiSelect
                                             options={specialityList !== undefined && specialityList}
-                                            value={sponsoreListFilter.speciality}
+                                            value={sponsoreListFilter.specialities}
                                             onChange={specialityOnChange}
                                             disableSearch={true}
                                             labelledBy="Specialty"
                                             className="multiSelect-control"
-                                            name="speciality"
+                                            name="specialities"
                                         />
                                     </div>
 
@@ -138,12 +150,12 @@ const ClinicSponsorsListing = () => {
                                         <label> Condition </label>
                                         <MultiSelect
                                             options={conditionList !== undefined && conditionList}
-                                            value={sponsoreListFilter.condition}
-                                            onChange={(e) => setsponsoreListFilter({ ...sponsoreListFilter, condition: e })}
+                                            value={sponsoreListFilter.conditions}
+                                            onChange={(e) => setsponsoreListFilter({ ...sponsoreListFilter, conditions: e })}
                                             disableSearch={true}
                                             labelledBy="Condition"
                                             className="multiSelect-control"
-                                            name="condition"
+                                            name="conditions"
                                         />
                                     </div>
 
@@ -151,6 +163,8 @@ const ClinicSponsorsListing = () => {
                                         type="search"
                                         labelText="Keywords"
                                         placeholder="Enter Keywords"
+                                        name="keywords"
+                                        onChange={onchange}
                                     />
 
                                     <Button
@@ -158,6 +172,8 @@ const ClinicSponsorsListing = () => {
                                         BtnType="submit"
                                         BtnColor="green w-100"
                                         BtnText="Apply"
+                                        hasSpinner={isloading.loading}
+                                        disabled={isloading.loading}
                                     />
                                 </form>
                             </div>
@@ -198,6 +214,8 @@ const ClinicSponsorsListing = () => {
                                         isButton="true"
                                         BtnColor="primary"
                                         BtnText="Load More"
+                                        hasSpinner={isloading.loading}
+                                        disabled={isloading.loading}
                                         onClick={handleLoadMore}
                                     />
                                 </div>

@@ -12,36 +12,40 @@ import { authHeader } from "../../redux/actions/authHeader";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
-// toast.configure();
 const SponsorsClinicListing = () => {
     const dispatch = useDispatch()
     const listSelector = useSelector(state => state.My_trials.clinic_list.data)
+    const isloading = useSelector(state => state.My_trials);
+
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [trialClinicFilter, setTrialClinicFilter] = useState({
         clinic_name: "",
         keywords: "",
-        speciality: [],
-        condition: [],
+        specialities: [],
+        conditions: [],
     });
+
+    console.log("trialClinicFilter", trialClinicFilter);
+    console.log("conditionList", conditionList);
+    console.log("specialityList", specialityList);
 
     async function SpecialitiesAction() {
         const requestOptions = {
             method: 'GET',
-            headers: authHeader(true)
+            headers: authHeader()
         };
-        return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 let data = response.data;
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].speciality_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].speciality_info.speciality_title;
+                    obj.value = data[i].speciality_info.id;
+                    console.log("data[i].speciality_info.id", data[i].speciality_info.id);
                     setSpecialityList(oldArray => [...oldArray, obj]);
                 }
             })
@@ -53,18 +57,18 @@ const SponsorsClinicListing = () => {
     async function ConditionsAction(data) {
         const requestOptions = {
             method: 'POST',
-            headers: authHeader(true),
+            headers: authHeader(),
             body: JSON.stringify(data)
         };
-        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-conditions", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 var data = response.data;
                 var conditionsArr = [];
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].condition_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].condition_info.condition_title;
+                    obj.value = data[i].condition_info.id;
                     conditionsArr.push(obj)
                 }
                 setConditionList(conditionsArr);
@@ -77,14 +81,24 @@ const SponsorsClinicListing = () => {
     useEffect(() => {
         SpecialitiesAction();
     }, [])
-
+    
     const specialityOnChange = (e) => {
-        setTrialClinicFilter({ ...trialClinicFilter, speciality: e })
-        const speArr = e.map(value => value.id)
+        setTrialClinicFilter({ ...trialClinicFilter, specialities: e })
+        const speArr = e.map(value => value.speciality_info.id)
         let data = {
-            speciality: speArr
+            speciality_ids: speArr
         }
         ConditionsAction(data);
+    }
+
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setTrialClinicFilter((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
     }
 
     useEffect(() => {
@@ -93,14 +107,14 @@ const SponsorsClinicListing = () => {
 
     const TrialClinicListFilterSubmit = (e) => {
         e.preventDefault();
-        const specialityArr = trialClinicFilter.speciality.map(value => value.id);
-        const conditionArr = trialClinicFilter.condition.map(value => value.id);
+        const specialityArr = trialClinicFilter.specialities.map(value => value.speciality_info.id);
+        const conditionArr = trialClinicFilter.conditions.map(value => value.condition_info.id);
         let data = {
             page: loadMoreData,
             clinic_name: trialClinicFilter.clinic_name,
             keywords: trialClinicFilter.keywords,
-            speciality: specialityArr,
-            condition: conditionArr,
+            specialities: specialityArr,
+            conditions: conditionArr,
         }
         dispatch(TrialClinicListAction(data))
     }
@@ -126,17 +140,19 @@ const SponsorsClinicListing = () => {
                                         type="text"
                                         labelText="Clinic Name"
                                         placeholder="Enter Clinic Name"
+                                        name="clinic_name"
+                                        onChange={onchange}
                                     />
                                     <div className="form-group">
                                         <label> Specialty </label>
                                         <MultiSelect
                                             options={specialityList !== undefined && specialityList}
-                                            value={trialClinicFilter.speciality}
+                                            value={trialClinicFilter.specialities}
                                             onChange={specialityOnChange}
                                             disableSearch={true}
                                             labelledBy="Specialty"
                                             className="multiSelect-control"
-                                            name="speciality"
+                                            name="specialities"
                                         />
                                     </div>
 
@@ -144,8 +160,8 @@ const SponsorsClinicListing = () => {
                                         <label> Condition </label>
                                         <MultiSelect
                                             options={conditionList !== undefined && conditionList}
-                                            value={trialClinicFilter.condition}
-                                            onChange={(e) => setTrialClinicFilter({ ...trialClinicFilter, condition: e })}
+                                            value={trialClinicFilter.conditions}
+                                            onChange={(e) => setTrialClinicFilter({ ...trialClinicFilter, conditions: e })}
                                             disableSearch={true}
                                             labelledBy="Condition"
                                             className="multiSelect-control"
@@ -153,12 +169,20 @@ const SponsorsClinicListing = () => {
                                         />
                                     </div>
 
-                                    <InputText type="search" labelText="Keywords" placeholder="Enter Keywords" />
+                                    <InputText
+                                        type="search"
+                                        labelText="Keywords"
+                                        placeholder="Enter Keywords"
+                                        name="keywords"
+                                        onChange={onchange}
+                                    />
                                     <Button
                                         isButton="true"
                                         BtnType="submit"
                                         BtnColor="green w-100"
                                         BtnText="Apply"
+                                        hasSpinner={isloading.loading}
+                                        disabled={isloading.loading}
                                     />
                                 </form>
                             </div>
@@ -176,7 +200,7 @@ const SponsorsClinicListing = () => {
                                                     location={value.address}
                                                     state={value.state_info.name}
                                                     description={value.user_meta_info.brief_intro}
-                                                    // distance="5000.52 Mi"
+                                                // distance="5000.52 Mi"
                                                 />
                                             </Link>
                                         )

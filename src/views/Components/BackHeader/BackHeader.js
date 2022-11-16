@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -7,15 +7,17 @@ import { connect, useDispatch } from "react-redux";
 import 'boxicons';
 import "./BackHeader.css";
 import { LogoutAction } from "../../../redux/actions/authAction";
-import { getImageUrl } from "../../../redux/constants";
+import getCurrentHost, { getImageUrl } from "../../../redux/constants";
+import { authHeader } from "../../../redux/actions/authHeader";
 
 var jwt = require('jsonwebtoken');
+toast.configure();
 const Header = (props, { colorHeader, headerColor }) => {
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
     const dispatch = useDispatch();
-    // const history = useHistory();
     const [sideMenu, setSideMenu] = useState(false);
+    const [notification, setNotification] = useState([])
 
-    toast.configure();
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -23,10 +25,20 @@ const Header = (props, { colorHeader, headerColor }) => {
 
     const handlogout = () => {
         dispatch(LogoutAction())
-        // history.push('/login');
     }
 
-    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+    useEffect(() => {
+        const configure = {
+            method: 'GET',
+            header: authHeader()
+        }
+        fetch(getCurrentHost() + "/get-user-notifications", configure)
+            .then(response => response.json())
+            .then(response => {
+                console.log("notificationsresponse", response);
+            })
+    }, [])
+
     return (
         <>
             <header className={`dashboard-header ${colorHeader} ${headerColor}`}>
@@ -50,7 +62,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                                 <Dropdown.Toggle className="notification-dropdown" variant="" id="notification-dropdown">
                                     <img src="/images/notification.svg" alt="notification" />
                                 </Dropdown.Toggle>
-
+                                
                                 <Dropdown.Menu>
                                     <Link to="/" className="dropdown-item">
                                         <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>

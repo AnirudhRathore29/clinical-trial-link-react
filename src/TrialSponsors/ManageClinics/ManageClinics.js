@@ -14,6 +14,7 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import getCurrentHost from '../../redux/constants';
 import { authHeader } from '../../redux/actions/authHeader';
 import { MultiSelect } from "react-multi-select-component";
+import { Form } from 'react-bootstrap';
 
 const SponsorsManageClinics = () => {
     const dispatch = useDispatch();
@@ -23,16 +24,23 @@ const SponsorsManageClinics = () => {
 
     const [show, setShow] = useState(false);
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [Loading, setLoading] = useState(true);
     const [clinicDetail, setClinicDetail] = useState();
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
-    const [formData, setFormData] = useState({
+    const [specialitySelected, setSpecialitySelected] = useState({
         specialities: [],
+        conditions: []
+    });
+    const [formData, setFormData] = useState({
+        speciality_ids: [],
         conditions: []
     });
 
     console.log("specialityList", specialityList !== undefined && specialityList);
+    console.log("conditionList", conditionList !== undefined && conditionList);
     console.log("formData", formData);
+    console.log("specialitySelected", specialitySelected);
 
     useEffect(() => {
         dispatch(TrialManageClinicsListAction({ page: loadMoreData }))
@@ -69,49 +77,62 @@ const SponsorsManageClinics = () => {
     useEffect(() => {
         const configure = {
             method: 'GET',
-            headers: authHeader(true)
+            headers: authHeader()
         }
-        fetch(getCurrentHost() + "/get-clinical-specialities", configure)
+        fetch(getCurrentHost() + "/get-user-specialitites", configure)
             .then(response => response.json())
             .then(response => {
                 let data = response.data
 
                 for (var i = 0; i < data.length; i++) {
                     const object = Object.assign({}, data[i])
-                    object.label = data[i].speciality_title;
-                    object.value = data[i].id
+                    object.label = data[i].speciality_info.speciality_title;
+                    object.value = data[i].speciality_info.id;
                     setSpecialityList((preValue) => [...preValue, object])
                 }
             })
     }, [])
 
-    function getCondition(specialities) {
+    const getCondition = (specialities) => {
         const configure = {
             method: "POST",
-            headers: authHeader(true),
+            headers: authHeader(),
             body: JSON.stringify(specialities)
         };
-        return fetch(getCurrentHost() + "/get-clinical-conditions", configure)
+        return fetch(getCurrentHost() + "/get-user-conditions", configure)
             .then(response => response.json())
             .then(response => {
                 const data = response.data
 
                 for (var i = 0; i < data.length; i++) {
                     const object = Object.assign({}, data[i])
-                    object.label = data[i].condition_title
-                    object.value = data[i].id
+                    object.label = data[i].condition_info.condition_title;
+                    object.value = data[i].condition_info.id;
                     setConditionList((preValue) => [...preValue, object])
                 }
             })
     }
 
     const specialityOnchange = (data) => {
-        setFormData({ ...formData, specialities: data })
-        const id = data.map((value) => value.id)
+        const id = data.map((value) => value.speciality_info.id)
+        setFormData({ ...formData, specialities: id })
+        setSpecialitySelected({...specialitySelected, specialities: data })
         const updatedData = {
-            speciality: id
+            speciality_ids: id
         }
+        setConditionList([])
         getCondition(updatedData)
+    }
+
+    const conditionsOnchange = (data) => {
+        const id = data.map((value) => value.condition_info.id)
+        setFormData({ ...formData, conditions: id })
+        setSpecialitySelected({ ...specialitySelected, conditions: data })
+    }
+
+    const applyFilterHandle = (e) => {
+        e.preventDefault()
+        dispatch(TrialManageClinicsListAction({ page: loadMoreData, ...formData }))
     }
     return (
         <>
@@ -129,63 +150,62 @@ const SponsorsManageClinics = () => {
                         <div className='col-lg-4'>
                             <div className="filter-sidebar">
                                 <h2>Filter</h2>
-                                <InputText
-                                    type="text"
-                                    labelText="Clinic Name"
-                                    placeholder="Enter Clinic Name"
-                                />
-                                <MultiSelect
-                                    options={specialityList !== undefined && specialityList}
-                                    value={formData.specialities}
-                                    onChange={specialityOnchange}
-                                    disableSearch={true}
-                                    labelledBy="Speciality"
-                                    className="multiSelect-control"
-                                    name="specialities"
-                                />
-                                <MultiSelect
-                                    options={conditionList !== undefined && conditionList}
-                                    value={formData.conditions}
-                                    onChange={onchange}
-                                    disableSearch={true}
-                                    labelledBy="Condition"
-                                    className="multiSelect-control"
-                                    name="conditions"
-                                />
-                                <SelectBox
-                                    name="specialty"
-                                    labelText="Specialty"
-                                    optionData={
-                                        <>
-                                            <option>Select Specialty</option>
-                                            <option>Specialty 1</option>
-                                            <option>Specialty 2</option>
-                                        </>
-                                    }
-                                />
-                                <SelectBox
-                                    name="condition"
-                                    labelText="Condition"
-                                    optionData={
-                                        <>
-                                            <option>Select Condition</option>
-                                            <option>Condition 1</option>
-                                            <option>Condition 2</option>
-                                        </>
-                                    }
-                                />
-                                <InputText type="search" labelText="Keywords" placeholder="Enter Keywords" />
-                                <Button
-                                    isButton="true"
-                                    BtnType="submit"
-                                    BtnColor="green w-100"
-                                    BtnText="Apply"
-                                />
+                                <Form onSubmit={applyFilterHandle}>
+
+                                    <InputText
+                                        type="text"
+                                        labelText="Clinic Name"
+                                        placeholder="Enter Clinic Name"
+                                        name="clinic_name"
+                                        onChange={onchange}
+                                    />
+                                    <div className="form-group">
+                                        <label> Specialty</label>
+                                        <MultiSelect
+                                            options={specialityList !== undefined && specialityList}
+                                            value={specialitySelected.specialities}
+                                            onChange={specialityOnchange}
+                                            disableSearch={true}
+                                            labelledBy="Specialty"
+                                            className="multiSelect-control"
+                                            name="specialities"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label> Condition</label>
+                                        <MultiSelect
+                                            options={conditionList !== undefined && conditionList}
+                                            value={specialitySelected.conditions}
+                                            onChange={conditionsOnchange}
+                                            disableSearch={true}
+                                            labelledBy="Condition"
+                                            className="multiSelect-control"
+                                            name="conditions"
+                                        />
+                                    </div>
+                                    <InputText
+                                        type="search"
+                                        labelText="Keywords"
+                                        placeholder="Enter Keywords"
+                                        name="keywords"
+                                        onChange={onchange}
+                                    />
+                                    <Button
+                                        isButton="true"
+                                        BtnType="submit"
+                                        BtnColor="green w-100"
+                                        BtnText="Apply"
+                                        onClick={() => setLoading(false)}
+                                        disabled={!Loading && isloading.loading}
+                                        hasSpinner={!Loading && isloading.loading}
+                                    />
+                                </Form>
                             </div>
                         </div>
 
                         <div className='col-lg-8'>
                             <div className='row'>
+                                {console.log("trialManageClinicSelector", trialManageClinicSelector)}
                                 {trialManageClinicSelector !== undefined ?
                                     trialManageClinicSelector.data.data?.length !== 0 ?
                                         trialManageClinicSelector.data.data.map((value, index) => {
@@ -224,9 +244,11 @@ const SponsorsManageClinics = () => {
                                             isButton="true"
                                             BtnColor="primary"
                                             BtnText="Load More"
-                                            onClick={handleLoadMore}
+                                            onClick={() => {handleLoadMore()
+                                                setLoading(true)}
+                                            }
                                             disabled={trialManageClinicSelector.data.last_page === trialManageClinicSelector.data.current_page || isloading.loading}
-                                            hasSpinner={isloading.loading}
+                                            hasSpinner={Loading && isloading.loading}
                                         />
                                     </div>
                                 }
