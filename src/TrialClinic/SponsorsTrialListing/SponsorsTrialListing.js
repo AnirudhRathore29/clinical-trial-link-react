@@ -12,21 +12,29 @@ import { ViewTrialsAction } from '../../redux/actions/TrialSponsorAction';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import getCurrentHost from '../../redux/constants';
+import { authHeader } from '../../redux/actions/authHeader';
 
 const ClinicSponsorsTrialListing = (props) => {
     const { id } = useParams()
-    const history =  useHistory();
+    const history = useHistory();
     const dispatch = useDispatch();
     const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data);
     const sponsorsTrialListSelector = useSelector(state => state.trial_clinic.stlData.data);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clinicDetails, setClinicDetails] = useState();
     const [clinicTrialID, setClinicTrialID] = useState();
+    const [AllUserConditions, setAllUserConditions] = useState([]);
+    const [formData, setFormData] = useState({
+        conditions: [],
+        allChecked: false
+    })
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
 
     console.log("sponsorsTrialListSelector", sponsorsTrialListSelector);
+    console.log("formData", formData);
 
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
@@ -37,7 +45,7 @@ const ClinicSponsorsTrialListing = (props) => {
             page: loadMoreData
         }
         dispatch(SponsorsTrialListAction(id, data))
-    }, [dispatch, id , loadMoreData])
+    }, [dispatch, id, loadMoreData])
 
     const handleClinicTrialModalOpen = (id) => {
         dispatch(ViewTrialsAction(id))
@@ -46,13 +54,11 @@ const ClinicSponsorsTrialListing = (props) => {
     };
     const handleClose = () => setShow(false);
 
-
     const handleShow2 = () => {
         setShow2(true);
         handleClose();
     }
     const handleClose2 = () => setShow2(false);
-
 
     const handleShow3 = () => {
         setShow3(true);
@@ -80,6 +86,45 @@ const ClinicSponsorsTrialListing = (props) => {
             state: props.location.state
         })
     }
+
+    useEffect(() => {
+        const configure = {
+            method: "GET",
+            headers: authHeader()
+        }
+        fetch(getCurrentHost() + "/get-all-user-conditions", configure)
+            .then(response => response.json())
+            .then(response => {
+                setAllUserConditions(response.data)
+            })
+    }, [])
+
+    const conditionOnchange = (id, e) => {
+        if (e.target.checked) {
+            // if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
+            //     setFormData({...formData, allChecked: true})
+            // }
+            setFormData({ conditions: [...formData.conditions, id] })            
+        }
+        else {
+            const filterIDs = formData.conditions.filter(value => value !== id)
+            setFormData({ ...formData, conditions: filterIDs })
+        }
+    }
+
+    const SelectAllCondition = (e) => {
+        if (e.target.checked) {
+            const allIds = AllUserConditions.map(value => value.condition_info.id)
+            setFormData({ conditions: allIds, allChecked: true })
+        } else {
+            setFormData({
+                conditions: [],
+                allChecked: false
+            })
+        }
+    }
+
+
     return (
         <>
             <div className="clinical-dashboard main-trial-listing">
@@ -92,26 +137,31 @@ const ClinicSponsorsTrialListing = (props) => {
                             <div className="filter-sidebar">
                                 <h2>Filter by Condition</h2>
                                 <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="All" labelText="All" />
+                                    <RadioBtn
+                                        className="checkbox-btn"
+                                        type="checkbox"
+                                        name="All"
+                                        labelText="All"
+                                        checked={formData.allChecked}
+                                        onChange={SelectAllCondition}
+                                    />
                                 </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Opioid Use Disorder" labelText="Opioid Use Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Hemorrhoids" labelText="Hemorrhoids" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Dementia" labelText="Dementia" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Bipolar Disorder" labelText="Bipolar Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Alzheimer’s Disease" labelText="Alzheimer’s Disease" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Depression" labelText="Depression" />
-                                </div>
+                                {
+                                    AllUserConditions.map((value, index) => {
+                                        return (
+                                            <div className="form-group" key={index}>
+                                                <RadioBtn
+                                                    className="checkbox-btn"
+                                                    type="checkbox"
+                                                    name="conditions"
+                                                    checked={formData.allChecked}
+                                                    onChange={(e) => conditionOnchange(value.condition_info.id, e)}
+                                                    labelText={value.condition_info.condition_title}
+                                                />
+                                            </div>
+                                        )
+                                    })
+                                }
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
@@ -164,7 +214,7 @@ const ClinicSponsorsTrialListing = (props) => {
                                         BtnText="Load More"
                                         onClick={handleLoadMore}
                                         disabled={sponsorsTrialListSelector.data.last_page === sponsorsTrialListSelector.data.current_page}
-                                        // hasSpinner={isLoading.loading}
+                                    // hasSpinner={isLoading.loading}
                                     />
                                 </div>
                             }

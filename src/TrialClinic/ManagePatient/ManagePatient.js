@@ -12,6 +12,11 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import '../../Patient/MyFavorites/MyFavorites.css';
+import { Form } from 'react-bootstrap';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 const ClinicManagePatient = () => {
     const loadingSelector = useSelector(state => state.trial_clinic)
@@ -21,12 +26,14 @@ const ClinicManagePatient = () => {
     const [PatientDetailModal, SetPatientDetailModal] = useState(false);
     const [PatientDetailState, setPatientDetailState] = useState(undefined);
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [formData, setFormData] = useState({});
 
     const dispatch = useDispatch()
 
     console.log("ManagePatientListSelector", ManagePatientListSelector);
     console.log("ManagePatientDetailSelector", ManagePatientDetailSelector);
     console.log("PatientDetailState", PatientDetailState);
+    console.log("formData", formData);
 
     useEffect(() => {
         dispatch(ManagePatientListAction({ page: loadMoreData, }))
@@ -49,6 +56,26 @@ const ClinicManagePatient = () => {
         SetPatientDetailModal(false);
     }
 
+    const onchange = (e) => {
+        console.log("e.target", e.target);
+        const { name, value } = e.target
+        setFormData((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
+    const FilterHandle = (e) => {
+        e.preventDefault()
+        if(formData.to_age_filter < formData.from_age_filter){
+            toast.error("Max age should be greater then min age", { theme: "colored" })
+        } else {
+            dispatch(ManagePatientListAction({ page: loadMoreData, ...formData}))
+        }
+    }
+
     return (
         <>
             <div className="clinical-dashboard">
@@ -63,19 +90,59 @@ const ClinicManagePatient = () => {
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
-                            <div className="filter-sidebar">
+                            <Form onSubmit={FilterHandle} className="filter-sidebar">
                                 <h2>Filter</h2>
+                                <InputText
+                                    type="text"
+                                    name="trial_name_filter"
+                                    labelText="Search"
+                                    placeholder="Search with trial name"
+                                    onChange={onchange}
+                                />
+                                <SelectBox
+                                    name="status_filter"
+                                    labelText="Trial Status"
+                                    onChange={onchange}
+                                    optionData={
+                                        <>
+                                            <option value="">Select Status</option>
+                                            <option value={0}>Pending</option>
+                                            <option value={1}>Screening</option>
+                                            <option value={2}>Rejected</option>
+                                            <option value={3}>Cancelled by Patient</option>
+                                            <option value={4}>Screen Not Eligible</option>
+                                            <option value={5}>Screen Pending Approval</option>
+                                            <option value={6}>Screen Approval</option>
+                                            <option value={7}>Complete</option>
+                                            <option value={8}>Incomplete</option>
+                                            <option value={9}>End of Study</option>
+                                            <option value={10}>Early Termination</option>
+                                        </>
+                                    }
+                                />
                                 <div className='form-group'>
                                     <label>Age Range</label>
                                     <div className='age-range'>
                                         <div className='age-range-bix'>
                                             <span>Min</span>
-                                            <InputText type="number" placeholder="Min Age" min="18" />
+                                            <InputText
+                                                type="number"
+                                                name="from_age_filter"
+                                                placeholder="Min Age"
+                                                onChange={onchange}
+                                                min="18"
+                                            />
                                         </div>
                                         <div className='p-3'>-</div>
                                         <div className='age-range-bix'>
                                             <span>Max</span>
-                                            <InputText type="number" placeholder="Max Age" max="60" />
+                                            <InputText
+                                                type="number"
+                                                name="to_age_filter"
+                                                placeholder="Max Age"
+                                                onChange={onchange}
+                                                max="60"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -83,40 +150,41 @@ const ClinicManagePatient = () => {
                                 <div className="form-group">
                                     <label>Gender</label>
                                     <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
+                                        <RadioBtn
+                                            className="radio-btn"
+                                            type="radio"
+                                            name="gender_filter"
+                                            labelText="Male"
+                                            value="M"
+                                            onChange={onchange}
+                                        />
+                                        <RadioBtn
+                                            className="radio-btn"
+                                            type="radio"
+                                            name="gender_filter"
+                                            labelText="Female"
+                                            value="F"
+                                            onChange={onchange}
+                                        />
+                                        <RadioBtn
+                                            className="radio-btn"
+                                            type="radio"
+                                            name="gender_filter"
+                                            value="NB"
+                                            labelText="Nonbinary"
+                                            onChange={onchange}
+                                        />
                                     </div>
                                 </div>
-                                <SelectBox
-                                    name="trial_name"
-                                    labelText="Trial Name"
-                                    optionData={
-                                        <>
-                                            <option>Select Trial Name</option>
-                                            <option>Trial Name 1</option>
-                                            <option>Trial Name 2</option>
-                                        </>
-                                    }
-                                />
-                                <SelectBox
-                                    name="trial_name"
-                                    labelText="Trial Status"
-                                    optionData={
-                                        <>
-                                            <option>Select Trial Name</option>
-                                            <option>Trial Name 1</option>
-                                            <option>Trial Name 2</option>
-                                        </>
-                                    }
-                                />
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
+                                    hasSpinner={loadingSelector.loading}
+                                    disabled={loadingSelector.loading}
                                 />
-                            </div>
+                            </Form>
                         </div>
                         <div className='col-lg-8'>
                             <div className='row'>
