@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import "./BackHeader.css";
 import { LogoutAction } from "../../../redux/actions/authAction";
 import getCurrentHost, { getImageUrl } from "../../../redux/constants";
 import { authHeader } from "../../../redux/actions/authHeader";
+import moment from "moment";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
@@ -16,8 +17,12 @@ const Header = (props, { colorHeader, headerColor }) => {
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
     const dispatch = useDispatch();
     const [sideMenu, setSideMenu] = useState(false);
-    const [notification, setNotification] = useState([])
+    const [AllNotification, setAllNotification] = useState([])
 
+    const dropdown = useRef(null)
+
+    console.log("notification", AllNotification);
+    console.log("dropdown", dropdown);
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -30,12 +35,14 @@ const Header = (props, { colorHeader, headerColor }) => {
     useEffect(() => {
         const configure = {
             method: 'GET',
-            header: authHeader()
+            headers: authHeader()
         }
         fetch(getCurrentHost() + "/get-user-notifications", configure)
             .then(response => response.json())
             .then(response => {
-                console.log("notificationsresponse", response);
+                setAllNotification(response.data)
+                // const getDropdownHeight = dropdown.current.clientHeight
+                // console.log("getDropdownHeight", dropdown.current.offsetHeight);
             })
     }, [])
 
@@ -62,36 +69,22 @@ const Header = (props, { colorHeader, headerColor }) => {
                                 <Dropdown.Toggle className="notification-dropdown" variant="" id="notification-dropdown">
                                     <img src="/images/notification.svg" alt="notification" />
                                 </Dropdown.Toggle>
-                                
                                 <Dropdown.Menu>
-                                    <Link to="/" className="dropdown-item">
-                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
-                                        <div>
-                                            <p>Dr. William Jones has reject your consultation.</p>
-                                            <small>08/20/2020</small>
-                                        </div>
-                                    </Link>
-                                    <Link to="/" className="dropdown-item">
-                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
-                                        <div>
-                                            <p>Dr. William Jones has reject your consultation.</p>
-                                            <small>08/20/2020</small>
-                                        </div>
-                                    </Link>
-                                    <Link to="/" className="dropdown-item">
-                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
-                                        <div>
-                                            <p>Dr. William Jones has reject your consultation.</p>
-                                            <small>08/20/2020</small>
-                                        </div>
-                                    </Link>
-                                    <Link to="/" className="dropdown-item">
-                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
-                                        <div>
-                                            <p>Dr. William Jones has reject your consultation.</p>
-                                            <small>08/20/2020</small>
-                                        </div>
-                                    </Link>
+                                    <div ref={dropdown}>
+                                        {
+                                            AllNotification.map((value, index) => {
+                                                return (
+                                                    <Link to="/" className="dropdown-item" key={index}>
+                                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
+                                                        <div>
+                                                            <p>{value.description}</p>
+                                                            <small>{moment(value.updated_at).format("MMMM DD, YYYY")}</small>
+                                                        </div>
+                                                    </Link>
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </li>

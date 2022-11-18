@@ -16,14 +16,15 @@ import getCurrentHost from '../../redux/constants';
 import { authHeader } from '../../redux/actions/authHeader';
 
 const ClinicSponsorsTrialListing = (props) => {
-    const { id } = useParams()
-    const history = useHistory();
-    const dispatch = useDispatch();
     const clinicDetailSelector = useSelector(state => state.My_trials.trial_detail.data);
     const sponsorsTrialListSelector = useSelector(state => state.trial_clinic.stlData.data);
+    const isloading = useSelector(state => state.trial_clinic);
+
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clinicDetails, setClinicDetails] = useState();
+    const [TrialListState, setTrialListState] = useState(undefined);
     const [clinicTrialID, setClinicTrialID] = useState();
+    const [LoadingState, setLoadingState] = useState(false);
     const [AllUserConditions, setAllUserConditions] = useState([]);
     const [formData, setFormData] = useState({
         conditions: [],
@@ -33,12 +34,22 @@ const ClinicSponsorsTrialListing = (props) => {
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
 
+    const { id } = useParams()
+    const history = useHistory();
+    const dispatch = useDispatch();
+
     console.log("sponsorsTrialListSelector", sponsorsTrialListSelector);
+    console.log("AllUserConditions", AllUserConditions);
     console.log("formData", formData);
 
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
     }, [clinicDetailSelector]);
+
+    useEffect(() => {
+        setTrialListState(sponsorsTrialListSelector)
+        setLoadingState(false)
+    }, [sponsorsTrialListSelector]);
 
     useEffect(() => {
         let data = {
@@ -52,7 +63,10 @@ const ClinicSponsorsTrialListing = (props) => {
         setShow(true)
         setClinicTrialID(id)
     };
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setClinicDetails(undefined)
+    }
 
     const handleShow2 = () => {
         setShow2(true);
@@ -67,8 +81,11 @@ const ClinicSponsorsTrialListing = (props) => {
     const handleClose3 = () => setShow3(false);
 
     const SponsorListFilterSubmit = (e) => {
+        setLoadingState(true)
+        setTrialListState(undefined)
         e.preventDefault();
         let data = {
+            conditions: formData.conditions,
             page: loadMoreData
         }
         dispatch(SponsorsTrialListAction(id, data))
@@ -95,35 +112,47 @@ const ClinicSponsorsTrialListing = (props) => {
         fetch(getCurrentHost() + "/get-all-user-conditions", configure)
             .then(response => response.json())
             .then(response => {
-                setAllUserConditions(response.data)
+                console.log("response.length", response);
+                const data = response.data
+                for (let i = 0; i < data.length; i++) {
+                    const object = Object.assign({}, data[i])
+                    object.checked = false;
+                    setAllUserConditions((preValue) => [...preValue, object])
+                }
             })
     }, [])
 
     const conditionOnchange = (id, e) => {
         if (e.target.checked) {
-            // if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
-            //     setFormData({...formData, allChecked: true})
-            // }
-            setFormData({ conditions: [...formData.conditions, id] })            
+            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
+            filterObject.checked = true
+            setFormData({ conditions: [...formData.conditions, id] })
+            if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
+                setFormData({ ...formData, allChecked: true })
+            }
         }
         else {
             const filterIDs = formData.conditions.filter(value => value !== id)
-            setFormData({ ...formData, conditions: filterIDs })
+            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
+            filterObject.checked = false
+            setFormData({ ...formData, conditions: filterIDs, allChecked: false })
         }
     }
 
     const SelectAllCondition = (e) => {
         if (e.target.checked) {
             const allIds = AllUserConditions.map(value => value.condition_info.id)
-            setFormData({ conditions: allIds, allChecked: true })
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = true
+            }
+            setFormData({ conditions: allIds })
         } else {
-            setFormData({
-                conditions: [],
-                allChecked: false
-            })
+            setFormData({ conditions: [] })
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = false
+            }
         }
     }
-
 
     return (
         <>
@@ -154,7 +183,7 @@ const ClinicSponsorsTrialListing = (props) => {
                                                     className="checkbox-btn"
                                                     type="checkbox"
                                                     name="conditions"
-                                                    checked={formData.allChecked}
+                                                    checked={value.checked}
                                                     onChange={(e) => conditionOnchange(value.condition_info.id, e)}
                                                     labelText={value.condition_info.condition_title}
                                                 />
@@ -167,14 +196,17 @@ const ClinicSponsorsTrialListing = (props) => {
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
+                                    onClick={SponsorListFilterSubmit}
+                                    hasSpinner={LoadingState}
+                                    disabled={LoadingState}
                                 />
                             </div>
                         </div>
 
                         <div className='col-lg-8'>
-                            {sponsorsTrialListSelector !== undefined ?
-                                sponsorsTrialListSelector.data.data.length !== 0 ?
-                                    sponsorsTrialListSelector.data.data.map((value, index) => {
+                            {TrialListState !== undefined ?
+                                TrialListState.data.data.length !== 0 ?
+                                    TrialListState.data.data.map((value, index) => {
                                         return (
                                             <React.Fragment key={index}>
                                                 <ClinicTrial
@@ -190,6 +222,7 @@ const ClinicSponsorsTrialListing = (props) => {
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                     }
                                                     id={sponsorsTrialListSelector.data.id}
+                                                    favBtnDisable={true}
                                                 />
                                             </React.Fragment>
                                         )
@@ -206,14 +239,14 @@ const ClinicSponsorsTrialListing = (props) => {
                                 })
                             }
 
-                            {sponsorsTrialListSelector && sponsorsTrialListSelector.data.total > 16 &&
+                            {TrialListState && TrialListState.data.total > 16 &&
                                 <div className='mt-5 text-center'>
                                     <Button
                                         isButton="true"
                                         BtnColor="primary"
                                         BtnText="Load More"
                                         onClick={handleLoadMore}
-                                        disabled={sponsorsTrialListSelector.data.last_page === sponsorsTrialListSelector.data.current_page}
+                                        disabled={TrialListState.data.last_page === TrialListState.data.current_page}
                                     // hasSpinner={isLoading.loading}
                                     />
                                 </div>

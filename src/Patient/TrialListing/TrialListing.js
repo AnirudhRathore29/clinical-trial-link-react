@@ -7,10 +7,12 @@ import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { PatientClinicAppTrialListAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
+import { PatientClinicAppTrialListAction, PatientMyFavTrialAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+import { authHeader } from '../../redux/actions/authHeader';
+import getCurrentHost from '../../redux/constants';
 
 const PatientTrialListing = () => {
     const { id } = useParams()
@@ -20,7 +22,14 @@ const PatientTrialListing = () => {
     const loadingSelector = useSelector(state => state.patient);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [TrialListState, setTrialListState] = useState(undefined);
+    const [LoadingState, setLoadingState] = useState(false);
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
+    const [AllUserConditions, setAllUserConditions] = useState([]);
+    const [formData, setFormData] = useState({
+        conditions: [],
+        allChecked: false
+    })
 
     const [show, setShow] = useState(false);
 
@@ -28,6 +37,11 @@ const PatientTrialListing = () => {
         setViewTrialDetails(viewTrialDetailSelector)
         return () => { setViewTrialDetails(undefined) }
     }, [viewTrialDetailSelector]);
+
+    useEffect(() => {
+        setTrialListState(PatientTrialListSelector)
+        setLoadingState(false)
+    }, [PatientTrialListSelector]);
 
     const handleClinicTrialModalOpen = (id) => {
         dispatch(PatientViewTrialsAction(id))
@@ -62,9 +76,75 @@ const PatientTrialListing = () => {
     }
     const handleClose3 = () => setShow3(false);
 
+    const SponsorListFilterSubmit = (e) => {
+        setLoadingState(true)
+        setTrialListState(undefined)
+        e.preventDefault();
+        let data = {
+            conditions: formData.conditions,
+            page: loadMoreData
+        }
+        dispatch(PatientClinicAppTrialListAction(id, data))
+    }
+
     const handleLoadMore = (e) => {
         e.preventDefault();
         setLoadMoreData(loadMoreData + 1)
+        SponsorListFilterSubmit()
+    }
+
+    useEffect(() => {
+        const configure = {
+            method: "GET",
+            headers: authHeader()
+        }
+        fetch(getCurrentHost() + "/get-all-user-conditions", configure)
+            .then(response => response.json())
+            .then(response => {
+                console.log("response.length", response);
+                const data = response.data
+                for (let i = 0; i < data.length; i++) {
+                    const object = Object.assign({}, data[i])
+                    object.checked = false;
+                    setAllUserConditions((preValue) => [...preValue, object])
+                }
+            })
+    }, [])
+
+    const conditionOnchange = (id, e) => {
+        if (e.target.checked) {
+            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
+            filterObject.checked = true
+            setFormData({ conditions: [...formData.conditions, id] })
+            if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
+                setFormData({ ...formData, allChecked: true })
+            }
+        }
+        else {
+            const filterIDs = formData.conditions.filter(value => value !== id)
+            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
+            filterObject.checked = false
+            setFormData({ ...formData, conditions: filterIDs, allChecked: false })
+        }
+    }
+
+    const SelectAllCondition = (e) => {
+        if (e.target.checked) {
+            const allIds = AllUserConditions.map(value => value.condition_info.id)
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = true
+            }
+            setFormData({ conditions: allIds })
+        } else {
+            setFormData({ conditions: [] })
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = false
+            }
+        }
+    }
+
+    const MyFavTrial = (id) => {
+        dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
     }
     return (
         <>
@@ -75,43 +155,51 @@ const PatientTrialListing = () => {
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
-                            <div className="filter-sidebar">
+                        <div className="filter-sidebar">
                                 <h2>Filter by Condition</h2>
                                 <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="All" labelText="All" />
+                                    <RadioBtn
+                                        className="checkbox-btn"
+                                        type="checkbox"
+                                        name="All"
+                                        labelText="All"
+                                        checked={formData.allChecked}
+                                        onChange={SelectAllCondition}
+                                    />
                                 </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Opioid Use Disorder" labelText="Opioid Use Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Hemorrhoids" labelText="Hemorrhoids" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Dementia" labelText="Dementia" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Bipolar Disorder" labelText="Bipolar Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Alzheimer’s Disease" labelText="Alzheimer’s Disease" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Depression" labelText="Depression" />
-                                </div>
+                                {
+                                    AllUserConditions.map((value, index) => {
+                                        return (
+                                            <div className="form-group" key={index}>
+                                                <RadioBtn
+                                                    className="checkbox-btn"
+                                                    type="checkbox"
+                                                    name="conditions"
+                                                    checked={value.checked}
+                                                    onChange={(e) => conditionOnchange(value.condition_info.id, e)}
+                                                    labelText={value.condition_info.condition_title}
+                                                />
+                                            </div>
+                                        )
+                                    })
+                                }
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
+                                    onClick={SponsorListFilterSubmit}
+                                    hasSpinner={LoadingState}
+                                    disabled={LoadingState}
                                 />
                             </div>
                         </div>
 
                         <div className='col-lg-8'>
 
-                            {PatientTrialListSelector !== undefined ?
-                                PatientTrialListSelector.data.data.length !== 0 ?
-                                    PatientTrialListSelector.data.data.map((value, index) => {
+                            {TrialListState !== undefined ?
+                                TrialListState.data.data.length !== 0 ?
+                                    TrialListState.data.data.map((value, index) => {
                                         return (
                                             <React.Fragment key={index}>
                                                 <ClinicTrial
@@ -126,7 +214,9 @@ const PatientTrialListing = () => {
                                                             :
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                     }
-                                                    id={PatientTrialListSelector.data.id}
+                                                    onClickFav={() => MyFavTrial(value.id)}
+                                                    iconType={value.is_favourite === 1 ? "solid" : null}
+                                                    id={TrialListState.data.id}
                                                 />
                                             </React.Fragment>
                                         )
@@ -143,14 +233,14 @@ const PatientTrialListing = () => {
                                 })
                             }
 
-                            {PatientTrialListSelector && PatientTrialListSelector.data.total > 16 &&
+                            {TrialListState && TrialListState.data.total > 16 &&
                                 <div className='mt-5 text-center'>
                                     <Button
                                         isButton="true"
                                         BtnColor="primary"
                                         BtnText="Load More"
                                         onClick={handleLoadMore}
-                                        disabled={PatientTrialListSelector.data.last_page === PatientTrialListSelector.data.current_page}
+                                        disabled={TrialListState.data.last_page === TrialListState.data.current_page}
                                         hasSpinner={loadMoreData && loadingSelector.loading}
                                     />
                                 </div>
