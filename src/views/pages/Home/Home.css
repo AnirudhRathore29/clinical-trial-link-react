@@ -2,7 +2,7 @@
 .home-banner-caption h1{font-size: 6.4rem;color: var(--whiteColor);font-weight: bold;line-height: 1.4;}
 .home-banner-caption p{font-size: 3rem;color: var(--whiteColor);margin: 2rem 0;}
 .home-banner-img{width: 68.3rem; height: 68.3rem; border-radius: 42.5rem 0 42.5rem 42.5rem;overflow: hidden;background: var(--SecondaryColor);margin-left: auto;}
-.home-banner-img img{width: 100%;height: 100%;}
+.home-banner-img img{width: 100%;height: 100%;object-fit: cover;}
 
 .news-bx{padding: 1rem 3rem 1rem 1rem;display: inline-flex;align-items: center; background: #2982DC;border-radius: 200px;font-size: 2rem;color: var(--whiteColor);margin-bottom: 4rem;}
 .news-bx span{background: var(--SecondaryColor);border-radius: 50px;padding: 1rem 3rem;color: var(--TextColor);display: flex;align-items: center;justify-content: center; margin-right: 2rem;font-size: 1.6rem;font-weight: 500;}

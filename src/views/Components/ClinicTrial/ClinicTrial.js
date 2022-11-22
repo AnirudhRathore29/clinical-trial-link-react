@@ -7,6 +7,8 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
     const [tooltip, setTooltip] = useState(false);
     const target = useRef(null);
 
+    console.log("iconType", iconType);
+
     const ShareTrial = () => {
         setTooltip(!tooltip)
         navigator.clipboard.writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)

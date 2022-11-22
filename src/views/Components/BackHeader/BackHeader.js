@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -10,19 +10,25 @@ import { LogoutAction } from "../../../redux/actions/authAction";
 import getCurrentHost, { getImageUrl } from "../../../redux/constants";
 import { authHeader } from "../../../redux/actions/authHeader";
 import moment from "moment";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { LogoLoader } from "../Common/LogoLoader/LogoLoader";
+import { NoDataFound } from "../Common/NoDataFound/NoDataFound";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
 const Header = (props, { colorHeader, headerColor }) => {
-    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
-    const dispatch = useDispatch();
     const [sideMenu, setSideMenu] = useState(false);
-    const [AllNotification, setAllNotification] = useState([])
+    const [AllNotification, setAllNotification] = useState(undefined);
+    const [currentPage, setCurrentPage] = useState(1)
 
+    const dispatch = useDispatch();
     const dropdown = useRef(null)
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
     console.log("notification", AllNotification);
     console.log("dropdown", dropdown);
+    console.log("currentPage", currentPage);
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -32,19 +38,42 @@ const Header = (props, { colorHeader, headerColor }) => {
         dispatch(LogoutAction())
     }
 
-    useEffect(() => {
+    const getNotifications = (page) => {
         const configure = {
-            method: 'GET',
-            headers: authHeader()
+            method: 'POST',
+            headers: authHeader(),
+            body: JSON.stringify({
+                page: page
+            })
         }
         fetch(getCurrentHost() + "/get-user-notifications", configure)
             .then(response => response.json())
             .then(response => {
+                console.log("response", response.data);
                 setAllNotification(response.data)
-                // const getDropdownHeight = dropdown.current.clientHeight
-                // console.log("getDropdownHeight", dropdown.current.offsetHeight);
             })
-    }, [])
+    }
+
+    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+        <button
+            ref={ref}
+            className="notification-dropdown dropdown-toggle btn"
+            onClick={(e) => { getNotifications(currentPage); onClick(e) }}
+        >
+            {children}
+        </button>
+    ));
+
+    const onScroll = () => {
+        if (dropdown.current) {
+            const { scrollTop, scrollHeight, clientHeight } = dropdown.current;
+            if ((scrollTop + clientHeight === scrollHeight) && (AllNotification !== undefined && AllNotification.total !== AllNotification.data.length)) {
+                setCurrentPage()
+                setCurrentPage(currentPage + 1)
+                getNotifications(currentPage + 1)
+            }
+        }
+    };
 
     return (
         <>
@@ -66,23 +95,47 @@ const Header = (props, { colorHeader, headerColor }) => {
                         </li>
                         <li className="notification-li">
                             <Dropdown>
-                                <Dropdown.Toggle className="notification-dropdown" variant="" id="notification-dropdown">
+                                <Dropdown.Toggle className="notification-dropdown" as={CustomToggle} variant="" id="notification-dropdown">
                                     <img src="/images/notification.svg" alt="notification" />
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    <div ref={dropdown}>
+                                    <div ref={dropdown} onScroll={() => onScroll()}>
                                         {
-                                            AllNotification.map((value, index) => {
-                                                return (
-                                                    <Link to="/" className="dropdown-item" key={index}>
-                                                        <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
-                                                        <div>
-                                                            <p>{value.description}</p>
-                                                            <small>{moment(value.updated_at).format("MMMM DD, YYYY")}</small>
+                                            AllNotification !== undefined ?
+                                                AllNotification.data.length > 0 ?
+                                                    AllNotification.data.map((value, index) => {
+                                                        return (
+                                                            <Link to="/" className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
+                                                                <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
+                                                                <div>
+                                                                    <p>{value.description}</p>
+                                                                    <small>{moment(value.updated_at).format("MMMM DD, YYYY")}</small>
+                                                                </div>
+                                                            </Link>
+                                                        )
+                                                    })
+                                                    :
+                                                    <div className='no-notification-found'>
+                                                        <img src="/images/no-data-found.svg" alt="no-data-found" />
+                                                        <h2>No Notification Found!</h2>
+                                                    </div>
+                                                :
+                                                [1, 2, 3, 4].map((value, index) => {
+                                                    return (
+                                                        <div className="SkeletonDropdown" key={index}>
+                                                            <Skeleton height={60} />
                                                         </div>
-                                                    </Link>
-                                                )
-                                            })
+                                                    )
+                                                })
+                                        }
+                                        {
+                                            AllNotification !== undefined &&
+                                                AllNotification.total !== AllNotification.data.length ?
+                                                <div className="SkeletonDropdown">
+                                                    <box-icon name='loader-alt' animation="spin" color="#4096ee"></box-icon>
+                                                </div>
+                                                :
+                                                null
                                         }
                                     </div>
                                 </Dropdown.Menu>

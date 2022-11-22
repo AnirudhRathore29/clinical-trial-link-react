@@ -19,6 +19,7 @@ const PatientTrialListing = () => {
     const dispatch = useDispatch();
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
+    const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
     const loadingSelector = useSelector(state => state.patient);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
@@ -146,6 +147,17 @@ const PatientTrialListing = () => {
     const MyFavTrial = (id) => {
         dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
     }
+
+    useEffect(() => {
+        if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+            console.log("favTrialSelector called");
+            let data = {
+                page: loadMoreData
+            }
+            dispatch(PatientClinicAppTrialListAction(id, data))
+            setTrialListState()
+        }
+    }, [favTrialSelector])
     return (
         <>
             <div className="clinical-dashboard main-trial-listing">
