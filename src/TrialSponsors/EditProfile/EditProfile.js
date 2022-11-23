@@ -264,8 +264,10 @@ const SponsorsEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name);
         formData.append("account_number", profileInputData.account_number);
         formData.append("routing_number", profileInputData.routing_number);
-        formData.append("latitude", profileInputData.latitude)
-        formData.append("longitude", profileInputData.longitude)
+        if(profileInputData.latitude && profileInputData.longitude){
+            formData.append("latitude", profileInputData.latitude)
+            formData.append("longitude", profileInputData.longitude)
+        }
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "sponsor"))

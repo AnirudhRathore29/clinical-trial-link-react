@@ -11,10 +11,20 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
 
     const ShareTrial = () => {
         setTooltip(!tooltip)
-        navigator.clipboard.writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)
-        setTimeout(() => {
-            setTooltip(false)
-        }, 1000);
+        console.log("navigator.clipboard", navigator.clipboard);
+        // navigator.clipboard.writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)
+        navigator.clipboard
+            .writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)
+            .then(() => {
+                setTimeout(() => {
+                    setTooltip(false)
+                }, 1000);
+                // alert("successfully copied");
+            })
+            .catch(() => {
+                alert("something went wrong");
+            });
+       
     }
 
     return (
@@ -37,7 +47,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
                             null
                             :
                             <div>
-                                { favBtnDisable ? null : <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button> }
+                                {favBtnDisable ? null : <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>}
                                 <button className='icon-btn' ref={target} onClick={ShareTrial}><box-icon name='share-alt' color={iconColor}></box-icon></button>
 
                                 <Overlay target={target.current} show={tooltip} placement="top">

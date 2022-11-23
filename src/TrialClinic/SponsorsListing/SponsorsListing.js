@@ -190,7 +190,7 @@ const ClinicSponsorsListing = () => {
                                                     location={value.address}
                                                     state={value.state_info.name}
                                                     description={value.user_meta_info.brief_intro}
-                                                    distance="5000.52 Mi"
+                                                    distance={value.distance && value.distance.toFixed(3) + " " + "Mi"}
                                                     index={index}
                                                 />
                                             </Link>

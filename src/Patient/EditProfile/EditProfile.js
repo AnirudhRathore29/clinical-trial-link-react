@@ -75,6 +75,8 @@ const PatientEditProfile = () => {
         routing_number: "",
     });
 
+    console.log("profileInputData", profileInputData);
+
     useEffect(() => {
         dispatch(ProfileAction())
         dispatch(StatesAction())
@@ -195,6 +197,7 @@ const PatientEditProfile = () => {
     const addressPlacePicker = async value => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
+        console.log("latLng", latLng.lat, latLng.lng);
         setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
         setAddress(value);
     };
@@ -290,13 +293,17 @@ const PatientEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name)
         formData.append("account_number", profileInputData.account_number)
         formData.append("routing_number", profileInputData.routing_number)
-        formData.append("latitude", profileInputData.latitude)
-        formData.append("longitude", profileInputData.longitude)
+        if(profileInputData.latitude && profileInputData.longitude){
+            formData.append("latitude", profileInputData.latitude)
+            formData.append("longitude", profileInputData.longitude)
+        }
         const isVaild = Validation(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "patient"))
             setProfileSubmitClick(true)
         }
+
+        console.log("profileInputData.latitude", profileInputData.latitude, profileInputData.longitude);
     }
 
     useEffect(() => {

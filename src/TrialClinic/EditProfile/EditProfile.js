@@ -341,8 +341,10 @@ const ClinicEditProfile = () => {
         formData.append("routing_number", profileInputData.routing_number);
         formData.append("hide_principal_investigator_details", hidePrincipalInvestigator);
         formData.append("hide_bank_details", hideBankDetails);
-        formData.append("latitude", profileInputData.latitude)
-        formData.append("longitude", profileInputData.longitude)
+        if(profileInputData.latitude && profileInputData.longitude){
+            formData.append("latitude", profileInputData.latitude)
+            formData.append("longitude", profileInputData.longitude)
+        }
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
         } else {
