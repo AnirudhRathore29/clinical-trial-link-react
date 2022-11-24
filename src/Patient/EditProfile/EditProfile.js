@@ -197,9 +197,15 @@ const PatientEditProfile = () => {
     const addressPlacePicker = async value => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
-        console.log("latLng", latLng.lat, latLng.lng);
+        console.log("latLng", latLng);
+        console.log("results", results);
         setProfileInputData({ ...profileInputData, address: value, latitude: latLng.lat, longitude: latLng.lng })
         setAddress(value);
+        // const StateFind = dataSelector.data.data.find(value => value.id === profileInputData.state_id)
+        // if(results.forEach((value)=>{return value.types[0]==="administrative_area_level_1"})){
+        //     console.log("done");
+        // }
+        // console.log("StateFind", StateFind);
     };
 
     const onChange = (e) => {

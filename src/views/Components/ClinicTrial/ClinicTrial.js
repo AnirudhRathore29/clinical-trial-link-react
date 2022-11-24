@@ -24,7 +24,6 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
             .catch(() => {
                 alert("something went wrong");
             });
-       
     }
 
     return (
