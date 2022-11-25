@@ -12,8 +12,7 @@ import { authHeader } from "../../../redux/actions/authHeader";
 import moment from "moment";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { LogoLoader } from "../Common/LogoLoader/LogoLoader";
-import { NoDataFound } from "../Common/NoDataFound/NoDataFound";
+import { NotificationRedirection } from "./NotificationRedirection";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
@@ -104,7 +103,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                                                 AllNotification.data.length > 0 ?
                                                     AllNotification.data.map((value, index) => {
                                                         return (
-                                                            <Link to="/" className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
+                                                            <Link to={NotificationRedirection(value.notification_type, props.auth.user.role)} className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
                                                                 <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
                                                                 <div>
                                                                     <p>{value.description}</p>

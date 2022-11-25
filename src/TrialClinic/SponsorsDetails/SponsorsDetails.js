@@ -118,7 +118,7 @@ const ClinicSponsorsDetails = () => {
                                     <h1>{sponsoreDetails.data.sponsor_name}<button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
                                     <div className="trialClinic-location">
                                         <span><box-icon name='map' color="#356AA0"></box-icon> {sponsoreDetails.data.address}, {sponsoreDetails.data.state_info.name}</span>
-                                        <span><box-icon name='map-alt' color="#356AA0"></box-icon> {sponsoreDetails.data.distance.toFixed(3)} Mi</span>
+                                        <span><box-icon name='map-alt' color="#356AA0"></box-icon> {sponsoreDetails.data.distance && sponsoreDetails.data.distance.toFixed(3)} Mi</span>
                                     </div>
                                     {sponsoreDetails.data.listing_image !== null &&
                                         <div className='trialClinic-img'>
