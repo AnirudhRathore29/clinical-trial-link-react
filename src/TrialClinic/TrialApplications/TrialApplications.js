@@ -59,7 +59,7 @@ const ClinicTrialApplication = () => {
         if (detailsModal) {
             trialAppDetailSelector?.bookingSlots.forEach((slots) => {
                 slots.selected = false
-                trialAppDetailSelector.data.appointment_slots.forEach((selectedSlots) => {
+                trialAppDetailSelector.data.active_appointment_slots.forEach((selectedSlots) => {
                     if (selectedSlots.booking_slot_id === slots.id) {
                         slots.selected = true
                     }

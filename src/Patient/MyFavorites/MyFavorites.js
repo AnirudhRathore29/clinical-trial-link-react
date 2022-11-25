@@ -133,7 +133,7 @@ const PatientMyFavorites = () => {
                 handleShow3={handleShow3}
 
                 viewDetails={viewTrialDetails}
-                bookingSlotData={viewTrialDetailSelector?.data?.appointment_slots}
+                bookingSlotData={viewTrialDetailSelector?.data?.active_appointment_slots}
                 bookingId={viewTrialDetailSelector?.data?.id}
             />
 
