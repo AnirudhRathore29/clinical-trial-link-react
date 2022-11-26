@@ -147,6 +147,10 @@ iframe[style*="fixed"]{display: none;}
 
 .marker{background: #fff23c;}
 
+.downloadDoc{display: flex;align-items: center;border: 1px solid #C3D9FF;border-radius: 1rem;padding: 2rem;justify-content: space-between; background: var(--lightBg);color: var(--PrimaryColor);}
+.downloadDoc p{display: flex;align-items: center;}
+.downloadDoc span{display: inline-block;max-width: 60px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+
 /****** Common Css End ******/
 
 

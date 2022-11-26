@@ -371,7 +371,7 @@ const ClinicTrialApplication = () => {
                                 </div>
                             }
 
-                            {trialAppDetailData.data.is_recruiting === 0 &&
+                            {trialAppDetailData.data.is_recruiting === 0 && trialAppDetailData.data.status === 1 &&
                                 <div className='clnicaltrial-description'>
                                     <h2>Add Compensation</h2>
                                     <InputText

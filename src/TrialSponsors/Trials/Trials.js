@@ -496,10 +496,10 @@ const SponsorsTrials = () => {
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isButton="true"
-                                    BtnColor={trialDetailData.data.status === 1 ? "red" : "green"}
+                                    BtnColor={trialDetailData.data.status === 1 ? "red" : trialDetailData.data.status === 2 ? "green" : "red"}
                                     hasSpinner={statusLoading}
-                                    disabled={statusLoading}
-                                    BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : "Start Recruiting"}
+                                    disabled={trialDetailData.data.status === 0 ? true : statusLoading}
+                                    BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : trialDetailData.data.status === 2 ? "Start Recruiting" : "Approval Pending"}
                                     onClick={
                                         trialDetailData.data.status === 1 ?
                                             () => handleRecruiting(trialDetailData.data.id, 2)

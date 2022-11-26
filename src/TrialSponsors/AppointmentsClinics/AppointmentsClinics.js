@@ -204,9 +204,14 @@ const SponsorsAppointmentsClinics = () => {
                                     <h2>Document</h2>
                                     <div className='row mt-3'>
                                         {appointmentDetail.data.appointment_documents.map((value, index) => {
+                                            const docName = value.real_doc_name.split(".")
                                             return (
                                                 <div className='col-lg-6 mb-3' key={index}>
-                                                    <img src={value.document} alt={appointmentDetail.data.trial_clinic_user_info.clinic_name} />
+                                                    <a href={value.document} className='downloadDoc' download>
+                                                        <p><span>{docName[0]}</span>.{docName[1]}</p>
+                                                        <box-icon type='solid' name='download'></box-icon>
+                                                    </a>
+                                                    {/* <img src={value.document} alt={requestDetailData.trial_clinic_user_info.clinic_name} /> */}
                                                 </div>
                                             )
                                         })}
