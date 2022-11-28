@@ -28,6 +28,7 @@ const Header = (props, { colorHeader, headerColor }) => {
     console.log("notification", AllNotification);
     console.log("dropdown", dropdown);
     console.log("currentPage", currentPage);
+    console.log("profileDetails", profileDetails);
 
     const ToggleSidemenu = () => {
         setSideMenu(!sideMenu);
@@ -94,7 +95,10 @@ const Header = (props, { colorHeader, headerColor }) => {
                         <li className="notification-li">
                             <Dropdown>
                                 <Dropdown.Toggle className="notification-dropdown" as={CustomToggle} variant="" id="notification-dropdown">
-                                    <img src="/images/notification.svg" alt="notification" />
+                                    {/* <img src="/images/notification.svg" alt="notification" /> */}
+                                    <span>
+                                        <box-icon type='solid' name='bell' color="#ffffff" size="30px"></box-icon>
+                                    </span>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <div ref={dropdown} onScroll={() => onScroll()}>

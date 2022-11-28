@@ -23,6 +23,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 toast.configure();
+var jwt = require('jsonwebtoken');
 const PatientCompleteProfile = () => {
     const dispatch = useDispatch();
     const dataSelector = useSelector(state => state.common_data)
@@ -56,7 +57,15 @@ const PatientCompleteProfile = () => {
         physician_phone_number: ""
     });
 
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+
     console.log("profileInputData", profileInputData);
+
+    useEffect(() => {
+        if (profileDetails.isProfileCompleted) {
+            history.push('/patient/dashboard');
+        }
+    }, [profileDetails, history]);
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -178,7 +187,7 @@ const PatientCompleteProfile = () => {
             medical_cond: profileInputData.medical_cond,
             gender: profileInputData.gender,
             address: profileInputData.address,
-            latitude: profileInputData.latitude,
+            longitude: profileInputData.longitude,
             latitude: profileInputData.latitude,
             bank_name: profileInputData.bank_name,
             account_holder_name: profileInputData.account_holder_name,

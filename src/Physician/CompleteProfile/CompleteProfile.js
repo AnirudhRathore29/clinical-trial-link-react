@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { isValidZipcode } from "./../../views/Components/Validation/Validation"
 
 toast.configure();
+var jwt = require('jsonwebtoken');
 const PhysicianCompleteProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -30,6 +31,8 @@ const PhysicianCompleteProfile = () => {
         brief_intro: ""
     });
 
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setProfileInputData((preValue) => {
@@ -39,6 +42,12 @@ const PhysicianCompleteProfile = () => {
             };
         });
     }
+
+    useEffect(() => {
+        if (profileDetails.isProfileCompleted) {
+            history.push('/physician/dashboard');
+        }
+    }, [profileDetails, history]);
 
     useEffect(() => {
         dispatch(StatesAction())

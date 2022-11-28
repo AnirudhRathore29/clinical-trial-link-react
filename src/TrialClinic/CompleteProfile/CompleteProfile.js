@@ -21,6 +21,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 toast.configure();
+var jwt = require('jsonwebtoken');
 const ClinicCompleteProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory()
@@ -52,6 +53,14 @@ const ClinicCompleteProfile = () => {
         account_number: "",
         routing_number: ""
     });
+
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+
+    useEffect(() => {
+        if (profileDetails.isProfileCompleted) {
+            history.push('/trial-clinic/dashboard');
+        }
+    }, [profileDetails, history]);
 
     async function SpecialitiesAction() {
         const requestOptions = {

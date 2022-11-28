@@ -6,10 +6,14 @@ import "./FrontHeader.css";
 import { connect, useDispatch } from "react-redux";
 import { LogoutAction } from "../../../redux/actions/authAction";
 
+toast.configure();
+var jwt = require('jsonwebtoken');
 const Header = (props) => {
     const dispatch = useDispatch()
     const [scroll, setScroll] = useState(false);
-    toast.configure();
+    var profileDetails = localStorage.getItem("auth_security") && jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
+
+    console.log("profileDetails", profileDetails);
 
     useEffect(() => {
         window.addEventListener(
@@ -24,6 +28,7 @@ const Header = (props) => {
             []
         );
     });
+
 
     const handleLogout = () => {
         dispatch(LogoutAction())
@@ -58,7 +63,7 @@ const Header = (props) => {
                                         <Button
                                             isLink="true"
                                             URL={`${props.auth.user.role === 2 ? "/patient" : props.auth.user.role === 3 ? "/trial-clinic" : props.auth.user.role === 4 ? "/physician" : props.auth.user.role === 5 ? "/trial-sponsors" : null}/dashboard`}
-                                            BtnColor="green"
+                                            BtnColor={profileDetails.isProfileCompleted === true ? "green" : "green disabled"}
                                             BtnText="Dashboard"
                                         />
                                     </li>

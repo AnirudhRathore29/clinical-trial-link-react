@@ -64,7 +64,7 @@ const PhysicianDashboard = () => {
 
                     <div className='row dashboard-col'>
                         <div className='col-lg-6'>
-                            {DashboardSelector && DashboardSelector.data.relatedTrialClinicdata.length !== 0 &&
+                            {DashboardSelector !== undefined && DashboardSelector.data.relatedTrialClinicdata.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Recommended Trial Clinics </h1>
                                     <Link to="/physician/clinic-listing" className='btn-text'>See All</Link>
@@ -72,7 +72,7 @@ const PhysicianDashboard = () => {
                             }
                             {!isLoading.loading ?
                                 <OwlCarousel {...options}>
-                                    {DashboardSelector && DashboardSelector.data.relatedTrialClinicdata.map((value, index) => {
+                                    {DashboardSelector !== undefined && DashboardSelector.data.relatedTrialClinicdata.map((value, index) => {
                                         return (
                                             <div className='item' key={index}>
                                                 <Link to={"/physician/clinic-details/" + value.id}>
@@ -89,7 +89,6 @@ const PhysicianDashboard = () => {
                                         )
                                     })}
                                 </OwlCarousel>
-
                                 :
                                 [1].map((_, index) => {
                                     return (
@@ -102,14 +101,14 @@ const PhysicianDashboard = () => {
                         </div>
 
                         <div className='col-lg-6 offers-slider'>
-                            {DashboardSelector && DashboardSelector.data.advertisements.length !== 0 &&
+                            {DashboardSelector !== undefined && DashboardSelector.data.advertisements.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Related Clinical Trials </h1>
                                 </div>
                             }
                             {!isLoading.loading ?
                                 <OwlCarousel {...options}>
-                                    {DashboardSelector && DashboardSelector.data.advertisements.map((value, index) => {
+                                    {DashboardSelector !== undefined && DashboardSelector.data.advertisements.map((value, index) => {
                                         return (
                                             <div className='item' key={index}>
                                                 <Link to="/">
