@@ -498,8 +498,8 @@ const SponsorsTrials = () => {
                                     isButton="true"
                                     BtnColor={trialDetailData.data.status === 1 ? "red" : trialDetailData.data.status === 2 ? "green" : "red"}
                                     hasSpinner={statusLoading}
-                                    disabled={trialDetailData.data.status === 0 ? true : statusLoading}
-                                    BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : trialDetailData.data.status === 2 ? "Start Recruiting" : "Approval Pending"}
+                                    disabled={trialDetailData.data.status === 0 || trialDetailData.data.status === 3 ? true : statusLoading}
+                                    BtnText={trialDetailData.data.status === 1 ? "Stop Recruiting" : trialDetailData.data.status === 2 ? "Start Recruiting" : trialDetailData.data.status === 0 ? "Approval Pending" : "Trial Request Rejected"}
                                     onClick={
                                         trialDetailData.data.status === 1 ?
                                             () => handleRecruiting(trialDetailData.data.id, 2)

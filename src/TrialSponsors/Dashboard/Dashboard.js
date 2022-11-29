@@ -81,7 +81,7 @@ const SponsorsDashboard = () => {
                                                         location={value.address}
                                                         state={value.state_info.name}
                                                         description={value.user_meta_info.brief_intro}
-                                                        distance={value.distance && value.distance.toFixed(3) + " " + "Mi"}
+                                                        distance={value.distance > 0 ? value.distance.toFixed(3) + " " + "Mi" : "0.00 Mi"}
                                                     />
                                                 </Link>
                                             </div>

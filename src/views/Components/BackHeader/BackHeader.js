@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
 import SearchBx from '../SearchBx/SearchBx'
@@ -13,6 +13,7 @@ import moment from "moment";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NotificationRedirection } from "./NotificationRedirection";
+import { configure } from "@testing-library/react";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
@@ -20,8 +21,10 @@ const Header = (props, { colorHeader, headerColor }) => {
     const [sideMenu, setSideMenu] = useState(false);
     const [AllNotification, setAllNotification] = useState(undefined);
     const [currentPage, setCurrentPage] = useState(1)
+    const [UnreadNotification, SetUnreadNotification] = useState()
 
     const dispatch = useDispatch();
+    const history = useHistory()
     const dropdown = useRef(null)
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
@@ -74,6 +77,50 @@ const Header = (props, { colorHeader, headerColor }) => {
         }
     };
 
+    useEffect(() => {
+        const configure = {
+            method: "GET",
+            headers: authHeader()
+        }
+        fetch(getCurrentHost() + "/get-unread-notifications", configure)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log("response", response);
+                SetUnreadNotification(response.data.unreadNotificationsCount)
+            })
+    }, [getCurrentHost])
+
+    const HandleNotificationRedirection = (notificationType, extra_info) => {
+        const extraData = JSON.parse(extra_info)
+        console.log("extra_info", extra_info);
+
+        if (notificationType === "TRIAL_APPLICATION_UPDATE") {
+            history.push('/patient/my-appointments')
+        } else if (notificationType === "TRIAL_APPLICATION_APPROVED_BY_TRIAL_CLINIC" || notificationType === "TRIAL_APPLICATION_REJECTED_BY_TRIAL_CLINIC") {
+            history.push({
+                pathname: '/patient/my-appointments',
+                state: extraData.tab_type
+            })
+        } else if (notificationType === "TRIAL_START_RECRUITING" || notificationType === "TRIAL_STOP_RECRUITING" || notificationType === "TRIAL_COMPLETED") {
+            history.push(`/patient/trial-listing/${extraData.trialclinic_user_id}`) // this one i need to check
+        } else if (notificationType === "PATIENT_TRIAL_APPLICATION") {
+            history.push('/trial-clinic/trial-requests')
+        } else if (notificationType === "APPOINTMENT_CANCELLATION_BY_PATIENT") {
+            history.push('/trial-clinic/manage-patient')
+        } else if (notificationType === "TRIAL_CREATION" || notificationType === "TRIAL_CANCELLATION" || notificationType === "TRIAL_RESTART") {
+            history.push(`/trial-clinic/sponsors-trial-listing/${extraData.sponsor_user_id}`)
+        } else if (notificationType === "TRIAL_APPLICATION_APPROVED_BY_SPONSOR" || notificationType === "TRIAL_APPLICATION_REJECTED_BY_SPONSOR") {
+            history.push({
+                pathname: '/trial-clinic/trial-applications',
+                state: extraData.tab_type
+            })
+        } else if (notificationType === "TRIAL_APPROVAL_BY_ADMIN" || notificationType === "TRIAL_REJECTION_BY_ADMIN") {
+            history.push('/trial-sponsors/trials')
+        } else if (notificationType === "TRIAL_CLINIC_TRIAL_APPLICATION") {
+            history.push('/trial-sponsors/trial-requests')
+        }
+    }
+
     return (
         <>
             <header className={`dashboard-header ${colorHeader} ${headerColor}`}>
@@ -95,8 +142,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                         <li className="notification-li">
                             <Dropdown>
                                 <Dropdown.Toggle className="notification-dropdown" as={CustomToggle} variant="" id="notification-dropdown">
-                                    {/* <img src="/images/notification.svg" alt="notification" /> */}
-                                    <span>
+                                    <span className={UnreadNotification > 0 && "unReadNotification"}>
                                         <box-icon type='solid' name='bell' color="#ffffff" size="30px"></box-icon>
                                     </span>
                                 </Dropdown.Toggle>
@@ -107,13 +153,13 @@ const Header = (props, { colorHeader, headerColor }) => {
                                                 AllNotification.data.length > 0 ?
                                                     AllNotification.data.map((value, index) => {
                                                         return (
-                                                            <Link to={NotificationRedirection(value.notification_type, props.auth.user.role)} className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
+                                                            <button onClick={() => HandleNotificationRedirection(value.notification_type, value.extra_info)} className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
                                                                 <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
                                                                 <div>
                                                                     <p>{value.description}</p>
                                                                     <small>{moment(value.updated_at).format("MMMM DD, YYYY")}</small>
                                                                 </div>
-                                                            </Link>
+                                                            </button>
                                                         )
                                                     })
                                                     :
@@ -122,10 +168,10 @@ const Header = (props, { colorHeader, headerColor }) => {
                                                         <h2>No Notification Found!</h2>
                                                     </div>
                                                 :
-                                                [1, 2, 3, 4].map((value, index) => {
+                                                [1, 2, 3, 4, 5].map((value, index) => {
                                                     return (
                                                         <div className="SkeletonDropdown" key={index}>
-                                                            <Skeleton height={60} />
+                                                            <Skeleton height={65} />
                                                         </div>
                                                     )
                                                 })

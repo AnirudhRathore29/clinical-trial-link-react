@@ -4,7 +4,7 @@ import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs
 import CommonModal from '../../views/Components/Common/Modal/Modal'
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import MyAppointmentBx from '../../views/Components/MyAppointmentBx/MyAppointmentBx';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import './MyAppointments.css';
 import '../ClinicListing/ClinicListing.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,10 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import { GetCancelReasonsAction } from '../../redux/actions/commonAction';
 
 const PatientMyAppointments = () => {
+    const dispatch = useDispatch();
+    const history = useHistory()
+    const location = useLocation()
+    
     const GetCurrentRoleId = useSelector(state => state.auth.user.role)
     const AppointmentListSelector = useSelector(state => state.patient.appointment_list)
     const AppointmentDetailSelector = useSelector(state => state.patient.appointment_detail)
@@ -24,10 +28,12 @@ const PatientMyAppointments = () => {
     const GetCancelReasonsSelector = useSelector(state => state.common_data.data)
     const isLoading = useSelector(state => state.patient)
 
+    var stateCurrentTab = location.state && location.state.charAt(0) + location.state.slice(1).toLowerCase()
+
+    const [SelectedTabState, setSelectedTabState] = useState(location.state ? stateCurrentTab : "Pending");
     const [AppointmentDetailModal, setAppointmentDetailModal] = useState(false);
     const [AppointmentCancelModal, setAppointmentCancelModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
-    const [SelectedTabState, setSelectedTabState] = useState("Pending");
     const [ListSelectorState, setListSelectorState] = useState(undefined);
     const [DetailSelectorState, setDetailSelectorState] = useState(undefined);
     const [LoadMoreState, setLoadMoreState] = useState(1)
@@ -39,9 +45,6 @@ const PatientMyAppointments = () => {
         trial_name: '',
         trial_date_time: ''
     })
-
-    const dispatch = useDispatch();
-    const history = useHistory()
 
     console.log("AppointmentListSelector", AppointmentListSelector && AppointmentListSelector.data);
     console.log("SelectedTabState", SelectedTabState);
@@ -156,7 +159,7 @@ const PatientMyAppointments = () => {
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>
-                            <Tabs defaultActiveKey="Pending" className="pricing-tabs" id="plans-tabs" onSelect={SelectedTab}>
+                            <Tabs defaultActiveKey={SelectedTabState} className="pricing-tabs" id="plans-tabs" onSelect={SelectedTab}>
                                 <Tab eventKey="Pending" title="Pending">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?

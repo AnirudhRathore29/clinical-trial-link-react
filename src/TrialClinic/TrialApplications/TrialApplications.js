@@ -16,16 +16,20 @@ import moment from 'moment';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputText } from '../../views/Components/Common/Inputs/Inputs';
+import { useLocation } from 'react-router-dom';
 
 toast.configure();
 const ClinicTrialApplication = () => {
     const dispatch = useDispatch();
+    const location = useLocation()
     const trialAppSelector = useSelector(state => state.trial_clinic.trial_app.data);
     const trialAppDetailSelector = useSelector(state => state.trial_clinic.trial_app_detail.data)
     const trialAppStatusSelector = useSelector(state => state.trial_clinic)
     const isloading = useSelector(state => state.trial_clinic);
 
-    const [tabName, setTabName] = useState("Pending")
+    var stateCurrentTab = location.state && location.state.charAt(0) + location.state.slice(1).toLowerCase()
+
+    const [tabName, setTabName] = useState(location.state ? stateCurrentTab : "Pending")
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [selectorData, setSelectorData] = useState(undefined)
     const [detailsModal, setDetailsModal] = useState(false);
@@ -34,11 +38,15 @@ const ClinicTrialApplication = () => {
     const [recruitingClickBtn, setRecruitingClickBtn] = useState(false);
     const [recruitingCompletedClickBtn, setRecruitingCompletedClickBtn] = useState(false);
     const [trialAppDetailData, setTrialAppDetailData] = useState(undefined);
-    const [Formdata, setFormdata] = useState(undefined);
+    const [Formdata, setFormdata] = useState({
+        compensation: ''
+    });
 
     console.log("trialAppDetailSelector", trialAppDetailSelector);
+    console.log("location", location);
+    console.log("tabName", tabName);
     console.log("bookingSlotData", bookingSlotData);
-    console.log("Formdata", Formdata !== undefined && Formdata.compensation);
+    console.log("Formdata", Formdata.compensation);
 
     const handleSelect = (key) => {
         setSelectorData(undefined)
@@ -69,7 +77,6 @@ const ClinicTrialApplication = () => {
             setTrialAppDetailData(trialAppDetailSelector)
         }
     }, [trialAppDetailSelector, bookingSlotData]);
-
 
     useEffect(() => {
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
@@ -132,7 +139,11 @@ const ClinicTrialApplication = () => {
             trial_clinic_appointment_id: id,
             is_recruiting: status,
             booking_slots: selectedSlotID,
-            compensation: Formdata !== undefined && Formdata.compensation
+            compensation: Formdata.compensation
+        }
+        if(Formdata.compensation === ""){
+            toast.error("Please add compensation!", { theme: "colored" })
+            return
         }
         dispatch(TrialApplicationsStatusUpdateAction(data))
         dispatch(TrialApplicationsAction({ page: loadMoreData, application_tab: tabName }))
@@ -152,7 +163,7 @@ const ClinicTrialApplication = () => {
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>
-                            <Tabs defaultActiveKey="Pending" className="pricing-tabs" id="plans-tabs" onSelect={handleSelect}>
+                            <Tabs defaultActiveKey={tabName} className="pricing-tabs" id="plans-tabs" onSelect={handleSelect}>
                                 <Tab eventKey="Pending" title="Pending">
                                     <div className='row'>
                                         {selectorData !== undefined ?
