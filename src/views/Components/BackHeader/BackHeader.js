@@ -91,7 +91,7 @@ const Header = (props, { colorHeader, headerColor }) => {
     }, [getCurrentHost])
 
     const HandleNotificationRedirection = (notificationType, extra_info) => {
-        const extraData = JSON.parse(extra_info)
+        const extraData = extra_info && JSON.parse(extra_info)
         console.log("extra_info", extra_info);
 
         if (notificationType === "TRIAL_APPLICATION_UPDATE") {

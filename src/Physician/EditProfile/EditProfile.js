@@ -323,6 +323,7 @@ const PhysicianEditProfile = () => {
                                                     labelText="Brief Intro"
                                                     onChange={onChange}
                                                     name="brief_intro"
+                                                    value={profileSelector.data.user_meta_info.brief_intro}
                                                     defaultData={profileSelector.data.user_meta_info.brief_intro}
                                                 />
                                             </div>

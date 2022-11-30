@@ -11,6 +11,7 @@ import { Link, useHistory } from 'react-router-dom';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ClinicTrialScreenRequest = (props) => {
     const [AddPatientModal, setAddPatientModal] = useState(false);
@@ -52,13 +53,13 @@ const ClinicTrialScreenRequest = (props) => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Screen Trial Request</h1>
-                        <Button
+                        {/* <Button
                             isButton="true"
                             BtnType="submit"
                             BtnColor="green btn-sm"
                             BtnText="Add Patient"
                             onClick={AddPatientModalShow}
-                        />
+                        /> */}
                     </div>
 
                     <table className='patient-list-table'>
@@ -155,7 +156,7 @@ const ClinicTrialScreenRequest = (props) => {
                 </div>
             </div>
 
-            <CommonModal show={AddPatientModal} onHide={AddPatientModalClose} keyboard={false}
+            {/* <CommonModal show={AddPatientModal} onHide={AddPatientModalClose} keyboard={false}
                 ModalTitle="Add Patient"
                 onClick={AddPatientModalClose}
                 ModalData={
@@ -171,7 +172,7 @@ const ClinicTrialScreenRequest = (props) => {
                             labelText="Email"
                         />
                         <div className="form-group">
-                            <label>Date</label>
+                            <label>Appointment Date</label>
                             <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
                         </div>
                         <SelectBox
@@ -196,7 +197,7 @@ const ClinicTrialScreenRequest = (props) => {
                         </div>
                     </>
                 }
-            />
+            /> */}
         </>
     );
 };

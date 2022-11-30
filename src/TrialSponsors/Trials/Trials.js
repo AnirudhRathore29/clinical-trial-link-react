@@ -552,6 +552,7 @@ const SponsorsTrials = () => {
                                 name="additional_information"
                                 placeholder="Enter Additional Information"
                                 labelText="Additional Information"
+                                maxLength="500"
                                 onChange={sendInviteOnChange}
                             />
                         </div>

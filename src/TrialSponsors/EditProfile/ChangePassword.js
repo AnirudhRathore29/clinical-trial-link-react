@@ -84,7 +84,7 @@ const ChangePassword = () => {
                         name="old_password"
                         value={Formdata.old_password}
                         placeholder="Enter old password"
-                        labelText="Old Password"
+                        labelText="Old password"
                         className="password-field"
                         required={true}
                         onChange={(e) => {
@@ -99,8 +99,8 @@ const ChangePassword = () => {
                         name="new_password"
                         value={Formdata.new_password}
                         required={true}
-                        placeholder="Enter New Password"
-                        labelText="New Password"
+                        placeholder="Enter new password"
+                        labelText="New password"
                         className="password-field"
                         onChange={(e) => {
                             setFormdata({ ...Formdata, new_password: e.target.value });
@@ -113,9 +113,9 @@ const ChangePassword = () => {
                         type={confirmPassword ? "text" : "password"}
                         name="confirm_password"
                         value={Formdata.confirm_password}
-                        placeholder="Confirm Password"
+                        placeholder="Confirm password"
                         required={true}
-                        labelText="Confirm Password"
+                        labelText="Confirm password"
                         className="password-field"
                         onChange={(e) => {
                             setFormdata({

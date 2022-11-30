@@ -215,6 +215,7 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
                                 placeholder="Enter Brief Intro"
                                 labelText="Brief Intro"
                                 onChange={(e) => setTrialBriefIntro(e.target.value)}
+                                maxLength="800"
                             />
                         </div>
                         <div className='clnicaltrial-detail-ftr mt-0 col-12'>

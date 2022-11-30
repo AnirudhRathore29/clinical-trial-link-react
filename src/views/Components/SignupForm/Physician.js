@@ -116,7 +116,7 @@ const Physician = () => {
                         type="text"
                         name="first_name"
                         defaultValue={Formdata.first_name}
-                        placeholder="Full Name"
+                        placeholder="First Name"
                         required="required"
                         labelText="First Name"
                         onChange={onChange}

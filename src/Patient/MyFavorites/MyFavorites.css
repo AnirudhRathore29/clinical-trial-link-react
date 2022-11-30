@@ -9,7 +9,7 @@
 .trialClinic-location{display: flex;margin-bottom: 2rem;font-size: 15px;font-weight: 500;}
 .trialClinic-location span:not(.badge){color: var(--TextColor);display: flex;align-items: center;}
 .trialClinic-location span box-icon{margin-right: .5rem;}
-.trialClinic-location span + span{margin-left: 2.5rem;}
+.trialClinic-location span + span{margin-left: 2.5rem;white-space: nowrap;}
 
 .sponser-price-info{display: flex;align-items: center;justify-content: space-between;margin-bottom: 2rem;color: var(--TextColor);}
 .sponser-price-row{display: flex;align-items: center;width: 46%;border-right: 1px solid #C3D9FF;}
