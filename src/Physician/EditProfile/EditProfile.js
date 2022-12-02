@@ -38,8 +38,10 @@ const PhysicianEditProfile = () => {
         zip_code: "",
         dob: null,
         gender: "M",
-        brief_intro: ""
+        brief_intro: profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro
     });
+
+    console.log("profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro", profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro);
 
     const dispatch = useDispatch()
     const history = useHistory();
@@ -323,7 +325,6 @@ const PhysicianEditProfile = () => {
                                                     labelText="Brief Intro"
                                                     onChange={onChange}
                                                     name="brief_intro"
-                                                    value={profileSelector.data.user_meta_info.brief_intro}
                                                     defaultData={profileSelector.data.user_meta_info.brief_intro}
                                                 />
                                             </div>
