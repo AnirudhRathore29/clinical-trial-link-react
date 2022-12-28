@@ -50,8 +50,8 @@ const Home = (props) => {
                                     <div className="sec-title text-center">
                                         <h2 className="h2"> {HomePageDetailSelector.data.sectionOne.title} </h2>
                                         <img src="/images/heading-clip-1.svg" alt="shape vector" />
-                                        <p className="what-sec-text pad-t-30">{HomePageDetailSelector.data.sectionOne.sub_title}</p>
-                                        <div className='what-is-clinicaltrial' dangerouslySetInnerHTML={{ __html: HomePageDetailSelector.data.sectionOne.content }}></div>
+                                        <h3 className="what-sec-text pad-t-30">{HomePageDetailSelector.data.sectionOne.sub_title}</h3>
+                                        <p className='what-is-clinicaltrial' dangerouslySetInnerHTML={{ __html: HomePageDetailSelector.data.sectionOne.content }}></p>
                                     </div>
                                 }
                             </div>
@@ -110,36 +110,53 @@ const Home = (props) => {
                                         </div>
                                     </div>
                                 }
+                                {
+                                    HomePageDetailSelector?.data.sectionFive !== undefined &&
+                                    <div className="row align-items-center">
+                                        <div className="col-lg-5 order-last offset-lg-1">
+                                            <div className='clinicalImgBx'>
+                                                <img src={HomePageDetailSelector.data.sectionFive.image ? HomePageDetailSelector.data.sectionFive.image : "/images/placeholder-img2.svg"} alt="Sponsors" />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <div className="sec-title">
+                                                <h2 className="h2"> {HomePageDetailSelector.data.sectionFive.title} </h2>
+                                                <img src="/images/heading-clip-1.svg" alt="shape vector" />
+                                                <p className='what-sec-text mx-0 pad-t-30' dangerouslySetInnerHTML={{ __html: HomePageDetailSelector.data.sectionFive.content }}></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </section>
 
                         <section className="why-choose-clinicaltrial repeat-section">
                             <div className="container">
                                 {
-                                    HomePageDetailSelector?.data.sectionFive !== undefined &&
+                                    HomePageDetailSelector?.data.sectionSix !== undefined &&
                                     <div className="row align-items-center">
                                         <div className="col-lg-6">
                                             <div className="sec-title mb-5">
-                                                <h2 className="h2"> {HomePageDetailSelector.data.sectionFive.title} </h2>
+                                                <h2 className="h2"> {HomePageDetailSelector.data.sectionSix.title} </h2>
                                                 <img src="/images/heading-clip-2.svg" alt="shape vector" />
                                             </div>
                                             <ul className="why-choose-points">
                                                 <li count="01">
-                                                    <h2>{HomePageDetailSelector.data.sectionFive.content_heading}</h2>
-                                                    <p>{HomePageDetailSelector.data.sectionFive.content}</p>
+                                                    <h2>{HomePageDetailSelector.data.sectionSix.content_heading}</h2>
+                                                    <p>{HomePageDetailSelector.data.sectionSix.content}</p>
                                                 </li>
                                                 <li count="02">
-                                                    <h2>{HomePageDetailSelector.data.sectionFive.sec_content_heading}</h2>
-                                                    <p>{HomePageDetailSelector.data.sectionFive.sec_content}</p>
+                                                    <h2>{HomePageDetailSelector.data.sectionSix.sec_content_heading}</h2>
+                                                    <p>{HomePageDetailSelector.data.sectionSix.sec_content}</p>
                                                 </li>
                                                 <li count="03">
-                                                    <h2>{HomePageDetailSelector.data.sectionFive.third_content_heading}</h2>
-                                                    <p>{HomePageDetailSelector.data.sectionFive.third_content}</p>
+                                                    <h2>{HomePageDetailSelector.data.sectionSix.third_content_heading}</h2>
+                                                    <p>{HomePageDetailSelector.data.sectionSix.third_content}</p>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div className="col-lg-6 text-end">
-                                            <img src={HomePageDetailSelector.data.sectionFive.image ? HomePageDetailSelector.data.sectionFive.image : "/images/how-it-works.svg"} alt="How It Works" />
+                                            <img src={HomePageDetailSelector.data.sectionSix.image ? HomePageDetailSelector.data.sectionSix.image : "/images/how-it-works.svg"} alt="How It Works" />
                                         </div>
                                     </div>
                                 }

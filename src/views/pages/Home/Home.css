@@ -39,3 +39,12 @@
 
 /* Skeleton css */
 .home-banner-section .react-loading-skeleton{--base-color: #a7d3ff; --highlight-color: #7bb9f9;}
+
+
+/* home changes css */
+.what-section .what-sec-text {
+    font-size: 2.5rem;
+}
+.what-section .what-is-clinicaltrial {
+    font-size: 2rem;
+}
