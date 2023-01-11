@@ -21,6 +21,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
+    const [ReadMore, setReadMore] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
@@ -111,7 +112,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
             setAddVisitModal(false)
             setSelectedStatus(0)
             dispatch(NewScreenTrialRequestDetailAction(id))
-        } else if((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "1" || "3")) {
+        } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "1" || "3")) {
             setCancelReasonModal(false)
             props.history.push("/trial-clinic/screen-trial-request")
         }
@@ -201,8 +202,8 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                                             <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                             <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                 ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
-                                                            <p className='mb-0'>{value.visit_note}</p>
-                                                            {value.status === 0 
+                                                            <p className={`mb-0 ${value.visit_note.length > 180 && ReadMore === false && "fixTextLength"}`}><span>{value.visit_note}</span>{value.visit_note.length > 180 && <i onClick={() => setReadMore(!ReadMore)}>{ReadMore ? " Read less" : " Read more"}</i>} </p>
+                                                            {value.status === 0
                                                                 ?
                                                                 <SelectBox
                                                                     name="status"
@@ -257,7 +258,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 {
                                     screenPatientDetail && screenPatientDetail.trialAppointmentSlots.map((value, index) => {
                                         return (
-                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time"/><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
+                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time" /><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
                                         )
                                     })
                                 }
@@ -315,7 +316,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                 ModalTitle="Cancelation Reason"
                 onClick={CancelReasonModalClose}
                 ModalData={
-                    <form autoComplete="off" onSubmit={(e)=> {e.preventDefault(); UpdateStatusSubmit(1)}}>
+                    <form autoComplete="off" onSubmit={(e) => { e.preventDefault(); UpdateStatusSubmit(1) }}>
                         <TextArea
                             placeholder="Enter Here..."
                             labelText="Enter Cancelation Reason"

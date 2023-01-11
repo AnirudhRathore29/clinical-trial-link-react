@@ -27,6 +27,7 @@ const MyAppointmentsDetails = (props) => {
     // const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
     const [TerminationReasonModal, setTerminationReasonModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
+    const [ReadMore, setReadMore] = useState(false);
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [StatusUpdateFields, setStatusUpdateFields] = useState({
@@ -253,7 +254,7 @@ const MyAppointmentsDetails = (props) => {
                                                                             <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
                                                                             null
                                                             }
-                                                            <p className='mb-0'>{value.visit_note}</p>
+                                                            <p className={`mb-0 ${value.visit_note.length > 180 && ReadMore === false && "fixTextLength"}`}><span>{value.visit_note}</span>{value.visit_note.length > 180 && <i onClick={() => setReadMore(!ReadMore)}>{ReadMore ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0
                                                                 ?
                                                                 <SelectBox
