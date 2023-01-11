@@ -360,7 +360,7 @@ const PatientEditProfile = () => {
                                                                     : '/images/avatar2.svg'}
                                                                 width={120}
                                                                 className='img-fluid uploaded-img rounded-circle'
-                                                                referrerPolicy="no-referrer"
+                                                                // referrerPolicy="no-referrer"
                                                                 alt={profileSelector.data.sponsor_name}
                                                             />
                                                         : <img src="/images/avatar2.svg" className='img-fluid' alt={profileSelector.data.sponsor_name} />}

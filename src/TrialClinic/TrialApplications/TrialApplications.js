@@ -141,7 +141,7 @@ const ClinicTrialApplication = () => {
             booking_slots: selectedSlotID,
             compensation: Formdata.compensation
         }
-        if(Formdata.compensation === ""){
+        if(Formdata.compensation === "" && trialAppDetailData?.data?.is_recruiting !== 1){
             toast.error("Please add compensation!", { theme: "colored" })
             return
         }

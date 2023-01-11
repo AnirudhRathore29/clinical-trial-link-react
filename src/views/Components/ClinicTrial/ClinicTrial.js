@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { useSelector } from 'react-redux';
 import { server } from '../../../redux/constants';
 
 const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, iconType, iconColor, className, ShareFav, dateTime, trialAmount, favBtnDisable }) => {
+    const isLoading = useSelector(state => state.patient.loading);
+
     const [tooltip, setTooltip] = useState(false);
     const target = useRef(null);
 
@@ -46,7 +49,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
                             null
                             :
                             <div>
-                                {favBtnDisable ? null : <button className='icon-btn' onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>}
+                                {favBtnDisable ? null : <button className='icon-btn' disabled={isLoading} onClick={onClickFav}><box-icon name='heart' type={iconType} color={iconColor}></box-icon></button>}
                                 <button className='icon-btn' ref={target} onClick={ShareTrial}><box-icon name='share-alt' color={iconColor}></box-icon></button>
 
                                 <Overlay target={target.current} show={tooltip} placement="top">
