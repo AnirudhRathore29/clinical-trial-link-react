@@ -164,7 +164,7 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
                                     BtnColor="green"
                                     BtnText={!trialDetails.data.alreadyApplied ? "Apply for Trial" : "Already Applied"}
                                     onClick={() => handleShow2(trialDetails.data.id)}
-                                    disabled={trialDetails.data.alreadyApplied}
+                                    disabled={trialDetails.data.alreadyApplied || trialDetails.data.status === 2}
                                 />
 
                                 <button className="btn-action btn-primary" onClick={() => onClickChat()}>

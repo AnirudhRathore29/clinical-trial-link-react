@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidZipcode } from "./../../views/Components/Validation/Validation"
 import "./../../Patient/EditProfile/EditProfile.css"
+import moment from "moment";
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
@@ -264,6 +265,7 @@ const PatientCompleteProfile = () => {
                                         showPopperArrow={false}
                                         onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
                                         selected={profileInputData.dob}
+                                        maxDate={moment().toDate()}
                                         autoComplete="nope"
                                         required="required"
                                         placeholderText="Select DOB"

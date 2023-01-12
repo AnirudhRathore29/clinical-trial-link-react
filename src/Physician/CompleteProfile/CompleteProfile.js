@@ -14,6 +14,7 @@ import { PhysicianCompleteProfileAction } from "../../redux/actions/profileActio
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidZipcode } from "./../../views/Components/Validation/Validation"
+import moment from "moment";
 
 toast.configure();
 var jwt = require('jsonwebtoken');
@@ -145,6 +146,7 @@ const PhysicianCompleteProfile = () => {
                                         showPopperArrow={false}
                                         onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
                                         selected={profileInputData.dob}
+                                        maxDate={moment().toDate()}
                                         autoComplete="nope"
                                         required="required"
                                         placeholderText="Select DOB"

@@ -184,6 +184,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "Not Eligible" :
                                                                                         value.status === 5 ? "Screening Pending Approval" :
                                                                                             value.status === 6 ? "Screening Approved" :
+                                                                                                value.status === 7 ? "Complete" :
                                                                                                 value.status === 8 ? "Incomplete" :
                                                                                                     value.status === 9 ? "End of Study" :
                                                                                                         value.status === 10 ? "Early Termination" :
@@ -197,6 +198,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "danger" :
                                                                                         value.status === 5 ? "primary" :
                                                                                             value.status === 6 ? "primary" :
+                                                                                            value.status === 7 ? "success" :
                                                                                                 value.status === 8 ? "danger" :
                                                                                                     value.status === 9 ? "danger" :
                                                                                                         value.status === 10 ? "danger" :
@@ -258,6 +260,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "Not Eligible" :
                                                                                         value.status === 5 ? "Screening Pending Approval" :
                                                                                             value.status === 6 ? "Screening Approved" :
+                                                                                            value.status === 7 ? "Complete" :
                                                                                                 value.status === 8 ? "Incomplete" :
                                                                                                     value.status === 9 ? "End of Study" :
                                                                                                         value.status === 10 ? "Early Termination" :
@@ -271,6 +274,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "danger" :
                                                                                         value.status === 5 ? "primary" :
                                                                                             value.status === 6 ? "primary" :
+                                                                                            value.status === 7 ? "success" :
                                                                                                 value.status === 8 ? "danger" :
                                                                                                     value.status === 9 ? "danger" :
                                                                                                         value.status === 10 ? "danger" :
@@ -332,6 +336,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "Not Eligible" :
                                                                                         value.status === 5 ? "Screening Pending Approval" :
                                                                                             value.status === 6 ? "Screening Approved" :
+                                                                                            value.status === 7 ? "Complete" :
                                                                                                 value.status === 8 ? "Incomplete" :
                                                                                                     value.status === 9 ? "End of Study" :
                                                                                                         value.status === 10 ? "Early Termination" :
@@ -345,6 +350,7 @@ const PatientMyAppointments = () => {
                                                                                     value.status === 4 ? "danger" :
                                                                                         value.status === 5 ? "primary" :
                                                                                             value.status === 6 ? "primary" :
+                                                                                            value.status === 7 ? "success" :
                                                                                                 value.status === 8 ? "danger" :
                                                                                                     value.status === 9 ? "danger" :
                                                                                                         value.status === 10 ? "danger" :
@@ -406,6 +412,7 @@ const PatientMyAppointments = () => {
                                                         DetailSelectorState.status === 4 ? <span className='badge badge-danger d-inline-block mb-3'>Not Eligible</span> :
                                                             DetailSelectorState.status === 5 ? <span className='badge badge-primary d-inline-block mb-3'>Screening Pending Approval</span> :
                                                                 DetailSelectorState.status === 6 ? <span className='badge badge-primary d-inline-block mb-3'>Screening Approved</span> :
+                                                                DetailSelectorState.status === 7 ? <span className='badge badge-success d-inline-block mb-3'>Complete</span> :
                                                                     DetailSelectorState.status === 8 ? <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
                                                                         DetailSelectorState.status === 9 ? <span className='badge badge-danger d-inline-block mb-3'>End of Study</span> :
                                                                             DetailSelectorState.status === 10 ? <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :

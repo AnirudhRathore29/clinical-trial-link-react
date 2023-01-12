@@ -81,7 +81,7 @@ export const isValidZipcode = (code) => {
     } else if (!ZIP_CODE_REGEX.test(code)) {
         return {
             status: false,
-            message: "you have entered invalid zip code."
+            message: "Zip code input length should be 5"
         }
     }
     return {
