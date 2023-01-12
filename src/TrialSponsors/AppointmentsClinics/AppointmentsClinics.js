@@ -82,7 +82,7 @@ const SponsorsAppointmentsClinics = () => {
                                 <th>Clinic Name</th>
                                 <th>Status</th>
                                 <th>Location</th>
-                                <th>Date & Time</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -109,7 +109,7 @@ const SponsorsAppointmentsClinics = () => {
                                                     <div className='btn-group-custom'>
                                                         <button className="btn-action btn-green" onClick={() => handleAppointmentModalOpen(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
 
-                                                        <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                                        <a href="tel:+496170961709" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
 
                                                         <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
                                                             <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>

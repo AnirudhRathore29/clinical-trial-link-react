@@ -27,7 +27,7 @@ const MyAppointmentsDetails = (props) => {
     // const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
     const [TerminationReasonModal, setTerminationReasonModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
-    const [ReadMore, setReadMore] = useState(false);
+    const [ReadMore, setReadMore] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [StatusUpdateFields, setStatusUpdateFields] = useState({
@@ -254,7 +254,7 @@ const MyAppointmentsDetails = (props) => {
                                                                             <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
                                                                             null
                                                             }
-                                                            <p className={`mb-0 ${value.visit_note.length > 180 && ReadMore === false && "fixTextLength"}`}><span>{value.visit_note}</span>{value.visit_note.length > 180 && <i onClick={() => setReadMore(!ReadMore)}>{ReadMore ? " Read less" : " Read more"}</i>} </p>
+                                                            <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0
                                                                 ?
                                                                 <SelectBox
@@ -301,6 +301,7 @@ const MyAppointmentsDetails = (props) => {
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
+                                minDate={moment().toDate()}
                                 inline
                             />
                         </div>

@@ -47,8 +47,8 @@ const PhysicianDashboard = () => {
                                 className="secondaryColor"
                                 URL="/physician/manage-patient"
                                 icon={<box-icon name='user' size="40px" color="#356AA0"></box-icon>}
-                                title="Total Patients"
-                                info={DashboardSelector !== undefined && DashboardSelector.data.totalPatientTrials}
+                                title="Active Trial Patients"
+                                info={DashboardSelector !== undefined && DashboardSelector.data.totalPatients}
                             />
                         </div>
                         <div className="col-lg-6">
@@ -56,8 +56,8 @@ const PhysicianDashboard = () => {
                                 className="thirdColor"
                                 URL="/physician/approved-trials"
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
-                                title="Requests Approved by the clinical trial site"
-                                info={DashboardSelector !== undefined && DashboardSelector.data.totalPatients}
+                                title="Total Trials"
+                                info={DashboardSelector !== undefined && DashboardSelector.data.totalPatientTrials}
                             />
                         </div>
                     </div>

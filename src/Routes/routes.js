@@ -70,6 +70,7 @@ const PhysicianClinicListing = React.lazy(() => import('../Physician/ClinicListi
 const PhysicianClinicDetails = React.lazy(() => import('../Physician/ClinicDetails/ClinicDetails'));
 const PhysicianTrialListing = React.lazy(() => import('../Physician/TrialListing/TrialListing'));
 const PhysicianManagePatient = React.lazy(() => import('../Physician/ManagePatient/ManagePatient'));
+const PhysicianManageAllPatient = React.lazy(() => import('../Physician/ManagePatient/ManageAllPatient'));
 const PhysicianPatientAllVisit = React.lazy(() => import('../Physician/ManagePatient/PatientAllVisit'));
 const PhysicianMyChats = React.lazy(() => import('../Physician/MyChats/MyChats'));
 const PhysicianEditProfile = React.lazy(() => import('../Physician/EditProfile/EditProfile'));
@@ -152,6 +153,7 @@ const routes = [
 	{ path: '/physician/clinic-details/:id', exact: true, name: 'PhysicianClinicDetails', component: PhysicianClinicDetails, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/trial-listing/:id', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/manage-patient', exact: true, name: 'PhysicianManagePatient', component: PhysicianManagePatient, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/manage-all-patient', exact: true, name: 'PhysicianManageAllPatient', component: PhysicianManageAllPatient, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/patient-visits/:id', exact: true, name: 'PhysicianPatientAllVisit', component: PhysicianPatientAllVisit, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile, meta: {"role": RolesConfig.PHYSICIAN} },

@@ -118,7 +118,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                     onClick={() => handleShow2(viewDetails.data.id)}
                                     disabled={viewDetails.data.alreadyApplied == false ? viewDetails.data.is_recruiting === 0 ? true : false : viewDetails.data.alreadyApplied}
                                 />
-                                <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                <a href="tel:+496170961709" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
 
                                 <button className="btn-action btn-primary" onClick={() => onClickChat()}>
                                     <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
@@ -140,6 +140,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                 <DatePicker
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
+                                    minDate={moment().toDate()}
                                     inline
                                 />
                             </div>

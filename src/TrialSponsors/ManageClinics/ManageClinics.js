@@ -15,6 +15,7 @@ import getCurrentHost from '../../redux/constants';
 import { authHeader } from '../../redux/actions/authHeader';
 import { MultiSelect } from "react-multi-select-component";
 import { Form } from 'react-bootstrap';
+import { Download } from '../../views/Components/Common/Download/Download';
 
 const SponsorsManageClinics = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const SponsorsManageClinics = () => {
     const [clinicDetail, setClinicDetail] = useState();
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
+    const [DownloadDocData, setDownloadDocData] = useState({});
     const [specialitySelected, setSpecialitySelected] = useState({
         specialities: [],
         conditions: []
@@ -132,6 +134,7 @@ const SponsorsManageClinics = () => {
 
     const applyFilterHandle = (e) => {
         e.preventDefault()
+        setDownloadDocData(formData)
         dispatch(TrialManageClinicsListAction({ page: loadMoreData, ...formData }))
     }
     return (
@@ -140,10 +143,9 @@ const SponsorsManageClinics = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Manage Clinics</h1>
-                        <Button
-                            isButton="true"
-                            BtnColor="green bn-stm"
-                            BtnText="Download"
+                        <Download
+                            apiUrl="/sponsor/export-manage-clinics-list"
+                            apiParameters={DownloadDocData}
                         />
                     </div>
                     <div className='row'>

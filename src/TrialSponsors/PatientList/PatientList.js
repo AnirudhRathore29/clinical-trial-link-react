@@ -185,7 +185,7 @@ const SponsorsPatientList = () => {
                                                                     <button className="btn-action btn-green" onClick={() => handlePatientModalOpen(value.id)}><box-icon type='solid' name='info-circle' color="#ffffff"></box-icon></button>
                                                                     {!trialAppPatientSelector.isPast &&
                                                                         <>
-                                                                            <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                                                            <a href={`tel:${value.patient_user_info.phone_number}`} className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
 
                                                                             <button className="btn-action btn-primary" onClick={() => handleRedirectUser2Chat(value)}>
                                                                                 <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>

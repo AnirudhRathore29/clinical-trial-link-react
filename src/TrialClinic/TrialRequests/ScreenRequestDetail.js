@@ -21,7 +21,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
-    const [ReadMore, setReadMore] = useState(false);
+    const [ReadMore, setReadMore] = useState();
     const [SelectedStatus, setSelectedStatus] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
     const [startDate, setStartDate] = useState(new Date());
@@ -202,7 +202,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                                             <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                             <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                 ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
-                                                            <p className={`mb-0 ${value.visit_note.length > 180 && ReadMore === false && "fixTextLength"}`}><span>{value.visit_note}</span>{value.visit_note.length > 180 && <i onClick={() => setReadMore(!ReadMore)}>{ReadMore ? " Read less" : " Read more"}</i>} </p>
+                                                            <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0
                                                                 ?
                                                                 <SelectBox
@@ -249,6 +249,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
+                                minDate={moment().toDate()}
                                 inline
                             />
                         </div>
@@ -269,6 +270,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                             labelText="Text Note"
                             name="visit_note"
                             onChange={onchange}
+                            pattern="[^\s]+.{1,}"
                             required={true}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>
@@ -322,6 +324,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                             labelText="Enter Cancelation Reason"
                             name="visit_note"
                             required={true}
+                            pattern="[^\s]+.{1,}"
                             onChange={onchange}
                         />
                         <div className='clnicaltrial-detail-ftr mt-0'>

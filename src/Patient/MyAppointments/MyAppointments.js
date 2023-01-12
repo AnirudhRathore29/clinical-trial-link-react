@@ -461,7 +461,7 @@ const PatientMyAppointments = () => {
                                     BtnColor="green"
                                     BtnText="View All Visits"
                                 />
-                                <Link to="" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></Link>
+                                <a href="tel:+496170961709" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
                                 <button onClick={handleRedirectUser2Chat} className="btn-action btn-primary"><box-icon name='message-rounded-dots' color="#ffffff"></box-icon></button>
                             </div>
                         </>

@@ -60,7 +60,7 @@ const ClinicDashboard = () => {
 
                     <div className='row dashboard-col'>
                         <div className='col-12'>
-                            {DashboardSelector && DashboardSelector.data.sponsors.length !== 0 &&
+                            {DashboardSelector && DashboardSelector?.data?.sponsors?.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Trial Sponsors/CRO </h1>
                                     <Link to="/trial-clinic/sponsors-listing" className='btn-text'>See All</Link>
@@ -68,7 +68,7 @@ const ClinicDashboard = () => {
                             }
                             {!isLoading.loading ?
                                 <OwlCarousel {...options}>
-                                    {DashboardSelector && DashboardSelector.data.sponsors.map((value, index) => {
+                                    {DashboardSelector && DashboardSelector?.data?.sponsors.map((value, index) => {
                                         return (
                                             <div className='item' key={index}>
                                                 <Link to={"/trial-clinic/sponsors-details/" + value.id}>

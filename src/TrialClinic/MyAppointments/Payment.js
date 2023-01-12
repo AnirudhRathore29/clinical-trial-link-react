@@ -247,6 +247,7 @@ const Payment = (props) => {
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
+                                minDate={moment().toDate()}
                                 inline
                             />
                         </div>

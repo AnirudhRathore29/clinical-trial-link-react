@@ -356,7 +356,7 @@ const PatientEditProfile = () => {
                                                             :
                                                             <img
                                                                 src={profileSelector.data.profile_image ?
-                                                                    getImageUrl() + profileSelector.data.profile_image
+                                                                    profileSelector.data.profile_image
                                                                     : '/images/avatar2.svg'}
                                                                 width={120}
                                                                 className='img-fluid uploaded-img rounded-circle'
@@ -528,6 +528,7 @@ const PatientEditProfile = () => {
                                                     dropdownMode="select"
                                                     showPopperArrow={false}
                                                     onChange={(date) => setProfileInputData({ ...profileInputData, dob: date })}
+                                                    maxDate={moment().toDate()}
                                                     selected={profileInputData.dob}
                                                     autoComplete="nope"
                                                     required="required"

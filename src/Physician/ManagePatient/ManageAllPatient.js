@@ -6,23 +6,23 @@ import PatientListBx from '../../views/Components/PatientListBx/PatientListBx';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import '../../Patient/ClinicListing/ClinicListing.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
-import { SponsorManagePatientDetailAction, SponsorManagePatientListAction } from '../../redux/actions/TrialSponsorAction';
-import '../../Patient/MyFavorites/MyFavorites.css'
+import '../../Patient/MyFavorites/MyFavorites.css';
+import { PhysicianManageAllPatientDetailAction, PhysicianManageAllPatientListAction } from '../../redux/actions/PhysicianAction';
+import { Form } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Form } from 'react-bootstrap';
 import { Download } from '../../views/Components/Common/Download/Download';
 
 toast.configure();
 
-const SponsorsManagePatient = () => {
-    const loadingSelector = useSelector(state => state.My_trials)
-    const ManagePatientListSelector = useSelector(state => state.My_trials.manage_patient_list.data)
-    const ManagePatientDetailSelector = useSelector(state => state.My_trials.manage_patient_detail.data)
+const ManageAllPatient = () => {
+    const loadingSelector = useSelector(state => state.trial_clinic)
+    const ManagePatientListSelector = useSelector(state => state.trial_clinic.manage_patient_list.data)
+    const ManagePatientDetailSelector = useSelector(state => state.trial_clinic.manage_patient_detail.data)
 
     const [PatientDetailModal, SetPatientDetailModal] = useState(false);
     const [PatientDetailState, setPatientDetailState] = useState(undefined);
@@ -32,13 +32,13 @@ const SponsorsManagePatient = () => {
 
     const dispatch = useDispatch()
 
-    console.log("ManagePatientListSelector object keys", Object.keys(ManagePatientListSelector !== undefined && ManagePatientListSelector));
     console.log("ManagePatientListSelector", ManagePatientListSelector);
     console.log("ManagePatientDetailSelector", ManagePatientDetailSelector);
     console.log("PatientDetailState", PatientDetailState);
+    console.log("formData", formData);
 
     useEffect(() => {
-        dispatch(SponsorManagePatientListAction({ page: loadMoreData, }))
+        dispatch(PhysicianManageAllPatientListAction({ page: loadMoreData, }))
     }, [dispatch])
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const SponsorsManagePatient = () => {
 
     const SetPatientDetailModalShow = (id) => {
         SetPatientDetailModal(true);
-        dispatch(SponsorManagePatientDetailAction(id))
+        dispatch(PhysicianManageAllPatientDetailAction(id))
     }
     const SetPatientDetailModalClose = () => {
         setPatientDetailState()
@@ -71,11 +71,11 @@ const SponsorsManagePatient = () => {
 
     const FilterHandle = (e) => {
         e.preventDefault()
-        if(formData.to_age_filter < formData.from_age_filter){
+        if (formData.to_age_filter < formData.from_age_filter) {
             toast.error("Max age should be greater then min age", { theme: "colored" })
         } else {
             setDownloadDocData(formData)
-            dispatch(SponsorManagePatientListAction({ page: loadMoreData, ...formData}))
+            dispatch(PhysicianManageAllPatientListAction({ page: loadMoreData, ...formData }))
         }
     }
 
@@ -86,7 +86,7 @@ const SponsorsManagePatient = () => {
                     <div className="heading-bx">
                         <h1>Manage Patient</h1>
                         <Download
-                            apiUrl="/sponsor/export-manage-patient-list"
+                            apiUrl="/physician/export-manage-patient-list"
                             apiParameters={DownloadDocData}
                         />
                     </div>
@@ -193,7 +193,6 @@ const SponsorsManagePatient = () => {
                                 {ManagePatientListSelector !== undefined ?
                                     ManagePatientListSelector.data.data?.length !== 0 ?
                                         ManagePatientListSelector.data.data.map((value, index) => {
-                                            console.log("value", value)
                                             return (
                                                 <div className='col-lg-6' key={index}>
                                                     <PatientListBx
@@ -237,6 +236,7 @@ const SponsorsManagePatient = () => {
                                     })
                                 }
                             </div>
+
                             {ManagePatientListSelector && ManagePatientListSelector.data.data.total > 0 &&
                                 <div className='mt-5 text-center'>
                                     <Button
@@ -363,7 +363,7 @@ const SponsorsManagePatient = () => {
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isLink="true"
-                                    URL={`/trial-sponsors/patient-visits/${PatientDetailState.data.id}`}
+                                    URL={`/physician/patient-visits/${PatientDetailState.data.id}`}
                                     BtnColor="green"
                                     BtnText="View All Visits"
                                 />
@@ -377,4 +377,4 @@ const SponsorsManagePatient = () => {
     );
 };
 
-export default SponsorsManagePatient;
+export default ManageAllPatient;

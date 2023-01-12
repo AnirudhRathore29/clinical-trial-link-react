@@ -324,7 +324,7 @@ const SponsorsEditProfile = () => {
                                                             :
                                                             <img
                                                                 src={profileSelector.data.profile_image ?
-                                                                    getImageUrl() + profileSelector.data.profile_image
+                                                                    profileSelector.data.profile_image
                                                                     : '/images/avatar2.svg'}
                                                                 width={120}
                                                                 className='img-fluid uploaded-img rounded-circle'

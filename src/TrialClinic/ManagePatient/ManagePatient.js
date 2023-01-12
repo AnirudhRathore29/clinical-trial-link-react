@@ -15,6 +15,7 @@ import '../../Patient/MyFavorites/MyFavorites.css';
 import { Form } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Download } from '../../views/Components/Common/Download/Download';
 
 toast.configure();
 
@@ -27,6 +28,7 @@ const ClinicManagePatient = () => {
     const [PatientDetailState, setPatientDetailState] = useState(undefined);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [formData, setFormData] = useState({});
+    const [DownloadDocData, setDownloadDocData] = useState({});
 
     const dispatch = useDispatch()
 
@@ -72,6 +74,7 @@ const ClinicManagePatient = () => {
         if(formData.to_age_filter < formData.from_age_filter){
             toast.error("Max age should be greater then min age", { theme: "colored" })
         } else {
+            setDownloadDocData(formData)
             dispatch(ManagePatientListAction({ page: loadMoreData, ...formData}))
         }
     }
@@ -82,10 +85,9 @@ const ClinicManagePatient = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Manage Patient</h1>
-                        <Button
-                            isButton="true"
-                            BtnColor="green btn-sm"
-                            BtnText="Download"
+                        <Download
+                            apiUrl="/trialclinic/export-manage-patient-list"
+                            apiParameters={DownloadDocData}
                         />
                     </div>
                     <div className='row'>

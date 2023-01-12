@@ -15,6 +15,7 @@ import { PhysicianManagePatientDetailAction, PhysicianManagePatientListAction } 
 import { Form } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Download } from '../../views/Components/Common/Download/Download';
 
 toast.configure();
 
@@ -26,6 +27,7 @@ const ClinicManagePatient = () => {
     const [PatientDetailModal, SetPatientDetailModal] = useState(false);
     const [PatientDetailState, setPatientDetailState] = useState(undefined);
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [DownloadDocData, setDownloadDocData] = useState({});
     const [formData, setFormData] = useState({});
 
     const dispatch = useDispatch()
@@ -69,10 +71,11 @@ const ClinicManagePatient = () => {
 
     const FilterHandle = (e) => {
         e.preventDefault()
-        if(formData.to_age_filter < formData.from_age_filter){
+        if (formData.to_age_filter < formData.from_age_filter) {
             toast.error("Max age should be greater then min age", { theme: "colored" })
         } else {
-            dispatch(PhysicianManagePatientListAction({ page: loadMoreData, ...formData}))
+            setDownloadDocData(formData)
+            dispatch(PhysicianManagePatientListAction({ page: loadMoreData, ...formData }))
         }
     }
 
@@ -82,10 +85,9 @@ const ClinicManagePatient = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Manage Patient</h1>
-                        <Button
-                            isButton="true"
-                            BtnColor="green btn-sm"
-                            BtnText="Download"
+                        <Download
+                            apiUrl="/physician/export-manage-patient-list"
+                            apiParameters={DownloadDocData}
                         />
                     </div>
                     <div className='row'>
