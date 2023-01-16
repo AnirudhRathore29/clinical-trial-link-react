@@ -21,13 +21,12 @@ toast.configure();
 
 const ManageAllPatient = () => {
     const loadingSelector = useSelector(state => state.trial_clinic)
-    const ManagePatientListSelector = useSelector(state => state.trial_clinic.manage_patient_list.data)
+    const ManagePatientListSelector = useSelector(state => state.trial_clinic.physician_manage_patient_list.data)
     const ManagePatientDetailSelector = useSelector(state => state.trial_clinic.manage_patient_detail.data)
 
     const [PatientDetailModal, SetPatientDetailModal] = useState(false);
     const [PatientDetailState, setPatientDetailState] = useState(undefined);
     const [loadMoreData, setLoadMoreData] = useState(1);
-    const [DownloadDocData, setDownloadDocData] = useState({});
     const [formData, setFormData] = useState({});
 
     const dispatch = useDispatch()
@@ -74,7 +73,6 @@ const ManageAllPatient = () => {
         if (formData.to_age_filter < formData.from_age_filter) {
             toast.error("Max age should be greater then min age", { theme: "colored" })
         } else {
-            setDownloadDocData(formData)
             dispatch(PhysicianManageAllPatientListAction({ page: loadMoreData, ...formData }))
         }
     }
@@ -85,10 +83,10 @@ const ManageAllPatient = () => {
                 <div className="container">
                     <div className="heading-bx">
                         <h1>Manage Patient</h1>
-                        <Download
+                        {/* <Download
                             apiUrl="/physician/export-manage-patient-list"
                             apiParameters={DownloadDocData}
-                        />
+                        /> */}
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
@@ -96,31 +94,10 @@ const ManageAllPatient = () => {
                                 <h2>Filter</h2>
                                 <InputText
                                     type="text"
-                                    name="trial_name_filter"
+                                    name="search_filter"
                                     labelText="Search"
-                                    placeholder="Search with trial name"
+                                    placeholder="Search with name"
                                     onChange={onchange}
-                                />
-                                <SelectBox
-                                    name="status_filter"
-                                    labelText="Trial Status"
-                                    onChange={onchange}
-                                    optionData={
-                                        <>
-                                            <option value="">Select Status</option>
-                                            <option value={0}>Pending</option>
-                                            <option value={1}>Screening</option>
-                                            <option value={2}>Rejected</option>
-                                            <option value={3}>Cancelled by Patient</option>
-                                            <option value={4}>Screen Not Eligible</option>
-                                            <option value={5}>Screen Pending Approval</option>
-                                            <option value={6}>Screen Approval</option>
-                                            <option value={7}>Complete</option>
-                                            <option value={8}>Incomplete</option>
-                                            <option value={9}>End of Study</option>
-                                            <option value={10}>Early Termination</option>
-                                        </>
-                                    }
                                 />
                                 <div className='form-group'>
                                     <label>Age Range</label>
@@ -196,28 +173,8 @@ const ManageAllPatient = () => {
                                             return (
                                                 <div className='col-lg-6' key={index}>
                                                     <PatientListBx
-                                                        imgUrl={value.patient_user_info.profile_image}
-                                                        patientName={`${value.patient_user_info.first_name} ${value.patient_user_info.last_name}`}
-                                                        statusClass={
-                                                            value.status === 0 || value.status === 1 || value.status === 6 || value.status === 5 ? "primary" :
-                                                                value.status === 2 || value.status === 3 || value.status === 4 || value.status === 8 || value.status === 9 || value.status === 10 ? "danger" :
-                                                                    value.status === 7 ? "success" : null
-                                                        }
-                                                        status={
-                                                            value.status === 0 ? "Pending" :
-                                                                value.status === 1 ? "Screening" :
-                                                                    value.status === 2 ? "Rejected" :
-                                                                        value.status === 3 ? "Cancelled" :
-                                                                            value.status === 4 ? "Not eligible" :
-                                                                                value.status === 5 ? "Screening Pending Approval" :
-                                                                                    value.status === 6 ? "Screen Approved" :
-                                                                                        value.status === 7 ? "Complete" :
-                                                                                            value.status === 8 ? "Incomplete" :
-                                                                                                value.status === 9 ? "End of study" :
-                                                                                                    value.status === 10 ? "Early Terminated" : null
-                                                        }
-                                                        description={value.clinic_trial_info.trial_name}
-                                                        onClick={() => SetPatientDetailModalShow(value.id)}
+                                                        imgUrl={value?.profile_image}
+                                                        patientName={`${value?.first_name} ${value?.last_name}`}
                                                     />
                                                 </div>
                                             )
@@ -261,8 +218,8 @@ const ManageAllPatient = () => {
                     PatientDetailState !== undefined ?
                         <>
                             <PatientListBx
-                                imgUrl={PatientDetailState.data.patient_user_info.profile_image}
-                                patientName={`${PatientDetailState.data.patient_user_info.first_name} ${PatientDetailState.data.patient_user_info.last_name}`}
+                                imgUrl={PatientDetailState?.data?.patient_user_info.profile_image}
+                                patientName={`${PatientDetailState?.data?.patient_user_info?.first_name} ${PatientDetailState?.data?.patient_user_info?.last_name}`}
                                 statusClass={
                                     PatientDetailState.data.status === 0 || PatientDetailState.data.status === 1 || PatientDetailState.data.status === 6 || PatientDetailState.data.status === 5 ? "primary" :
                                         PatientDetailState.data.status === 2 || PatientDetailState.data.status === 3 || PatientDetailState.data.status === 4 || PatientDetailState.data.status === 9 || PatientDetailState.data.status === 8 || PatientDetailState.data.status === 10 ? "danger" :
@@ -281,13 +238,13 @@ const ManageAllPatient = () => {
                                                                         PatientDetailState.data.status === 9 ? "End of study" :
                                                                             PatientDetailState.data.status === 10 ? "Early Terminated" : null
                                 }
-                                description={PatientDetailState.data.clinic_trial_info.trial_name}
+                                description={PatientDetailState?.data?.clinic_trial_info.trial_name}
                             />
                             <div className='row patient-detail-row'>
                                 <div className='col-lg-6'>
                                     <div>
                                         <h4>Phone Number</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.phone_number}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.phone_number}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-6'>
@@ -295,9 +252,9 @@ const ManageAllPatient = () => {
                                         <h4>Gender</h4>
                                         <h2>
                                             {
-                                                PatientDetailState.data.patient_user_info.gender === "F" ? "Female"
+                                                PatientDetailState?.data?.patient_user_info.gender === "F" ? "Female"
                                                     :
-                                                    PatientDetailState.data.patient_user_info.gender === "M" ? "Male"
+                                                    PatientDetailState?.data?.patient_user_info.gender === "M" ? "Male"
                                                         :
                                                         "Non Binary"
                                             }
@@ -307,38 +264,38 @@ const ManageAllPatient = () => {
                                 <div className='col-lg-6'>
                                     <div>
                                         <h4>State</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.state_info.name}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.state_info.name}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-6'>
                                     <div>
                                         <h4>Zip Code</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.zip_code}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.zip_code}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-6'>
                                     <div>
                                         <h4>Date Of Birth</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.dob}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.dob}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-6'>
                                     <div>
                                         <h4>Race</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.race}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.user_meta_info.race}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-12'>
                                     <div>
                                         <h4>Trials for</h4>
-                                        <h2>{PatientDetailState.data.patient_user_info.user_meta_info.trials_for}</h2>
+                                        <h2>{PatientDetailState?.data?.patient_user_info.user_meta_info.trials_for}</h2>
                                     </div>
                                 </div>
                                 <div className='col-lg-12'>
                                     <div>
                                         <h4>Seeking Trials for</h4>
                                         <ul className='condition-ul'>
-                                            {PatientDetailState.data.seeking_trials_for_array !== undefined && PatientDetailState.data.seeking_trials_for_array.map((value, index) => {
+                                            {PatientDetailState?.data?.seeking_trials_for_array !== undefined && PatientDetailState?.data?.seeking_trials_for_array.map((value, index) => {
                                                 return (
                                                     <li key={index}>{value}</li>
                                                 )
@@ -350,7 +307,7 @@ const ManageAllPatient = () => {
                                     <div>
                                         <h4>Condition</h4>
                                         <ul className='condition-ul'>
-                                            {PatientDetailState.data.conditions_array !== undefined && PatientDetailState.data.conditions_array.map((value, index) => {
+                                            {PatientDetailState?.data?.conditions_array !== undefined && PatientDetailState?.data?.conditions_array.map((value, index) => {
                                                 return (
                                                     <li key={index}>{value}</li>
                                                 )
@@ -363,7 +320,7 @@ const ManageAllPatient = () => {
                             <div className='clnicaltrial-detail-ftr'>
                                 <Button
                                     isLink="true"
-                                    URL={`/physician/patient-visits/${PatientDetailState.data.id}`}
+                                    URL={`/physician/patient-visits/${PatientDetailState?.data?.id}`}
                                     BtnColor="green"
                                     BtnText="View All Visits"
                                 />

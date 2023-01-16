@@ -18,7 +18,7 @@ const SponsorsBx = ({ data }) => {
                 {data.map((value, index) => {
                     return (
                         <div className='item sponsor-logo-img' key={index}>
-                            <img src={value.sponsor_user_info.profile_image} alt="Sponsors" />
+                            <img src={value.sponsor_user_info.profile_image ? value.sponsor_user_info.profile_image : "/images/placeholder-img.jpg"} alt="Sponsors" />
                         </div>
                     )
                 })}

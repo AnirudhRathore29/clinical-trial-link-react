@@ -18,6 +18,8 @@ const SponsorsMyChats = (props) => {
     const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.profile_image : "");
     const [chatWindowDown, setChatWindowDown] = useState(0)
 
+    console.log("reciverIdx", reciverIdx);
+
     useEffect(() => {
         if (containerRef && containerRef.current) {
             const element = containerRef.current;

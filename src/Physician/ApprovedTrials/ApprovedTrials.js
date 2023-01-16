@@ -57,7 +57,7 @@ const ApprovedTrials = () => {
                                 <Tab eventKey="Current" title="Current">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
-                                            ListSelectorState.data.length > 0 ?
+                                            ListSelectorState?.data?.length > 0 ?
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
@@ -96,7 +96,7 @@ const ApprovedTrials = () => {
                                             })
                                         }
                                     </div>
-                                    {ListSelectorState && ListSelectorState.data.length > 16 &&
+                                    {ListSelectorState && ListSelectorState?.data?.length > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"
@@ -112,7 +112,7 @@ const ApprovedTrials = () => {
                                 <Tab eventKey="Past" title="Past">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
-                                            ListSelectorState.data.length > 0 ?
+                                            ListSelectorState?.data?.length > 0 ?
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
@@ -151,7 +151,7 @@ const ApprovedTrials = () => {
                                             })
                                         }
                                     </div>
-                                    {ListSelectorState && ListSelectorState.data.length > 16 &&
+                                    {ListSelectorState && ListSelectorState?.data?.length > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"

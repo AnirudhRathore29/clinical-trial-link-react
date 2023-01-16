@@ -15,6 +15,8 @@ const SponsorsClinicDetails = () => {
     const clinicDetailSelector = useSelector(state => state.My_trials.clinic_detail.data);
     const [clinicDetailData, setClinicDetailData] = useState()
 
+    console.log("clinicDetailData", clinicDetailData);
+
     useEffect(() => {
         setClinicDetailData(clinicDetailSelector)
     }, [clinicDetailSelector])
@@ -55,7 +57,7 @@ const SponsorsClinicDetails = () => {
                                     <span><box-icon name='map-alt' color="#356AA0"></box-icon> {clinicDetailData.data.distance && clinicDetailData.data.distance.toFixed(3)} Mi</span>
                                 </div>
                                 <div className='trialClinic-img'>
-                                    <img src="/images/clinic-img5.jpg" className='img-fluid' alt={clinicDetailData.data.clinic_name} />
+                                    <img src={clinicDetailData?.data?.listing_image ? clinicDetailData?.data?.listing_image : "/images/placeholder-img.jpg"} className='img-fluid' alt={clinicDetailData.data.clinic_name} />
                                 </div>
                             </div>
 

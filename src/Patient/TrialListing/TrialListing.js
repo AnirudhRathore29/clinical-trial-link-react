@@ -6,7 +6,7 @@ import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { PatientClinicAppTrialListAction, PatientMyFavTrialAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -17,6 +17,7 @@ import getCurrentHost from '../../redux/constants';
 const PatientTrialListing = () => {
     const { id } = useParams()
     const dispatch = useDispatch();
+    const history = useHistory();
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
     const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
@@ -148,6 +149,17 @@ const PatientTrialListing = () => {
         dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
     }
 
+    const handleRedirectUser2Chat = (data) => {
+        history.push({
+            pathname: "/patient/my-chats",
+            state: {
+                full_name: data?.trial_clinic_user_info?.clinic_name,
+                id: data?.trial_clinic_user_info?.id,
+                profile_image: data?.trial_clinic_user_info?.profile_image,
+            }
+        })
+    }
+
     useEffect(() => {
         if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
             console.log("favTrialSelector called");
@@ -268,6 +280,7 @@ const PatientTrialListing = () => {
                 show2={show2}
                 handleClose2={handleClose2}
                 handleShow2={handleShow2}
+                onClickChat={(data) => handleRedirectUser2Chat(data)}
                 show3={show3}
                 handleClose3={handleClose3}
                 handleShow3={handleShow3}

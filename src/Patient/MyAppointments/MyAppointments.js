@@ -122,7 +122,7 @@ const PatientMyAppointments = () => {
             pathname: "/patient/my-chats",
             state: {
                 full_name: AppointmentDetailSelector.data.data.trial_clinic_user_info.clinic_name,
-                id: AppointmentDetailSelector.data.data.id,
+                id: AppointmentDetailSelector.data.data?.trial_clinic_user_info.id,
                 profile_image: AppointmentDetailSelector.data.data.trial_clinic_user_info.listing_image,
             }
         })
@@ -163,7 +163,7 @@ const PatientMyAppointments = () => {
                                 <Tab eventKey="Pending" title="Pending">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
-                                            ListSelectorState.data.length > 0 ?
+                                            ListSelectorState?.data?.length > 0 ?
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
@@ -223,7 +223,7 @@ const PatientMyAppointments = () => {
                                             })
                                         }
                                     </div>
-                                    {ListSelectorState && ListSelectorState.data.length > 16 &&
+                                    {ListSelectorState && ListSelectorState?.data?.length > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"
@@ -239,7 +239,7 @@ const PatientMyAppointments = () => {
                                 <Tab eventKey="Current" title="Current">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
-                                            ListSelectorState.data.length > 0 ?
+                                            ListSelectorState?.data?.length > 0 ?
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
@@ -299,7 +299,7 @@ const PatientMyAppointments = () => {
                                             })
                                         }
                                     </div>
-                                    {ListSelectorState && ListSelectorState.data.length > 16 &&
+                                    {ListSelectorState && ListSelectorState?.data?.length > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"
@@ -315,7 +315,7 @@ const PatientMyAppointments = () => {
                                 <Tab eventKey="Past" title="Past">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
-                                            ListSelectorState.data.length > 0 ?
+                                            ListSelectorState?.data?.length > 0 ?
                                                 ListSelectorState.data.map((value, index) => {
                                                     return (
                                                         <div className='col-lg-6 mb-5' key={index}>
@@ -375,7 +375,7 @@ const PatientMyAppointments = () => {
                                             })
                                         }
                                     </div>
-                                    {ListSelectorState && ListSelectorState.data.length > 16 &&
+                                    {ListSelectorState && ListSelectorState?.data?.length > 16 &&
                                         <div className='mt-5 text-center'>
                                             <Button
                                                 isButton="true"

@@ -24,6 +24,8 @@ const ClinicSponsorsDetails = () => {
     const [clinicTrialID, setClinicTrialID] = useState();
     const [sponsoreDetails, setSponsoreDetails] = useState(undefined);
 
+    console.log("sponsoreDetails", sponsoreDetails);
+
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
     }, [clinicDetailSelector]);

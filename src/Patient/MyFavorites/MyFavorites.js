@@ -7,9 +7,11 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import './MyFavorites.css';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
+import { useHistory } from 'react-router';
 
 const PatientMyFavorites = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const myFavTrialListSelector = useSelector(state => state.patient.patient_my_fav_trials_list.data);
     const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
@@ -41,15 +43,15 @@ const PatientMyFavorites = () => {
     }
     const handleClose3 = () => setShow3(false);
 
-    const handleRedirectUser2Chat = () => {
-        // history.push({
-        //     pathname: "/patient/my-chats",
-        //     state: {
-        //         full_name: patientClinicDetails.data.clinic_name,
-        //         id: patientClinicDetails.data.id,
-        //         profile_image: patientClinicDetails.data.listing_image,
-        //     }
-        // })
+    const handleRedirectUser2Chat = (data) => {
+        history.push({
+            pathname: "/patient/my-chats",
+            state: {
+                full_name: data?.trial_clinic_user_info?.clinic_name,
+                id: data?.trial_clinic_user_info?.id,
+                profile_image: data?.trial_clinic_user_info?.profile_image,
+            }
+        })
     }
 
     const MyFavTrial = (id) => {
@@ -123,7 +125,7 @@ const PatientMyFavorites = () => {
                 show={show}
                 handleClose={handleClose}
                 show2={show2}
-                onClickChat={handleRedirectUser2Chat}
+                onClickChat={(data) => handleRedirectUser2Chat(data)}
 
                 handleClose2={handleClose2}
                 handleShow2={handleShow2}

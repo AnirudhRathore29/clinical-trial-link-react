@@ -372,13 +372,13 @@ const ClinicManagePatient = () => {
                                                 <h2>{PatientDetailState.data.patient_user_info.physician_fname} {PatientDetailState.data.patient_user_info.physician_lname}</h2>
                                                 <p>{PatientDetailState.data.patient_user_info.physician_phone_number}</p>
                                             </div>
-                                            <div>
+                                            {/* <div>
                                                 <Button
                                                     isButton="true"
                                                     BtnColor="primary btn-sm"
                                                     BtnText="Invite"
                                                 />
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>

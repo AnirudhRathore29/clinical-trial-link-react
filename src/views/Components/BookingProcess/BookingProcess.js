@@ -120,7 +120,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                 />
                                 <a href="tel:+496170961709" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
 
-                                <button className="btn-action btn-primary" onClick={() => onClickChat()}>
+                                <button className="btn-action btn-primary" onClick={() => onClickChat(viewDetails.data)}>
                                     <box-icon name='message-rounded-dots' color="#ffffff"></box-icon>
                                 </button>
                             </div>

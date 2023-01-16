@@ -230,6 +230,16 @@ const PhysicianEditProfile = () => {
                                             </div>
                                             <div className="col-lg-6">
                                                 <InputText
+                                                    type="email"
+                                                    name="email"
+                                                    defaultValue={profileSelector.data.email}
+                                                    placeholder="Email"
+                                                    labelText="Email"
+                                                    isDisabled={true}
+                                                />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <InputText
                                                     type="number"
                                                     name="phone_number"
                                                     defaultValue={profileSelector.data.phone_number}
