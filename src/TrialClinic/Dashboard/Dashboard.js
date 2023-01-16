@@ -68,7 +68,7 @@ const ClinicDashboard = () => {
                             }
                             {!isLoading.loading ?
                                 <OwlCarousel {...options}>
-                                    {DashboardSelector && DashboardSelector?.data?.sponsors.map((value, index) => {
+                                    {DashboardSelector && DashboardSelector?.data?.sponsors?.map((value, index) => {
                                         return (
                                             <div className='item' key={index}>
                                                 <Link to={"/trial-clinic/sponsors-details/" + value.id}>

@@ -17,6 +17,7 @@ const SponsorsMyChats = (props) => {
     const [reciverName, setReciverName] = useState(props.location.state ? props.location.state.full_name : "");
     const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.profile_image : "");
     const [chatWindowDown, setChatWindowDown] = useState(0)
+    const [ChatCount, setChatCount] = useState(0)
 
     console.log("reciverIdx", reciverIdx);
 
@@ -159,6 +160,7 @@ const SponsorsMyChats = (props) => {
     }
 
     const sendChatMessage = async (e) => {
+        setChatCount(ChatCount + 1)
         e.preventDefault()
         if (message.trim()) {
             db.collection('Chat')
