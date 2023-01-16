@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import './MyFavorites.css';
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const PatientMyFavorites = () => {
     const dispatch = useDispatch();
