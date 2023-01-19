@@ -20,6 +20,8 @@ const SponsorsMyChats = (props) => {
     const [ChatCount, setChatCount] = useState(0)
 
     console.log("reciverIdx", reciverIdx);
+    console.log("ChatCount", ChatCount);
+    console.log("chatMessagesList", chatMessagesList);
 
     useEffect(() => {
         if (containerRef && containerRef.current) {
@@ -32,6 +34,10 @@ const SponsorsMyChats = (props) => {
         }
 
     }, [containerRef, chatList, reciverIdx, chatWindowDown])
+
+    // useEffect(() => {
+    //     setChatCount(ChatCount + 1)
+    // }, [ChatCount])
 
     //Get Chat List Data
     useEffect(() => {
@@ -91,7 +97,7 @@ const SponsorsMyChats = (props) => {
                     }
                 });
             });
-    }, [reciverIdx])
+    }, [reciverIdx, ChatCount])
 
 
     // function updateFunction(msgData) {
@@ -159,7 +165,7 @@ const SponsorsMyChats = (props) => {
         return chatIDpre.join('_');
     }
 
-    const sendChatMessage = async (e) => {
+    const sendChatMessage = (e) => {
         setChatCount(ChatCount + 1)
         e.preventDefault()
         if (message.trim()) {
@@ -254,7 +260,7 @@ const SponsorsMyChats = (props) => {
                 <div className="chat-container">
                     <aside>
                         <div className="conversations">
-                            {chatList.length !== 0 && chatList.map((item, index) => {
+                            {chatList?.length !== 0 && chatList?.map((item, index) => {
                                 return (
                                     <div
                                         className={classNames(
@@ -268,13 +274,13 @@ const SponsorsMyChats = (props) => {
                                             <div className="user-head">
                                                 <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
                                             </div>
-                                            <div className="user-name">{capitalizeFirstLetter(item.recieverName)}</div>
-                                            <div className="last-message">{item.message}</div>
+                                            <div className="user-name">{capitalizeFirstLetter(item?.recieverName)}</div>
+                                            <div className="last-message">{item?.message}</div>
                                         </div>
                                         <div
                                             className={classNames(
                                                 "last",
-                                                { "new": item.count > 0 }
+                                                { "new": item?.count > 0 }
                                             )}
                                         > <span> {setChatListTime(item)} </span> </div>
                                     </div>

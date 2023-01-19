@@ -462,7 +462,7 @@ const SponsorsEditProfile = () => {
                                                             <img src={fullListingBinaryUrl} className='img-fluid' alt={profileInputData.sponsor_name} />
                                                             :
                                                             <img
-                                                                src={profileInputData.listing_image && getImageUrl() + profileInputData.listing_image}
+                                                                src={profileInputData.listing_image && profileInputData.listing_image}
                                                                 className='img-fluid'
                                                                 alt={profileInputData.sponsor_name}
                                                             />
