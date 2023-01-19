@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InputText, SelectBox, TextArea } from "../../views/Components/Common/Inputs/Inputs";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Button from "../../views/Components/Common/Buttons/Buttons"
@@ -24,13 +24,14 @@ import PlacesAutocomplete, {
     getLatLng
 } from "react-places-autocomplete";
 
-const conditionListAPI = []
-const specialityListAPI = []
-const sponsorUploadedDoc = []
-const file_upload = []
+var conditionListAPI = []
+var specialityListAPI = []
+var sponsorUploadedDoc = []
+var file_upload = []
 const ClinicEditProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory()
+    const relevantDocInput = useRef()
     const totalFiles = 5;
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
@@ -45,7 +46,7 @@ const ClinicEditProfile = () => {
 
     const [uploadedFile, setUploadFile] = useState([]);
     // const [uploadedFileURLs, setUploadedFileURLs] = useState([]);
-
+    
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [binary, setBinary] = useState();
@@ -73,6 +74,11 @@ const ClinicEditProfile = () => {
         documents: []
     });
 
+    console.log("sponsorUploadedDoc", sponsorUploadedDoc);
+    console.log("profileInputData", profileInputData);
+    console.log("uploadedFile", uploadedFile);
+    console.log("file_upload", file_upload);
+
     useEffect(() => {
         dispatch(ProfileAction())
         dispatch(StatesAction())
@@ -80,6 +86,7 @@ const ClinicEditProfile = () => {
 
     useEffect(() => {
         if (profileSelector !== undefined) {
+            console.log("outside clearDataRun");
             let speciality_data = profileSelector.data.user_speciality;
             let conditionList_data = profileSelector.data.user_condition;
 
@@ -126,6 +133,12 @@ const ClinicEditProfile = () => {
                 listing_image: profileSelector.data.listing_image,
                 documents: sponsorUploadedDoc
             });
+        }
+        return () => {
+            conditionListAPI = []
+            specialityListAPI = []
+            sponsorUploadedDoc = []
+            file_upload = []
         }
     }, [profileSelector])
 
@@ -276,7 +289,8 @@ const ClinicEditProfile = () => {
 
     const uploadSponsorFileHandler = async (e) => {
         const files = e.target.files;
-        if (files.length > 0 && files.length <= totalFiles) {
+        console.log("filesfiles", files);
+        if (files.length > 0 && files.length <= totalFiles && profileInputData?.documents?.length <= totalFiles-1) {
             for (let i = 0; i < files.length; i++) {
                 const reader = new FileReader();
                 reader.readAsDataURL(files[i]);
@@ -290,15 +304,18 @@ const ClinicEditProfile = () => {
                 setUploadFile(uploadedFile);
             }
             setProfileInputData({ ...profileInputData, documents: [...profileInputData.documents, ...file_upload] });
+            file_upload = []
+            e.target.value = '';
         } else (
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
         )
         e.target.value = null;
     }
 
-    const handleRemoveFile = (item) => {
-        setProfileInputData({ ...profileInputData, documents: profileInputData.documents.filter(el => el.file_name !== item.file_name) });
-        setUploadFile(uploadedFile.filter(el => el.name !== item.real_doc_name))
+    const handleRemoveFile = (id) => {
+        console.log("idididid", id);
+        setProfileInputData({ ...profileInputData, documents: profileInputData.documents.filter((el, index) => index !== id) });
+        setUploadFile(uploadedFile.filter((el, index) => index !== id - 1))
     }
 
     //form validation handler
@@ -611,7 +628,7 @@ const ClinicEditProfile = () => {
                                             <div className="col-lg-12 form-group">
                                                 <label>Upload any Relevant Documents to the Sponsor <span className="text-danger"> *</span></label>
                                                 <label className="upload-document">
-                                                    <input type="file" id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max="2" />
+                                                    <input type="file" ref={relevantDocInput} id="uploadClinic-input" className='d-none' hidden="" name="documents" accept=".doc,.pdf,.docx" multiple onChange={uploadSponsorFileHandler} max="2" />
                                                     <div>
                                                         <h4>File Name Here </h4>
                                                         <h3>Tap here to upload your new file</h3>
@@ -625,7 +642,7 @@ const ClinicEditProfile = () => {
                                                         <div className="uploaded-file text-center">
                                                             <span className="uploaded-type"> {value.file_type} </span>
                                                             <span className="uploaded-name"> {value.file_name} </span>
-                                                            <button type="button" className="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
+                                                            <button type="button" className="btn" onClick={() => handleRemoveFile(index)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
                                                         </div>
                                                     </div>
                                                 )
@@ -637,7 +654,7 @@ const ClinicEditProfile = () => {
                                                     placement="top"
                                                     overlay={renderTooltip}
                                                 >
-                                                    <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
+                                                    <button type="button" className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
                                                     <input defaultChecked={profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_principal_investigator_details : 0} name="hide_principal_investigator_details" type="checkbox" onChange={handleHidePrincipalInvestigator} />
@@ -685,7 +702,7 @@ const ClinicEditProfile = () => {
                                                     placement="top"
                                                     overlay={renderTooltip2}
                                                 >
-                                                    <button className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
+                                                    <button type="button" className="info-btn"><box-icon type='solid' name='info-circle' color="#4096EE"></box-icon></button>
                                                 </OverlayTrigger>
                                                 <label className="switch">
                                                     <input type="checkbox" defaultChecked={profileSelector.data.user_meta_info !== undefined ? profileSelector.data.user_meta_info.hide_bank_details : 0} name="hide_bank_details" onChange={handleHideBankDetail} />

@@ -56,6 +56,10 @@ const ClinicCompleteProfile = () => {
 
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
+    console.log("profileInputData", profileInputData);
+    console.log("address", address);
+    console.log("uploadedFile", uploadedFile);
+
     useEffect(() => {
         if (profileDetails.isProfileCompleted) {
             history.push('/trial-clinic/dashboard');
@@ -142,13 +146,14 @@ const ClinicCompleteProfile = () => {
         ConditionsAction(data);
     }
 
-    const handleRemoveFile = (item) => {
-        setUploadedFileURLs(uploadedFileURLs.filter(el => el.file_name !== item.file_name));
+    const handleRemoveFile = (id) => {
+        setUploadedFileURLs(uploadedFileURLs.filter((el, index) => index !== id));
+        setUploadFile(uploadedFile.filter((el, index) => index !== id))
     }
 
     const handleFileUpload = async (e) => {
         const { value, files } = e.target;
-        if (files.length > 0 && files.length <= totalFiles) {
+        if (files.length > 0 && files.length <= totalFiles && uploadedFileURLs.length < totalFiles) {
             // const extention = value.substr(value.lastIndexOf('.') + 1).toLowerCase();
             for (let i = 0; i < files.length; i++) {
                 const reader = new FileReader();
@@ -204,7 +209,7 @@ const ClinicCompleteProfile = () => {
             let formData = new FormData();
             formData.append("clinic_name", profileInputData.clinic_name);
             formData.append("state_id", profileInputData.state_id);
-            formData.append("address", profileInputData.address);
+            formData.append("address", address);
             formData.append("zip_code", profileInputData.zip_code);
             formData.append("brief_intro", profileInputData.brief_intro);
             formData.append("principal_investigator_name", profileInputData.principal_investigator_name);
@@ -389,7 +394,7 @@ const ClinicCompleteProfile = () => {
                                             <div className="uploaded-file text-center">
                                                 <span className="uploaded-type"> {value.file_type} </span>
                                                 <span className="uploaded-name"> {value.file_name} </span>
-                                                <button type="button" className="btn" onClick={() => handleRemoveFile(value)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
+                                                <button type="button" className="btn" onClick={() => handleRemoveFile(index)}><box-icon name='x' size="18px" color="#ffffff"></box-icon></button>
                                             </div>
                                         </div>
                                     )

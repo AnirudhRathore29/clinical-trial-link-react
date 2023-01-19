@@ -120,7 +120,7 @@ const PhysicianTrialListing = () => {
                                                         value.is_recruiting === 1 ?
                                                             <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                                             :
-                                                            <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                                                            <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>
                                                     }
                                                     id={PatientTrialListSelector.data.id}
                                                     favBtnDisable={true}
@@ -167,7 +167,7 @@ const PhysicianTrialListing = () => {
                             {viewTrialDetails.data.is_recruiting === 1 ?
                                 <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                 :
-                                <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
+                                <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>
                             }
                         </div>
                     </>

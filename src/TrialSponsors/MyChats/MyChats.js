@@ -294,7 +294,7 @@ const SponsorsMyChats = (props) => {
                             <div className="top-bar">
                                 <div className="user-info">
                                     <div className="user-head">
-                                        <img src={reciverImage ? reciverImage : "/images/profile-img1.jpg"} alt={reciverName} />
+                                        <img src={reciverImage ? reciverImage : "/images/placeholder-img.jpg"} alt={reciverName} />
                                     </div>
                                     <div className="name">{capitalizeFirstLetter(reciverName)}</div>
                                     {/* <div className="status online" /> */}

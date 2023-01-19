@@ -110,7 +110,7 @@ const ClinicMyAppointments = () => {
                                                                     imgUrl={value.sponsor_user_info.listing_image}
                                                                     title={value.sponsor_user_info.sponsor_name}
                                                                     status={
-                                                                        value.is_recruiting === 0 ? "Not Recruiting" :
+                                                                        value.is_recruiting === 0 ? "Recruiting stopped" :
                                                                                 value.is_recruiting === 2 ? "Rejected" :
                                                                                     value.is_recruiting === 3 ? "Completed" :
                                                                                         null

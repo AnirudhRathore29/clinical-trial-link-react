@@ -292,7 +292,7 @@ const SponsorsManageClinics = () => {
                                             const docName = value.real_doc_name.split(".")
                                             return (
                                                 <div className='col-lg-6 mb-3' key={index}>
-                                                    <a href={value.document} className='downloadDoc' download>
+                                                    <a href={value.document} className='downloadDoc' download target="_blank">
                                                         <p><span>{docName[0]}</span>.{docName[1]}</p>
                                                         <box-icon type='solid' name='download'></box-icon>
                                                     </a>
