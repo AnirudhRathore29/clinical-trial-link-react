@@ -248,10 +248,7 @@ const SponsorsPatientList = () => {
                                     {patientDetail.data.status === 1 ?
                                         <span className='badge badge-primary d-inline-block mb-3'>Approved</span>
                                         :
-                                        patientDetail.data.status === 3 ?
-                                            <span className='badge badge-success d-inline-block mb-3'>Completed</span>
-                                            :
-                                            <span className='badge badge-danger d-inline-block mb-3'> Kon hai tu </span>
+                                        <span className='badge badge-success d-inline-block mb-3'>Completed</span>
                                     }
                                     <p><strong>Visit Number :</strong> {patientDetail.data.visit_number} </p>
                                 </div>

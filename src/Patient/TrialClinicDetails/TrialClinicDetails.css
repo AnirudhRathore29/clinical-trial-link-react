@@ -1,7 +1,7 @@
 .trialClinic-detail-bx h1{display: flex;justify-content: space-between;font-size: 3rem;font-weight: 700;color: var(--TextColor);margin-bottom: 1rem;}
 .share-btn{border: none;background: transparent;}
 
-.trialClinic-img img{width: 100%;border-radius: 1rem;max-height: 50rem;object-fit: cover;border: 1px solid #ddd;}
+.trialClinic-img img{width: 100%;border-radius: 1rem;max-height: 50rem;object-fit: contain;border: 1px solid #ddd;background: #ffffff;}
 
 .trialClinic-info-bx>h2{margin-bottom: 1rem;font-size: 2.3rem;font-weight: 500;color: var(--TextColor);display: flex;align-items: center;justify-content: space-between;}
 .trialClinic-info-bx>p{color: var(--TextColor);line-height: 1.8;font-weight: 300;}
