@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Assets/css/responsive.css';
 import ScrollToTop from './views/Components/ScrollToTop/ScrollToTop';
+import { LogoLoader } from './views/Components/Common/LogoLoader/LogoLoader';
 
 /* Layout */
 const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
@@ -23,8 +24,8 @@ const PageNotFound = React.lazy(() => import('./views/pages/PageNotFound/404'));
 var jwt = require('jsonwebtoken');
 
 const loading = (
-	<div className="pt-3 text-center">
-		<div className="sk-spinner sk-spinner-pulse"></div>
+	<div className='fullPageLoader testLoader'>
+		<LogoLoader />
 	</div>
 );
 
@@ -39,7 +40,7 @@ function App() {
 		<>
 			{/* <ScrollToTop /> */}
 			<Router>
-				<React.Suspense fallback={loading}>
+				<React.Suspense fallback={loading} onReset={() => window.location.reload()}>
 					<Switch>
 						<Route exact path="/" name="Home" render={(props) => <FrontLayout {...props} />} />
 						<Route exact path="/contact-us" name="ContactUs" render={(props) => <FrontLayout className="inner-header" {...props} />} />

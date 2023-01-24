@@ -135,6 +135,7 @@ iframe[style*="fixed"]{display: none;}
 .before-login-listing .trialClinic-side-bx{background: #F3F8FF;}
 
 .fullPageLoader{position: fixed;left: 0;top: 0;width: 100%;height: 100%;background: var(--whiteColor);display: flex;align-items: center;justify-content: center;z-index: 999999;}
+.fullPageLoader.OnRouteCallLoader{z-index: 99;}
 .cms-content-section h2 { margin-bottom: 2rem; font-weight: 800; font-size: 3rem; }
 .cms-content-section h3 { font-size: 2.3rem; }
 .cms-content-section p { margin-bottom: 1rem; font-size: 1.7rem; color: var(--TextColor);}

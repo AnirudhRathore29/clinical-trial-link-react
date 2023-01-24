@@ -3,10 +3,11 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from "react-redux";
 // routes config
 import routes from '../Routes/routes';
+import { LogoLoader } from '../views/Components/Common/LogoLoader/LogoLoader';
 
 const loading = (
-	<div className="pt-3 text-center">
-		<div className="sk-spinner sk-spinner-pulse"></div>
+	<div className='fullPageLoader OnRouteCallLoader'>
+		<LogoLoader />
 	</div>
 );
 

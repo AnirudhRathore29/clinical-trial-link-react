@@ -52,7 +52,7 @@ const ClinicDashboard = () => {
                                 className="thirdColor"
                                 URL="/trial-clinic/trial-applications"
                                 icon={<box-icon type='solid' name='badge-check' size="40px" color="#ffffff"></box-icon>}
-                                title="Requests Approved by the Trial Sponsors/CRO"
+                                title="Clinical Studies"
                                 info={DashboardSelector !== undefined && DashboardSelector.data.totalApprovedRequestBySponsor !== null ? DashboardSelector.data.totalApprovedRequestBySponsor : "0"}
                             />
                         </div>
