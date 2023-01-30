@@ -12,16 +12,25 @@ const SearchBx = ({ placeholder }) => {
 
     const [fieldData, setFieldData] = useState();
 
-    const HandleSearch = () => {
+    const HandleSearch = (e) => {
+        e.preventDefault()
         switch (profileDetails?.role) {
             case 2:
                 history.push({
-                    pathname: `/patient/search-listing?search=${fieldData}`,
+                    pathname: `/patient/search-listing`,
+                    search: `?search=${fieldData}`,
                     state: fieldData
                 })
             case 3:
                 history.push({
-                    pathname: `/trial-clinic/sponsors-listing?search=${fieldData}`,
+                    pathname: `/trial-clinic/sponsors-listing`,
+                    search: `?search=${fieldData}`,
+                    state: fieldData
+                })
+            case 5:
+                history.push({
+                    pathname: `/trial-sponsors/clinic-listing`,
+                    search: `?search=${fieldData}`,
                     state: fieldData
                 })
             default: {}

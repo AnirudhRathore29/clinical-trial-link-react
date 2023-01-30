@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { InputText } from '../../views/Components/Common/Inputs/Inputs';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import ListBox from '../../views/Components/ListBox/ListBox';
@@ -15,6 +15,7 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 
 const SponsorsClinicListing = () => {
     const dispatch = useDispatch()
+    const location = useLocation()
     const listSelector = useSelector(state => state.My_trials.clinic_list.data)
     const isloading = useSelector(state => state.My_trials);
 
@@ -102,8 +103,8 @@ const SponsorsClinicListing = () => {
     }
 
     useEffect(() => {
-        dispatch(TrialClinicListAction({ page: loadMoreData }))
-    }, [dispatch, loadMoreData])
+        dispatch(TrialClinicListAction({ page: loadMoreData, keywords: location?.search?.split("=").pop()}))
+    }, [dispatch, loadMoreData, location?.search])
 
     const TrialClinicListFilterSubmit = (e) => {
         e.preventDefault();
