@@ -13,8 +13,11 @@ import { useHistory } from "react-router-dom";
 import { PhysicianCompleteProfileAction } from "../../redux/actions/profileAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MultiSelect } from "react-multi-select-component";
 import { isValidZipcode } from "./../../views/Components/Validation/Validation"
 import moment from "moment";
+import { authHeader } from "../../redux/actions/authHeader";
+import getCurrentHost from "../../redux/constants";
 
 toast.configure();
 var jwt = require('jsonwebtoken');
@@ -24,18 +27,24 @@ const PhysicianCompleteProfile = () => {
     const dataSelector = useSelector(state => state.common_data)
     const profileComSelector = useSelector(state => state.profile);
     const [CPSubmitClick, setCPSubmitClick] = useState(false);
+    const [specialityList, setSpecialityList] = useState([]);
     const [profileInputData, setProfileInputData] = useState({
         state_id: "",
         zip_code: "",
         dob: null,
         gender: "M",
-        brief_intro: ""
+        brief_intro: "",
+        speciality: [],
     });
 
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
+    console.log("profileInputData", profileInputData);
+    console.log("specialityList", specialityList);
+
     const onChange = (e) => {
         const { name, value } = e.target;
+
         setProfileInputData((preValue) => {
             return {
                 ...preValue,
@@ -43,6 +52,33 @@ const PhysicianCompleteProfile = () => {
             };
         });
     }
+
+    const specialityOnChange = (e) => {
+        setProfileInputData({ ...profileInputData, speciality: e })
+    }
+
+    useEffect(() => {
+        (async () => {
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader(true)
+            };
+            await fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+                .then(data => data.json())
+                .then((response) => {
+                    let data = response.data;
+                    for (var i = 0; i < data?.length; i++) {
+                        const obj = Object.assign({}, data[i]);
+                        obj.label = data[i].speciality_title;
+                        obj.value = data[i].id;
+                        setSpecialityList(oldArray => [...oldArray, obj]);
+                    }
+                })
+                .catch(err => {
+                    console.log("err", err)
+                })
+        })();
+    }, [])
 
     useEffect(() => {
         if (profileDetails.isProfileCompleted) {
@@ -78,11 +114,13 @@ const PhysicianCompleteProfile = () => {
 
     const CompleteProfileSubmit = (e) => {
         e.preventDefault();
+        const specialityArr = profileInputData.speciality.map(value => value.id);
         let data = {
             state_id: profileInputData.state_id,
             zip_code: profileInputData.zip_code,
             dob: profileInputData.dob,
             gender: profileInputData.gender,
+            speciality: specialityArr,
             brief_intro: profileInputData.brief_intro,
         }
         const isVaild = Vaildation(data)
@@ -151,6 +189,21 @@ const PhysicianCompleteProfile = () => {
                                         required="required"
                                         placeholderText="Select DOB"
                                     />
+                                </div>
+
+                                <div className="col-lg-6">
+                                    <div className="form-group">
+                                        <label> Specialty <span className="text-danger"> *</span></label>
+                                        <MultiSelect
+                                            options={specialityList !== undefined && specialityList}
+                                            value={profileInputData?.speciality}
+                                            onChange={specialityOnChange}
+                                            disableSearch={true}
+                                            labelledBy="Seeking Trials for"
+                                            className="multiSelect-control"
+                                            name="speciality"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="col-lg-6 form-group">

@@ -15,24 +15,29 @@ import { StatesAction } from "../../redux/actions/commonAction";
 import { useHistory } from "react-router-dom";
 import ChangePassword from "../../TrialSponsors/EditProfile/ChangePassword";
 import { LogoLoader } from "../../views/Components/Common/LogoLoader/LogoLoader";
-import { getImageUrl } from "../../redux/constants";
+import getCurrentHost, { getImageUrl } from "../../redux/constants";
+import { MultiSelect } from "react-multi-select-component";
+import { authHeader } from "../../redux/actions/authHeader";
 
 toast.configure();
+var specialityListAPI = []
 
 const PhysicianEditProfile = () => {
 
     const dataSelector = useSelector(state => state.common_data)
     const profileSelector = useSelector(state => state.profile.data.data);
     const UpdateProfileSelector = useSelector(state => state.profile)
-
+    
     const [startDate, setStartDate] = useState(new Date());
     const [profileSubmitClick, setProfileSubmitClick] = useState(false);
     const [binary, setBinary] = useState();
+    const [specialityList, setSpecialityList] = useState([]);
     const [fullBinaryUrl, setFullBinaryUrl] = useState();
     const [profileInputData, setProfileInputData] = useState({
         first_name: "",
         last_name: "",
         email: "",
+        speciality: [],
         // phone_number: "",
         state_id: "",
         zip_code: "",
@@ -42,6 +47,8 @@ const PhysicianEditProfile = () => {
     });
 
     console.log("profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro", profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro);
+    console.log("profileInputData", profileInputData);
+    console.log("specialityList", specialityList);
 
     const dispatch = useDispatch()
     const history = useHistory();
@@ -53,6 +60,13 @@ const PhysicianEditProfile = () => {
 
     useEffect(() => {
         if (profileSelector !== undefined) {
+            let speciality_data = profileSelector.data.user_speciality;
+            for (var i = 0; i < speciality_data?.length; i++) {
+                const obj = Object.assign({}, speciality_data[i]);
+                obj.label = speciality_data[i].speciality_info.speciality_title;
+                obj.value = speciality_data[i].trial_category_speciality_id;
+                specialityListAPI.push(obj)
+            }
             setProfileInputData({
                 ...profileInputData,
                 first_name: profileSelector.data.first_name,
@@ -60,6 +74,7 @@ const PhysicianEditProfile = () => {
                 email: profileSelector.data.email,
                 phone_number: profileSelector.data.phone_number,
                 state_id: profileSelector.data.state_id,
+                speciality: specialityListAPI,
                 zip_code: profileSelector.data.zip_code,
                 dob: new Date(profileSelector.data.dob),
                 gender: profileSelector.data.gender,
@@ -68,6 +83,8 @@ const PhysicianEditProfile = () => {
 
         return () => {
             setProfileInputData()
+            setSpecialityList([])
+            specialityListAPI = []
         }
     }, [profileSelector])
 
@@ -109,6 +126,33 @@ const PhysicianEditProfile = () => {
         });
     }
 
+    const specialityOnChange = (e) => {
+        setProfileInputData({ ...profileInputData, speciality: e })
+    }
+
+    useEffect(() => {
+        (async () => {
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader(true)
+            };
+            await fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+                .then(data => data.json())
+                .then((response) => {
+                    let data = response.data;
+                    for (var i = 0; i < data?.length; i++) {
+                        const obj = Object.assign({}, data[i]);
+                        obj.label = data[i].speciality_title;
+                        obj.value = data[i].id;
+                        setSpecialityList(oldArray => [...oldArray, obj]);
+                    }
+                })
+                .catch(err => {
+                    console.log("err", err)
+                })
+        })();
+    }, [])
+
     //form validation handler
     const Validation = (value) => {
         const isFirstNameVaild = isValidOnlyLetters(value.first_name, "first name")
@@ -129,6 +173,7 @@ const PhysicianEditProfile = () => {
 
     const handleSubmitProfile = (e) => {
         e.preventDefault();
+        const specialityArr = profileInputData.speciality.map(value => value.value);
         let formData = new FormData();
         formData.append("first_name", profileInputData.first_name)
         formData.append("last_name", profileInputData.last_name)
@@ -141,6 +186,9 @@ const PhysicianEditProfile = () => {
         formData.append("brief_intro", profileInputData.brief_intro)
         if (binary !== undefined) {
             formData.append("profile_image", binary)
+        }
+        for (let i = 0; i < specialityArr.length; i++) {
+            formData.append(`speciality[${i}]`, specialityArr[i]);
         }
         const isVaild = Validation(profileInputData);
         if (isVaild) {
@@ -295,6 +343,20 @@ const PhysicianEditProfile = () => {
                                                     required="required"
                                                     placeholderText="Select DOB"
                                                 />
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <div className="form-group">
+                                                    <label> Specialty <span className="text-danger"> *</span></label>
+                                                    <MultiSelect
+                                                        options={specialityList !== undefined && specialityList}
+                                                        value={profileInputData?.speciality}
+                                                        onChange={specialityOnChange}
+                                                        disableSearch={true}
+                                                        labelledBy="Seeking Trials for"
+                                                        className="multiSelect-control"
+                                                        name="speciality"
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="col-lg-6 form-group">
                                                 <label>Gender</label>

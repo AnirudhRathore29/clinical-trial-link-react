@@ -266,7 +266,7 @@ const ClinicCompleteProfile = () => {
 
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Speciality <span className="text-danger"> *</span></label>
+                                        <label> Specialty <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={specialityList !== undefined && specialityList}
                                             value={profileInputData.speciality}

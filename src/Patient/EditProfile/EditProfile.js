@@ -25,8 +25,8 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 toast.configure();
-const conditionListAPI = []
-const specialityListAPI = []
+var conditionListAPI = []
+var specialityListAPI = []
 
 const PatientEditProfile = () => {
     const dispatch = useDispatch();
@@ -56,8 +56,8 @@ const PatientEditProfile = () => {
         state_id: "",
         zip_code: "",
         dob: null,
-        race:"",
-        medical_cond:"",
+        race: "",
+        medical_cond: "",
         address: "",
         latitude: null,
         longitude: null,
@@ -112,7 +112,7 @@ const PatientEditProfile = () => {
                 zip_code: profileSelector.data.zip_code,
                 dob: new Date(profileSelector.data.dob),
                 race: profileSelector.data.user_meta_info.race,
-                medical_cond:profileSelector.data.user_meta_info.medical_cond,
+                medical_cond: profileSelector.data.user_meta_info.medical_cond,
                 address: profileSelector.data.address,
                 gender: profileSelector.data.gender,
                 trials_for: profileSelector.data.user_meta_info.trials_for,
@@ -132,6 +132,8 @@ const PatientEditProfile = () => {
         return () => {
             setProfileInputData()
             setTrialFor()
+            conditionListAPI = []
+            specialityListAPI = []
         }
     }, [profileSelector])
 
@@ -299,7 +301,7 @@ const PatientEditProfile = () => {
         formData.append("account_holder_name", profileInputData.account_holder_name)
         formData.append("account_number", profileInputData.account_number)
         formData.append("routing_number", profileInputData.routing_number)
-        if(profileInputData.latitude && profileInputData.longitude){
+        if (profileInputData.latitude && profileInputData.longitude) {
             formData.append("latitude", profileInputData.latitude)
             formData.append("longitude", profileInputData.longitude)
         }
@@ -615,13 +617,13 @@ const PatientEditProfile = () => {
                                             </div>
 
                                             <div className="col-lg-6 form-group">
-                                                <label> Mental Health Condition <span className="text-danger"> *</span></label>
+                                                <label> Health Condition <span className="text-danger"> *</span></label>
                                                 <MultiSelect
                                                     options={conditionList !== undefined && conditionList}
                                                     value={profileInputData.condition}
                                                     onChange={(e) => setProfileInputData({ ...profileInputData, condition: e })}
                                                     disableSearch={true}
-                                                    labelledBy="Mental Health Condition"
+                                                    labelledBy="Health Condition"
                                                     className="multiSelect-control"
                                                     name="condition"
                                                 />

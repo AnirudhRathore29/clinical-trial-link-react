@@ -369,13 +369,13 @@ const PatientCompleteProfile = () => {
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="form-group">
-                                        <label> Mental Health Condition <span className="text-danger"> *</span></label>
+                                        <label> Health Condition <span className="text-danger"> *</span></label>
                                         <MultiSelect
                                             options={conditionList !== undefined && conditionList}
                                             value={profileInputData.condition}
                                             onChange={(e) => setProfileInputData({ ...profileInputData, condition: e })}
                                             disableSearch={true}
-                                            labelledBy="Mental Health Condition"
+                                            labelledBy="Health Condition"
                                             className="multiSelect-control"
                                             name="condition"
                                         />

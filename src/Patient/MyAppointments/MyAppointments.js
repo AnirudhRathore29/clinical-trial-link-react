@@ -155,7 +155,7 @@ const PatientMyAppointments = () => {
             <div className="clinical-dashboard my-appointment-section">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>My Appointments</h1>
+                        <h1>My Studies</h1>
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>

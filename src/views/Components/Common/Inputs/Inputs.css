@@ -8,8 +8,8 @@
 .multiSelect-control .dropdown-container{display: flex; align-items: center;padding-left: 0;}
 .multiSelect-control .dropdown-container .dropdown-heading{padding-left: 2rem!important;}
 .multiSelect-control.rmsc .dropdown-heading{padding-left:0;}
-input:hover,
-input:focus{box-shadow: inset 0 0 0 10rem var(--whiteColor)!important;}
+/* input:hover,
+input:focus{box-shadow: inset 0 0 0 10rem var(--whiteColor)!important;} */
 .form-control.password-field{padding-right: 6rem;}
 select.form-control{background: var(--whiteColor) url(../../../../Assets/images/down-arrow.svg) no-repeat 95% center;background-size: 1.1rem;padding-left: 1.5rem;padding-right: 3rem;box-shadow: none!important;}
 select.form-control-sm{background-position-x: 90%;}

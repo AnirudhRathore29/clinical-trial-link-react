@@ -159,7 +159,7 @@ const ClinicTrialApplication = () => {
             <div className="clinical-dashboard my-appointment-section">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Trial Applications</h1>
+                        <h1>Clinical Studies</h1>
                     </div>
                     <div className='repeat-white-bx'>
                         <div className='tab-outer'>

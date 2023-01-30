@@ -377,13 +377,13 @@ const SponsorsTrials = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label> Mental Health Condition </label>
+                                <label> Health Condition </label>
                                 <MultiSelect
                                     options={conditionList !== undefined && conditionList}
                                     value={createTrialFieldData.condition}
                                     onChange={(e) => setCreateTrialFieldData({ ...createTrialFieldData, condition: e })}
                                     disableSearch={true}
-                                    labelledBy="Mental Health Condition"
+                                    labelledBy="Health Condition"
                                     className="multiSelect-control"
                                     name="condition"
                                 />

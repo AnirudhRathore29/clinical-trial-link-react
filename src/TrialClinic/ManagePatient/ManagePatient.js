@@ -84,7 +84,7 @@ const ClinicManagePatient = () => {
             <div className="clinical-dashboard">
                 <div className="container">
                     <div className="heading-bx">
-                        <h1>Manage Patient</h1>
+                        <h1>Patient Overview</h1>
                         <Download
                             apiUrl="/trialclinic/export-manage-patient-list"
                             apiParameters={DownloadDocData}
