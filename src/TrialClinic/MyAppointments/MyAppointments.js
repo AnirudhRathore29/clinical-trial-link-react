@@ -63,11 +63,11 @@ const ClinicMyAppointments = () => {
                                                             <Link to={`/trial-clinic/patient-list/${value.id}`}>
                                                                 <MyAppointmentBx
                                                                     imgUrl={value.sponsor_user_info.listing_image}
-                                                                    title={value.sponsor_user_info.sponsor_name}
+                                                                    title={value.clinic_trial_info.trial_name}
                                                                     status="Recruiting"
                                                                     statusClass="primary"
                                                                     location={`${value.sponsor_user_info.address}, ${value.sponsor_user_info.state_info.name}`}
-                                                                    description={value.clinic_trial_info.trial_name}
+                                                                    description={value.sponsor_user_info.sponsor_name}
                                                                 />
                                                             </Link>
                                                         </div>
@@ -108,7 +108,7 @@ const ClinicMyAppointments = () => {
                                                             <Link to={`/trial-clinic/patient-list-past/${value.id}`}>
                                                                 <MyAppointmentBx
                                                                     imgUrl={value.sponsor_user_info.listing_image}
-                                                                    title={value.sponsor_user_info.sponsor_name}
+                                                                    title={value.clinic_trial_info.trial_name}
                                                                     status={
                                                                         value.is_recruiting === 0 ? "Recruiting stopped" :
                                                                                 value.is_recruiting === 2 ? "Rejected" :
@@ -122,7 +122,7 @@ const ClinicMyAppointments = () => {
                                                                                         null
                                                                     }
                                                                     location={`${value.sponsor_user_info.address}, ${value.sponsor_user_info.state_info.name}`}
-                                                                    description={value.clinic_trial_info.trial_name}
+                                                                    description={value.sponsor_user_info.sponsor_name}
                                                                 />
                                                             </Link>
                                                         </div>

@@ -174,13 +174,13 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={() => handleTrialDetailModalOpen(value.id)}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title={value.sponsor_user_info.sponsor_name}
+                                                                title={value.clinic_trial_info.trial_name}
                                                                 status={value.status === 0 && "Pending"}
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
-                                                                description={value.clinic_trial_info.trial_name}
+                                                                description={value.sponsor_user_info.sponsor_name}
                                                             />
                                                         </div>
                                                     )
@@ -221,13 +221,13 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={() => handleTrialDetailModalOpen(value.id)}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title={value.sponsor_user_info.sponsor_name}
+                                                                title={value.clinic_trial_info.trial_name}
                                                                 status={value.status === 1 && "Eligible"}
                                                                 statusClass="primary"
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
-                                                                description={value.clinic_trial_info.trial_name}
+                                                                description={value.sponsor_user_info.sponsor_name}
                                                             />
                                                         </div>
                                                     )
@@ -269,13 +269,13 @@ const ClinicTrialApplication = () => {
                                                             <MyAppointmentBx
                                                                 onClick={() => handleTrialDetailModalOpen(value.id)}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
-                                                                title={value.sponsor_user_info.sponsor_name}
+                                                                title={value.clinic_trial_info.trial_name}
                                                                 status={value.status === 3 ? "Completed" : "Cancelled"}
                                                                 statusClass={value.status === 3 ? "success" : "danger"}
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
                                                                 time={moment(value.updated_date).format("MMMM DD, YYYY")}
-                                                                description={value.clinic_trial_info.trial_name}
+                                                                description={value.sponsor_user_info.sponsor_name}
                                                             />
                                                         </div>
                                                     )

@@ -8,7 +8,7 @@ import { SponsorListAction } from '../../redux/actions/TrialClinicAction';
 import { MultiSelect } from "react-multi-select-component";
 import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
@@ -18,6 +18,7 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 // toast.configure();
 const ClinicSponsorsListing = () => {
     const dispatch = useDispatch()
+    const location = useLocation()
     const listSelector = useSelector(state => state.trial_clinic)
     const isloading = useSelector(state => state.trial_clinic);
     const trialListData = listSelector.data.data
@@ -30,6 +31,8 @@ const ClinicSponsorsListing = () => {
         specialities: [],
         conditions: [],
     });
+
+    console.log("location", location);
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -100,7 +103,7 @@ const ClinicSponsorsListing = () => {
     }
 
     useEffect(() => {
-        dispatch(SponsorListAction({ page: loadMoreData }))
+        dispatch(SponsorListAction({ page: loadMoreData,  keywords: location?.search.split("=").pop()}))
     }, [dispatch, loadMoreData])
 
     const SponsorListFilterSubmit = (e) => {

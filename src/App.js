@@ -71,6 +71,7 @@ function App() {
 							<PrivateRoute path="/patient/payment-history" name="PatientPaymentHistory" component={(props) => <BackLayout {...props} />} />
 							<PrivateRoute path="/patient/trial-listing" name="PatientTrialListing" component={(props) => <BackLayout {...props} />} />
 							<PrivateRoute path="/patient/patient-visits/:id" name="PatientAllVisit" component={(props) => <BackLayout {...props} />} />
+							<PrivateRoute path="/patient/search-listing" name="PatientSearchListing" component={(props) => <BackLayout {...props} />} />
 
 							{/* clinic private Routes */}
 							<PrivateRoute path="/trial-clinic/complete-profile" name="ClinicCompleteProfile" component={(props) => <BackLayout headerColor="trialClinic" {...props} />} />

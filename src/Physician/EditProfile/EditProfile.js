@@ -83,7 +83,6 @@ const PhysicianEditProfile = () => {
 
         return () => {
             setProfileInputData()
-            setSpecialityList([])
             specialityListAPI = []
         }
     }, [profileSelector])

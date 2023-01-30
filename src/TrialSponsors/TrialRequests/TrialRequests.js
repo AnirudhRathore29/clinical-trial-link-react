@@ -216,7 +216,7 @@ const SponsorTrialRequests = () => {
                                 <div className='appointment-detail-col'>
                                     <h2>Documents</h2>
                                     <div className='row mt-3'>
-                                        {requestDetailData.appointment_documents.map((value, index) => {
+                                        {requestDetailData.appointment_documents.length > 0 ? requestDetailData.appointment_documents.map((value, index) => {
                                             const docName = value.real_doc_name.split(".")
                                             return (
                                                 <div className='col-lg-6 mb-3' key={index}>
@@ -227,7 +227,12 @@ const SponsorTrialRequests = () => {
                                                     {/* <img src={value.document} alt={requestDetailData.trial_clinic_user_info.clinic_name} /> */}
                                                 </div>
                                             )
-                                        })}
+                                        })
+                                            :
+                                            <div className='col-lg-6 mb-3'>
+                                                No Documents
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             }

@@ -74,10 +74,11 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
     }, [handleClose2, handleShow3])
 
     const Validation = (intro, file) => {
-        if (file.length === 0) {
-            toast.error(`The Document field is required.`, { theme: "colored" })
-            return false
-        } else if (file.length > totalFiles) {
+        // if (file.length === 0) {
+        //     toast.error(`The Document field is required.`, { theme: "colored" })
+        //     return false
+        // } 
+        if (file.length > totalFiles) {
             toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
             return false
         }
