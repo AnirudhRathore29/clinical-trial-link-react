@@ -97,7 +97,7 @@ const PatientAllVisit = () => {
                                         </div>
                                     }
                                 </Tab>
-                                <Tab eventKey="Trial Process" title="Trial">
+                                <Tab eventKey="Trial Process" title="Approved">
                                     <div className='row'>
                                         {ListSelectorState !== undefined ?
                                             ListSelectorState.length > 0 ?

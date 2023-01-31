@@ -22,7 +22,6 @@ const PatientMyFavorites = React.lazy(() => import('../Patient/MyFavorites/MyFav
 // const PatientMyChats = React.lazy(() => import('../Patient/MyChats/myChats'));
 const PatientPaymentHistory = React.lazy(() => import('../Patient/PaymentHistory/PaymentHistory'));
 const PatientTrialListing = React.lazy(() => import('../Patient/TrialListing/TrialListing'));
-const PatientSearchListing = React.lazy(() => import('../views/Components/SearchBx/SearchListing'));
 const PatientAllVisit = React.lazy(() => import('../Patient/MyAppointments/PatientAllVisit'));
 
 /* clinic pages */
@@ -107,7 +106,7 @@ const routes = [
 	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/trial-listing/:id', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/patient-visits/:id', exact: true, name: 'PatientAllVisit', component: PatientAllVisit, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/search-listing', exact: true, name: 'PatientSearchListing', component: PatientSearchListing, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/search-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 
 	/* Clinic Routes */
 	{ path: '/trial-clinic/complete-profile', exact: true, name: 'ClinicCompleteProfile', component: ClinicCompleteProfile, meta: {"role": RolesConfig.TRIAL_CLINIC} },
@@ -161,6 +160,7 @@ const routes = [
 	{ path: '/physician/edit-profile', exact: true, name: 'PhysicianEditProfile', component: PhysicianEditProfile, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/approved-trials', exact: true, name: 'PhysicianApprovedTrials', component: PhysicianApprovedTrials, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/approved-patient-list/:id', exact: true, name: 'ApprovedPatientList', component: ApprovedPatientList, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/search-listing', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing, meta: {"role": RolesConfig.PHYSICIAN} },
 ];
 
 export default routes;

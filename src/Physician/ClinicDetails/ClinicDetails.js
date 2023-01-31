@@ -225,7 +225,7 @@ const TrialClinicDetails = () => {
                                     </div>
                                     <div>
                                         <h4>Trial Compensation</h4>
-                                        <h2> ${viewTrialDetails.data.clinic_trial_info.compensation} </h2>
+                                        <h2> ${viewTrialDetails.data.compensation} </h2>
                                     </div>
                                 </div>
                             </div>

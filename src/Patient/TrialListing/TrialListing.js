@@ -6,7 +6,7 @@ import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../MyFavorites/MyFavorites.css';
 import './TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { PatientClinicAppTrialListAction, PatientMyFavTrialAction, PatientViewTrialsAction } from '../../redux/actions/PatientAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -18,6 +18,8 @@ const PatientTrialListing = () => {
     const { id } = useParams()
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
+    const ApiUrl = id ? `/patient/get-trialclinic-approved-trial-list/${id}` : "/patient/get-searched-trials"
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
     const favTrialSelector = useSelector(state => state.patient.patient_my_fav_trials.data);
@@ -60,8 +62,8 @@ const PatientTrialListing = () => {
         let data = {
             page: loadMoreData
         }
-        dispatch(PatientClinicAppTrialListAction(id, data))
-    }, [dispatch, id, loadMoreData])
+        dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+    }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
 
 
     const handleShow2 = () => {
@@ -86,7 +88,7 @@ const PatientTrialListing = () => {
             conditions: formData.conditions,
             page: loadMoreData
         }
-        dispatch(PatientClinicAppTrialListAction(id, data))
+        dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
     }
 
     const handleLoadMore = (e) => {
@@ -166,7 +168,7 @@ const PatientTrialListing = () => {
             let data = {
                 page: loadMoreData
             }
-            dispatch(PatientClinicAppTrialListAction(id, data))
+            dispatch(PatientClinicAppTrialListAction(ApiUrl, data))
             setTrialListState()
         }
     }, [favTrialSelector])

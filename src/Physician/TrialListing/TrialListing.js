@@ -5,7 +5,7 @@ import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../../Patient/MyFavorites/MyFavorites.css';
 import '../../Patient/TrialListing/TrialListing.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
@@ -13,22 +13,111 @@ import CommonModal from '../../views/Components/Common/Modal/Modal';
 import moment from 'moment';
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { PhysicianClinicAppTrialListAction, PhysicianViewTrialsAction } from '../../redux/actions/PhysicianAction';
+import { authHeader } from '../../redux/actions/authHeader';
+import getCurrentHost from '../../redux/constants';
+
+var jwt = require('jsonwebtoken');
 
 const PhysicianTrialListing = () => {
     const { id } = useParams()
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
+    const ApiUrl = id ? `/physician/get-trialclinic-approved-trial-list/${id}` : "/physician/get-searched-trials"
     const viewTrialDetailSelector = useSelector(state => state.patient.view_trial.data);
     const PatientTrialListSelector = useSelector(state => state.patient.clinic_details_list.data);
     const loadingSelector = useSelector(state => state.patient);
 
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [TrialListState, setTrialListState] = useState(undefined);
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
+    const [AllUserConditions, setAllUserConditions] = useState([]);
     const [TrialDetailModalState, setTrialDetailModalState] = useState(false);
+    const [LoadingState, setLoadingState] = useState(false);
+    const [formData, setFormData] = useState({
+        conditions: [],
+        allChecked: false
+    })
+
+    console.log("ididid", id);
+    console.log("viewTrialDetails", viewTrialDetails);
 
     useEffect(() => {
         setViewTrialDetails(viewTrialDetailSelector)
         return () => { setViewTrialDetails(undefined) }
     }, [viewTrialDetailSelector]);
+
+    useEffect(() => {
+        setTrialListState(PatientTrialListSelector)
+        setLoadingState(false)
+    }, [PatientTrialListSelector]);
+
+    useEffect(() => {
+        let data = {
+            page: loadMoreData,
+        }
+        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+    }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
+
+    useEffect(() => {
+        const configure = {
+            method: "GET",
+            headers: authHeader()
+        }
+        fetch(getCurrentHost() + "/get-all-conditions", configure)
+            .then(response => response.json())
+            .then(response => {
+                console.log("response.length", response);
+                const data = response.data
+                for (let i = 0; i < data.length; i++) {
+                    const object = Object.assign({}, data[i])
+                    object.checked = false;
+                    setAllUserConditions((preValue) => [...preValue, object])
+                }
+            })
+    }, [])
+
+    const conditionOnchange = (id, e) => {
+        if (e.target.checked) {
+            const filterObject = AllUserConditions.find(value => value.id == id)
+            filterObject.checked = true
+            setFormData({ conditions: [...formData.conditions, id] })
+            if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
+                setFormData({ ...formData, allChecked: true })
+            }
+        }
+        else {
+            const filterIDs = formData.conditions.filter(value => value !== id)
+            const filterObject = AllUserConditions.find(value => value.id == id)
+            filterObject.checked = false
+            setFormData({ ...formData, conditions: filterIDs, allChecked: false })
+        }
+    }
+
+    const SelectAllCondition = (e) => {
+        if (e.target.checked) {
+            const allIds = AllUserConditions.map(value => value.id)
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = true
+            }
+            setFormData({ conditions: allIds })
+        } else {
+            setFormData({ conditions: [] })
+            for (let i = 0; i < AllUserConditions.length; i++) {
+                AllUserConditions[i].checked = false
+            }
+        }
+    }
+
+    const SponsorListFilterSubmit = (e) => {
+        setLoadingState(true)
+        e.preventDefault();
+        let data = {
+            conditions: formData.conditions,
+            page: loadMoreData
+        }
+        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+    }
 
     const handleClinicTrialModalOpen = (id) => {
         dispatch(PhysicianViewTrialsAction(id))
@@ -40,22 +129,21 @@ const PhysicianTrialListing = () => {
         setViewTrialDetails(undefined)
     };
 
-    useEffect(() => {
-        let data = {
-            page: loadMoreData
-        }
-        dispatch(PhysicianClinicAppTrialListAction(id, data))
-    }, [dispatch, id, loadMoreData])
-
     const handleRedirectUser2Chat = () => {
-        // history.push({
-        //     pathname: "/physician/my-chats",
-        //     state: {
-        //         full_name: patientClinicDetails.data.clinic_name,
-        //         id: patientClinicDetails.data.id,
-        //         profile_image: patientClinicDetails.data.listing_image,
-        //     }
-        // })
+        // const data = {
+        //     full_name: viewTrialDetails.data?.sponsor_user_info?.sponsor_name,
+        //     id: viewTrialDetails.data?.sponsor_user_info?.id,
+        //     profile_image: viewTrialDetails.data?.sponsor_user_info?.listing_image_new,
+        // }
+        // console.log("datadata", data, viewTrialDetails);
+        history.push({
+            pathname: "/physician/my-chats",
+            state: {
+                full_name: viewTrialDetails.data?.trial_clinic_user_info?.clinic_name,
+                id: viewTrialDetails.data?.trial_clinic_user_info?.id,
+                profile_image: viewTrialDetails.data?.trial_clinic_user_info?.listing_image,
+            }
+        })
     }
 
     const handleLoadMore = (e) => {
@@ -74,40 +162,48 @@ const PhysicianTrialListing = () => {
                             <div className="filter-sidebar">
                                 <h2>Filter by Condition</h2>
                                 <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="All" labelText="All" />
+                                    <RadioBtn
+                                        className="checkbox-btn"
+                                        type="checkbox"
+                                        name="All"
+                                        labelText="All"
+                                        checked={formData.allChecked}
+                                        onChange={SelectAllCondition}
+                                    />
                                 </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Opioid Use Disorder" labelText="Opioid Use Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Hemorrhoids" labelText="Hemorrhoids" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Dementia" labelText="Dementia" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Bipolar Disorder" labelText="Bipolar Disorder" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Alzheimer’s Disease" labelText="Alzheimer’s Disease" />
-                                </div>
-                                <div className="form-group">
-                                    <RadioBtn className="checkbox-btn" type="checkbox" name="Depression" labelText="Depression" />
-                                </div>
+                                {
+                                    AllUserConditions.map((value, index) => {
+                                        return (
+                                            <div className="form-group" key={index}>
+                                                <RadioBtn
+                                                    className="checkbox-btn"
+                                                    type="checkbox"
+                                                    name="conditions"
+                                                    checked={value.checked}
+                                                    onChange={(e) => conditionOnchange(value.id, e)}
+                                                    labelText={value.condition_title}
+                                                />
+                                            </div>
+                                        )
+                                    })
+                                }
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
+                                    onClick={SponsorListFilterSubmit}
+                                    hasSpinner={LoadingState}
+                                    disabled={LoadingState}
                                 />
                             </div>
                         </div>
 
                         <div className='col-lg-8'>
 
-                            {PatientTrialListSelector !== undefined ?
-                                PatientTrialListSelector.data.data.length !== 0 ?
-                                    PatientTrialListSelector.data.data.map((value, index) => {
+                            {TrialListState !== undefined ?
+                                TrialListState.data.data.length !== 0 ?
+                                    TrialListState.data.data.map((value, index) => {
                                         return (
                                             <React.Fragment key={index}>
                                                 <ClinicTrial
@@ -192,7 +288,7 @@ const PhysicianTrialListing = () => {
                                     </div>
                                     <div>
                                         <h4>Trial Compensation</h4>
-                                        <h2> ${viewTrialDetails.data.clinic_trial_info.compensation} </h2>
+                                        <h2> ${viewTrialDetails.data.compensation} </h2>
                                     </div>
                                 </div>
                             </div>

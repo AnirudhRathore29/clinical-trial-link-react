@@ -67,10 +67,10 @@ export const PatientClinicDetailsAction = (id) => async (dispatch) => {
         });
 }
 
-export const PatientClinicAppTrialListAction = (id, data) => async (dispatch) => {
+export const PatientClinicAppTrialListAction = (url, data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/patient/get-trialclinic-approved-trial-list/" + id, data, {
+        .post(getCurrentHost() + url, data, {
             headers: authHeader()
         })
         .then(response => {

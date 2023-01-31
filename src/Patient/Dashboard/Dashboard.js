@@ -100,19 +100,19 @@ const PatientDashboard = () => {
                         </div>
 
                         <div className='col-lg-6 offers-slider'>
-                            {dashBoardSelector && dashBoardSelector.data.advertisements.length !== 0 &&
+                            {dashBoardSelector && dashBoardSelector?.data?.advertisements?.length !== 0 &&
                                 <div className="heading-bx">
                                     <h1> Related Clinical Trials </h1>
                                 </div>
                             }
                             {!loadingSelector.loading ?
                                 <OwlCarousel {...options}>
-                                    {dashBoardSelector && dashBoardSelector.data.advertisements.map((value, index) => {
+                                    {dashBoardSelector && dashBoardSelector?.data?.advertisements.map((value, index) => {
                                         return (
                                             <div className='item' key={index}>
-                                                <Link to="/">
-                                                    <img src="/images/offers-img1.jpg" alt="offers" />
-                                                </Link>
+                                                <a href={value?.link_url} target="_blank">
+                                                    <img src={value?.image} alt={value?.title} />
+                                                </a>
                                             </div>
                                         )
                                     })}

@@ -23,7 +23,7 @@ const SponsorsClinicListing = () => {
     const [conditionList, setConditionList] = useState([]);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [trialClinicFilter, setTrialClinicFilter] = useState({
-        clinic_name: "",
+        clinic_name: location?.search?.split("=").pop(),
         keywords: "",
         specialities: [],
         conditions: [],
@@ -103,7 +103,7 @@ const SponsorsClinicListing = () => {
     }
 
     useEffect(() => {
-        dispatch(TrialClinicListAction({ page: loadMoreData, keywords: location?.search?.split("=").pop()}))
+        dispatch(TrialClinicListAction({ page: loadMoreData, clinic_name: location?.search?.split("=").pop()}))
     }, [dispatch, loadMoreData, location?.search])
 
     const TrialClinicListFilterSubmit = (e) => {
@@ -142,6 +142,7 @@ const SponsorsClinicListing = () => {
                                         labelText="Clinic Name"
                                         placeholder="Enter Clinic Name"
                                         name="clinic_name"
+                                        value={trialClinicFilter?.clinic_name}
                                         onChange={onchange}
                                     />
                                     <div className="form-group">
