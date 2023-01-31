@@ -97,9 +97,6 @@ const MyAppointmentsDetails = (props) => {
         if (SelectedStatus === "2" || SelectedStatus === "3") {
             setAddVisitModal(true)
             setConfirmationModal(false)
-        } else if (SelectedStatus === "7") {
-            setTerminationReasonModal(true)
-            setConfirmationModal(false)
         } else {
             setCancelReasonModal(true)
             setConfirmationModal(false)
@@ -107,20 +104,20 @@ const MyAppointmentsDetails = (props) => {
     }
 
     const UpdateStatusSubmit = (data) => {
-        if (SelectedStatus === "7") {
-            const data = {
-                cancellation_detail: StatusUpdateFields.cancellation_detail,
-                default_cancel_reason_id: StatusUpdateFields.default_cancel_reason_id,
-                patient_appointment_id: PatientAppointmentId,
-                status: SelectedStatus,
-            }
-            dispatch(NewScreenTrialRequestStatusUpdateAction(data))
-        }
-        if((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length > 0)){
-            if (SelectedStatus === "5") {
+        // if (SelectedStatus === "7") {
+        //     const data = {
+        //         cancellation_detail: StatusUpdateFields.cancellation_detail,
+        //         default_cancel_reason_id: StatusUpdateFields.default_cancel_reason_id,
+        //         patient_appointment_id: PatientAppointmentId,
+        //         status: SelectedStatus,
+        //     }
+        //     dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+        // }
+        if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length > 0)) {
+            if (SelectedStatus === "5" || SelectedStatus === "7" && data === "newVisit") {
                 setAddVisitModal(true)
                 setCancelReasonModal(false)
-            } else if (SelectedStatus === "4" && data === "endStudy") {
+            } else if (SelectedStatus === "4" || SelectedStatus === "7" && data === "endStudy") {
                 props.history.push({
                     pathname: "/trial-clinic/payment",
                     state: {
@@ -142,7 +139,7 @@ const MyAppointmentsDetails = (props) => {
                     }
                 })
             }
-        } else if((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length <= 0)) {
+        } else if ((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length <= 0)) {
             toast.error("Text note is required!", { theme: "colored" })
         }
     }
@@ -165,7 +162,7 @@ const MyAppointmentsDetails = (props) => {
             setAddVisitModal(false)
             setSelectedStatus(0)
             dispatch(PatientAppointMentDetailAction(id))
-            setStatusUpdateFields({...StatusUpdateFields, visit_note:""})
+            setStatusUpdateFields({ ...StatusUpdateFields, visit_note: "" })
         } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
             setTerminationReasonModal(false)
             props.history.push("/trial-clinic/my-appointments")
@@ -252,7 +249,9 @@ const MyAppointmentsDetails = (props) => {
                                                                         <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
                                                                         value.status === 5 ?
                                                                             <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
-                                                                            null
+                                                                            value.status === 7 ?
+                                                                                <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                null
                                                             }
                                                             <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0
@@ -371,7 +370,7 @@ const MyAppointmentsDetails = (props) => {
                             onChange={onchange}
                         />
                         {
-                            SelectedStatus === "4" ?
+                            SelectedStatus === "4" || SelectedStatus === "7" ?
                                 <div className='clnicaltrial-detail-ftr mt-0'>
                                     <Button
                                         isButton="true"
@@ -384,7 +383,7 @@ const MyAppointmentsDetails = (props) => {
                                         isButton="true"
                                         BtnColor="primary btn-sm"
                                         BtnType="button"
-                                        BtnText="Pay & Create New Visit"
+                                        BtnText={SelectedStatus === "4" ? "Pay & Create New Visit" : "Create New Visit"}
                                         onClick={() => UpdateStatusSubmit("newVisit")}
                                     />
                                 </div>
@@ -450,8 +449,8 @@ const MyAppointmentsDetails = (props) => {
                 }
             /> */}
 
-            <CommonModal show={TerminationReasonModal} onHide={TerminationReasonModalClose} keyboard={false}
-                ModalTitle="Reject Request"
+            {/* <CommonModal show={TerminationReasonModal} onHide={TerminationReasonModalClose} keyboard={false}
+                ModalTitle="Text Note"
                 onClick={TerminationReasonModalClose}
                 ModalData={
                     <>
@@ -476,9 +475,9 @@ const MyAppointmentsDetails = (props) => {
                             />
 
                             <TextArea
-                                placeholder="Enter Rejection Details"
+                                placeholder="Enter Here..."
                                 name="cancellation_detail"
-                                labelText="Rejection Details"
+                                labelText="Note"
                                 required={true}
                                 onChange={onchange}
                             />
@@ -495,7 +494,7 @@ const MyAppointmentsDetails = (props) => {
                         </Form>
                     </>
                 }
-            />
+            /> */}
         </>
     );
 };

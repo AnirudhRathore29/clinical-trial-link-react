@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { InputText, SelectBox } from '../../views/Components/Common/Inputs/Inputs';
-import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
+import { InputText } from '../../views/Components/Common/Inputs/Inputs';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import ListBox from '../../views/Components/ListBox/ListBox';
 import '../../Patient/ClinicListing/ClinicListing.css';
@@ -10,16 +9,112 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { PhysicianClinicListingAction } from '../../redux/actions/PhysicianAction';
+import { authHeader } from '../../redux/actions/authHeader';
+import getCurrentHost from '../../redux/constants';
+import { MultiSelect } from "react-multi-select-component";
 
 const PatientClinicListing = () => {
     const dispatch = useDispatch();
     const clinicListingSelector = useSelector(state => state.patient.listing_clinic.data)
     const loadingSelector = useSelector(state => state.patient)
+
     const [loadMoreData, setLoadMoreData] = useState(1);
+    const [specialityList, setSpecialityList] = useState([]);
+    const [conditionList, setConditionList] = useState([]);
+    const [trialClinicFilter, setTrialClinicFilter] = useState({
+        clinic_name: "",
+        keywords: "",
+        specialities: [],
+        conditions: [],
+    });
+
+    console.log("specialityList", specialityList);
+    console.log("conditionList", conditionList);
+    console.log("trialClinicFilter", trialClinicFilter);
 
     useEffect(() => {
         dispatch(PhysicianClinicListingAction({ page: loadMoreData }))
     }, [dispatch, loadMoreData])
+
+    useEffect(() => {
+        (async () => {
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader()
+            };
+            return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
+                .then(data => data.json())
+                .then((response) => {
+                    let data = response.data;
+                    for (var i = 0; i < data?.length; i++) {
+                        const obj = Object.assign({}, data[i]);
+                        obj.label = data[i].speciality_info.speciality_title;
+                        obj.value = data[i].speciality_info.id;
+                        console.log("data[i].speciality_info.id", data[i].speciality_info.id);
+                        setSpecialityList(oldArray => [...oldArray, obj]);
+                    }
+                })
+                .catch(err => {
+                    console.log("err", err)
+                })
+        })();
+
+        (async () => {
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader(),
+            };
+            return fetch(getCurrentHost() + "/get-all-conditions", requestOptions)
+                .then(data => data.json())
+                .then((response) => {
+                    var data = response.data;
+                    var conditionsArr = [];
+                    for (var i = 0; i < data?.length; i++) {
+                        const obj = Object.assign({}, data[i]);
+                        obj.label = data[i].condition_title;
+                        obj.value = data[i].id;
+                        conditionsArr.push(obj)
+                    }
+                    setConditionList(conditionsArr);
+                })
+                .catch(err => {
+                    console.log("err", err)
+                })
+        })();
+    }, [])
+
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setTrialClinicFilter((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
+    const specialityOnChange = (e) => {
+        setTrialClinicFilter({ ...trialClinicFilter, specialities: e })
+        // const speArr = e.map(value => value.speciality_info.id)
+        // let data = {
+        //     speciality_ids: speArr
+        // }
+        // ConditionsAction(data);
+    }
+
+    const TrialClinicListFilterSubmit = (e) => {
+        e.preventDefault();
+        const specialityArr = trialClinicFilter.specialities.map(value => value.speciality_info.id);
+        const conditionArr = trialClinicFilter.conditions.map(value => value.id);
+        let data = {
+            page: loadMoreData,
+            clinic_name: trialClinicFilter.clinic_name,
+            keywords: trialClinicFilter.keywords,
+            specialities: specialityArr,
+            conditions: conditionArr,
+        }
+        dispatch(PhysicianClinicListingAction(data))
+    }
 
     const handleLoadMore = () => {
         setLoadMoreData(loadMoreData + 1)
@@ -34,51 +129,57 @@ const PatientClinicListing = () => {
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
-                            <div className="filter-sidebar">
+                            <form className='filter-sidebar' onSubmit={TrialClinicListFilterSubmit} autoComplete="off">
                                 <h2>Filter</h2>
-                                <SelectBox
-                                    name="condition"
-                                    labelText="Condition"
-                                    optionData={
-                                        <>
-                                            <option>Select</option>
-                                            <option>Condition 1</option>
-                                            <option>Condition 2</option>
-                                        </>
-                                    }
+                                <InputText
+                                    type="text"
+                                    labelText="Clinic Name"
+                                    placeholder="Enter Clinic Name"
+                                    name="clinic_name"
+                                    onChange={onchange}
                                 />
-                                {/* <div className='form-group'>
-                                    <label>Age Range</label>
-                                    <div className='age-range'>
-                                        <div className='age-range-bix'>
-                                            <span>Min</span>
-                                            <InputText type="number" placeholder="Min Age" min="18" />
-                                        </div>
-                                        <div className='p-3'>-</div>
-                                        <div className='age-range-bix'>
-                                            <span>Max</span>
-                                            <InputText type="number" placeholder="Max Age" max="60" />
-                                        </div>
-                                    </div>
-                                </div> */}
+                                <div className="form-group">
+                                    <label> Specialty </label>
+                                    <MultiSelect
+                                        options={specialityList !== undefined && specialityList}
+                                        value={trialClinicFilter.specialities}
+                                        onChange={specialityOnChange}
+                                        disableSearch={true}
+                                        labelledBy="Specialty"
+                                        className="multiSelect-control"
+                                        name="specialities"
+                                    />
+                                </div>
 
                                 <div className="form-group">
-                                    <label>Gender</label>
-                                    <div className="gender-row mt-4">
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Male" defaultChecked="true" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Female" />
-                                        <RadioBtn className="radio-btn" type="radio" name="gender" labelText="Nonbinary" />
-                                    </div>
+                                    <label> Condition </label>
+                                    <MultiSelect
+                                        options={conditionList !== undefined && conditionList}
+                                        value={trialClinicFilter.conditions}
+                                        onChange={(e) => setTrialClinicFilter({ ...trialClinicFilter, conditions: e })}
+                                        disableSearch={true}
+                                        labelledBy="Condition"
+                                        className="multiSelect-control"
+                                        name="condition"
+                                    />
                                 </div>
-                                <InputText type="text" labelText="Zip Code" placeholder="Enter zip code" />
-                                <InputText type="search" labelText="Keywords" placeholder="Enter Keywords" />
+
+                                <InputText
+                                    type="search"
+                                    labelText="Keywords"
+                                    placeholder="Enter Keywords"
+                                    name="keywords"
+                                    onChange={onchange}
+                                />
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
+                                    hasSpinner={loadingSelector.loading}
+                                    disabled={loadingSelector.loading}
                                 />
-                            </div>
+                            </form>
                         </div>
                         <div className='col-lg-8'>
                             {clinicListingSelector !== undefined ?
