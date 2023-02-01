@@ -22,7 +22,7 @@ const PatientAllVisit = () => {
     const [LoadMoreState, setLoadMoreState] = useState(1)
 
     const dispatch = useDispatch();
-    const {id} = useParams();
+    const { id } = useParams();
 
     console.log("PatientAllVisitList", PatientAllVisitList);
     console.log("SelectedTabState", SelectedTabState);
@@ -67,6 +67,25 @@ const PatientAllVisit = () => {
                                                                 <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                                 <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                     ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
+                                                                {
+                                                                    value.status === 0 ?
+                                                                        <span className='badge badge-primary d-inline-block mb-3'>Pending</span> :
+                                                                        value.status === 1 ?
+                                                                            <span className='badge badge-danger d-inline-block mb-3'>Not eligible</span> :
+                                                                            value.status === 2 ?
+                                                                                <span className='badge badge-primary d-inline-block mb-3'>Screen Pending</span> :
+                                                                                value.status === 3 ?
+                                                                                    <span className='badge badge-success d-inline-block mb-3'>Approved</span> :
+                                                                                    value.status === 4 ?
+                                                                                        <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
+                                                                                        value.status === 5 ?
+                                                                                            <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
+                                                                                            value.status === 6 ?
+                                                                                                <span className='badge badge-danger d-inline-block mb-3'>End of Study</span> :
+                                                                                                value.status === 7 ?
+                                                                                                    <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                                    null
+                                                                }
                                                                 <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             </div>
                                                         </div>
@@ -115,9 +134,11 @@ const PatientAllVisit = () => {
                                                                             <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
                                                                             value.status === 5 ?
                                                                                 <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
-                                                                            value.status === 7 ?
-                                                                                <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
-                                                                                null
+                                                                                value.status === 6 ?
+                                                                                    <span className='badge badge-danger d-inline-block mb-3'>End of Study</span> :
+                                                                                    value.status === 7 ?
+                                                                                        <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                        null
                                                                 }
                                                                 <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             </div>

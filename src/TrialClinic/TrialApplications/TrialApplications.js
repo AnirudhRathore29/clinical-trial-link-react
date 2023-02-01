@@ -386,7 +386,7 @@ const ClinicTrialApplication = () => {
                                 <div className='clnicaltrial-description'>
                                     <h2>Add Compensation</h2>
                                     <InputText
-                                        type="number"
+                                        type="text"
                                         name="compensation"
                                         required="required"
                                         labelText="Compensation"

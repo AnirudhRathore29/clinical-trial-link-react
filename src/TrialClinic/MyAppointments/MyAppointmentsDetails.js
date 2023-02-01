@@ -104,6 +104,7 @@ const MyAppointmentsDetails = (props) => {
     }
 
     const UpdateStatusSubmit = (data) => {
+        console.log("datadatadata", data);
         // if (SelectedStatus === "7") {
         //     const data = {
         //         cancellation_detail: StatusUpdateFields.cancellation_detail,
@@ -114,10 +115,10 @@ const MyAppointmentsDetails = (props) => {
         //     dispatch(NewScreenTrialRequestStatusUpdateAction(data))
         // }
         if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length > 0)) {
-            if (SelectedStatus === "5" || SelectedStatus === "7" && data === "newVisit") {
+            if ((SelectedStatus === "5" || SelectedStatus === "7") && (data === "newVisit")) {
                 setAddVisitModal(true)
                 setCancelReasonModal(false)
-            } else if (SelectedStatus === "4" || SelectedStatus === "7" && data === "endStudy") {
+            } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "endStudy")) {
                 props.history.push({
                     pathname: "/trial-clinic/payment",
                     state: {
@@ -127,7 +128,7 @@ const MyAppointmentsDetails = (props) => {
                         visit_note: StatusUpdateFields.visit_note
                     }
                 })
-            } else if (SelectedStatus === "4" && data === "newVisit") {
+            } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "newVisit")) {
                 props.history.push({
                     pathname: "/trial-clinic/payment",
                     state: {
@@ -139,7 +140,7 @@ const MyAppointmentsDetails = (props) => {
                     }
                 })
             }
-        } else if ((SelectedStatus === "5" || SelectedStatus === "4") && (StatusUpdateFields.visit_note.length <= 0)) {
+        } else if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length <= 0)) {
             toast.error("Text note is required!", { theme: "colored" })
         }
     }
@@ -163,10 +164,11 @@ const MyAppointmentsDetails = (props) => {
             setSelectedStatus(0)
             dispatch(PatientAppointMentDetailAction(id))
             setStatusUpdateFields({ ...StatusUpdateFields, visit_note: "" })
-        } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
-            setTerminationReasonModal(false)
-            props.history.push("/trial-clinic/my-appointments")
         }
+        // else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
+        //     setTerminationReasonModal(false)
+        //     props.history.push("/trial-clinic/my-appointments")
+        // }
     }, [dispatch, loadingSelector.trial_status])
 
     return (
@@ -249,9 +251,11 @@ const MyAppointmentsDetails = (props) => {
                                                                         <span className='badge badge-success d-inline-block mb-3'>Completed</span> :
                                                                         value.status === 5 ?
                                                                             <span className='badge badge-danger d-inline-block mb-3'>Incomplete</span> :
-                                                                            value.status === 7 ?
-                                                                                <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
-                                                                                null
+                                                                            value.status === 6 ?
+                                                                                <span className='badge badge-danger d-inline-block mb-3'>End of Study</span> :
+                                                                                value.status === 7 ?
+                                                                                    <span className='badge badge-danger d-inline-block mb-3'>Early Termination</span> :
+                                                                                    null
                                                             }
                                                             <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0

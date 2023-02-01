@@ -44,6 +44,7 @@ const Payment = (props) => {
     console.log("AppointmentDetail", AppointmentDetail);
     console.log("loadingSelector", loadingSelector);
     console.log("payingForCurrentVisit", payingForCurrentVisit);
+    console.log("props.location.state.status", props.location.state.status);
     console.log("id", id);
 
     useEffect(() => {
@@ -83,6 +84,7 @@ const Payment = (props) => {
                 visit_note: props.location && props.location.state.visit_note
             }
             console.log("end of study");
+            console.log("datadata", data);
             dispatch(NewScreenTrialRequestStatusUpdateAction(data))
         } else {
             setPayingForCurrentVisit(true)
