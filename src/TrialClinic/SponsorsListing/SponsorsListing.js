@@ -195,6 +195,7 @@ const ClinicSponsorsListing = () => {
                                                     description={value.user_meta_info.brief_intro}
                                                     distance={value.distance && value.distance.toFixed(3) + " " + "Mi"}
                                                     index={index}
+                                                    trialCount={value?.trials_count}
                                                 />
                                             </Link>
                                         )
