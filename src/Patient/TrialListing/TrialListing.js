@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import PatientBookingProcess from '../../views/Components/BookingProcess/BookingProcess';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
@@ -13,6 +12,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFound';
 import { authHeader } from '../../redux/actions/authHeader';
 import getCurrentHost from '../../redux/constants';
+import { InputText } from '../../views/Components/Common/Inputs/Inputs';
+import { MultiSelect } from "react-multi-select-component";
 
 const PatientTrialListing = () => {
     const { id } = useParams()
@@ -27,15 +28,18 @@ const PatientTrialListing = () => {
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [TrialListState, setTrialListState] = useState(undefined);
-    const [LoadingState, setLoadingState] = useState(false);
+    const [specialityList, setSpecialityList] = useState([]);
+    const [conditionList, setConditionList] = useState([]);
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
-    const [AllUserConditions, setAllUserConditions] = useState([]);
-    const [formData, setFormData] = useState({
+    const [trialClinicFilter, setTrialClinicFilter] = useState({
+        search_filter: "",
+        specialities: [],
         conditions: [],
-        allChecked: false
-    })
+    });
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
 
     useEffect(() => {
         setViewTrialDetails(viewTrialDetailSelector)
@@ -44,7 +48,6 @@ const PatientTrialListing = () => {
 
     useEffect(() => {
         setTrialListState(PatientTrialListSelector)
-        setLoadingState(false)
     }, [PatientTrialListSelector]);
 
     const handleClinicTrialModalOpen = (id) => {
@@ -56,13 +59,12 @@ const PatientTrialListing = () => {
         setShow(false);
         setViewTrialDetails(undefined)
     };
-    const [show2, setShow2] = useState(false);
 
     useEffect(() => {
         let data = {
             page: loadMoreData
         }
-        dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+        dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
     }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
 
 
@@ -72,83 +74,96 @@ const PatientTrialListing = () => {
     }
     const handleClose2 = () => setShow2(false);
 
-    const [show3, setShow3] = useState(false);
-
     const handleShow3 = () => {
         setShow3(true);
         handleClose2();
     }
     const handleClose3 = () => setShow3(false);
 
-    const SponsorListFilterSubmit = (e) => {
-        setLoadingState(true)
-        setTrialListState(undefined)
-        e.preventDefault();
-        let data = {
-            conditions: formData.conditions,
-            page: loadMoreData
-        }
-        dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+    async function SpecialitiesAction() {
+        const requestOptions = {
+            method: 'GET',
+            headers: authHeader()
+        };
+        return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                let data = response.data;
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].speciality_info.speciality_title;
+                    obj.value = data[i].speciality_info.id;
+                    console.log("data[i].speciality_info.id", data[i].speciality_info.id);
+                    setSpecialityList(oldArray => [...oldArray, obj]);
+                }
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
     }
 
-    const handleLoadMore = (e) => {
-        e.preventDefault();
-        setLoadMoreData(loadMoreData + 1)
-        SponsorListFilterSubmit()
+    async function ConditionsAction(data) {
+        const requestOptions = {
+            method: 'POST',
+            headers: authHeader(),
+            body: JSON.stringify(data)
+        };
+        return fetch(getCurrentHost() + "/get-user-conditions", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                var data = response.data;
+                var conditionsArr = [];
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].condition_info.condition_title;
+                    obj.value = data[i].condition_info.id;
+                    conditionsArr.push(obj)
+                }
+                setConditionList(conditionsArr);
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
     }
 
     useEffect(() => {
-        const configure = {
-            method: "GET",
-            headers: authHeader()
-        }
-        fetch(getCurrentHost() + "/get-all-user-conditions", configure)
-            .then(response => response.json())
-            .then(response => {
-                console.log("response.length", response);
-                const data = response.data
-                for (let i = 0; i < data.length; i++) {
-                    const object = Object.assign({}, data[i])
-                    object.checked = false;
-                    setAllUserConditions((preValue) => [...preValue, object])
-                }
-            })
+        SpecialitiesAction();
     }, [])
 
-    const conditionOnchange = (id, e) => {
-        if (e.target.checked) {
-            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
-            filterObject.checked = true
-            setFormData({ conditions: [...formData.conditions, id] })
-            if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
-                setFormData({ ...formData, allChecked: true })
-            }
+    const specialityOnChange = (e) => {
+        setTrialClinicFilter({ ...trialClinicFilter, specialities: e })
+        const speArr = e.map(value => value.speciality_info.id)
+        let data = {
+            speciality_ids: speArr
         }
-        else {
-            const filterIDs = formData.conditions.filter(value => value !== id)
-            const filterObject = AllUserConditions.find(value => value.condition_info.id == id)
-            filterObject.checked = false
-            setFormData({ ...formData, conditions: filterIDs, allChecked: false })
-        }
+        ConditionsAction(data);
     }
 
-    const SelectAllCondition = (e) => {
-        if (e.target.checked) {
-            const allIds = AllUserConditions.map(value => value.condition_info.id)
-            for (let i = 0; i < AllUserConditions.length; i++) {
-                AllUserConditions[i].checked = true
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setTrialClinicFilter((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
             }
-            setFormData({ conditions: allIds })
-        } else {
-            setFormData({ conditions: [] })
-            for (let i = 0; i < AllUserConditions.length; i++) {
-                AllUserConditions[i].checked = false
-            }
+        })
+    }
+
+    const TrialClinicListFilterSubmit = (e) => {
+        e.preventDefault();
+        const specialityArr = trialClinicFilter.specialities.map(value => value.speciality_info.id);
+        const conditionArr = trialClinicFilter.conditions.map(value => value.condition_info.id);
+        let data = {
+            page: loadMoreData,
+            search_filter: trialClinicFilter.search_filter,
+            specialities: specialityArr,
+            conditions: conditionArr,
         }
+        dispatch(PatientClinicAppTrialListAction(ApiUrl, data))
     }
 
     const MyFavTrial = (id) => {
-        dispatch(PatientMyFavTrialAction({trial_clinic_appointment_id: id}))
+        dispatch(PatientMyFavTrialAction({ trial_clinic_appointment_id: id }))
     }
 
     const handleRedirectUser2Chat = (data) => {
@@ -162,8 +177,14 @@ const PatientTrialListing = () => {
         })
     }
 
+    const handleLoadMore = (e) => {
+        e.preventDefault();
+        setLoadMoreData(loadMoreData + 1)
+        TrialClinicListFilterSubmit()
+    }
+
     useEffect(() => {
-        if(favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
+        if (favTrialSelector !== undefined && favTrialSelector.status_code === 200) {
             console.log("favTrialSelector called");
             let data = {
                 page: loadMoreData
@@ -181,44 +202,49 @@ const PatientTrialListing = () => {
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
-                        <div className="filter-sidebar">
-                                <h2>Filter by Condition</h2>
+                            <form className='filter-sidebar' onSubmit={TrialClinicListFilterSubmit} autoComplete="off">
+                                <h2>Filter</h2>
+                                <InputText
+                                    type="search"
+                                    labelText="Trial Name"
+                                    placeholder="Enter Keywords"
+                                    name="search_filter"
+                                    onChange={onchange}
+                                />
                                 <div className="form-group">
-                                    <RadioBtn
-                                        className="checkbox-btn"
-                                        type="checkbox"
-                                        name="All"
-                                        labelText="All"
-                                        checked={formData.allChecked}
-                                        onChange={SelectAllCondition}
+                                    <label> Specialty </label>
+                                    <MultiSelect
+                                        options={specialityList !== undefined && specialityList}
+                                        value={trialClinicFilter.specialities}
+                                        onChange={specialityOnChange}
+                                        disableSearch={true}
+                                        labelledBy="Specialty"
+                                        className="multiSelect-control"
+                                        name="specialities"
                                     />
                                 </div>
-                                {
-                                    AllUserConditions.map((value, index) => {
-                                        return (
-                                            <div className="form-group" key={index}>
-                                                <RadioBtn
-                                                    className="checkbox-btn"
-                                                    type="checkbox"
-                                                    name="conditions"
-                                                    checked={value.checked}
-                                                    onChange={(e) => conditionOnchange(value.condition_info.id, e)}
-                                                    labelText={value.condition_info.condition_title}
-                                                />
-                                            </div>
-                                        )
-                                    })
-                                }
+
+                                <div className="form-group">
+                                    <label> Condition </label>
+                                    <MultiSelect
+                                        options={conditionList !== undefined && conditionList}
+                                        value={trialClinicFilter.conditions}
+                                        onChange={(e) => setTrialClinicFilter({ ...trialClinicFilter, conditions: e })}
+                                        disableSearch={true}
+                                        labelledBy="Condition"
+                                        className="multiSelect-control"
+                                        name="condition"
+                                    />
+                                </div>
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
-                                    onClick={SponsorListFilterSubmit}
-                                    hasSpinner={LoadingState}
-                                    disabled={LoadingState}
+                                    hasSpinner={loadingSelector.loading}
+                                    disabled={loadingSelector.loading}
                                 />
-                            </div>
+                            </form>
                         </div>
 
                         <div className='col-lg-8'>
@@ -242,7 +268,7 @@ const PatientTrialListing = () => {
                                                     }
                                                     onClickFav={() => MyFavTrial(value.id)}
                                                     iconType={value.is_favourite === 1 ? "solid" : null}
-                                                    id={TrialListState.data.id}
+                                                    id={id}
                                                 />
                                             </React.Fragment>
                                         )

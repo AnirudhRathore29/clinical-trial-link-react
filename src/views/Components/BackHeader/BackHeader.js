@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Dropdown } from 'react-bootstrap';
@@ -7,13 +7,11 @@ import { connect, useDispatch } from "react-redux";
 import 'boxicons';
 import "./BackHeader.css";
 import { LogoutAction } from "../../../redux/actions/authAction";
-import getCurrentHost, { getImageUrl } from "../../../redux/constants";
+import getCurrentHost from "../../../redux/constants";
 import { authHeader } from "../../../redux/actions/authHeader";
 import moment from "moment";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { NotificationRedirection } from "./NotificationRedirection";
-import { configure } from "@testing-library/react";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
@@ -118,6 +116,8 @@ const Header = (props, { colorHeader, headerColor }) => {
             history.push('/trial-sponsors/trials')
         } else if (notificationType === "TRIAL_CLINIC_TRIAL_APPLICATION") {
             history.push('/trial-sponsors/trial-requests')
+        } else if (notificationType === "NEW_PATIENT_ADDED") {
+            history.push('/physician/manage-patient')
         }
     }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import RadioBtn from '../../views/Components/Common/RadioBtn/RadioBtn';
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import ClinicTrial from '../../views/Components/ClinicTrial/ClinicTrial'
 import '../../Patient/MyFavorites/MyFavorites.css';
@@ -15,8 +14,9 @@ import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader'
 import { PhysicianClinicAppTrialListAction, PhysicianViewTrialsAction } from '../../redux/actions/PhysicianAction';
 import { authHeader } from '../../redux/actions/authHeader';
 import getCurrentHost from '../../redux/constants';
+import { InputText } from '../../views/Components/Common/Inputs/Inputs';
+import { MultiSelect } from "react-multi-select-component";
 
-var jwt = require('jsonwebtoken');
 
 const PhysicianTrialListing = () => {
     const { id } = useParams()
@@ -31,13 +31,15 @@ const PhysicianTrialListing = () => {
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [TrialListState, setTrialListState] = useState(undefined);
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
-    const [AllUserConditions, setAllUserConditions] = useState([]);
+    const [specialityList, setSpecialityList] = useState([]);
+    const [conditionList, setConditionList] = useState([]);
     const [TrialDetailModalState, setTrialDetailModalState] = useState(false);
     const [LoadingState, setLoadingState] = useState(false);
-    const [formData, setFormData] = useState({
+    const [trialClinicFilter, setTrialClinicFilter] = useState({
+        search_filter: "",
+        specialities: [],
         conditions: [],
-        allChecked: false
-    })
+    });
 
     console.log("ididid", id);
     console.log("viewTrialDetails", viewTrialDetails);
@@ -56,67 +58,89 @@ const PhysicianTrialListing = () => {
         let data = {
             page: loadMoreData,
         }
-        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
     }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
 
-    useEffect(() => {
-        const configure = {
-            method: "GET",
+    async function SpecialitiesAction() {
+        const requestOptions = {
+            method: 'GET',
             headers: authHeader()
-        }
-        fetch(getCurrentHost() + "/get-all-conditions", configure)
-            .then(response => response.json())
-            .then(response => {
-                console.log("response.length", response);
-                const data = response.data
-                for (let i = 0; i < data.length; i++) {
-                    const object = Object.assign({}, data[i])
-                    object.checked = false;
-                    setAllUserConditions((preValue) => [...preValue, object])
+        };
+        return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                let data = response.data;
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].speciality_info.speciality_title;
+                    obj.value = data[i].speciality_info.id;
+                    console.log("data[i].speciality_info.id", data[i].speciality_info.id);
+                    setSpecialityList(oldArray => [...oldArray, obj]);
                 }
             })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    async function ConditionsAction(data) {
+        const requestOptions = {
+            method: 'POST',
+            headers: authHeader(),
+            body: JSON.stringify(data)
+        };
+        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                var data = response.data;
+                var conditionsArr = [];
+                for (var i = 0; i < data?.length; i++) {
+                    const obj = Object.assign({}, data[i]);
+                    obj.label = data[i].condition_title;
+                    obj.value = data[i].id;
+                    conditionsArr.push(obj)
+                }
+                setConditionList(conditionsArr);
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+    }
+
+    useEffect(() => {
+        SpecialitiesAction();
     }, [])
 
-    const conditionOnchange = (id, e) => {
-        if (e.target.checked) {
-            const filterObject = AllUserConditions.find(value => value.id == id)
-            filterObject.checked = true
-            setFormData({ conditions: [...formData.conditions, id] })
-            if ((AllUserConditions.length - 1) === (formData.conditions.length)) {
-                setFormData({ ...formData, allChecked: true })
-            }
-        }
-        else {
-            const filterIDs = formData.conditions.filter(value => value !== id)
-            const filterObject = AllUserConditions.find(value => value.id == id)
-            filterObject.checked = false
-            setFormData({ ...formData, conditions: filterIDs, allChecked: false })
-        }
-    }
-
-    const SelectAllCondition = (e) => {
-        if (e.target.checked) {
-            const allIds = AllUserConditions.map(value => value.id)
-            for (let i = 0; i < AllUserConditions.length; i++) {
-                AllUserConditions[i].checked = true
-            }
-            setFormData({ conditions: allIds })
-        } else {
-            setFormData({ conditions: [] })
-            for (let i = 0; i < AllUserConditions.length; i++) {
-                AllUserConditions[i].checked = false
-            }
-        }
-    }
-
-    const SponsorListFilterSubmit = (e) => {
-        setLoadingState(true)
-        e.preventDefault();
+    const specialityOnChange = (e) => {
+        setTrialClinicFilter({ ...trialClinicFilter, specialities: e })
+        const speArr = e.map(value => value.speciality_info.id)
         let data = {
-            conditions: formData.conditions,
-            page: loadMoreData
+            speciality: speArr
         }
-        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : {...data, search_filter: location?.search?.split("=").pop()}))
+        ConditionsAction(data);
+    }
+
+    const onchange = (e) => {
+        const { name, value } = e.target
+        setTrialClinicFilter((preValue) => {
+            return {
+                ...preValue,
+                [name]: value
+            }
+        })
+    }
+
+    const TrialClinicListFilterSubmit = (e) => {
+        e.preventDefault();
+        const specialityArr = trialClinicFilter.specialities.map(value => value.speciality_info.id);
+        const conditionArr = trialClinicFilter.conditions.map(value => value.id);
+        let data = {
+            page: loadMoreData,
+            search_filter: trialClinicFilter.search_filter,
+            specialities: specialityArr,
+            conditions: conditionArr,
+        }
+        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, data))
     }
 
     const handleClinicTrialModalOpen = (id) => {
@@ -159,44 +183,49 @@ const PhysicianTrialListing = () => {
                     </div>
                     <div className='row'>
                         <div className='col-lg-4'>
-                            <div className="filter-sidebar">
-                                <h2>Filter by Condition</h2>
+                            <form className='filter-sidebar' onSubmit={TrialClinicListFilterSubmit} autoComplete="off">
+                                <h2>Filter</h2>
+                                <InputText
+                                    type="search"
+                                    labelText="Trial Name"
+                                    placeholder="Enter Keywords"
+                                    name="search_filter"
+                                    onChange={onchange}
+                                />
                                 <div className="form-group">
-                                    <RadioBtn
-                                        className="checkbox-btn"
-                                        type="checkbox"
-                                        name="All"
-                                        labelText="All"
-                                        checked={formData.allChecked}
-                                        onChange={SelectAllCondition}
+                                    <label> Specialty </label>
+                                    <MultiSelect
+                                        options={specialityList !== undefined && specialityList}
+                                        value={trialClinicFilter.specialities}
+                                        onChange={specialityOnChange}
+                                        disableSearch={true}
+                                        labelledBy="Specialty"
+                                        className="multiSelect-control"
+                                        name="specialities"
                                     />
                                 </div>
-                                {
-                                    AllUserConditions.map((value, index) => {
-                                        return (
-                                            <div className="form-group" key={index}>
-                                                <RadioBtn
-                                                    className="checkbox-btn"
-                                                    type="checkbox"
-                                                    name="conditions"
-                                                    checked={value.checked}
-                                                    onChange={(e) => conditionOnchange(value.id, e)}
-                                                    labelText={value.condition_title}
-                                                />
-                                            </div>
-                                        )
-                                    })
-                                }
+
+                                <div className="form-group">
+                                    <label> Condition </label>
+                                    <MultiSelect
+                                        options={conditionList !== undefined && conditionList}
+                                        value={trialClinicFilter.conditions}
+                                        onChange={(e) => setTrialClinicFilter({ ...trialClinicFilter, conditions: e })}
+                                        disableSearch={true}
+                                        labelledBy="Condition"
+                                        className="multiSelect-control"
+                                        name="condition"
+                                    />
+                                </div>
                                 <Button
                                     isButton="true"
                                     BtnType="submit"
                                     BtnColor="green w-100"
                                     BtnText="Apply"
-                                    onClick={SponsorListFilterSubmit}
-                                    hasSpinner={LoadingState}
-                                    disabled={LoadingState}
+                                    hasSpinner={loadingSelector.loading}
+                                    disabled={loadingSelector.loading}
                                 />
-                            </div>
+                            </form>
                         </div>
 
                         <div className='col-lg-8'>
@@ -218,7 +247,7 @@ const PhysicianTrialListing = () => {
                                                             :
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>
                                                     }
-                                                    id={PatientTrialListSelector.data.id}
+                                                    id={id}
                                                     favBtnDisable={true}
                                                 />
                                             </React.Fragment>

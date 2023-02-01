@@ -2,27 +2,32 @@ import { useRef, useState } from 'react';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useSelector } from 'react-redux';
-import { server } from '../../../redux/constants';
+
+var jwt = require('jsonwebtoken');
 
 const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, iconType, iconColor, className, ShareFav, dateTime, trialAmount, favBtnDisable }) => {
+    var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
     const isLoading = useSelector(state => state.patient.loading);
+    // var url = profileDetails?.role === 2 ? "/patient/trial-listing/" : profileDetails?.role === 3 ? "/trial-clinic/sponsors-trial-listing/" : profileDetails?.role === 4 ? "/physician/trial-listing/" : null
+    var url = "/patient/trial-listing/"
+
 
     const [tooltip, setTooltip] = useState(false);
     const target = useRef(null);
 
     console.log("iconType", iconType);
+    console.log("profileDetails", profileDetails);
+    console.log("location", window.location.origin);
 
     const ShareTrial = () => {
         setTooltip(!tooltip)
         console.log("navigator.clipboard", navigator.clipboard);
-        // navigator.clipboard.writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)
         navigator.clipboard
-            .writeText(server.frontBaseUrl + "patient/trial-clinic-details/" + id)
+            .writeText(window?.location?.origin + url + id)
             .then(() => {
                 setTimeout(() => {
                     setTooltip(false)
                 }, 1000);
-                // alert("successfully copied");
             })
             .catch(() => {
                 alert("something went wrong");
