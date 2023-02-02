@@ -32,7 +32,7 @@ const PatientTrialListing = () => {
     const [conditionList, setConditionList] = useState([]);
     const [viewTrialDetails, setViewTrialDetails] = useState(undefined);
     const [trialClinicFilter, setTrialClinicFilter] = useState({
-        search_filter: "",
+        search_filter: location?.search?.split("=").pop(),
         specialities: [],
         conditions: [],
     });
@@ -64,8 +64,14 @@ const PatientTrialListing = () => {
         let data = {
             page: loadMoreData
         }
+        dispatch(PatientClinicAppTrialListAction(ApiUrl, data))
+    }, [dispatch, id, loadMoreData, ApiUrl])
+    useEffect(() => {
+        let data = {
+            page: loadMoreData
+        }
         dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
-    }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
+    }, [dispatch, id, ApiUrl, location?.search])
 
 
     const handleShow2 = () => {

@@ -18,7 +18,7 @@ const SponsorsClinicListing = () => {
     const location = useLocation()
     const listSelector = useSelector(state => state.My_trials.clinic_list.data)
     const isloading = useSelector(state => state.My_trials);
-
+    
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [loadMoreData, setLoadMoreData] = useState(1);
@@ -101,11 +101,14 @@ const SponsorsClinicListing = () => {
             }
         })
     }
+    useEffect(() => {
+        dispatch(TrialClinicListAction({ page: loadMoreData}))
+    }, [dispatch, loadMoreData])
 
     useEffect(() => {
         dispatch(TrialClinicListAction({ page: loadMoreData, clinic_name: location?.search?.split("=").pop()}))
-    }, [dispatch, loadMoreData, location?.search])
-
+    }, [dispatch, location?.search])
+    
     const TrialClinicListFilterSubmit = (e) => {
         e.preventDefault();
         const specialityArr = trialClinicFilter.specialities.map(value => value.speciality_info.id);
@@ -142,7 +145,6 @@ const SponsorsClinicListing = () => {
                                         labelText="Clinic Name"
                                         placeholder="Enter Clinic Name"
                                         name="clinic_name"
-                                        value={trialClinicFilter?.clinic_name}
                                         onChange={onchange}
                                     />
                                     <div className="form-group">
@@ -226,6 +228,8 @@ const SponsorsClinicListing = () => {
                                         BtnColor="primary"
                                         BtnText="Load More"
                                         onClick={handleLoadMore}
+                                        disabled={listSelector.data.last_page === listSelector.data.current_page}
+                                        hasSpinner={loadMoreData && isloading.loading}
                                     />
                                 </div>
                             }

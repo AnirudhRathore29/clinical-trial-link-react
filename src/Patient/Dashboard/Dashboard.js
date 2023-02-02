@@ -43,7 +43,7 @@ const PatientDashboard = () => {
                                 className="thirdColor"
                                 URL="/patient/my-appointments"
                                 icon={<box-icon name='calendar' type='solid' size="40px" color="#ffffff"></box-icon>}
-                                title="My Appointments"
+                                title="My Studies"
                                 info={dashBoardSelector !== undefined && dashBoardSelector.data.myAppointments !== null ? dashBoardSelector.data.myAppointments : "0"}
                             />
                         </div>

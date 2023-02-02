@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { InputText } from "../Common/Inputs/Inputs";
+import { useSelector } from 'react-redux';
 var jwt = require('jsonwebtoken');
 
 const SearchBx = ({ placeholder }) => {
     const history = useHistory()
-
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
-    console.log("profileDetails", profileDetails);
+    const Loading = useSelector((state) => state?.trial_clinic?.loading)
 
     const [fieldData, setFieldData] = useState("");
+
+    console.log("LoadingLoading", Loading);
+    console.log("profileDetails", profileDetails);
 
     const HandleSearch = (e) => {
         e.preventDefault()
@@ -23,15 +26,19 @@ const SearchBx = ({ placeholder }) => {
         })
     }
 
-
-
+    const HandleOnBlur = () => {
+        setFieldData("")
+    }
+    
     return (
         <>
             <form className="search-bx" onSubmit={HandleSearch}>
                 <InputText
                     type="search"
                     placeholder={placeholder}
+                    value={fieldData}
                     onChange={(e) => setFieldData(e.target.value)}
+                    onBlur={HandleOnBlur}
                 />
                 <button type="button" className="search-icon"><box-icon name='search' color='#CDEB8B' ></box-icon></button>
             </form>

@@ -36,7 +36,7 @@ const PhysicianTrialListing = () => {
     const [TrialDetailModalState, setTrialDetailModalState] = useState(false);
     const [LoadingState, setLoadingState] = useState(false);
     const [trialClinicFilter, setTrialClinicFilter] = useState({
-        search_filter: "",
+        search_filter: location?.search?.split("=").pop(),
         specialities: [],
         conditions: [],
     });
@@ -58,8 +58,14 @@ const PhysicianTrialListing = () => {
         let data = {
             page: loadMoreData,
         }
+        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, data))
+    }, [dispatch, id, loadMoreData, ApiUrl])
+    useEffect(() => {
+        let data = {
+            page: loadMoreData,
+        }
         dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
-    }, [dispatch, id, loadMoreData, ApiUrl, location?.search])
+    }, [dispatch, id, ApiUrl, location?.search])
 
     async function SpecialitiesAction() {
         const requestOptions = {

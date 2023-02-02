@@ -27,7 +27,7 @@ const ClinicSponsorsListing = () => {
     const [conditionList, setConditionList] = useState([]);
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [sponsoreListFilter, setsponsoreListFilter] = useState({
-        keywords: "",
+        keywords: location?.search?.split("=").pop(),
         specialities: [],
         conditions: [],
     });
@@ -103,8 +103,11 @@ const ClinicSponsorsListing = () => {
     }
 
     useEffect(() => {
+        dispatch(SponsorListAction({ page: loadMoreData,}))
+    }, [dispatch, loadMoreData])
+    useEffect(() => {
         dispatch(SponsorListAction({ page: loadMoreData,  keywords: location?.search?.split("=").pop()}))
-    }, [dispatch, loadMoreData, location?.search])
+    }, [dispatch, location?.search])
 
     const SponsorListFilterSubmit = (e) => {
         e.preventDefault();
@@ -218,8 +221,8 @@ const ClinicSponsorsListing = () => {
                                         isButton="true"
                                         BtnColor="primary"
                                         BtnText="Load More"
-                                        hasSpinner={isloading.loading}
-                                        disabled={isloading.loading}
+                                        disabled={trialListData.data.last_page === trialListData.data.current_page}
+                                        hasSpinner={loadMoreData && isloading.loading}
                                         onClick={handleLoadMore}
                                     />
                                 </div>
