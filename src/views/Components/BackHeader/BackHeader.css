@@ -37,7 +37,7 @@
 .notification-dropdown{padding: 0;}
 .notification-dropdown img{width: 2.5rem;}
 .notification-dropdown span{position: relative;display: inline-block;}
-.notification-dropdown span.unReadNotification::after{content: "";width: 1.5rem; height: 1.5rem; background: var(--SecondaryColor);border-radius: 50%;position: absolute;right: 0; border: 2px solid var(--PrimaryColor);}
+.notification-dropdown span.unReadNotification::after{content: attr(data);width: 1.5rem; height: 1.5rem; background: var(--SecondaryColor);border-radius: 50%;position: absolute;right: 0; border: 2px solid var(--PrimaryColor);}
 .notification-li .dropdown-menu{right: -2rem!important;left: auto!important;min-width: 30rem;max-height: initial;transform: none!important; top: 100%!important;}
 .notification-li .dropdown-menu>div{max-height: 39rem;overflow: auto;}
 .notification-li .dropdown-menu.show::after{right: 2.5rem;left: auto;}

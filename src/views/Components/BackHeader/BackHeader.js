@@ -39,12 +39,13 @@ const Header = (props, { colorHeader, headerColor }) => {
         dispatch(LogoutAction())
     }
 
-    const getNotifications = (page) => {
+    const getNotifications = (page, id) => {
         const configure = {
             method: 'POST',
             headers: authHeader(),
             body: JSON.stringify({
-                page: page
+                page: page,
+                notification_id: id
             })
         }
         fetch(getCurrentHost() + "/get-user-notifications", configure)
@@ -88,9 +89,11 @@ const Header = (props, { colorHeader, headerColor }) => {
             })
     }, [getCurrentHost])
 
-    const HandleNotificationRedirection = (notificationType, extra_info) => {
+    const HandleNotificationRedirection = (notificationType, extra_info, id) => {
         const extraData = extra_info && JSON.parse(extra_info)
         console.log("extra_info", extra_info);
+
+        getNotifications(currentPage, id)
 
         if (notificationType === "TRIAL_APPLICATION_UPDATE") {
             history.push('/patient/my-appointments')
@@ -142,7 +145,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                         <li className="notification-li">
                             <Dropdown>
                                 <Dropdown.Toggle className="notification-dropdown" as={CustomToggle} variant="" id="notification-dropdown">
-                                    <span className={UnreadNotification > 0 && "unReadNotification"}>
+                                    <span className={UnreadNotification > 0 && "unReadNotification"} data={UnreadNotification > 0 && UnreadNotification}>
                                         <box-icon type='solid' name='bell' color="#ffffff" size="30px"></box-icon>
                                     </span>
                                 </Dropdown.Toggle>
@@ -150,10 +153,10 @@ const Header = (props, { colorHeader, headerColor }) => {
                                     <div ref={dropdown} onScroll={() => onScroll()}>
                                         {
                                             AllNotification !== undefined ?
-                                                AllNotification.data.length > 0 ?
-                                                    AllNotification.data.map((value, index) => {
+                                                AllNotification?.data?.length > 0 ?
+                                                    AllNotification?.data?.map((value, index) => {
                                                         return (
-                                                            <button onClick={() => HandleNotificationRedirection(value.notification_type, value.extra_info)} className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
+                                                            <button onClick={() => HandleNotificationRedirection(value.notification_type, value.extra_info, value.id)} className={value.is_read === 1 ? "dropdown-item" : "dropdown-item notRead"} key={index}>
                                                                 <span><box-icon name='bell' type='solid' color='#333333' ></box-icon></span>
                                                                 <div>
                                                                     <p>{value.description}</p>
@@ -178,7 +181,7 @@ const Header = (props, { colorHeader, headerColor }) => {
                                         }
                                         {
                                             AllNotification !== undefined &&
-                                                AllNotification.total !== AllNotification.data.length ?
+                                                AllNotification.total !== AllNotification?.data?.length ?
                                                 <div className="SkeletonDropdown">
                                                     <box-icon name='loader-alt' animation="spin" color="#4096ee"></box-icon>
                                                 </div>
