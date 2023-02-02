@@ -103,10 +103,15 @@ const ClinicSponsorsListing = () => {
     }
 
     useEffect(() => {
-        dispatch(SponsorListAction({ page: loadMoreData,}))
+        dispatch(SponsorListAction({ page: loadMoreData, }))
     }, [dispatch, loadMoreData])
     useEffect(() => {
-        dispatch(SponsorListAction({ page: loadMoreData,  keywords: location?.search?.split("=").pop()}))
+        setsponsoreListFilter({
+            keywords: location?.search?.split("=").pop(),
+            specialities: [],
+            conditions: [],
+        })
+        dispatch(SponsorListAction({ page: loadMoreData, keywords: location?.search?.split("=").pop() }))
     }, [dispatch, location?.search])
 
     const SponsorListFilterSubmit = (e) => {
@@ -170,6 +175,7 @@ const ClinicSponsorsListing = () => {
                                         labelText="Keywords"
                                         placeholder="Enter Keywords"
                                         name="keywords"
+                                        value={sponsoreListFilter?.keywords}
                                         onChange={onchange}
                                     />
 

@@ -106,6 +106,12 @@ const SponsorsClinicListing = () => {
     }, [dispatch, loadMoreData])
 
     useEffect(() => {
+        setTrialClinicFilter({
+            clinic_name: '',
+            keywords: "",
+            specialities: [],
+            conditions: [],
+        })
         dispatch(TrialClinicListAction({ page: loadMoreData, clinic_name: location?.search?.split("=").pop()}))
     }, [dispatch, location?.search])
     
@@ -145,6 +151,7 @@ const SponsorsClinicListing = () => {
                                         labelText="Clinic Name"
                                         placeholder="Enter Clinic Name"
                                         name="clinic_name"
+                                        value={trialClinicFilter?.clinic_name}
                                         onChange={onchange}
                                     />
                                     <div className="form-group">
@@ -178,6 +185,7 @@ const SponsorsClinicListing = () => {
                                         labelText="Keywords"
                                         placeholder="Enter Keywords"
                                         name="keywords"
+                                        value={trialClinicFilter?.keywords}
                                         onChange={onchange}
                                     />
                                     <Button

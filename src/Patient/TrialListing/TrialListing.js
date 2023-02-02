@@ -70,6 +70,11 @@ const PatientTrialListing = () => {
         let data = {
             page: loadMoreData
         }
+        setTrialClinicFilter({
+            search_filter: '',
+            specialities: [],
+            conditions: [],
+        })
         dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
     }, [dispatch, id, ApiUrl, location?.search])
 
@@ -215,6 +220,7 @@ const PatientTrialListing = () => {
                                     labelText="Trial Name"
                                     placeholder="Enter Keywords"
                                     name="search_filter"
+                                    value={trialClinicFilter?.search_filter}
                                     onChange={onchange}
                                 />
                                 <div className="form-group">
