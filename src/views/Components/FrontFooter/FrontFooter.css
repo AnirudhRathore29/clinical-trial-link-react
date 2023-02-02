@@ -1,5 +1,5 @@
 .clinicaltrial-ftr{background: var(--TextColor); width: 100%;margin-top: 35rem;display: table;width: 100%;position: relative;}
-.clinicaltrial-ftr::after{content: ""; width: 66rem;height: 66rem;border: 1px solid #6D96C6;border-top-color: transparent; border-right-color: transparent; position: absolute;left: -9.3rem;top: -31.4rem;border-radius: 50%;}
+.clinicaltrial-ftr::after{content: ""; width: 66rem;height: 66rem;border: 1px solid #6D96C6;border-top-color: transparent; border-right-color: transparent; position: absolute;left: -9.3rem;top: -31.4rem;border-radius: 50%;pointer-events: none;}
 .clinicaltrial-ftr-col h2{font-size: 2.4rem;color: var(--whiteColor);font-weight: bold;margin-bottom: 3rem;}
 .clinicaltrial-ftr-col ul{padding: 0;margin: 0;}
 .clinicaltrial-ftr-col ul li{list-style: none;}
@@ -26,8 +26,9 @@
 .clinicaltrial-ftr-col .input-group .input-group-append .btn{padding: 0;}
 .clinicaltrial-ftr-col .input-group .form-control::placeholder{color: #6DAFF2;}
 .clinicaltrial-ftr-col .input-group .form-group{position: relative; flex: 1 1 auto; width: 1%; min-width: 0;}
-.clinicaltrial-ftr-col .input-group .btn{height: 100%;border-radius: 0 5px 5px 0;width: 9rem;min-width: auto;}
-.clinicaltrial-ftr-col .input-group .btn:hover{background: #A9C56D;border-color: #A9C56D;}
+.clinicaltrial-ftr-col .input-group .btn{height: 100%;border-radius: 0 5px 5px 0;width: 9rem;min-width: auto;display: inline-flex; align-items: center; justify-content: center;}
+.clinicaltrial-ftr-col .input-group .btn:hover,
+.clinicaltrial-ftr-col .input-group .btn:focus{background: #A9C56D;border-color: #A9C56D;}
 
 .social-links{margin-top: 3rem;}
 .social-links img{max-width: 4rem;}

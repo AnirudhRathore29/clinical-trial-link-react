@@ -5,15 +5,56 @@ import './FrontFooter.css';
 import { useDispatch, useSelector } from "react-redux";
 import { FooterDetailAction } from "../../../redux/actions/cmsAction";
 import { useEffect } from "react";
+import { authHeader } from "../../../redux/actions/authHeader";
+import getCurrentHost from "../../../redux/constants";
+import { toast } from "react-toastify";
+import 'boxicons';
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+
+toast.configure();
 
 const Footer = () => {
     const dispatch = useDispatch()
+    const date = new Date()
 
     const FooterDetailSelector = useSelector(state => state.cms_content.footer_page_detail.data)
     const LoadingSelectorSelector = useSelector(state => state.cms_content.loading)
+    
+    const [email, setEmail] = useState()
+    const [Loading, setLoading] = useState(false)
 
     console.log("FooterDetail", FooterDetailSelector);
     console.log("LoadingSelectorSelector", LoadingSelectorSelector);
+
+    const Subscribe = (e) => {
+        e.preventDefault()
+        setLoading(true)
+        const requestOptions = {
+            method: 'POST',
+            headers: authHeader(true),
+            body: JSON.stringify({
+                subscriber_email: email
+            })
+        };
+        return fetch(getCurrentHost() + "/save-subscriber", requestOptions)
+            .then(data => data.json())
+            .then((response) => {
+                if(response?.status){
+                    toast.success(response.message, { theme: "colored" })
+                } else {
+                    toast.error(response.message, { theme: "colored" })
+                }
+                setLoading(false)
+                setEmail("")
+            })
+            .catch(err => {
+                setLoading(false)
+                setEmail("")
+                toast.error(err.response.message, { theme: "colored" })
+            })
+
+    }
 
     useEffect(() => {
         dispatch(FooterDetailAction())
@@ -73,16 +114,23 @@ const Footer = () => {
                         <div className='col-lg-3 offset-lg-1 clinicaltrial-ftr-col'>
                             <h2>Subscribe</h2>
                             <p>Subscribe to get the latest News from Clinical Trial Link</p>
-                            <div className="input-group">
-                                <InputText type="text" FormGroupClass="mb-0" placeholder="Email Address" />
+                            <form className="input-group" onSubmit={Subscribe}>
+                                <InputText type="text" FormGroupClass="mb-0" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)} value={email} />
                                 <div className="input-group-append">
-                                    <button className="btn btn-green" type="button"><img src="/images/send-icon.svg" alt="icon" /></button>
+                                    <button className="btn btn-green" type="submit">
+                                        {
+                                            Loading ?
+                                            <box-icon name='loader-alt' animation='spin' color="#356aa0" size="30px"></box-icon>
+                                            :
+                                            <img src="/images/send-icon.svg" alt="icon" />
+                                        }
+                                    </button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
-                    <div className='copyright'><p>Copyright © 2022 <strong>Clinical Trial Link</strong>. All rights reserved.</p></div>
+                    <div className='copyright'><p>Copyright © {date?.getFullYear()} <strong>Clinical Trial Link</strong>. All rights reserved.</p></div>
                 </div>
             </footer>
         </>
