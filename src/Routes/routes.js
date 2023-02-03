@@ -72,7 +72,6 @@ const PhysicianTrialListing = React.lazy(() => import('../Physician/TrialListing
 const PhysicianManagePatient = React.lazy(() => import('../Physician/ManagePatient/ManagePatient'));
 const PhysicianManageAllPatient = React.lazy(() => import('../Physician/ManagePatient/ManageAllPatient'));
 const PhysicianPatientAllVisit = React.lazy(() => import('../Physician/ManagePatient/PatientAllVisit'));
-const PhysicianMyChats = React.lazy(() => import('../Physician/MyChats/MyChats'));
 const PhysicianEditProfile = React.lazy(() => import('../Physician/EditProfile/EditProfile'));
 const PhysicianApprovedTrials = React.lazy(() => import('../Physician/ApprovedTrials/ApprovedTrials'));
 const ApprovedPatientList = React.lazy(() => import('../Physician/ApprovedTrials/ApprovedPatientList'));

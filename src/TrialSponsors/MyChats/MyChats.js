@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
-import '../../Patient/MyChats/myChats.css';
-import db from '../../utils/Firebase';
+import './myChats.css';
+import { db } from '../../utils/Firebase';
+import { storage } from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
 import { capitalizeFirstLetter, chatDateFormat } from '../../utils/Utils';
+// import { storage } from '../../utils/Firebase';
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 
 const SponsorsMyChats = (props) => {
     const containerRef = useRef(null);
+    const attachmentInput = useRef(null);
     const currentUserDetail = props.auth.user
     const [chatMessagesList, setChatMessagesList] = useState([]);
     const [chatList, setChatList] = useState([]);
@@ -18,10 +23,15 @@ const SponsorsMyChats = (props) => {
     const [reciverImage, setReciverImage] = useState(props.location.state ? props.location.state.profile_image : "");
     const [chatWindowDown, setChatWindowDown] = useState(0)
     const [ChatCount, setChatCount] = useState(0)
+    const [imgUrl, setImgUrl] = useState(null);
+    const [progresspercent, setProgresspercent] = useState(0);
 
     console.log("reciverIdx", reciverIdx);
     console.log("ChatCount", ChatCount);
     console.log("chatMessagesList", chatMessagesList);
+    console.log("progresspercent", progresspercent);
+    console.log("imgUrl", imgUrl);
+    console.log("attachmentInput", attachmentInput);
 
     useEffect(() => {
         if (containerRef && containerRef.current) {
@@ -166,9 +176,32 @@ const SponsorsMyChats = (props) => {
     }
 
     const sendChatMessage = (e) => {
-        setChatCount(ChatCount + 1)
         e.preventDefault()
+        setChatCount(ChatCount + 1)
+        // if (e?.target[1].files[0]) {
+        //     const file = e.target[1].files[0]
+
+        //     const storageRef = ref(storage, `files/${file.name}`);
+        //     const uploadTask = uploadBytesResumable(storageRef, file);
+
+        //     uploadTask.on("state_changed",
+        //         (snapshot) => {
+        //             const progress =
+        //                 Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        //             setProgresspercent(progress);
+        //         },
+        //         (error) => {
+        //             alert(error);
+        //         },
+        //         () => {
+        //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        //                 setImgUrl(downloadURL)
+        //             });
+        //         }
+        //     );
+        // }
         if (message.trim()) {
+            console.log("goes in chat");
             db.collection('Chat')
                 .doc(combine2UserId(currentUserDetail.id).toString())
                 .collection('messages')
@@ -180,6 +213,7 @@ const SponsorsMyChats = (props) => {
                     reciverId: Number(reciverIdx),
                     senderName: currentUserDetail.full_name,
                     recieverName: reciverName,
+                    photoUrl: imgUrl
                 });
 
             // chat list of reciever id
@@ -211,6 +245,8 @@ const SponsorsMyChats = (props) => {
                 });
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
+            setImgUrl(null)
+            attachmentInput.current.value = ""
         }
     }
 
@@ -309,7 +345,10 @@ const SponsorsMyChats = (props) => {
                                 <React.Fragment key={index} >
                                     {setDateValue(item, index)}
                                     <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
-                                        <div className="content">{item.message}</div>
+                                        <div className="content">
+                                            {item.message}
+                                            {item?.photoUrl ? <img src={item?.photoUrl} alt={item?.photoUrl} /> : null}
+                                        </div>
                                         <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
                                     </div>
                                 </React.Fragment>
@@ -318,6 +357,9 @@ const SponsorsMyChats = (props) => {
                         {reciverName &&
                             <form onSubmit={sendChatMessage} className="bottom-bar">
                                 <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
+                                {/* <div className='attachmentBx'>
+                                    <input type="file" ref={attachmentInput} />
+                                </div> */}
                                 <div className="chat-user-options">
                                     <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
                                 </div>

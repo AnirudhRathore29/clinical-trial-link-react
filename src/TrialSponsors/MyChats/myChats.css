@@ -250,6 +250,7 @@
   color: #fff;
   margin-left: auto;
 }
+.chat-container main .messages .message.fromme .content img{max-width: 35rem;max-height: 20rem;}
 .chat-container main .bottom-bar {
   background-color: #ffffff;
   border-top: 1px solid #C3D9FF;
