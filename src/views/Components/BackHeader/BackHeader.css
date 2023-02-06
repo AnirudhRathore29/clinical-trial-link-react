@@ -37,7 +37,7 @@
 .notification-dropdown{padding: 0;}
 .notification-dropdown img{width: 2.5rem;}
 .notification-dropdown span{position: relative;display: inline-block;}
-.notification-dropdown span.unReadNotification::after{content: attr(data);width: 1.5rem; height: 1.5rem; background: var(--SecondaryColor);border-radius: 50%;position: absolute;right: 0; border: 2px solid var(--PrimaryColor);}
+.notification-dropdown span.unReadNotification::after{content: attr(data); min-width: 2rem; height: 2rem; background: var(--SecondaryColor); border-radius: 50%; position: absolute; right: -2px; border: 2px solid var(--PrimaryColor); font-size: 12px; display: flex; align-items: center; justify-content: center; top: -3px; color: #4e4e4e;}
 .notification-li .dropdown-menu{right: -2rem!important;left: auto!important;min-width: 30rem;max-height: initial;transform: none!important; top: 100%!important;}
 .notification-li .dropdown-menu>div{max-height: 39rem;overflow: auto;}
 .notification-li .dropdown-menu.show::after{right: 2.5rem;left: auto;}
