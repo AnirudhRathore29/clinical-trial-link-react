@@ -70,7 +70,7 @@ const PhysicianTrialListing = () => {
             conditions: [],
         })
         dispatch(PhysicianClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
-    }, [dispatch, id, ApiUrl, location?.search])
+    }, [dispatch, id, ApiUrl, location?.search, location?.state?.count])
 
     async function SpecialitiesAction() {
         const requestOptions = {

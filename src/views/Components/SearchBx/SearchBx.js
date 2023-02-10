@@ -4,6 +4,8 @@ import { InputText } from "../Common/Inputs/Inputs";
 import { useSelector } from 'react-redux';
 var jwt = require('jsonwebtoken');
 
+var count = 0
+
 const SearchBx = ({ placeholder }) => {
     const history = useHistory()
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
@@ -11,18 +13,21 @@ const SearchBx = ({ placeholder }) => {
     const Loading = useSelector((state) => state?.trial_clinic?.loading)
 
     const [fieldData, setFieldData] = useState("");
+    // const [Count, setCount] = useState(0);
 
     console.log("LoadingLoading", Loading);
     console.log("profileDetails", profileDetails);
 
     const HandleSearch = (e) => {
         e.preventDefault()
+        // setCount(Count + 1)
+        count = count + 1
         history.push({
             pathname: profileDetails?.role === 2 ? `/patient/search-listing` : 
             profileDetails?.role === 3 ? `/trial-clinic/sponsors-listing` : 
             profileDetails?.role === 5 ? `/trial-sponsors/clinic-listing` : `/physician/search-listing` ,
             search: `?search=${fieldData}`,
-            state: fieldData
+            state: {fieldData, count}
         })
     }
 

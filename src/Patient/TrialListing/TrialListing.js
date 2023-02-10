@@ -76,7 +76,7 @@ const PatientTrialListing = () => {
             conditions: [],
         })
         dispatch(PatientClinicAppTrialListAction(ApiUrl, id ? data : { ...data, search_filter: location?.search?.split("=").pop() }))
-    }, [dispatch, id, ApiUrl, location?.search])
+    }, [dispatch, id, ApiUrl, location?.search, location?.state?.count])
 
 
     const handleShow2 = () => {

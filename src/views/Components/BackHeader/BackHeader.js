@@ -120,7 +120,7 @@ const Header = (props, { colorHeader, headerColor }) => {
         } else if (notificationType === "TRIAL_CLINIC_TRIAL_APPLICATION") {
             history.push('/trial-sponsors/trial-requests')
         } else if (notificationType === "NEW_PATIENT_ADDED") {
-            history.push('/physician/manage-patient')
+            history.push('/physician/manage-all-patient')
         }
     }
 

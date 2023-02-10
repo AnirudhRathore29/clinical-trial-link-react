@@ -32,6 +32,7 @@ const SponsorsClinicListing = () => {
     console.log("trialClinicFilter", trialClinicFilter);
     console.log("conditionList", conditionList);
     console.log("specialityList", specialityList);
+    console.log("location?.state", location?.state);
 
     async function SpecialitiesAction() {
         const requestOptions = {
@@ -113,7 +114,7 @@ const SponsorsClinicListing = () => {
             conditions: [],
         })
         dispatch(TrialClinicListAction({ page: loadMoreData, clinic_name: location?.search?.split("=").pop()}))
-    }, [dispatch, location?.search])
+    }, [dispatch, location?.search, location?.state?.count])
     
     const TrialClinicListFilterSubmit = (e) => {
         e.preventDefault();
