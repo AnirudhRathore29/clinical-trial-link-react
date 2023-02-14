@@ -15,7 +15,7 @@ import { StatesAction } from "../../redux/actions/commonAction";
 import { useHistory } from "react-router-dom";
 import ChangePassword from "../../TrialSponsors/EditProfile/ChangePassword";
 import { LogoLoader } from "../../views/Components/Common/LogoLoader/LogoLoader";
-import getCurrentHost, { getImageUrl } from "../../redux/constants";
+import getCurrentHost from "../../redux/constants";
 import { MultiSelect } from "react-multi-select-component";
 import { authHeader } from "../../redux/actions/authHeader";
 

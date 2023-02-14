@@ -1,4 +1,3 @@
-import { getImageUrl } from '../../../redux/constants';
 import './MyAppointmentBx.css';
 
 const MyAppointmentBx = ({ className, imgUrl, visitNumber, onClick, title, time, location, state, status, statusClass, description }) => {

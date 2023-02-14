@@ -1,6 +1,5 @@
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
-import { getImageUrl } from '../../../redux/constants';
 
 const SponsorsBx = ({ data }) => {
     const options = {

@@ -88,6 +88,7 @@ export function loginError(message) {
 }
 
 export const LoginAction = (data) => async (dispatch) => {
+    // var dataEncrypted = jwt.sign(data, process.env.REACT_APP_JWT_SECRET);
     dispatch(authRequest());
     axios
         .post(getCurrentHost() + "/login", data, {

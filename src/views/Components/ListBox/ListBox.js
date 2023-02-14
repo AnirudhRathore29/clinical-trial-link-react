@@ -1,5 +1,4 @@
 import './ListBox.css';
-import { getImageUrl } from "./../../../redux/constants";
 
 const ListBox = ({ className, imgUrl, location, state, description, title, distance, trialCount }) => {
     return (

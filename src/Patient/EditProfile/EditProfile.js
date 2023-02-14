@@ -12,7 +12,7 @@ import { ProfileAction, ProfileUpdateAction } from "../../redux/actions/profileA
 import { LogoLoader } from '../../views/Components/Common/LogoLoader/LogoLoader';
 import { StatesAction } from "../../redux/actions/commonAction";
 import { MultiSelect } from "react-multi-select-component";
-import getCurrentHost, { getImageUrl } from "../../redux/constants";
+import getCurrentHost from "../../redux/constants";
 import { authHeader } from "../../redux/actions/authHeader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

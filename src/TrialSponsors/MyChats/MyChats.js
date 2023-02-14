@@ -6,8 +6,11 @@ import { storage } from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
 import { capitalizeFirstLetter, chatDateFormat } from '../../utils/Utils';
-// import { storage } from '../../utils/Firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 
 const SponsorsMyChats = (props) => {
@@ -24,7 +27,7 @@ const SponsorsMyChats = (props) => {
     const [chatWindowDown, setChatWindowDown] = useState(0)
     const [ChatCount, setChatCount] = useState(0)
     const [imgUrl, setImgUrl] = useState(null);
-    const [progresspercent, setProgresspercent] = useState(0);
+    const [progresspercent, setProgresspercent] = useState(null);
 
     console.log("reciverIdx", reciverIdx);
     console.log("ChatCount", ChatCount);
@@ -32,6 +35,7 @@ const SponsorsMyChats = (props) => {
     console.log("progresspercent", progresspercent);
     console.log("imgUrl", imgUrl);
     console.log("attachmentInput", attachmentInput);
+    console.log("progresspercent > 0 && progresspercent < 99", progresspercent > 0 && progresspercent < 99);
 
     useEffect(() => {
         if (containerRef && containerRef.current) {
@@ -175,33 +179,53 @@ const SponsorsMyChats = (props) => {
         return chatIDpre.join('_');
     }
 
+    const getUploadedFile = (e) => {
+        if (e.target.files[0]) {
+            const file = e.target.files[0]
+
+            const storageRef = ref(storage, `files/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on("state_changed",
+                (snapshot) => {
+                    const progress =
+                        Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    console.log("progressprogress", progress);
+                    setProgresspercent(progress);
+                },
+                (error) => {
+                    alert(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        attachmentInput.current.value = ""
+                        setImgUrl(downloadURL)
+                        setProgresspercent(null)
+                        toast.success("File uploaded!", { theme: "colored" })
+                    });
+                }
+            );
+        }
+    }
+
+    const removeFile = () => {
+        setImgUrl(null)
+    }
+
     const sendChatMessage = (e) => {
         e.preventDefault()
         setChatCount(ChatCount + 1)
-        // if (e?.target[1].files[0]) {
-        //     const file = e.target[1].files[0]
-
-        //     const storageRef = ref(storage, `files/${file.name}`);
-        //     const uploadTask = uploadBytesResumable(storageRef, file);
-
-        //     uploadTask.on("state_changed",
-        //         (snapshot) => {
-        //             const progress =
-        //                 Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        //             setProgresspercent(progress);
-        //         },
-        //         (error) => {
-        //             alert(error);
-        //         },
-        //         () => {
-        //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        //                 setImgUrl(downloadURL)
-        //             });
-        //         }
-        //     );
-        // }
-        if (message.trim()) {
+        if (message.trim() || imgUrl) {
             console.log("goes in chat");
+            console.log("chat object", {
+                message: message.trim(),
+                date: Date.now(),
+                senderId: currentUserDetail.id,
+                reciverId: Number(reciverIdx),
+                senderName: currentUserDetail.full_name,
+                recieverName: reciverName,
+                photoUrl: imgUrl
+            });
             db.collection('Chat')
                 .doc(combine2UserId(currentUserDetail.id).toString())
                 .collection('messages')
@@ -246,6 +270,7 @@ const SponsorsMyChats = (props) => {
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
             setImgUrl(null)
+            setProgresspercent(null)
             attachmentInput.current.value = ""
         }
     }
@@ -346,8 +371,14 @@ const SponsorsMyChats = (props) => {
                                     {setDateValue(item, index)}
                                     <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
                                         <div className="content">
+                                            {typeof item?.photoUrl === "string" && "jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) ? <img src={item?.photoUrl} alt={item?.photoUrl} /> :
+                                                typeof item?.photoUrl === "string" && !"jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) &&
+                                                <div className='fileInChat'>
+                                                    <h2><span>{item?.photoUrl}</span><i>.{item?.photoUrl?.split('.')?.pop()?.split('?')[0]}</i></h2>
+                                                    <a href={item?.photoUrl} download><box-icon name='download' type='solid' color="#356aa0" size="20px"></box-icon></a>
+                                                </div>
+                                            }
                                             {item.message}
-                                            {item?.photoUrl ? <img src={item?.photoUrl} alt={item?.photoUrl} /> : null}
                                         </div>
                                         <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
                                     </div>
@@ -355,14 +386,27 @@ const SponsorsMyChats = (props) => {
                             ))}
                         </div>
                         {reciverName &&
-                            <form onSubmit={sendChatMessage} className="bottom-bar">
+                            <form onSubmit={sendChatMessage} className={progresspercent === 0 && progresspercent < 99 ? "bottom-bar disabledBar" : "bottom-bar"}>
                                 <input value={message} onChange={(e) => setMessage(e.target.value)} className="msg-input" placeholder="New Message" />
-                                {/* <div className='attachmentBx'>
-                                    <input type="file" ref={attachmentInput} />
-                                </div> */}
+                                <div className='attachmentBx'>
+                                    <input type="file" ref={attachmentInput} onChange={getUploadedFile} />
+                                    <button type='button'>
+                                        {
+                                            (progresspercent === 0 && progresspercent < 99) ?
+                                                <box-icon name='loader-alt' animation='spin' color="#ffffff" size="25px"></box-icon>
+                                                :
+                                                <box-icon name='paperclip' color="#ffffff"></box-icon>
+                                        }
+                                    </button>
+                                </div>
                                 <div className="chat-user-options">
                                     <button type='submit' className="send-btn"><box-icon name='send' color="#ffffff"></box-icon></button>
                                 </div>
+                                {imgUrl &&
+                                    <div className='fileViewer'>
+                                        <h2><span>{imgUrl}</span> <button type='button' onClick={removeFile}><box-icon name='x'></box-icon></button></h2>
+                                    </div>
+                                }
                             </form>
                         }
                     </main>
