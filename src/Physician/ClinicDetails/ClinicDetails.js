@@ -167,6 +167,7 @@ const TrialClinicDetails = () => {
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped </span>
                                                             }
                                                             favBtnDisable={true}
+                                                            trialId={value.id}
                                                             id={patientClinicDetails.data.id}
                                                         />
                                                     </React.Fragment>

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PatientBookAppointmentAction } from '../../../redux/actions/PatientAction';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { InputText } from '../Common/Inputs/Inputs';
 
 toast.configure();
 const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat, bookingSlotData, bookingId }) => {
@@ -20,6 +21,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
     const [startDate, setStartDate] = useState(new Date());
     const [bookingSubmit, setBookingSubmit] = useState(false);
     const [thanksObj, setThanksObj] = useState()
+    const [ReferralCode, setReferralCode] = useState()
 
     console.log("bookingSlots", bookingSlots);
     console.log("bookingTrialSelector", bookingTrialSelector);
@@ -43,7 +45,8 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
         let data = {
             trial_clinic_appointment_id: bookingId,
             appointment_date: moment(startDate).format("YYYY-MM-DD"),
-            trial_clinic_appointment_slot_id: bookingSlots
+            trial_clinic_appointment_slot_id: bookingSlots,
+            referal_code: ReferralCode
         }
         dispatch(PatientBookAppointmentAction(data))
         setBookingSubmit(true)
@@ -52,7 +55,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
     console.log("bookingTrialSelector", bookingTrialSelector);
 
     useEffect(() => {
-        if(!bookingTrialSelector.book_appointment && bookingTrialSelector.book_appointment.data.data.status_code === 200){
+        if (!bookingTrialSelector.book_appointment && bookingTrialSelector.book_appointment.data.data.status_code === 200) {
             setBookingSlots()
         }
     }, [bookingTrialSelector])
@@ -157,6 +160,13 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                     })}
                                 </div>
                             </div>
+                            <InputText
+                                type="text"
+                                name="referal_cdoe"
+                                placeholder="Referral code"
+                                onChange={(e) => setReferralCode(e.target.value)}
+                                labelText="Add referral code"
+                            />
                             <div className='info-bx'>
                                 <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> The Compensation and the Mode of Payment will be Decided by the Trial Clinics/Pharma Companies.
                             </div>

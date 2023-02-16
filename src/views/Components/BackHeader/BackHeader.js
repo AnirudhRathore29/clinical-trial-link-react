@@ -91,7 +91,8 @@ const Header = (props, { colorHeader, headerColor }) => {
 
     const HandleNotificationRedirection = (notificationType, extra_info, id) => {
         const extraData = extra_info && JSON.parse(extra_info)
-        console.log("extra_info", extra_info);
+        console.log("extra_info", extraData);
+        console.log("notificationType", notificationType);
 
         getNotifications(currentPage, id)
 
@@ -104,6 +105,8 @@ const Header = (props, { colorHeader, headerColor }) => {
             })
         } else if (notificationType === "TRIAL_START_RECRUITING" || notificationType === "TRIAL_STOP_RECRUITING" || notificationType === "TRIAL_COMPLETED") {
             history.push(`/patient/trial-listing/${extraData.trialclinic_user_id}`) // this one i need to check
+        } else if (notificationType === "REFERRED_TRIAL") {
+            history.push(`/patient/trial-listing/${extraData.trial_clinic_user_id}`)
         } else if (notificationType === "PATIENT_TRIAL_APPLICATION") {
             history.push('/trial-clinic/trial-requests')
         } else if (notificationType === "APPOINTMENT_CANCELLATION_BY_PATIENT") {
