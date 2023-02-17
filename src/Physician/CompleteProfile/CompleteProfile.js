@@ -35,6 +35,10 @@ const PhysicianCompleteProfile = () => {
         gender: "M",
         brief_intro: "",
         speciality: [],
+        bank_name: "",
+        account_holder_name: "",
+        account_number: "",
+        routing_number: "",
     });
 
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
@@ -122,6 +126,10 @@ const PhysicianCompleteProfile = () => {
             gender: profileInputData.gender,
             speciality: specialityArr,
             brief_intro: profileInputData.brief_intro,
+            bank_name: profileInputData.bank_name,
+            account_holder_name: profileInputData.account_holder_name,
+            account_number: profileInputData.account_number,
+            routing_number: profileInputData.routing_number,
         }
         const isVaild = Vaildation(data)
         if (isVaild) {
@@ -223,6 +231,52 @@ const PhysicianCompleteProfile = () => {
                                         required="required"
                                         onChange={onChange}
                                     />
+                                </div>
+
+                                <div className="col-lg-12 mt-3 mb-3">
+                                    <h2>Add Bank Details</h2>
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="text"
+                                        name="bank_name"
+                                        placeholder="Enter Bank Name"
+                                        labelText="Name of Bank"
+                                        onChange={onChange}
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="text"
+                                        name="account_holder_name"
+                                        placeholder="Enter Name"
+                                        labelText="Account Holder Name"
+                                        onChange={onChange}
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="number"
+                                        name="account_number"
+                                        placeholder="Enter Account Number"
+                                        labelText="Account Number"
+                                        onChange={onChange}
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <InputText
+                                        type="number"
+                                        name="routing_number"
+                                        placeholder="Enter Routing Number"
+                                        labelText="Routing Number"
+                                        onChange={onChange}
+                                    />
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <div className='info-bx br-none p-0 mb-5'>
+                                        <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Need bank details for your referral amount.
+                                    </div>
                                 </div>
 
                                 <div className="mt-5 text-center">

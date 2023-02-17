@@ -43,6 +43,10 @@ const PhysicianEditProfile = () => {
         zip_code: "",
         dob: null,
         gender: "M",
+        bank_name: "",
+        account_holder_name: "",
+        account_number: "",
+        routing_number: "",
         brief_intro: profileSelector !== undefined && profileSelector.data.user_meta_info.brief_intro
     });
 
@@ -78,6 +82,10 @@ const PhysicianEditProfile = () => {
                 zip_code: profileSelector.data.zip_code,
                 dob: new Date(profileSelector.data.dob),
                 gender: profileSelector.data.gender,
+                bank_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.bank_name : "",
+                account_holder_name: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_holder_name : "",
+                account_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.account_number : "",
+                routing_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : "",
             });
         }
 
@@ -183,6 +191,10 @@ const PhysicianEditProfile = () => {
         formData.append("dob", moment(profileInputData.dob).format("YYYY-MM-DD"))
         formData.append("gender", profileInputData.gender)
         formData.append("brief_intro", profileInputData.brief_intro)
+        formData.append("bank_name", profileInputData.bank_name)
+        formData.append("account_holder_name", profileInputData.account_holder_name)
+        formData.append("account_number", profileInputData.account_number)
+        formData.append("routing_number", profileInputData.routing_number)
         if (binary !== undefined) {
             formData.append("profile_image", binary)
         }
@@ -399,6 +411,59 @@ const PhysicianEditProfile = () => {
                                                     name="brief_intro"
                                                     defaultData={profileSelector.data.user_meta_info.brief_intro}
                                                 />
+                                            </div>
+                                        </div>
+                                        <h2 className="section-title mt-4">Bank Details</h2>
+
+                                        <div className="row">
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="bank_name"
+                                                    onChange={onChange}
+                                                    placeholder="Enter Bank Name"
+                                                    labelText="Name of Bank"
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.bank_name : ""}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="account_holder_name"
+                                                    onChange={onChange}
+                                                    placeholder="Enter Name"
+                                                    labelText="Account Holder Name"
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_holder_name : ""}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="account_number"
+                                                    onChange={onChange}
+                                                    placeholder="Enter Account Number"
+                                                    labelText="Account Number"
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.account_number : ""}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-6">
+                                                <InputText
+                                                    type="text"
+                                                    name="routing_number"
+                                                    onChange={onChange}
+                                                    placeholder="Enter Routing Number"
+                                                    labelText="Routing Number"
+                                                    defaultValue={profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail?.routing_number : ""}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-12">
+                                                <div className='info-bx br-none p-0 mb-5'>
+                                                    <box-icon type='solid' name='info-circle' color="#4096EE" size="22px"></box-icon> Need bank details for your referral amount.
+                                                </div>
                                             </div>
                                         </div>
                                         <Button
