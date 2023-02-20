@@ -142,6 +142,7 @@ export default function TrialsReducers(state = initialState, action) {
 				...state,
 				loading: false,
 				new_request: action.payload,
+				new_request_status:{},
 				error: {}
 			};
 		case NEW_TRIAL_REQUEST_ERROR:

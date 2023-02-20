@@ -12,9 +12,8 @@
 .patient-list-table p span + span{margin-left: 1rem;}
 
 
-.update-status + .update-status{border-top: 1px solid #C3D9FF;}
-.update-status .radio-check-btn{display: block;padding: 2rem 0;}
-.update-status .radio-check-btn + .radio-check-btn{border-top: 1px solid #C3D9FF;}
+.update-status{display: flex;align-items: center;justify-content: space-between;margin: 2rem 0;}
+.update-status .radio-check-btn{display: block;padding: 2rem 0;width: 49%;border: 1px solid #C3D9FF;padding: 1rem;border-radius: 1rem;}
 .update-status .radio-check-btn span{position: relative;}
 .update-status .radio-check-btn input:checked + span::after{content: "";width: 2rem;height: 2rem;border-radius: 50%;background: var(--PrimaryColor) url(../../Assets/images/check-icon.svg) center center;background-repeat: no-repeat; background-size: 10px;position: absolute;right: 0;}
 

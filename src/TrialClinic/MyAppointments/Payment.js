@@ -29,8 +29,8 @@ const Payment = (props) => {
     const AppointmentDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
     const loadingSelector = useSelector(state => state.trial_clinic)
 
-    const id = props.location && props.location.state.AppointmentDetailId
-    const PatientAppointmentId = props.location && props.location.state.PatientAppointmentId
+    const id = props?.location?.state?.AppointmentDetailId
+    const PatientAppointmentId = props?.location?.state?.PatientAppointmentId
     const dispatch = useDispatch()
 
     const OtpSent = () => setOtpSent(true);
@@ -44,7 +44,7 @@ const Payment = (props) => {
     console.log("AppointmentDetail", AppointmentDetail);
     console.log("loadingSelector", loadingSelector);
     console.log("payingForCurrentVisit", payingForCurrentVisit);
-    console.log("props.location.state.status", props.location.state.status);
+    console.log("props.location.state.status", props?.location?.state?.status);
     console.log("id", id);
 
     useEffect(() => {
@@ -65,11 +65,11 @@ const Payment = (props) => {
         e.preventDefault();
         const data = {
             patient_appointment_id: PatientAppointmentId,
-            status: props.location && props.location.state.status,
+            status: props?.location?.state?.status,
             appointment_date: moment(startDate).format("YYYY-MM-DD"),
             is_paying: payingForCurrentVisit ? 1 : 0,
             trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
-            visit_note: props.location && props.location.state.visit_note
+            visit_note: props?.location?.state?.visit_note
         }
         console.log("addScreeningVisit", data);
         dispatch(NewScreenTrialRequestStatusUpdateAction(data))
@@ -79,9 +79,9 @@ const Payment = (props) => {
         if (id === "6") {
             setClicked(true)
             const data = {
-                patient_appointment_id: props.location && props.location.state.PatientAppointmentId,
-                status: props.location && props.location.state.status,
-                visit_note: props.location && props.location.state.visit_note
+                patient_appointment_id: props?.location?.state?.PatientAppointmentId,
+                status: props?.location?.state?.status,
+                visit_note: props?.location?.state?.visit_note
             }
             console.log("end of study");
             console.log("datadata", data);
@@ -107,7 +107,7 @@ const Payment = (props) => {
                     <div className="heading-bx">
                         <h1>Payment</h1>
                         {
-                            props.location && props.location.state.createNewTrial && <button type='button' className='btn-text' onClick={() => setAddVisitModal(true)}>Skip Payment and Create Visit</button>
+                            props?.location?.state?.createNewTrial && <button type='button' className='btn-text' onClick={() => setAddVisitModal(true)}>Skip Payment and Create Visit</button>
                         }
                     </div>
                     <div className='repeat-white-bx container-small'>
@@ -172,7 +172,7 @@ const Payment = (props) => {
                                                         BtnText="Paid"
                                                         hasSpinner={clicked && loadingSelector.loading}
                                                         disabled={clicked && loadingSelector.loading}
-                                                        onClick={() => CompletePayment(props.location.state.status)}
+                                                        onClick={() => CompletePayment(props?.location?.state?.status)}
                                                     />
                                                 </>
                                                 :
@@ -216,7 +216,7 @@ const Payment = (props) => {
                                             placeholder="Enter Amount"
                                             labelText="Amount ($)"
                                         />
-                                        {props.location.state.status === "4" &&
+                                        {props?.location?.state?.status === "4" &&
                                             <div className='info-bx'>
                                                 <box-icon type='solid' name='info-circle' color="#4096EE" size="34px"></box-icon> Payment will be processed once new visit is scheduled at the trial clinic.
                                             </div>
@@ -229,7 +229,7 @@ const Payment = (props) => {
                                             BtnText="Paid"
                                             hasSpinner={clicked && loadingSelector.loading}
                                             disabled={clicked && loadingSelector.loading}
-                                            onClick={() => CompletePayment(props.location.state.status)}
+                                            onClick={() => CompletePayment(props?.location?.state?.status)}
                                         />
                                     </>
                                     :

@@ -106,6 +106,7 @@ function App() {
 							<PrivateRoute path="/trial-sponsors/patient-list/:id" name="SponsorsPatientList" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/trial-sponsors/patient-list-past" name="SponsorsPatientListPast" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/trial-sponsors/payment-history" name="SponsorsPaymentHistory" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+							<PrivateRoute path="/trial-sponsors/payment" name="SponsorPayment" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/trial-sponsors/edit-profile" name="SponsorsEditProfile" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/trial-sponsors/manage-clinics" name="SponsorsManageClinics" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/trial-sponsors/manage-patient" name="SponsorsManagePatient" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />

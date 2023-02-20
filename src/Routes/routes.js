@@ -57,6 +57,7 @@ const SponsorsAppointmentsClinics = React.lazy(() => import('../TrialSponsors/Ap
 const SponsorsPatientList = React.lazy(() => import('../TrialSponsors/PatientList/PatientList'));
 const SponsorsPatientListPast = React.lazy(() => import('../TrialSponsors/PatientList/PatientListPast'));
 const SponsorsPaymentHistory = React.lazy(() => import('../TrialSponsors/PaymentHistory/PaymentHistory'));
+const SponsorPayment = React.lazy(() => import('../TrialSponsors/TrialRequests/Payment'));
 const SponsorsEditProfile = React.lazy(() => import('../TrialSponsors/EditProfile/EditProfile'));
 const SponsorsManageClinics = React.lazy(() => import('../TrialSponsors/ManageClinics/ManageClinics'));
 const SponsorsManagePatient = React.lazy(() => import('../TrialSponsors/ManagePatient/ManagePatient'));
@@ -140,6 +141,7 @@ const routes = [
 	{ path: '/trial-sponsors/patient-list/:id', exact: true, name: 'SponsorsPatientList', component: SponsorsPatientList, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/patient-list-past', exact: true, name: 'SponsorsPatientListPast', component: SponsorsPatientListPast, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
+	{ path: '/trial-sponsors/payment', exact: true, name: 'SponsorsPayment', component: SponsorPayment, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/edit-profile', exact: true, name: 'SponsorsEditProfile', component: SponsorsEditProfile, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/manage-clinics', exact: true, name: 'SponsorsManageClinics', component: SponsorsManageClinics, meta: {"role": RolesConfig.TRIAL_SPONSORS} },
 	{ path: '/trial-sponsors/manage-patient', exact: true, name: 'SponsorsManagePatient', component: SponsorsManagePatient, meta: {"role": RolesConfig.TRIAL_SPONSORS} },

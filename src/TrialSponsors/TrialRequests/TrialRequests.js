@@ -27,7 +27,6 @@ const SponsorTrialRequests = () => {
 
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clickStatusReject, setClickStatusReject] = useState(false)
-    const [clickStatusApprove, setClickStatusApprove] = useState(false)
 
 
     useEffect(() => {
@@ -52,30 +51,31 @@ const SponsorTrialRequests = () => {
     }
 
     const handleRequestStatusUpdate = (id, status) => {
-        dispatch(TrialRequestAppStatusUpdateAction({ trial_clinic_appointment_id: id, status }))
         if (status === "1") {
-            setClickStatusApprove(true)
+            history.push({
+                pathname: "/trial-sponsors/payment",
+                state: { trial_clinic_appointment_id: id, status }
+            })
         } else {
+            dispatch(TrialRequestAppStatusUpdateAction({ trial_clinic_appointment_id: id, status }))
             setClickStatusReject(true)
         }
     }
 
     useEffect(() => {
-        if (clickStatusApprove || clickStatusReject) {
+        if (clickStatusReject) {
             if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
                 toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
                 setShow(false);
-                setClickStatusApprove(false)
                 setClickStatusReject(false)
                 setRequestDetailData(undefined)
                 dispatch(NewTrialRequestAction({ page: loadMoreData }))
             } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
                 toast.error(requestStatusSelector.error.message, { theme: "colored" });
-                setClickStatusApprove(false)
                 setClickStatusReject(false)
             }
         }
-    }, [clickStatusApprove, clickStatusReject, requestStatusSelector, dispatch, loadMoreData])
+    }, [clickStatusReject, requestStatusSelector, dispatch, loadMoreData])
 
     const handleRedirectUser2Chat = (data) => {
         let values = {
@@ -259,8 +259,6 @@ const SponsorTrialRequests = () => {
                                     BtnColor="primary"
                                     BtnText="Approve"
                                     onClick={() => handleRequestStatusUpdate(requestDetailData.id, "1")}
-                                    disabled={clickStatusApprove && requestStatusSelector.loading}
-                                    hasSpinner={clickStatusApprove && requestStatusSelector.loading}
                                 />
                             </div>
                         </>
