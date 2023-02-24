@@ -3,7 +3,7 @@ import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import DatePicker from "react-datepicker";
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import '../TrialRequests/TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
@@ -21,6 +21,8 @@ import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const MyAppointmentsDetails = (props) => {
+    const history = useHistory()
+    
     const [addVisitModal, setAddVisitModal] = useState(false);
     const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
@@ -94,55 +96,76 @@ const MyAppointmentsDetails = (props) => {
     }
 
     const ConfirmationSubmit = () => {
-        if (SelectedStatus === "2" || SelectedStatus === "3") {
-            setAddVisitModal(true)
-            setConfirmationModal(false)
-        } else {
-            setCancelReasonModal(true)
-            setConfirmationModal(false)
-        }
+        // const state = {
+        //     status: SelectedStatus,
+        //     slots: AppointmentDetail?.trialAppointmentSlots,
+        //     PatientAppointmentId: PatientAppointmentId,
+        //     page: "appointment",
+        //     paramsID: id
+        // }
+        // console.log("statestate", state);
+        history.push({
+            pathname: "/trial-clinic/payment",
+            state: {
+                AppointmentDetailId: id,
+                status: SelectedStatus,
+                slots: AppointmentDetail?.trialAppointmentSlots,
+                PatientAppointmentId: PatientAppointmentId,
+                page: "appointment",
+                paramsID: id
+            }
+        })
+        // if (SelectedStatus === "2" || SelectedStatus === "3") {
+        //     setAddVisitModal(true)
+        //     setConfirmationModal(false)
+        // } else {
+        //     setCancelReasonModal(true)
+        //     setConfirmationModal(false)
+        // }
     }
 
     const UpdateStatusSubmit = (data) => {
         console.log("datadatadata", data);
-        // if (SelectedStatus === "7") {
-        //     const data = {
-        //         cancellation_detail: StatusUpdateFields.cancellation_detail,
-        //         default_cancel_reason_id: StatusUpdateFields.default_cancel_reason_id,
-        //         patient_appointment_id: PatientAppointmentId,
-        //         status: SelectedStatus,
+        // history.push({
+        //     pathname: "/trial-clinic/payment",
+        //     state: {
+        //         AppointmentDetailId: id,
+        //         status: SelectedStatus.includes("4", "5", "7") ? SelectedStatus : "6",
+        //         slots: AppointmentDetail?.trialAppointmentSlots,
+        //         PatientAppointmentId: PatientAppointmentId,
+        //         page: "appointment",
+        //         paramsID: id
         //     }
-        //     dispatch(NewScreenTrialRequestStatusUpdateAction(data))
+        // })
+
+        // if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length > 0)) {
+        //     if ((SelectedStatus === "5" || SelectedStatus === "7") && (data === "newVisit")) {
+        //         setAddVisitModal(true)
+        //         setCancelReasonModal(false)
+        //     } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "endStudy")) {
+        //         props.history.push({
+        //             pathname: "/trial-clinic/payment",
+        //             state: {
+        //                 AppointmentDetailId: id,
+        //                 PatientAppointmentId: PatientAppointmentId,
+        //                 status: "6",
+        //                 visit_note: StatusUpdateFields.visit_note
+        //             }
+        //         })
+        //     } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "newVisit")) {
+        //         props.history.push({
+        //             pathname: "/trial-clinic/payment",
+        //             state: {
+        //                 AppointmentDetailId: id,
+        //                 PatientAppointmentId: PatientAppointmentId,
+        //                 status: SelectedStatus,
+        //                 visit_note: StatusUpdateFields.visit_note
+        //             }
+        //         })
+        //     }
+        // } else if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length <= 0)) {
+        //     toast.error("Text note is required!", { theme: "colored" })
         // }
-        if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length > 0)) {
-            if ((SelectedStatus === "5" || SelectedStatus === "7") && (data === "newVisit")) {
-                setAddVisitModal(true)
-                setCancelReasonModal(false)
-            } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "endStudy")) {
-                props.history.push({
-                    pathname: "/trial-clinic/payment",
-                    state: {
-                        AppointmentDetailId: id,
-                        PatientAppointmentId: PatientAppointmentId,
-                        status: "6",
-                        visit_note: StatusUpdateFields.visit_note
-                    }
-                })
-            } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "newVisit")) {
-                props.history.push({
-                    pathname: "/trial-clinic/payment",
-                    state: {
-                        createNewTrial: true,
-                        AppointmentDetailId: id,
-                        PatientAppointmentId: PatientAppointmentId,
-                        status: SelectedStatus,
-                        visit_note: StatusUpdateFields.visit_note
-                    }
-                })
-            }
-        } else if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length <= 0)) {
-            toast.error("Text note is required!", { theme: "colored" })
-        }
     }
 
     const addScreeningVisit = (e) => {
@@ -407,98 +430,6 @@ const MyAppointmentsDetails = (props) => {
                     </form>
                 }
             />
-
-            {/* <CommonModal show={CompleteTrialModal} onHide={CompleteTrialModalClose} keyboard={false} size="md"
-                onClick={CompleteTrialModalClose}
-                ModalData={
-                    <>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={CompleteTrialModalClose}></button>
-                        <div className='congrats-bx'>
-                            <img src="/images/congrats.svg" alt="Congratulations" />
-                            <h2>Trial Visit Successfully Completed</h2>
-                            <p>Lorem ipsum dolor amet sectetur adipiscing vehicula diam nis in congue tortor sem, varius eu nulla volutpatmollis.</p>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnColor="green btn-sm"
-                                BtnText="End of Study"
-                                onClick={() => props.history.push({
-                                    pathname: "/trial-clinic/payment",
-                                    state: {
-                                        AppointmentDetailId: id,
-                                        PatientAppointmentId: PatientAppointmentId,
-                                        status: SelectedStatus,
-                                        visit_note: StatusUpdateFields.visit_note
-                                    }
-                                })}
-                            />
-                            <Button
-                                isButton="true"
-                                BtnColor="primary btn-sm"
-                                BtnText="Pay & Create New Visit"
-                                onClick={() => props.history.push({
-                                    pathname: "/trial-clinic/payment",
-                                    state: {
-                                        createNewTrial: true,
-                                        AppointmentDetailId: id,
-                                        PatientAppointmentId: PatientAppointmentId,
-                                        status: SelectedStatus,
-                                        visit_note: StatusUpdateFields.visit_note
-                                    }
-                                })}
-                            />
-                        </div>
-                    </>
-                }
-            /> */}
-
-            {/* <CommonModal show={TerminationReasonModal} onHide={TerminationReasonModalClose} keyboard={false}
-                ModalTitle="Text Note"
-                onClick={TerminationReasonModalClose}
-                ModalData={
-                    <>
-                        <Form onSubmit={(e) => {e.preventDefault(); UpdateStatusSubmit()}}>
-                            <SelectBox
-                                labelText="Reason for Rejection"
-                                name="default_cancel_reason_id"
-                                onChange={onchange}
-                                required={true}
-                                optionData=
-                                {
-                                    <>
-                                        <option value="0" hidden>Select Cancellation Reason</option>
-                                        {GetCancelReasonsSelector && GetCancelReasonsSelector.data.map((value, index) => {
-                                            return (
-                                                <option key={index} value={value.id}>{value.reason}</option>
-                                            )
-                                        })
-                                        }
-                                    </>
-                                }
-                            />
-
-                            <TextArea
-                                placeholder="Enter Here..."
-                                name="cancellation_detail"
-                                labelText="Note"
-                                required={true}
-                                onChange={onchange}
-                            />
-                            <div className='clnicaltrial-detail-ftr mt-0'>
-                                <Button
-                                    isButton="true"
-                                    BtnType="submit"
-                                    BtnColor="primary w-100"
-                                    BtnText="Confirm"
-                                    hasSpinner={loadingSelector.loading}
-                                    disabled={loadingSelector.loading}
-                                />
-                            </div>
-                        </Form>
-                    </>
-                }
-            /> */}
         </>
     );
 };

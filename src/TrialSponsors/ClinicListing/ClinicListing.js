@@ -33,6 +33,7 @@ const SponsorsClinicListing = () => {
     console.log("conditionList", conditionList);
     console.log("specialityList", specialityList);
     console.log("location?.state", location?.state);
+    console.log("listSelector", listSelector);
 
     async function SpecialitiesAction() {
         const requestOptions = {

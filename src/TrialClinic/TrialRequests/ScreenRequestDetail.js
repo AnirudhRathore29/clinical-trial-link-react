@@ -3,7 +3,7 @@ import { SelectBox, TextArea } from '../../views/Components/Common/Inputs/Inputs
 import Button from '../../views/Components/Common/Buttons/Buttons';
 import CommonModal from '../../views/Components/Common/Modal/Modal';
 import DatePicker from "react-datepicker";
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import './TrialRequests.css'
 import '../../Patient/MyAppointments/MyAppointments.css'
@@ -15,11 +15,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 const ClinicTrialScreenRequestDetail = (props) => {
+    const history = useHistory()
     const loadingSelector = useSelector(state => state.trial_clinic)
     const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
 
     const [addVisitModal, setAddVisitModal] = useState(false);
-    const [CancelReasonModal, setCancelReasonModal] = useState(false);
+
     const [ConfirmationModal, setConfirmationModal] = useState(false);
     const [ReadMore, setReadMore] = useState();
     const [SelectedStatus, setSelectedStatus] = useState();
@@ -48,11 +49,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
         setAddVisitModal(false)
     }
 
-    const CancelReasonModalClose = () => {
-        setSelectedStatus(0)
-        setCancelReasonModal(false)
-    }
-
     const ConfirmationModalClose = () => {
         setSelectedStatus(0)
         setConfirmationModal(false)
@@ -75,48 +71,17 @@ const ClinicTrialScreenRequestDetail = (props) => {
     }
 
     const ConfirmationSubmit = () => {
-        if (SelectedStatus === "2" || SelectedStatus === "3") {
-            setAddVisitModal(true)
-            setConfirmationModal(false)
-        }
-        else {
-            setCancelReasonModal(true)
-            setConfirmationModal(false)
-        }
+        history.push({
+            pathname: "/trial-clinic/payment",
+            state: {
+                status: SelectedStatus,
+                slots: screenPatientDetail?.trialAppointmentSlots,
+                PatientAppointmentId: PatientAppointmentId,
+                page: "screening",
+                paramsID: id
+            }
+        })
     }
-
-    const UpdateStatusSubmit = (id) => {
-        const data = {
-            patient_appointment_id: PatientAppointmentId,
-            status: SelectedStatus,
-            visit_note: StatusUpdateFields.visit_note
-        }
-        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
-    }
-
-    const addScreeningVisit = (e) => {
-        e.preventDefault();
-        const data = {
-            patient_appointment_id: PatientAppointmentId,
-            status: SelectedStatus,
-            appointment_date: moment(startDate).format("YYYY-MM-DD"),
-            trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
-            visit_note: StatusUpdateFields.visit_note
-        }
-        console.log("data", data);
-        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
-    }
-
-    useEffect(() => {
-        if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "2")) {
-            setAddVisitModal(false)
-            setSelectedStatus(0)
-            dispatch(NewScreenTrialRequestDetailAction(id))
-        } else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "1" || "3")) {
-            setCancelReasonModal(false)
-            props.history.push("/trial-clinic/screen-trial-request")
-        }
-    }, [dispatch, loadingSelector.trial_status])
 
     return (
         <>
@@ -202,6 +167,15 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                                             <h3><strong>Visit Number :</strong> {value.visit_number}</h3>
                                                             <p>{moment(value.appointment_date).format("MMMM DD, YYYY")},
                                                                 ({value.trial_clinic_appointment_slot_info.booking_slot_info.from_time} to {value.trial_clinic_appointment_slot_info.booking_slot_info.to_time})</p>
+                                                            {
+                                                                value.status === 1 ?
+                                                                    <span className='badge badge-danger d-inline-block mb-3'>Not eligible</span> :
+                                                                    value.status === 2 ?
+                                                                        <span className='badge badge-primary d-inline-block mb-3'>Pending</span> :
+                                                                        value.status === 3?
+                                                                            <span className='badge badge-success d-inline-block mb-3'>Approve</span> :
+                                                                                    null
+                                                            }
                                                             <p className={`mb-0 ${value?.visit_note?.length > 180 && ReadMore !== value.id && "fixTextLength"}`}><span>{value.visit_note}</span>{value?.visit_note?.length > 180 && <i onClick={() => setReadMore(() => ReadMore === value.id ? null : value.id)}>{ReadMore === value.id ? " Read less" : " Read more"}</i>} </p>
                                                             {value.status === 0
                                                                 ?
@@ -240,7 +214,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                 </div>
             </div>
 
-            <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
+            {/* <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
                 ModalTitle={SelectedStatus === "2" ? "Reschedule Screening" : "Trial Appointment"}
                 onClick={addVisitModalClose}
                 ModalData={
@@ -265,14 +239,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
                                 }
                             </div>
                         </div>
-                        <TextArea
-                            placeholder="Enter Here..."
-                            labelText="Text Note"
-                            name="visit_note"
-                            onChange={onchange}
-                            pattern="[^\s]+.{1,}"
-                            required={true}
-                        />
                         <div className='clnicaltrial-detail-ftr mt-0'>
                             <Button
                                 isButton="true"
@@ -285,7 +251,7 @@ const ClinicTrialScreenRequestDetail = (props) => {
                         </div>
                     </form>
                 }
-            />
+            /> */}
 
             <CommonModal show={ConfirmationModal} onHide={ConfirmationModalClose} keyboard={false} size="md"
                 onClick={ConfirmationModalClose}
@@ -311,33 +277,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
                             />
                         </div>
                     </>
-                }
-            />
-
-            <CommonModal show={CancelReasonModal} onHide={CancelReasonModalClose} keyboard={false} size="md"
-                ModalTitle="Cancelation Reason"
-                onClick={CancelReasonModalClose}
-                ModalData={
-                    <form autoComplete="off" onSubmit={(e) => { e.preventDefault(); UpdateStatusSubmit(1) }}>
-                        <TextArea
-                            placeholder="Enter Here..."
-                            labelText="Enter Cancelation Reason"
-                            name="visit_note"
-                            required={true}
-                            pattern="[^\s]+.{1,}"
-                            onChange={onchange}
-                        />
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Submit"
-                                hasSpinner={loadingSelector.loading}
-                                disabled={loadingSelector.loading}
-                            />
-                        </div>
-                    </form>
                 }
             />
         </>

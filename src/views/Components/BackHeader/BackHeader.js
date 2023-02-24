@@ -69,7 +69,7 @@ const Header = (props, { colorHeader, headerColor }) => {
     const onScroll = () => {
         if (dropdown.current) {
             const { scrollTop, scrollHeight, clientHeight } = dropdown.current;
-            if ((scrollTop + clientHeight === scrollHeight) && (AllNotification !== undefined && AllNotification.total !== AllNotification.data.length)) {
+            if ((scrollTop + clientHeight === scrollHeight) && (AllNotification?.total !== AllNotification?.data?.length)) {
                 setCurrentPage(currentPage + 1)
                 getNotifications(currentPage + 1)
             }

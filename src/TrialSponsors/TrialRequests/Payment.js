@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 toast.configure();
 
@@ -20,7 +21,7 @@ const SponsorPayment = (props) => {
 
     const requestStatusSelector = useSelector(state => state.My_trials)
 
-    const [paymentOption, setPaymentOption] = useState(true);
+    const [paymentOption, setPaymentOption] = useState("Cash");
     const [FieldData, setFieldData] = useState({});
 
     console.log("props?.location?.state", props?.location?.state);
@@ -37,10 +38,14 @@ const SponsorPayment = (props) => {
     };
 
     const CompletePayment = () => {
-        dispatch(TrialRequestAppStatusUpdateAction({ ...props?.location?.state, amount: FieldData?.amount, paid_by: "Cash" }))
+        if(paymentOption === "Cash"){
+            dispatch(TrialRequestAppStatusUpdateAction({ ...props?.location?.state, amount: FieldData?.amount, paid_by: paymentOption, transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS") }))
+        } else {
+            toast.error("Bank option not available", { theme: "colored" });
+        }
     }
 
-    const PaymentOption = () => setPaymentOption(!paymentOption);
+    const PaymentOption = (method) => setPaymentOption(method);
 
     useEffect(() => {
         if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
@@ -60,13 +65,11 @@ const SponsorPayment = (props) => {
                     <div className='repeat-white-bx container-small'>
                         <h2>Choose Payment Option</h2>
                         <div className='update-status'>
-                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Cash" defaultChecked="true" onChange={PaymentOption} />
-                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Bank" onChange={PaymentOption} />
+                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Cash" defaultChecked="true" onChange={() => PaymentOption("Cash")} />
+                            <RadioBtn className="radio-btn" type="radio" name="payment-option" labelText="Bank" onChange={() => PaymentOption("Bank")} />
                         </div>
                         {
-                            paymentOption ?
-                                null
-                                :
+                            paymentOption === "Bank" &&
                                 <>
                                     <InputText
                                         type="text"
@@ -109,7 +112,7 @@ const SponsorPayment = (props) => {
                             isButton="true"
                             BtnType="submit"
                             BtnColor="primary w-100"
-                            BtnText="Paid"
+                            BtnText="Pay"
                             hasSpinner={requestStatusSelector?.loading}
                             disabled={requestStatusSelector?.loading}
                             onClick={CompletePayment}

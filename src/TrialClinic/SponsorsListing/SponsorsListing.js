@@ -111,7 +111,7 @@ const ClinicSponsorsListing = () => {
             specialities: [],
             conditions: [],
         })
-        dispatch(SponsorListAction({ page: loadMoreData, keywords: location?.search?.split("=").pop() }))
+        dispatch(SponsorListAction({ page: loadMoreData, keywords: location?.search?.split("=").pop()}))
     }, [dispatch, location?.search, location?.state?.count])
 
     const SponsorListFilterSubmit = (e) => {
