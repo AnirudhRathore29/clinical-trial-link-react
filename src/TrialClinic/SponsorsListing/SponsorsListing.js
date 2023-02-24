@@ -107,7 +107,7 @@ const ClinicSponsorsListing = () => {
     }, [dispatch, loadMoreData])
     useEffect(() => {
         setsponsoreListFilter({
-            keywords: location?.search?.split("=").pop(),
+            keywords: '',
             specialities: [],
             conditions: [],
         })

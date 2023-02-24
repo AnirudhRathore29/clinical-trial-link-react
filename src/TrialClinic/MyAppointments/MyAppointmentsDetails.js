@@ -23,24 +23,12 @@ toast.configure();
 const MyAppointmentsDetails = (props) => {
     const history = useHistory()
     
-    const [addVisitModal, setAddVisitModal] = useState(false);
-    const [CancelReasonModal, setCancelReasonModal] = useState(false);
     const [ConfirmationModal, setConfirmationModal] = useState(false);
-    // const [CompleteTrialModal, setCompleteTrialModal] = useState(false);
-    const [TerminationReasonModal, setTerminationReasonModal] = useState(false);
     const [SelectedStatus, setSelectedStatus] = useState();
     const [ReadMore, setReadMore] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
-    const [startDate, setStartDate] = useState(new Date());
-    const [StatusUpdateFields, setStatusUpdateFields] = useState({
-        visit_note: "",
-        available_time: '',
-        default_cancel_reason_id: '',
-        cancellation_detail: '',
-    })
 
     const GetCurrentRoleId = useSelector(state => state.auth.user.role)
-    const loadingSelector = useSelector(state => state.trial_clinic)
     const AppointmentDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
     const GetCancelReasonsSelector = useSelector(state => state.common_data.data)
 
@@ -49,7 +37,6 @@ const MyAppointmentsDetails = (props) => {
 
     console.log("AppointmentDetail", AppointmentDetail);
     console.log("GetCancelReasonsSelector", GetCancelReasonsSelector);
-    console.log("StatusUpdateFields", StatusUpdateFields);
 
     useEffect(() => {
         dispatch(GetCancelReasonsAction(GetCurrentRoleId))
@@ -61,32 +48,9 @@ const MyAppointmentsDetails = (props) => {
 
     console.log("SelectedStatus", SelectedStatus);
 
-    const addVisitModalClose = () => {
-        setSelectedStatus(0)
-        setAddVisitModal(false)
-    }
-
-    const CancelReasonModalClose = () => {
-        setSelectedStatus(0)
-        setCancelReasonModal(false)
-    }
-
     const ConfirmationModalClose = () => {
         setSelectedStatus(0)
         setConfirmationModal(false)
-    }
-
-    // const CompleteTrialModalClose = () => setCompleteTrialModal(false)
-    const TerminationReasonModalClose = () => setTerminationReasonModal(false)
-
-    const onchange = (e) => {
-        const { name, value } = e.target
-        setStatusUpdateFields((preValue) => {
-            return {
-                ...preValue,
-                [name]: value
-            }
-        })
     }
 
     const OnChangeStatus = (data) => {
@@ -96,14 +60,6 @@ const MyAppointmentsDetails = (props) => {
     }
 
     const ConfirmationSubmit = () => {
-        // const state = {
-        //     status: SelectedStatus,
-        //     slots: AppointmentDetail?.trialAppointmentSlots,
-        //     PatientAppointmentId: PatientAppointmentId,
-        //     page: "appointment",
-        //     paramsID: id
-        // }
-        // console.log("statestate", state);
         history.push({
             pathname: "/trial-clinic/payment",
             state: {
@@ -115,84 +71,7 @@ const MyAppointmentsDetails = (props) => {
                 paramsID: id
             }
         })
-        // if (SelectedStatus === "2" || SelectedStatus === "3") {
-        //     setAddVisitModal(true)
-        //     setConfirmationModal(false)
-        // } else {
-        //     setCancelReasonModal(true)
-        //     setConfirmationModal(false)
-        // }
     }
-
-    const UpdateStatusSubmit = (data) => {
-        console.log("datadatadata", data);
-        // history.push({
-        //     pathname: "/trial-clinic/payment",
-        //     state: {
-        //         AppointmentDetailId: id,
-        //         status: SelectedStatus.includes("4", "5", "7") ? SelectedStatus : "6",
-        //         slots: AppointmentDetail?.trialAppointmentSlots,
-        //         PatientAppointmentId: PatientAppointmentId,
-        //         page: "appointment",
-        //         paramsID: id
-        //     }
-        // })
-
-        // if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length > 0)) {
-        //     if ((SelectedStatus === "5" || SelectedStatus === "7") && (data === "newVisit")) {
-        //         setAddVisitModal(true)
-        //         setCancelReasonModal(false)
-        //     } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "endStudy")) {
-        //         props.history.push({
-        //             pathname: "/trial-clinic/payment",
-        //             state: {
-        //                 AppointmentDetailId: id,
-        //                 PatientAppointmentId: PatientAppointmentId,
-        //                 status: "6",
-        //                 visit_note: StatusUpdateFields.visit_note
-        //             }
-        //         })
-        //     } else if ((SelectedStatus === "4" || SelectedStatus === "7") && (data === "newVisit")) {
-        //         props.history.push({
-        //             pathname: "/trial-clinic/payment",
-        //             state: {
-        //                 AppointmentDetailId: id,
-        //                 PatientAppointmentId: PatientAppointmentId,
-        //                 status: SelectedStatus,
-        //                 visit_note: StatusUpdateFields.visit_note
-        //             }
-        //         })
-        //     }
-        // } else if ((SelectedStatus === "5" || SelectedStatus === "4" || SelectedStatus === "7") && (StatusUpdateFields.visit_note.length <= 0)) {
-        //     toast.error("Text note is required!", { theme: "colored" })
-        // }
-    }
-
-    const addScreeningVisit = (e) => {
-        e.preventDefault();
-        const data = {
-            patient_appointment_id: PatientAppointmentId,
-            status: SelectedStatus,
-            appointment_date: moment(startDate).format("YYYY-MM-DD"),
-            trial_clinic_appointment_slot_id: StatusUpdateFields.available_time,
-            visit_note: StatusUpdateFields.visit_note
-        }
-        console.log("addScreeningVisit", data);
-        dispatch(NewScreenTrialRequestStatusUpdateAction(data))
-    }
-
-    useEffect(() => {
-        if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "5")) {
-            setAddVisitModal(false)
-            setSelectedStatus(0)
-            dispatch(PatientAppointMentDetailAction(id))
-            setStatusUpdateFields({ ...StatusUpdateFields, visit_note: "" })
-        }
-        // else if ((loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.status_code === 200) && (loadingSelector.trial_status.data !== undefined && loadingSelector.trial_status.data.data.last_marked_status === "7")) {
-        //     setTerminationReasonModal(false)
-        //     props.history.push("/trial-clinic/my-appointments")
-        // }
-    }, [dispatch, loadingSelector.trial_status])
 
     return (
         <>
@@ -318,46 +197,6 @@ const MyAppointmentsDetails = (props) => {
                 </div>
             </div>
 
-            <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
-                ModalTitle="Trial Appointment"
-                onClick={addVisitModalClose}
-                ModalData={
-                    <form autoComplete="off">
-                        <div className='calender-outer'>
-                            <DatePicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                                minDate={moment().toDate()}
-                                inline
-                            />
-                        </div>
-                        <div className="available-time">
-                            <h2>Available Time</h2>
-                            <div className="time-row">
-                                {
-                                    AppointmentDetail && AppointmentDetail.trialAppointmentSlots.map((value, index) => {
-                                        return (
-                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time" /><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Confirm"
-                                hasSpinner={loadingSelector.loading}
-                                disabled={loadingSelector.loading}
-                                onClick={addScreeningVisit}
-                            />
-                        </div>
-                    </form>
-                }
-            />
-
             <CommonModal show={ConfirmationModal} onHide={ConfirmationModalClose} keyboard={false} size="md"
                 onClick={ConfirmationModalClose}
                 ModalData={
@@ -382,52 +221,6 @@ const MyAppointmentsDetails = (props) => {
                             />
                         </div>
                     </>
-                }
-            />
-
-            <CommonModal show={CancelReasonModal} onHide={CancelReasonModalClose} keyboard={false} size="md"
-                ModalTitle="Text Note"
-                onClick={CancelReasonModalClose}
-                ModalData={
-                    <form autoComplete="off">
-                        <TextArea
-                            placeholder="Enter Here..."
-                            labelText="Note"
-                            name="visit_note"
-                            onChange={onchange}
-                        />
-                        {
-                            SelectedStatus === "4" || SelectedStatus === "7" ?
-                                <div className='clnicaltrial-detail-ftr mt-0'>
-                                    <Button
-                                        isButton="true"
-                                        BtnColor="green btn-sm"
-                                        BtnType="button"
-                                        BtnText="End of Study"
-                                        onClick={() => UpdateStatusSubmit("endStudy")}
-                                    />
-                                    <Button
-                                        isButton="true"
-                                        BtnColor="primary btn-sm"
-                                        BtnType="button"
-                                        BtnText={SelectedStatus === "4" ? "Pay & Create New Visit" : "Create New Visit"}
-                                        onClick={() => UpdateStatusSubmit("newVisit")}
-                                    />
-                                </div>
-                                :
-                                <div className='clnicaltrial-detail-ftr mt-0'>
-                                    <Button
-                                        isButton="true"
-                                        BtnType="button"
-                                        BtnColor="primary w-100"
-                                        BtnText="Submit"
-                                        onClick={UpdateStatusSubmit}
-                                        hasSpinner={loadingSelector.loading}
-                                        disabled={loadingSelector.loading}
-                                    />
-                                </div>
-                        }
-                    </form>
                 }
             />
         </>

@@ -127,6 +127,7 @@ function App() {
 							<PrivateRoute path="/physician/approved-trials" name="PhysicianApprovedTrials" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/physician/approved-patient-list/:id" name="ApprovedPatientList" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 							<PrivateRoute path="/physician/search-listing" name="PhysicianTrialListing" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
+							<PrivateRoute path="/physician/payment-history" name="SponsorsPaymentHistory" component={(props) => <BackLayout headerColor="trialSponsors" {...props} />} />
 						</Switch>
 						{/* /:pathName */}
 						<Route path="/:pathName" element={<PageNotFound />} />

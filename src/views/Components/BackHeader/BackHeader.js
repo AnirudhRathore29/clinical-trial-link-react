@@ -251,7 +251,10 @@ const Header = (props, { colorHeader, headerColor }) => {
                     }
 
                     {props.auth.user.role === 4 &&
-                        <li><Link to="/physician/manage-all-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
+                        <>
+                            <li><Link to="/physician/manage-all-patient"><box-icon name='user' color='#ffffff'></box-icon> Manage Patient</Link></li>
+                            <li><Link to="/physician/payment-history"><box-icon name='history' color='#ffffff'></box-icon> Payment History</Link></li>
+                        </>
                     }
 
                     {props.auth.user.role === 5 &&

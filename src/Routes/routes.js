@@ -20,7 +20,7 @@ const PatientMyAppointments = React.lazy(() => import('../Patient/MyAppointments
 const PatientClinicListing = React.lazy(() => import('../Patient/ClinicListing/ClinicListing'));
 const PatientMyFavorites = React.lazy(() => import('../Patient/MyFavorites/MyFavorites'));
 // const PatientMyChats = React.lazy(() => import('../Patient/MyChats/myChats'));
-const PatientPaymentHistory = React.lazy(() => import('../Patient/PaymentHistory/PaymentHistory'));
+// const PatientPaymentHistory = React.lazy(() => import('../Patient/PaymentHistory/PaymentHistory'));
 const PatientTrialListing = React.lazy(() => import('../Patient/TrialListing/TrialListing'));
 const PatientAllVisit = React.lazy(() => import('../Patient/MyAppointments/PatientAllVisit'));
 
@@ -103,7 +103,7 @@ const routes = [
 	{ path: '/patient/my-appointments', exact: true, name: 'PatientMyAppointments', component: PatientMyAppointments, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-favorites', exact: true, name: 'PatientMyFavorites', component: PatientMyFavorites, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/my-chats', exact: true, name: 'SponsorsMyChats', component: SponsorsMyChats, meta: {"role": RolesConfig.PATIENT} },
-	{ path: '/patient/payment-history', exact: true, name: 'PatientPaymentHistory', component: PatientPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
+	{ path: '/patient/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/trial-listing/:id', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/patient-visits/:id', exact: true, name: 'PatientAllVisit', component: PatientAllVisit, meta: {"role": RolesConfig.PATIENT} },
 	{ path: '/patient/search-listing', exact: true, name: 'PatientTrialListing', component: PatientTrialListing, meta: {"role": RolesConfig.PATIENT} },
@@ -162,6 +162,7 @@ const routes = [
 	{ path: '/physician/approved-trials', exact: true, name: 'PhysicianApprovedTrials', component: PhysicianApprovedTrials, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/approved-patient-list/:id', exact: true, name: 'ApprovedPatientList', component: ApprovedPatientList, meta: {"role": RolesConfig.PHYSICIAN} },
 	{ path: '/physician/search-listing', exact: true, name: 'PhysicianTrialListing', component: PhysicianTrialListing, meta: {"role": RolesConfig.PHYSICIAN} },
+	{ path: '/physician/payment-history', exact: true, name: 'SponsorsPaymentHistory', component: SponsorsPaymentHistory, meta: {"role": RolesConfig.PHYSICIAN} },
 ];
 
 export default routes;
