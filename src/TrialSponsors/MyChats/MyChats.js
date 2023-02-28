@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import './myChats.css';
-import { db } from '../../utils/Firebase';
+import { db, getTokenFunc } from '../../utils/Firebase';
 import { storage } from '../../utils/Firebase';
 import moment from 'moment';
 import classNames from "classnames";
@@ -28,6 +28,7 @@ const SponsorsMyChats = (props) => {
     const [ChatCount, setChatCount] = useState(0)
     const [imgUrl, setImgUrl] = useState(null);
     const [progresspercent, setProgresspercent] = useState(null);
+    const [isTokenFound, setTokenFound] = useState(false);
 
     console.log("reciverIdx", reciverIdx);
     console.log("ChatCount", ChatCount);
@@ -46,7 +47,7 @@ const SponsorsMyChats = (props) => {
                 behavior: "smooth"
             })
         }
-
+        getTokenFunc(setTokenFound);
     }, [containerRef, chatList, reciverIdx, chatWindowDown])
 
     // useEffect(() => {
@@ -316,6 +317,12 @@ const SponsorsMyChats = (props) => {
             <div className="container">
                 <div className="heading-bx">
                     <h1>My Chats</h1>
+                    {isTokenFound &&
+                        "Notification permission enabled👍🏻"
+                    }
+                    {!isTokenFound &&
+                        "Need notification permission ❗️ "
+                    }
                 </div>
 
                 <div className="chat-container">
