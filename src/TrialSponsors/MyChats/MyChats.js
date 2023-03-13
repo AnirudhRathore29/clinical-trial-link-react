@@ -19,6 +19,7 @@ const SponsorsMyChats = (props) => {
     const currentUserDetail = props.auth.user
     const [chatMessagesList, setChatMessagesList] = useState([]);
     const [chatList, setChatList] = useState([]);
+    const [FCMToken, setFCMToken] = useState();
     const [recieverCounter, setRecieveerCounter] = useState(0);
     const [message, setMessage] = useState('');
     const [reciverIdx, setReciverIdx] = useState(props.location.state ? props.location.state.id : "");
@@ -28,14 +29,15 @@ const SponsorsMyChats = (props) => {
     const [ChatCount, setChatCount] = useState(0)
     const [imgUrl, setImgUrl] = useState(null);
     const [progresspercent, setProgresspercent] = useState(null);
-    const [isTokenFound, setTokenFound] = useState(false);
 
     console.log("reciverIdx", reciverIdx);
+    console.log("FCMToken", FCMToken);
     console.log("ChatCount", ChatCount);
     console.log("chatMessagesList", chatMessagesList);
     console.log("progresspercent", progresspercent);
     console.log("imgUrl", imgUrl);
     console.log("attachmentInput", attachmentInput);
+    console.log("chatList", chatList);
     console.log("progresspercent > 0 && progresspercent < 99", progresspercent > 0 && progresspercent < 99);
 
     useEffect(() => {
@@ -47,7 +49,6 @@ const SponsorsMyChats = (props) => {
                 behavior: "smooth"
             })
         }
-        getTokenFunc(setTokenFound);
     }, [containerRef, chatList, reciverIdx, chatWindowDown])
 
     // useEffect(() => {
@@ -55,6 +56,19 @@ const SponsorsMyChats = (props) => {
     // }, [ChatCount])
 
     //Get Chat List Data
+
+    useEffect(() => {
+        if(reciverIdx){
+            db.collection('List')
+            .doc(reciverIdx?.toString())
+            .get()
+            .then((snapshot) => {
+              const token = snapshot.get("fcm_token")
+              setFCMToken(token)
+            });
+        }
+    }, [reciverIdx])
+
     useEffect(() => {
         let messageChatData = [];
         db.collection('List')
@@ -113,25 +127,6 @@ const SponsorsMyChats = (props) => {
                 });
             });
     }, [reciverIdx, ChatCount])
-
-
-    // function updateFunction(msgData) {
-    //     for (let pos = 0; pos < msgData.length; pos++) {
-    //         let mDate = msgData[pos].date;
-    //         let mValue = 0;
-    //         for (let index = 0; index < msgData.length; index++) {
-    //             const element = msgData[index];
-    //             if (mDate == element.date) {
-    //                 mDate = element.date;
-    //                 mValue++;
-    //             }
-    //             if (mValue == 2) {
-    //                 msgData.splice(index, 1);
-    //             }
-    //         }
-    //     }
-    //     setChatMessagesList(msgData);
-    // }
 
     useEffect(() => {
         // get List data from reciever id
@@ -217,16 +212,6 @@ const SponsorsMyChats = (props) => {
         e.preventDefault()
         setChatCount(ChatCount + 1)
         if (message.trim() || imgUrl) {
-            console.log("goes in chat");
-            console.log("chat object", {
-                message: message.trim(),
-                date: Date.now(),
-                senderId: currentUserDetail.id,
-                reciverId: Number(reciverIdx),
-                senderName: currentUserDetail.full_name,
-                recieverName: reciverName,
-                photoUrl: imgUrl
-            });
             db.collection('Chat')
                 .doc(combine2UserId(currentUserDetail.id).toString())
                 .collection('messages')
@@ -268,6 +253,7 @@ const SponsorsMyChats = (props) => {
                     profileImage: reciverImage === null ? null : reciverImage,
                     count: 0,
                 });
+            sendNotification({message: message, sender_name: currentUserDetail?.full_name});
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
             setImgUrl(null)
@@ -312,17 +298,40 @@ const SponsorsMyChats = (props) => {
         }, 1000);
     };
 
+    const sendNotification = (data) => {
+        const notification = {
+          title: `New message from ${data?.sender_name}`,
+          body: data?.message,
+          icon: '/images/placeholder-img.jpg',
+          click_action: 'http://clinicaltriallink.org/',
+        };
+      
+        const payload = {
+          notification: notification,
+          to: FCMToken,
+        };
+      
+        fetch('https://fcm.googleapis.com/fcm/send', {
+          method: 'POST',
+          headers: {
+            Authorization: `key=${process.env.REACT_APP_SERVER_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => {
+            console.log('Notification sent');
+          })
+          .catch((error) => {
+            console.error("Notification sent error", error);
+          });
+      };      
+
     return (
         <div className="clinical-dashboard my-favorites-section">
             <div className="container">
                 <div className="heading-bx">
                     <h1>My Chats</h1>
-                    {isTokenFound &&
-                        "Notification permission enabled👍🏻"
-                    }
-                    {!isTokenFound &&
-                        "Need notification permission ❗️ "
-                    }
                 </div>
 
                 <div className="chat-container">

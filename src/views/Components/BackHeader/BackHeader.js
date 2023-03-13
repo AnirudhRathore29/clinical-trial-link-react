@@ -12,6 +12,7 @@ import { authHeader } from "../../../redux/actions/authHeader";
 import moment from "moment";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { db, getTokenFunc } from "../../../utils/Firebase";
 
 var jwt = require('jsonwebtoken');
 toast.configure();
@@ -20,6 +21,7 @@ const Header = (props, { colorHeader, headerColor }) => {
     const [AllNotification, setAllNotification] = useState(undefined);
     const [currentPage, setCurrentPage] = useState(1)
     const [UnreadNotification, SetUnreadNotification] = useState()
+    const [isTokenFound, setTokenFound] = useState('');
 
     const dispatch = useDispatch();
     const history = useHistory()
@@ -38,6 +40,8 @@ const Header = (props, { colorHeader, headerColor }) => {
     const handlogout = () => {
         dispatch(LogoutAction())
     }
+
+    getTokenFunc(setTokenFound);
 
     const getNotifications = (page, id) => {
         const configure = {
@@ -75,6 +79,20 @@ const Header = (props, { colorHeader, headerColor }) => {
             }
         }
     };
+
+
+    useEffect(() => {
+        const ref = db.collection('List').doc(profileDetails.id.toString())
+        console.log("isTokenFoundisTokenFound", isTokenFound);
+        ref.set({
+            name: profileDetails?.full_name.toString(),
+            id: profileDetails?.id.toString(),
+            fcm_token: isTokenFound,
+        }).then(() => {
+            console.log('User updated!');
+        });
+    }, [isTokenFound])
+
 
     useEffect(() => {
         const configure = {

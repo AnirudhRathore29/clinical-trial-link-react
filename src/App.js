@@ -8,6 +8,7 @@ import './App.css';
 import './Assets/css/responsive.css';
 import ScrollToTop from './views/Components/ScrollToTop/ScrollToTop';
 import { LogoLoader } from './views/Components/Common/LogoLoader/LogoLoader';
+import { onMessageListener } from './utils/Firebase';
 
 /* Layout */
 const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
@@ -34,6 +35,13 @@ if (localStorage.auth_security) {
 	var decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
 	store.dispatch(setCurrentUser(decoded));
 }
+
+onMessageListener().then(payload => {
+	// setShow(true);
+	// setNotification({title: payload.notification.title, body: payload.notification.body})
+	console.log("payload notification", payload);
+}).catch(err => console.log('failed: ', err));
+
 
 function App() {
 	return (

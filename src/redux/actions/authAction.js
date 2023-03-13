@@ -5,6 +5,8 @@ import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HandleError from "./HandleError";
+import { Encryption } from "../../utils/PayloadEncryption";
+
 
 toast.configure();
 var jwt = require('jsonwebtoken');
@@ -88,8 +90,8 @@ export function loginError(message) {
 }
 
 export const LoginAction = (data) => async (dispatch) => {
-    // var dataEncrypted = jwt.sign(data, process.env.REACT_APP_JWT_SECRET);
     dispatch(authRequest());
+    // Encryption(data)
     axios
         .post(getCurrentHost() + "/login", data, {
             headers: authHeader(true),
