@@ -91,9 +91,8 @@ export function loginError(message) {
 
 export const LoginAction = (data) => async (dispatch) => {
     dispatch(authRequest());
-    // Encryption(data)
     axios
-        .post(getCurrentHost() + "/login", data, {
+        .post(getCurrentHost() + "/login", Encryption(data), {
             headers: authHeader(true),
         })
         .then(response => {
