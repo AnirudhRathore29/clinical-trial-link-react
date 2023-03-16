@@ -6,6 +6,7 @@ import getCurrentHost from "../../redux/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isValidPassword } from "../../views/Components/Validation/Validation";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 const ChangePassword = () => {
@@ -49,7 +50,7 @@ const ChangePassword = () => {
             const configure = {
                 method: "POST",
                 headers: authHeader(),
-                body: JSON.stringify(Formdata)
+                body: JSON.stringify({body: Encryption(Formdata)})
             }
             fetch(getCurrentHost() + "/change-password", configure)
                 .then((response) => response.json())

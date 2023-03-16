@@ -9,7 +9,7 @@ import {
 import getCurrentHost from "./../constants/index";
 import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
-import { Encryption } from "../../utils/PayloadEncryption";
+import { Encryption, FormDataEncryption } from "../../utils/PayloadEncryption";
 var jwt = require('jsonwebtoken');
 
 export const setCurrentUser = (decoded) => {
@@ -213,8 +213,8 @@ export const ProfileAction = () => async (dispatch) => {
 }
 
 export const ProfileUpdateAction = (data, type) => async (dispatch) => {
+    console.log("ProfileUpdateAction", data);
     dispatch(ProfileRequest());
-    Encryption(data)
     axios
         .post(getCurrentHost() + "/" + type + "/update-" + type + "-profile", data, {
             headers: authHeader(),

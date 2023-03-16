@@ -1,5 +1,5 @@
 export const server = {
-	// prod: 'http://192.168.2.80:8000/api',
+	// baseUrl: 'http://192.168.2.80:8000/api',
 	baseUrl: 'http://admin.clinicaltriallink.org/api',
 	prod: 'http://admin.clinicaltriallink.org/api',
 };

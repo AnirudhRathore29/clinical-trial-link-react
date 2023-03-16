@@ -41,7 +41,7 @@ export function signUpError(message) {
 export const SignupAction = (data) => async (dispatch) => {
     dispatch(authRequest());
     axios
-        .post(getCurrentHost() + "/user-register", data, {
+        .post(getCurrentHost() + "/user-register", {body: Encryption(data)}, {
             headers: authHeader(true),
         })
         .then(response => {
@@ -62,7 +62,7 @@ export function ResendEmailSuccess(response) {
 export const ResendEmailAction = (data) => async (dispatch) => {
     dispatch(authRequest());
     axios
-        .post(getCurrentHost() + "/resend-register-email", data, {
+        .post(getCurrentHost() + "/resend-register-email", {body: Encryption(data)}, {
             headers: authHeader(true),
         })
         .then(response => {
@@ -92,7 +92,7 @@ export function loginError(message) {
 export const LoginAction = (data) => async (dispatch) => {
     dispatch(authRequest());
     axios
-        .post(getCurrentHost() + "/login", Encryption(data), {
+        .post(getCurrentHost() + "/login", {body: Encryption(data)}, {
             headers: authHeader(true),
         })
         .then(response => {
@@ -143,7 +143,7 @@ export function ForgotPassError(message) {
 export const ForgotPasswordAction = (data) => async (dispatch) => {
     dispatch(authRequest());
     axios
-        .post(getCurrentHost() + "/forgot-password", data, {
+        .post(getCurrentHost() + "/forgot-password", {body: Encryption(data)}, {
             headers: authHeader(true),
         })
         .then(response => {
@@ -157,7 +157,7 @@ export const ForgotPasswordAction = (data) => async (dispatch) => {
 export const CreateNewPassAction = (data) => async (dispatch) => {
     dispatch(authRequest());
     axios
-        .post(getCurrentHost() + "/reset-password", data, {
+        .post(getCurrentHost() + "/reset-password", {body: Encryption(data)}, {
             headers: authHeader(true),
         })
         .then(response => {

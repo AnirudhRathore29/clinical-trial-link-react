@@ -18,6 +18,7 @@ import { LogoLoader } from "../../views/Components/Common/LogoLoader/LogoLoader"
 import getCurrentHost from "../../redux/constants";
 import { MultiSelect } from "react-multi-select-component";
 import { authHeader } from "../../redux/actions/authHeader";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 var specialityListAPI = []
@@ -181,26 +182,28 @@ const PhysicianEditProfile = () => {
     const handleSubmitProfile = (e) => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.value);
+        let formDataObj = {}
         let formData = new FormData();
-        formData.append("first_name", profileInputData.first_name)
-        formData.append("last_name", profileInputData.last_name)
-        formData.append("email", profileInputData.email)
-        // formData.append("phone_number", profileInputData.phone_number)
-        formData.append("state_id", profileInputData.state_id)
-        formData.append("zip_code", profileInputData.zip_code)
-        formData.append("dob", moment(profileInputData.dob).format("YYYY-MM-DD"))
-        formData.append("gender", profileInputData.gender)
-        formData.append("brief_intro", profileInputData.brief_intro)
-        formData.append("bank_name", profileInputData.bank_name)
-        formData.append("account_holder_name", profileInputData.account_holder_name)
-        formData.append("account_number", profileInputData.account_number)
-        formData.append("routing_number", profileInputData.routing_number)
+
+        formDataObj = {...formDataObj, first_name: profileInputData.first_name}
+        formDataObj = {...formDataObj, last_name: profileInputData.last_name}
+        formDataObj = {...formDataObj, email: profileInputData.email}
+        formDataObj = {...formDataObj, state_id: profileInputData.state_id}
+        formDataObj = {...formDataObj, zip_code: profileInputData.zip_code}
+        formDataObj = {...formDataObj, dob: moment(profileInputData.dob).format("YYYY-MM-DD")}
+        formDataObj = {...formDataObj, gender: profileInputData.gender}
+        formDataObj = {...formDataObj, brief_intro: profileInputData.brief_intro}
+        formDataObj = {...formDataObj, bank_name: profileInputData.bank_name}
+        formDataObj = {...formDataObj, account_holder_name: profileInputData.account_holder_name}
+        formDataObj = {...formDataObj, account_number: profileInputData.account_number}
+        formDataObj = {...formDataObj, routing_number: profileInputData.routing_number}
+        formDataObj = {...formDataObj, speciality: specialityArr}
+
+        formData.append('body', Encryption(formDataObj));
         if (binary !== undefined) {
             formData.append("profile_image", binary)
         }
-        for (let i = 0; i < specialityArr.length; i++) {
-            formData.append(`speciality[${i}]`, specialityArr[i]);
-        }
+        console.log("formDataObj", formDataObj);
         const isVaild = Validation(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "physician"))

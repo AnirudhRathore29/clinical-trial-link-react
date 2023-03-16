@@ -23,6 +23,7 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
 } from "react-places-autocomplete";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 var conditionListAPI = []
 var specialityListAPI = []
@@ -340,45 +341,47 @@ const ClinicEditProfile = () => {
         const specialityArr = profileInputData.speciality.map(value => value.value);
         const conditionArr = profileInputData.condition.map(value => value.value);
 
+        let formDataObj = {}
+        let existing_documents = []
         let formData = new FormData();
         if (binary !== undefined) {
             formData.append("profile_image", binary)
         }
-        formData.append("clinic_name", profileInputData.clinic_name);
-        formData.append("state_id", profileInputData.state_id);
-        formData.append("address", profileInputData.address);
-        formData.append("zip_code", profileInputData.zip_code);
-        formData.append("brief_intro", profileInputData.brief_intro);
-        formData.append("principal_investigator_name", profileInputData.principal_investigator_name !== null ? profileInputData.principal_investigator_name : "");
-        formData.append("principal_investigator_email", profileInputData.principal_investigator_email !== null ? profileInputData.principal_investigator_email : "");
-        formData.append("principal_investigator_brief_intro", profileInputData.principal_investigator_brief_intro !== null ? profileInputData.principal_investigator_brief_intro : "");
-        formData.append("bank_name", profileInputData.bank_name);
-        formData.append("account_holder_name", profileInputData.account_holder_name);
-        formData.append("account_number", profileInputData.account_number);
-        formData.append("routing_number", profileInputData.routing_number);
-        formData.append("hide_principal_investigator_details", hidePrincipalInvestigator);
-        formData.append("hide_bank_details", hideBankDetails);
+        formDataObj = {...formDataObj, clinic_name: profileInputData.clinic_name}
+        formDataObj = {...formDataObj, state_id: profileInputData.state_id}
+        formDataObj = {...formDataObj, address: profileInputData.address}
+        formDataObj = {...formDataObj, zip_code: profileInputData.zip_code}
+        formDataObj = {...formDataObj, brief_intro: profileInputData.brief_intro}
+        formDataObj = {...formDataObj, principal_investigator_name: profileInputData.principal_investigator_name !== null ? profileInputData.principal_investigator_name : ""}
+        formDataObj = {...formDataObj, principal_investigator_email: profileInputData.principal_investigator_email !== null ? profileInputData.principal_investigator_email : ""}
+        formDataObj = {...formDataObj, principal_investigator_brief_intro: profileInputData.principal_investigator_brief_intro !== null ? profileInputData.principal_investigator_brief_intro : ""}
+        formDataObj = {...formDataObj, bank_name: profileInputData.bank_name}
+        formDataObj = {...formDataObj, account_holder_name: profileInputData.account_holder_name}
+        formDataObj = {...formDataObj, account_number: profileInputData.account_number}
+        formDataObj = {...formDataObj, routing_number: profileInputData.routing_number}
+        formDataObj = {...formDataObj, hide_principal_investigator_details: profileInputData.hide_principal_investigator_details}
+        formDataObj = {...formDataObj, hide_bank_details: profileInputData.hide_bank_details}
+        formDataObj = {...formDataObj, speciality: specialityArr}
+        formDataObj = {...formDataObj, condition: conditionArr}
         if(profileInputData.latitude && profileInputData.longitude){
-            formData.append("latitude", profileInputData.latitude)
-            formData.append("longitude", profileInputData.longitude)
+            formDataObj = {...formDataObj, latitude: profileInputData.latitude}
+            formDataObj = {...formDataObj, longitude: profileInputData.longitude}
         }
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
         } else {
-            formData.append("listing_image_url", profileInputData.listing_image !== null ? profileInputData.listing_image : "")
-        }
-        for (let i = 0; i < specialityArr.length; i++) {
-            formData.append(`speciality[${i}]`, specialityArr[i]);
-        }
-        for (let j = 0; j < conditionArr.length; j++) {
-            formData.append(`condition[${j}]`, conditionArr[j]);
+            formDataObj = {...formDataObj, listing_image_url: profileInputData.listing_image !== null ? profileInputData.listing_image : ""}
         }
         for (let t = 0; t < uploadedFile.length; t++) {
             formData.append(`documents[${t}]`, uploadedFile[t]);
         }
         for (let t = 0; t < profileInputData.documents.length; t++) {
-            formData.append(`existing_documents[${t}]`, profileInputData.documents[t].document);
+            // formData.append(`existing_documents[${t}]`, profileInputData.documents[t].document);
+            existing_documents.push(profileInputData.documents[t].document)
         }
+        formDataObj = {...formDataObj, existing_documents: existing_documents}
+        formData.append('body', Encryption(formDataObj));
+        console.log("formDataObj", formDataObj);
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "trialclinic"))

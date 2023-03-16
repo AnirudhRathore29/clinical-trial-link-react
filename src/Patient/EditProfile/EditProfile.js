@@ -23,6 +23,7 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
 } from "react-places-autocomplete";
+import { Encryption, FormDataEncryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 var conditionListAPI = []
@@ -271,47 +272,48 @@ const PatientEditProfile = () => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.value);
         const conditionArr = profileInputData.condition.map(value => value.value);
+
+        let formDataObj = {}
+
         let formData = new FormData();
-        formData.append("first_name", profileInputData.first_name)
-        formData.append("last_name", profileInputData.last_name)
-        formData.append("email", profileInputData.email)
-        formData.append("phone_number", profileInputData.phone_number)
-        formData.append("state_id", profileInputData.state_id)
-        formData.append("zip_code", profileInputData.zip_code)
-        formData.append("dob", moment(profileInputData.dob).format("YYYY-MM-DD"))
-        formData.append("address", profileInputData.address);
-        formData.append("race", profileInputData.race);
-        formData.append("medical_cond", profileInputData.medical_cond);
-        formData.append("gender", profileInputData.gender)
-        formData.append("trials_for", profileInputData.trials_for)
+
+        formDataObj = {...formDataObj, first_name: profileInputData.first_name}
+        formDataObj = {...formDataObj, last_name: profileInputData.last_name}
+        formDataObj = {...formDataObj, email: profileInputData.email}
+        formDataObj = {...formDataObj, phone_number: profileInputData.phone_number}
+        formDataObj = {...formDataObj, state_id: profileInputData.state_id}
+        formDataObj = {...formDataObj, zip_code: profileInputData.zip_code}
+        formDataObj = {...formDataObj, dob: moment(profileInputData.dob).format("YYYY-MM-DD")}
+        formDataObj = {...formDataObj, address: profileInputData.address}
+        formDataObj = {...formDataObj, race: profileInputData.race}
+        formDataObj = {...formDataObj, medical_cond: profileInputData.medical_cond}
+        formDataObj = {...formDataObj, gender: profileInputData.gender}
+        formDataObj = {...formDataObj, trials_for: profileInputData.trials_for}
+        formDataObj = {...formDataObj, speciality: specialityArr}
+        formDataObj = {...formDataObj, condition: conditionArr}
+        formDataObj = {...formDataObj, physician_fname: profileInputData.physician_fname !== null ? profileInputData.physician_fname : ""}
+        formDataObj = {...formDataObj, physician_lname: profileInputData.physician_lname !== null ? profileInputData.physician_lname : ""}
+        formDataObj = {...formDataObj, physician_email: profileInputData.physician_email !== null ? profileInputData.physician_email : ""}
+        formDataObj = {...formDataObj, physician_phone_number: profileInputData.physician_phone_number !== null ? profileInputData.physician_phone_number : ""}
+        formDataObj = {...formDataObj, bank_name: profileInputData.bank_name}
+        formDataObj = {...formDataObj, account_holder_name: profileInputData.account_holder_name}
+        formDataObj = {...formDataObj, account_number: profileInputData.account_number}
+        formDataObj = {...formDataObj, routing_number: profileInputData.routing_number}
+        if (profileInputData.latitude && profileInputData.longitude) {
+            formDataObj = {...formDataObj, latitude: profileInputData.latitude}
+            formDataObj = {...formDataObj, longitude: profileInputData.longitude}
+        }
+
+        formData.append('body', Encryption(formDataObj));
         if (binary !== undefined) {
             formData.append("profile_image", binary)
         }
-        for (let i = 0; i < specialityArr.length; i++) {
-            formData.append(`speciality[${i}]`, specialityArr[i]);
-        }
-        for (let i = 0; i < conditionArr.length; i++) {
-            formData.append(`condition[${i}]`, conditionArr[i]);
-        }
-        formData.append("physician_fname", profileInputData.physician_fname !== null ? profileInputData.physician_fname : "")
-        formData.append("physician_lname", profileInputData.physician_lname !== null ? profileInputData.physician_lname : "")
-        formData.append("physician_email", profileInputData.physician_email !== null ? profileInputData.physician_email : "")
-        formData.append("physician_phone_number", profileInputData.physician_phone_number !== null ? profileInputData.physician_phone_number : "")
-        formData.append("bank_name", profileInputData.bank_name)
-        formData.append("account_holder_name", profileInputData.account_holder_name)
-        formData.append("account_number", profileInputData.account_number)
-        formData.append("routing_number", profileInputData.routing_number)
-        if (profileInputData.latitude && profileInputData.longitude) {
-            formData.append("latitude", profileInputData.latitude)
-            formData.append("longitude", profileInputData.longitude)
-        }
+        console.log("formDataObj", formDataObj);
         const isVaild = Validation(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "patient"))
             setProfileSubmitClick(true)
         }
-
-        console.log("profileInputData.latitude", profileInputData.latitude, profileInputData.longitude);
     }
 
     useEffect(() => {

@@ -21,6 +21,7 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
 } from "react-places-autocomplete";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 const conditionListAPI = []
@@ -240,6 +241,7 @@ const SponsorsEditProfile = () => {
         e.preventDefault();
         const specialityArr = profileInputData.speciality.map(value => value.value);
         const conditionArr = profileInputData.condition.map(value => value.value);
+        let formDataObj = {}
         let formData = new FormData();
         if (binary !== undefined) {
             formData.append("profile_image", binary)
@@ -247,27 +249,25 @@ const SponsorsEditProfile = () => {
         if (listingBinary !== undefined) {
             formData.append("listing_image", listingBinary)
         } else {
-            formData.append("listing_image_url", profileInputData.listing_image !== null ? profileInputData.listing_image : "")
+            formDataObj = {...formDataObj, listing_image_url: profileInputData.listing_image !== null ? profileInputData.listing_image : ""}
         }
-        formData.append("sponsor_name", profileInputData.sponsor_name);
-        formData.append("state_id", profileInputData.state_id);
-        formData.append("address", profileInputData.address);
-        formData.append("zip_code", profileInputData.zip_code);
-        for (let i = 0; i < specialityArr.length; i++) {
-            formData.append(`speciality[${i}]`, specialityArr[i]);
-        }
-        for (let i = 0; i < conditionArr.length; i++) {
-            formData.append(`condition[${i}]`, conditionArr[i]);
-        }
-        formData.append("brief_intro", profileInputData.brief_intro);
-        formData.append("bank_name", profileInputData.bank_name);
-        formData.append("account_holder_name", profileInputData.account_holder_name);
-        formData.append("account_number", profileInputData.account_number);
-        formData.append("routing_number", profileInputData.routing_number);
+        formDataObj = {...formDataObj, sponsor_name: profileInputData.sponsor_name}
+        formDataObj = {...formDataObj, state_id: profileInputData.state_id}
+        formDataObj = {...formDataObj, address: profileInputData.address}
+        formDataObj = {...formDataObj, zip_code: profileInputData.zip_code}
+        formDataObj = {...formDataObj, speciality: specialityArr}
+        formDataObj = {...formDataObj, condition: conditionArr}
+        formDataObj = {...formDataObj, brief_intro: profileInputData.brief_intro}
+        formDataObj = {...formDataObj, bank_name: profileInputData.bank_name}
+        formDataObj = {...formDataObj, account_holder_name: profileInputData.account_holder_name}
+        formDataObj = {...formDataObj, account_number: profileInputData.account_number}
+        formDataObj = {...formDataObj, routing_number: profileInputData.routing_number}
         if(profileInputData.latitude && profileInputData.longitude){
-            formData.append("latitude", profileInputData.latitude)
-            formData.append("longitude", profileInputData.longitude)
+            formDataObj = {...formDataObj, latitude: profileInputData.latitude}
+            formDataObj = {...formDataObj, longitude: profileInputData.longitude}
         }
+        formData.append('body', Encryption(formDataObj));
+        console.log("formDataObj", formDataObj);
         const isVaild = validate(profileInputData);
         if (isVaild) {
             dispatch(ProfileUpdateAction(formData, "sponsor"))
