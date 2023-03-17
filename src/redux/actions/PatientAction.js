@@ -13,6 +13,7 @@ import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 
@@ -131,7 +132,7 @@ export const PatientViewTrialsAction = (id) => async (dispatch) => {
 export const PatientBookAppointmentAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/patient/book-appointment", data,{
+        .post(getCurrentHost() + "/patient/book-appointment", {body: Encryption(data)},{
             headers: authHeader()
         })
         .then(response => {
@@ -161,7 +162,7 @@ export const MyAppointmentsListAction = (data) => async (dispatch) => {
 export const MyAppointmentsDetailAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + `/patient/view-trial-appointment/${data}`,  {
+        .get(getCurrentHost() + `/patient/view-trial-appointment/${Encryption(data)}`,  {
             headers: authHeader()
         })
         .then(response => {
@@ -176,7 +177,7 @@ export const MyAppointmentsDetailAction = (data) => async (dispatch) => {
 export const CancelAppointmentAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/patient/cancel-appointment", data, {
+        .post(getCurrentHost() + "/patient/cancel-appointment", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -192,7 +193,7 @@ export const CancelAppointmentAction = (data) => async (dispatch) => {
 export const PatientAllVisitAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + `/patient/get-patient-trial-visits`, data, {
+        .post(getCurrentHost() + `/patient/get-patient-trial-visits`, {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {

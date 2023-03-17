@@ -9,6 +9,7 @@ import { authHeader } from '../../../redux/actions/authHeader';
 import getCurrentHost from '../../../redux/constants';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Encryption } from '../../../utils/PayloadEncryption';
 
 toast.configure();
 
@@ -83,7 +84,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
         const requestOptions = {
             method: 'POST',
             headers: authHeader(),
-            body: JSON.stringify({
+            body: Encryption({
                 trial_clinic_appointment_id: trialId,
                 patient_ids: patientIds
             })

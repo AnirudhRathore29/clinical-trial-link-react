@@ -9,6 +9,7 @@ import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 
@@ -114,7 +115,7 @@ export const PhysicianClinicListingAction = (data) => async (dispatch) => {
 export const PhysicianManagePatientListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/physician/get-manage-patient-list", data, {
+        .post(getCurrentHost() + "/physician/get-manage-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -129,7 +130,7 @@ export const PhysicianManagePatientListAction = (data) => async (dispatch) => {
 export const PhysicianManagePatientDetailAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + `/physician/get-patient-detail/${data}`, {
+        .get(getCurrentHost() + `/physician/get-patient-detail/${Encryption(data)}`, {
             headers: authHeader()
         })
         .then(response => {
@@ -144,7 +145,7 @@ export const PhysicianManagePatientDetailAction = (data) => async (dispatch) => 
 export const PhysicianPatientAllVisitAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + `/physician/get-patient-trial-visits`, data, {
+        .post(getCurrentHost() + `/physician/get-patient-trial-visits`, {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -189,7 +190,7 @@ export const ApprovedPatientListAction = (data) => async (dispatch) => {
 export const ApprovedPatientDetailAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + `/physician/get-patient-detail/${data}`, {
+        .get(getCurrentHost() + `/physician/get-patient-detail/${Encryption(data)}`, {
             headers: authHeader()
         })
         .then(response => {
@@ -204,7 +205,7 @@ export const ApprovedPatientDetailAction = (data) => async (dispatch) => {
 export const PhysicianManageAllPatientListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/physician/get-all-patient-list", data, {
+        .post(getCurrentHost() + "/physician/get-all-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -219,7 +220,7 @@ export const PhysicianManageAllPatientListAction = (data) => async (dispatch) =>
 export const PhysicianManageAllPatientDetailAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + `/physician/get-patient-personal-detail/${data}`, {
+        .get(getCurrentHost() + `/physician/get-patient-personal-detail/${Encryption(data)}`, {
             headers: authHeader()
         })
         .then(response => {

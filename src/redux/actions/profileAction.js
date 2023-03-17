@@ -40,7 +40,7 @@ export function CompleteProfileError(message) {
 export const SponsorCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
     axios
-        .post(getCurrentHost() + "/sponsor/sponsor-complete-profile", data, {
+        .post(getCurrentHost() + "/sponsor/sponsor-complete-profile", {body: Encryption(data)}, {
             headers: authHeader(),
         })
         .then(response => {
@@ -113,7 +113,7 @@ export const TrialClinicCompleteProfileAction = (data) => async (dispatch) => {
 export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
     axios
-        .post(getCurrentHost() + "/physician/physician-complete-profile", data, {
+        .post(getCurrentHost() + "/physician/physician-complete-profile", {body: Encryption(data)}, {
             headers: authHeader(),
         })
         .then(response => {
@@ -149,7 +149,7 @@ export const PhysicianCompleteProfileAction = (data) => async (dispatch) => {
 export const PatientCompleteProfileAction = (data) => async (dispatch) => {
     dispatch(ProfileRequest());
     axios
-        .post(getCurrentHost() + "/patient/patient-complete-profile", data, {
+        .post(getCurrentHost() + "/patient/patient-complete-profile", {body: Encryption(data)}, {
             headers: authHeader(),
         })
         .then(response => {

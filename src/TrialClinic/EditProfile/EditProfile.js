@@ -377,9 +377,12 @@ const ClinicEditProfile = () => {
         }
         for (let t = 0; t < profileInputData.documents.length; t++) {
             // formData.append(`existing_documents[${t}]`, profileInputData.documents[t].document);
-            existing_documents.push(profileInputData.documents[t].document)
+            // console.log("profileInputData.documents", profileInputData.documents);
+            profileInputData.documents[t].document && existing_documents.push(profileInputData.documents[t].document)
         }
-        formDataObj = {...formDataObj, existing_documents: existing_documents}
+        if(existing_documents.length > 0){
+            formDataObj = {...formDataObj, existing_documents: existing_documents}
+        }
         formData.append('body', Encryption(formDataObj));
         console.log("formDataObj", formDataObj);
         const isVaild = validate(profileInputData);

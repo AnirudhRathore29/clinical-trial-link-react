@@ -16,6 +16,7 @@ import { authHeader } from './authHeader';
 import HandleError from "./HandleError";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 
@@ -201,7 +202,7 @@ export const NewTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
         dispatch(StatusLoading());
     }
     axios
-        .post(getCurrentHost() + "/trialclinic/update-patient-appointment-status", data.data, {
+        .post(getCurrentHost() + "/trialclinic/update-patient-appointment-status", {body: Encryption(data.data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -248,7 +249,7 @@ export const NewScreenTrialRequestDetailAction = (data) => async (dispatch) => {
 export const NewScreenTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/trialclinic/mark-patient-appt-visit-status", data, {
+        .post(getCurrentHost() + "/trialclinic/mark-patient-appt-visit-status", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -279,7 +280,7 @@ export const MyAppointmentListAction = (data) => async (dispatch) => {
 export const TrialPatientListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/trialclinic/get-my-appointments-patient-list", data, {
+        .post(getCurrentHost() + "/trialclinic/get-my-appointments-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -294,7 +295,7 @@ export const TrialPatientListAction = (data) => async (dispatch) => {
 export const TrialPastPatientListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/trialclinic/get-my-appointments-past-patient-list", data, {
+        .post(getCurrentHost() + "/trialclinic/get-my-appointments-past-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -324,7 +325,7 @@ export const PatientAppointMentDetailAction = (data) => async (dispatch) => {
 export const ManagePatientListAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + "/trialclinic/get-manage-patient-list", data, {
+        .post(getCurrentHost() + "/trialclinic/get-manage-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -339,7 +340,7 @@ export const ManagePatientListAction = (data) => async (dispatch) => {
 export const ManagePatientDetailAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .get(getCurrentHost() + `/trialclinic/get-patient-detail/${data}`, {
+        .get(getCurrentHost() + `/trialclinic/get-patient-detail/${Encryption(data)}`, {
             headers: authHeader()
         })
         .then(response => {
@@ -354,7 +355,7 @@ export const ManagePatientDetailAction = (data) => async (dispatch) => {
 export const PatientAllVisitAction = (data) => async (dispatch) => {
     dispatch(Request());
     axios
-        .post(getCurrentHost() + `/trialclinic/get-patient-trial-visits`, data, {
+        .post(getCurrentHost() + `/trialclinic/get-patient-trial-visits`, {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {

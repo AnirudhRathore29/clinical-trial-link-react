@@ -22,6 +22,7 @@ import { authHeader } from './authHeader';
 import { toast } from "react-toastify";
 import HandleError from "./HandleError";
 import "react-toastify/dist/ReactToastify.css";
+import { Encryption } from "../../utils/PayloadEncryption";
 
 toast.configure();
 export function isLoading() {
@@ -72,7 +73,7 @@ export function ViewTrialError(message) {
 export const ViewTrialsAction = (id) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .get(getCurrentHost() + "/view-trial/" + id, {
+        .get(getCurrentHost() + "/view-trial/" + Encryption(id), {
             headers: authHeader()
         })
         .then(response => {
@@ -100,7 +101,7 @@ export function CreateTrialError(message) {
 export const CreateTrialsAction = (FieldData) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .post(getCurrentHost() + "/sponsor/create-trial", FieldData, {
+        .post(getCurrentHost() + "/sponsor/create-trial", {body: Encryption(FieldData)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -336,7 +337,7 @@ export const TrialSpoPatientListAction = (id, data) => async (dispatch) => {
 export const TrialSpoPatientDetailAction = (id) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .get(getCurrentHost() + "/sponsor/view-patient-appointment-detail/" + id , {
+        .get(getCurrentHost() + "/sponsor/view-patient-appointment-detail/" + Encryption(id) , {
             headers: authHeader()
         })
         .then(response => {
@@ -366,7 +367,7 @@ export const TrialManageClinicsListAction = (data) => async (dispatch) => {
 export const SponsorManagePatientListAction = (data) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .post(getCurrentHost() + "/sponsor/get-manage-patient-list", data, {
+        .post(getCurrentHost() + "/sponsor/get-manage-patient-list", {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
@@ -381,7 +382,7 @@ export const SponsorManagePatientListAction = (data) => async (dispatch) => {
 export const SponsorManagePatientDetailAction = (data) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .get(getCurrentHost() + `/sponsor/get-patient-detail/${data}`, {
+        .get(getCurrentHost() + `/sponsor/get-patient-detail/${Encryption(data)}`, {
             headers: authHeader()
         })
         .then(response => {
@@ -396,7 +397,7 @@ export const SponsorManagePatientDetailAction = (data) => async (dispatch) => {
 export const SponsorPatientAllVisitAction = (data) => async (dispatch) => {
     dispatch(isLoading());
     axios
-        .post(getCurrentHost() + `/sponsor/get-patient-trial-visits`, data, {
+        .post(getCurrentHost() + `/sponsor/get-patient-trial-visits`, {body: Encryption(data)}, {
             headers: authHeader()
         })
         .then(response => {
