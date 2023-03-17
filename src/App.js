@@ -36,11 +36,11 @@ if (localStorage.auth_security) {
 	store.dispatch(setCurrentUser(decoded));
 }
 
-onMessageListener().then(payload => {
-	// setShow(true);
-	// setNotification({title: payload.notification.title, body: payload.notification.body})
-	console.log("payload notification", payload);
-}).catch(err => console.log('failed: ', err));
+// onMessageListener().then(payload => {
+// 	// setShow(true);
+// 	// setNotification({title: payload.notification.title, body: payload.notification.body})
+// 	console.log("payload notification", payload);
+// }).catch(err => console.log('failed: ', err));
 
 
 function App() {

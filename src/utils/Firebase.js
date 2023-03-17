@@ -16,32 +16,32 @@ const firebaseApp = firebase.initializeApp({
 
 export const db = firebaseApp.firestore()
 export const storage = getStorage(firebaseApp);
-const messaging = getMessaging(firebaseApp);
+// const messaging = getMessaging(firebaseApp);
 
 
-export const getTokenFunc = (setTokenFound) => {
-    console.log("process.env.REACT_APP_GENERATED_MESSAGING_KEY", process.env.REACT_APP_GENERATED_MESSAGING_KEY);
-    console.log("messaging", messaging);
-    return getToken(messaging, {vapidKey: process.env.REACT_APP_GENERATED_MESSAGING_KEY}).then((currentToken) => {
-        console.log("currentTokencurrentToken", currentToken);
-      if (currentToken) {
-        console.log('current token for client: ', currentToken);
-        setTokenFound(currentToken);
-      } else {
-        console.log('No registration token available. Request permission to generate one.');
-        setTokenFound(false);
-      }
-    }).catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-    });
-}
+// export const getTokenFunc = (setTokenFound) => {
+//     console.log("process.env.REACT_APP_GENERATED_MESSAGING_KEY", process.env.REACT_APP_GENERATED_MESSAGING_KEY);
+//     console.log("messaging", messaging);
+//     return getToken(messaging, {vapidKey: process.env.REACT_APP_GENERATED_MESSAGING_KEY}).then((currentToken) => {
+//         console.log("currentTokencurrentToken", currentToken);
+//       if (currentToken) {
+//         console.log('current token for client: ', currentToken);
+//         setTokenFound(currentToken);
+//       } else {
+//         console.log('No registration token available. Request permission to generate one.');
+//         setTokenFound(false);
+//       }
+//     }).catch((err) => {
+//       console.log('An error occurred while retrieving token. ', err);
+//     });
+// }
 
-console.log("dbdbdb", storage);
-// console.log("storage", storage);
+// console.log("dbdbdb", storage);
+// // console.log("storage", storage);
 
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-});
+// export const onMessageListener = () =>
+//   new Promise((resolve) => {
+//     onMessage(messaging, (payload) => {
+//       resolve(payload);
+//     });
+// });

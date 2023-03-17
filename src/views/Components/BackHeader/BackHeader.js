@@ -41,7 +41,7 @@ const Header = (props, { colorHeader, headerColor }) => {
         dispatch(LogoutAction())
     }
 
-    getTokenFunc(setTokenFound);
+    // getTokenFunc(setTokenFound);
 
     const getNotifications = (page, id) => {
         const configure = {
