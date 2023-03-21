@@ -84,10 +84,10 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
         const requestOptions = {
             method: 'POST',
             headers: authHeader(),
-            body: Encryption({
+            body: JSON.stringify({body: Encryption({
                 trial_clinic_appointment_id: trialId,
                 patient_ids: patientIds
-            })
+            })})
         };
         fetch(getCurrentHost() + `/physician/send-referal-mail`, requestOptions)
             .then(data => data.json())

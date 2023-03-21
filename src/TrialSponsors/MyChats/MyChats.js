@@ -9,6 +9,8 @@ import { capitalizeFirstLetter, chatDateFormat } from '../../utils/Utils';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CryptoJS from 'crypto-js';
+
 
 toast.configure();
 
@@ -212,12 +214,13 @@ const SponsorsMyChats = (props) => {
         e.preventDefault()
         setChatCount(ChatCount + 1)
         if (message.trim() || imgUrl) {
+            const encryptedMessage = message.trim() && CryptoJS.AES.encrypt(JSON.stringify(message.trim()),'chatMessage').toString();
             db.collection('Chat')
                 .doc(combine2UserId(currentUserDetail.id).toString())
                 .collection('messages')
                 .doc(Date.now().toString())
                 .set({
-                    message: message.trim(),
+                    message: encryptedMessage,
                     date: Date.now(),
                     senderId: currentUserDetail.id,
                     reciverId: Number(reciverIdx),
@@ -234,9 +237,10 @@ const SponsorsMyChats = (props) => {
                 .set({
                     reciverId: Number(currentUserDetail.id),
                     recieverName: currentUserDetail.full_name,
-                    message: message,
+                    message: encryptedMessage,
                     date: Date.now(),
                     profileImage: currentUserDetail.profile_image === null ? null : currentUserDetail.profile_image,
+                    photoUrl: imgUrl,
                     count: parseInt(recieverCounter) + 1,
                 });
 
@@ -248,9 +252,10 @@ const SponsorsMyChats = (props) => {
                 .set({
                     reciverId: reciverIdx.toString(),
                     recieverName: reciverName,
-                    message: message,
+                    message: encryptedMessage,
                     date: Date.now(),
                     profileImage: reciverImage === null ? null : reciverImage,
+                    photoUrl: imgUrl,
                     count: 0,
                 });
             // sendNotification({message: message, sender_name: currentUserDetail?.full_name});
@@ -297,6 +302,13 @@ const SponsorsMyChats = (props) => {
             setChatWindowDown(chatWindowDown + 1)
         }, 1000);
     };
+
+    const decryptMessage = (text) => {
+        var bytes  = CryptoJS.AES.decrypt(text, 'chatMessage');
+        var originalText = bytes.toString(CryptoJS.enc.Utf8);
+        console.log("originalText", originalText);
+        return originalText.replace(/['"]+/g, '')
+    }
 
     // const sendNotification = (data) => {
     //     const notification = {
@@ -352,7 +364,7 @@ const SponsorsMyChats = (props) => {
                                                 <img src={item.profileImage !== null ? item.profileImage : "/images/placeholder-img.jpg"} alt={item.recieverName} />
                                             </div>
                                             <div className="user-name">{capitalizeFirstLetter(item?.recieverName)}</div>
-                                            <div className="last-message">{item?.message}</div>
+                                            <div className="last-message">{item?.message ? decryptMessage(item?.message) : item?.photoUrl?.split('%')?.pop()?.split('?')[0]}</div>
                                         </div>
                                         <div
                                             className={classNames(
@@ -390,11 +402,12 @@ const SponsorsMyChats = (props) => {
                                             {typeof item?.photoUrl === "string" && "jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) ? <img src={item?.photoUrl} alt={item?.photoUrl} /> :
                                                 typeof item?.photoUrl === "string" && !"jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) &&
                                                 <div className='fileInChat'>
-                                                    <h2><span>{item?.photoUrl}</span><i>.{item?.photoUrl?.split('.')?.pop()?.split('?')[0]}</i></h2>
-                                                    <a href={item?.photoUrl} download><box-icon name='download' type='solid' color="#356aa0" size="20px"></box-icon></a>
+                                                    <h2><i>{item?.photoUrl?.split('%')?.pop()?.split('?')[0]}</i></h2>
+                                                    <a href={item?.photoUrl} download target="_blank"><box-icon name='download' type='solid' color="#356aa0" size="20px"></box-icon></a>
                                                 </div>
                                             }
-                                            {item.message}
+                                            {decryptMessage(item.message)}
+                                            {/* {item.message} */}
                                         </div>
                                         <p className='message-time'>{moment(new Date(item.date)).format('hh:mm a')}</p>
                                     </div>
@@ -420,7 +433,7 @@ const SponsorsMyChats = (props) => {
                                 </div>
                                 {imgUrl &&
                                     <div className='fileViewer'>
-                                        <h2><span>{imgUrl}</span> <button type='button' onClick={removeFile}><box-icon name='x'></box-icon></button></h2>
+                                        <h2><span>{imgUrl?.split('%')?.pop()?.split('?')[0]}</span> <button type='button' onClick={removeFile}><box-icon name='x'></box-icon></button></h2>
                                     </div>
                                 }
                             </form>
