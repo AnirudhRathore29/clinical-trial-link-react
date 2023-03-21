@@ -41,6 +41,7 @@ const ClinicSponsorsTrialListing = (props) => {
     console.log("sponsorsTrialListSelector", sponsorsTrialListSelector);
     console.log("AllUserConditions", AllUserConditions);
     console.log("formData", formData);
+    console.log("clinicDetails", clinicDetails);
 
     useEffect(() => {
         setClinicDetails(clinicDetailSelector)
@@ -98,10 +99,16 @@ const ClinicSponsorsTrialListing = (props) => {
     }
 
     const handleRedirectUser2Chat = () => {
-        history.push({
-            pathname: "/trial-clinic/my-chats",
-            state: props.location.state
-        })
+        let values = {
+            full_name: clinicDetails.data.sponsor_name,
+            id: clinicDetails.data.id,
+            profile_image: clinicDetails.data.listing_image,
+        }
+        console.log("values", values);
+        // history.push({
+        //     pathname: "/trial-clinic/my-chats",
+        //     state: values
+        // })
     }
 
     useEffect(() => {

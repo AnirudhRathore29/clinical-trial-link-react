@@ -167,6 +167,7 @@ const TrialClinicDetails = () => {
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped </span>
                                                             }
                                                             favBtnDisable={true}
+                                                            ShareFav={value.is_recruiting === 0 ? true : false}
                                                             trialId={value.id}
                                                             id={patientClinicDetails.data.id}
                                                         />
