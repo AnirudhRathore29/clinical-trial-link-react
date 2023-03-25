@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import store from './redux/store';
 import PrivateRoute from './views/private-route/PrivateRoute';
@@ -9,6 +9,11 @@ import './Assets/css/responsive.css';
 import ScrollToTop from './views/Components/ScrollToTop/ScrollToTop';
 import { LogoLoader } from './views/Components/Common/LogoLoader/LogoLoader';
 import { onMessageListener } from './utils/Firebase';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+toast.configure();
 
 /* Layout */
 const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
@@ -36,14 +41,20 @@ if (localStorage.auth_security) {
 	store.dispatch(setCurrentUser(decoded));
 }
 
-// onMessageListener().then(payload => {
-// 	// setShow(true);
-// 	// setNotification({title: payload.notification.title, body: payload.notification.body})
-// 	console.log("payload notification", payload);
-// }).catch(err => console.log('failed: ', err));
 
 
 function App() {
+	const [notification, setNotification] = useState()
+	
+	onMessageListener().then(payload => {
+		// setShow(true);
+		setNotification({title: payload.notification.title, body: payload.notification.body})
+		console.log("payload notification", payload);
+	}).catch(err => console.log('failed: ', err));
+
+	useEffect(() => {
+		toast.success(notification?.body, { theme: "colored" })
+	}, [notification])
 	return (
 		<>
 			{/* <ScrollToTop /> */}

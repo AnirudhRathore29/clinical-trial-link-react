@@ -258,7 +258,7 @@ const SponsorsMyChats = (props) => {
                     photoUrl: imgUrl,
                     count: 0,
                 });
-            // sendNotification({message: message, sender_name: currentUserDetail?.full_name});
+            sendNotification({message: message, sender_name: currentUserDetail?.full_name});
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
             setImgUrl(null)
@@ -310,34 +310,34 @@ const SponsorsMyChats = (props) => {
         return originalText.replace(/['"]+/g, '')
     }
 
-    // const sendNotification = (data) => {
-    //     const notification = {
-    //       title: `New message from ${data?.sender_name}`,
-    //       body: data?.message,
-    //       icon: '/images/placeholder-img.jpg',
-    //       click_action: 'http://clinicaltriallink.org/',
-    //     };
+    const sendNotification = (data) => {
+        const notification = {
+          title: `New message from ${data?.sender_name}`,
+          body: data?.message,
+          icon: '/images/placeholder-img.jpg',
+          click_action: 'http://clinicaltriallink.org/',
+        };
       
-    //     const payload = {
-    //       notification: notification,
-    //       to: FCMToken,
-    //     };
+        const payload = {
+          notification: notification,
+          to: FCMToken,
+        };
       
-    //     fetch('https://fcm.googleapis.com/fcm/send', {
-    //       method: 'POST',
-    //       headers: {
-    //         Authorization: `key=${process.env.REACT_APP_SERVER_KEY}`,
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(payload),
-    //     })
-    //       .then((response) => {
-    //         console.log('Notification sent');
-    //       })
-    //       .catch((error) => {
-    //         console.error("Notification sent error", error);
-    //       });
-    //   };      
+        fetch('https://fcm.googleapis.com/fcm/send', {
+          method: 'POST',
+          headers: {
+            Authorization: `key=${process.env.REACT_APP_SERVER_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => {
+            console.log('Notification sent');
+          })
+          .catch((error) => {
+            console.error("Notification sent error", error);
+          });
+      };      
 
     return (
         <div className="clinical-dashboard my-favorites-section">

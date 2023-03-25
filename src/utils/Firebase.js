@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getStorage } from "firebase/storage";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
 
 
 const firebaseApp = firebase.initializeApp({
@@ -16,32 +16,40 @@ const firebaseApp = firebase.initializeApp({
 
 export const db = firebaseApp.firestore()
 export const storage = getStorage(firebaseApp);
-// const messaging = getMessaging(firebaseApp);
 
+// console.log("messagingmessaging", messaging);
+export const getTokenFunc = (setTokenFound) => {
+    console.log("process.env.REACT_APP_GENERATED_MESSAGING_KEY", process.env.REACT_APP_GENERATED_MESSAGING_KEY);
+    // console.log("messaging", messaging);
+    isSupported()
+    .then(async () => {
+        const messaging = getMessaging(firebaseApp);
+        try {
+            const currentToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_GENERATED_MESSAGING_KEY });
+            console.log("currentTokencurrentToken", currentToken);
+            if (currentToken) {
+                console.log('current token for client: ', currentToken);
+                setTokenFound(currentToken);
+            } else {
+                console.log('No registration token available. Request permission to generate one.');
+                setTokenFound(false);
+            }
+        } catch (err) {
+            console.log('An error occurred while retrieving token. ', err);
+        }
+    })
+    .catch(() => {
+        console.log("not supported");
+    })
+}
 
-// export const getTokenFunc = (setTokenFound) => {
-//     console.log("process.env.REACT_APP_GENERATED_MESSAGING_KEY", process.env.REACT_APP_GENERATED_MESSAGING_KEY);
-//     console.log("messaging", messaging);
-//     return getToken(messaging, {vapidKey: process.env.REACT_APP_GENERATED_MESSAGING_KEY}).then((currentToken) => {
-//         console.log("currentTokencurrentToken", currentToken);
-//       if (currentToken) {
-//         console.log('current token for client: ', currentToken);
-//         setTokenFound(currentToken);
-//       } else {
-//         console.log('No registration token available. Request permission to generate one.');
-//         setTokenFound(false);
-//       }
-//     }).catch((err) => {
-//       console.log('An error occurred while retrieving token. ', err);
-//     });
-// }
+console.log("dbdbdb", storage);
+// console.log("storage", storage);
 
-// console.log("dbdbdb", storage);
-// // console.log("storage", storage);
-
-// export const onMessageListener = () =>
-//   new Promise((resolve) => {
-//     onMessage(messaging, (payload) => {
-//       resolve(payload);
-//     });
-// });
+export const onMessageListener = () =>
+new Promise((resolve) => {
+    const messaging = getMessaging(firebaseApp);
+    onMessage(messaging, (payload) => {
+      resolve(payload);
+    });
+});
