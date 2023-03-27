@@ -214,7 +214,7 @@ const SponsorsMyChats = (props) => {
         e.preventDefault()
         setChatCount(ChatCount + 1)
         if (message.trim() || imgUrl) {
-            const encryptedMessage = message.trim() && CryptoJS.AES.encrypt(JSON.stringify(message.trim()),'chatMessage').toString();
+            const encryptedMessage = message.trim() && CryptoJS.AES.encrypt(JSON.stringify(message.trim()),process.env.REACT_APP_SECRET_KEY).toString();
             db.collection('Chat')
                 .doc(combine2UserId(currentUserDetail.id).toString())
                 .collection('messages')
@@ -258,7 +258,7 @@ const SponsorsMyChats = (props) => {
                     photoUrl: imgUrl,
                     count: 0,
                 });
-            sendNotification({message: message, sender_name: currentUserDetail?.full_name});
+            sendNotification({message: message ? message : imgUrl?.split('%')?.pop()?.split('?')[0], sender_name: currentUserDetail?.full_name});
             setRecieveerCounter(recieverCounter + 1);
             setMessage('');
             setImgUrl(null)
@@ -304,7 +304,8 @@ const SponsorsMyChats = (props) => {
     };
 
     const decryptMessage = (text) => {
-        var bytes  = CryptoJS.AES.decrypt(text, 'chatMessage');
+        console.log("originalTextText", text);
+        var bytes  = CryptoJS.AES.decrypt(text.toString(), process.env.REACT_APP_SECRET_KEY);
         var originalText = bytes.toString(CryptoJS.enc.Utf8);
         console.log("originalText", originalText);
         return originalText.replace(/['"]+/g, '')

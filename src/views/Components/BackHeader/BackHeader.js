@@ -43,6 +43,18 @@ const Header = (props, { colorHeader, headerColor }) => {
 
     getTokenFunc(setTokenFound);
 
+    useEffect(() => {
+        const ref = db.collection('List').doc(profileDetails.id.toString())
+        console.log("isTokenFoundisTokenFound", isTokenFound);
+        ref.set({
+            name: profileDetails?.full_name.toString(),
+            id: profileDetails?.id.toString(),
+            fcm_token: isTokenFound,
+        }).then(() => {
+            console.log('User updated!');
+        });
+    }, [isTokenFound])
+
     const getNotifications = (page, id) => {
         const configure = {
             method: 'POST',
@@ -79,20 +91,6 @@ const Header = (props, { colorHeader, headerColor }) => {
             }
         }
     };
-
-
-    useEffect(() => {
-        const ref = db.collection('List').doc(profileDetails.id.toString())
-        console.log("isTokenFoundisTokenFound", isTokenFound);
-        ref.set({
-            name: profileDetails?.full_name.toString(),
-            id: profileDetails?.id.toString(),
-            fcm_token: isTokenFound,
-        }).then(() => {
-            console.log('User updated!');
-        });
-    }, [isTokenFound])
-
 
     useEffect(() => {
         const configure = {

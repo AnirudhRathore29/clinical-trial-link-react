@@ -152,6 +152,18 @@ iframe[style*="fixed"]{display: none;}
 .downloadDoc p{display: flex;align-items: center;}
 .downloadDoc span{display: inline-block;max-width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 
+.chatNotification{display: flex;align-items: center;}
+.chatNotification .icon { min-width: 4rem; height: 4rem; background: #57bcff; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 1rem; }
+.chatNotification h2{font-size: 1.4rem;color: var(--whiteColor);font-weight: 700;}
+.chatNotification p{font-size: 1.4rem;color: var(--whiteColor);opacity: 0.8;margin-bottom: 0;
+	overflow: hidden;
+    width:100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+}
+
 
 .rmsc {
 	--rmsc-main: #4285f4;

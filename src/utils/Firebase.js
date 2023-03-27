@@ -16,6 +16,7 @@ const firebaseApp = firebase.initializeApp({
 
 export const db = firebaseApp.firestore()
 export const storage = getStorage(firebaseApp);
+const messaging = getMessaging(firebaseApp);
 
 // console.log("messagingmessaging", messaging);
 export const getTokenFunc = (setTokenFound) => {
@@ -23,7 +24,6 @@ export const getTokenFunc = (setTokenFound) => {
     // console.log("messaging", messaging);
     isSupported()
     .then(async () => {
-        const messaging = getMessaging(firebaseApp);
         try {
             const currentToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_GENERATED_MESSAGING_KEY });
             console.log("currentTokencurrentToken", currentToken);
@@ -48,8 +48,9 @@ console.log("dbdbdb", storage);
 
 export const onMessageListener = () =>
 new Promise((resolve) => {
-    const messaging = getMessaging(firebaseApp);
+    // const messaging = getMessaging(firebaseApp);
     onMessage(messaging, (payload) => {
+        console.log("onMessageonMessage", messaging);
       resolve(payload);
     });
 });

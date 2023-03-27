@@ -29,6 +29,6 @@ messaging.onBackgroundMessage(function (payload) {
         body: payload.notification.body,
     };
 
-    self.registration.showNotification(notificationTitle,
-        notificationOptions);
+    // self.registration.showNotification(notificationTitle,
+    //     notificationOptions);
 });

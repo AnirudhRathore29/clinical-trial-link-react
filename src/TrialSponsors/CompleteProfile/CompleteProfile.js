@@ -47,6 +47,8 @@ const ClinicCompleteProfile = (props) => {
         routing_number: ""
     });
 
+    console.log("profileInputData", profileInputData);
+
     var profileDetails = jwt.verify(localStorage.getItem("auth_security"), process.env.REACT_APP_JWT_SECRET)
 
     useEffect(() => {
