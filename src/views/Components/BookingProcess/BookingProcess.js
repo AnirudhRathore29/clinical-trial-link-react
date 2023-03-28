@@ -20,6 +20,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
     const [bookingSlots, setBookingSlots] = useState()
     const [startDate, setStartDate] = useState(new Date());
     const [bookingSubmit, setBookingSubmit] = useState(false);
+    const [ConfirmationModal, setConfirmationModal] = useState(false);
     const [thanksObj, setThanksObj] = useState()
     const [ReferralCode, setReferralCode] = useState()
 
@@ -40,7 +41,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
         }
     }, [bookingTrialSelector, bookingSubmit])
 
-    const handleBookingAppointmentSubmit = (e) => {
+    const ConfirmAppointmentSubmit = (e) => {
         e.preventDefault();
         let data = {
             trial_clinic_appointment_id: bookingId,
@@ -50,6 +51,20 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
         }
         dispatch(PatientBookAppointmentAction(data))
         setBookingSubmit(true)
+    }
+
+    const handleBookingAppointmentSubmit = (e) => {
+        e.preventDefault();
+        if(bookingSlots){
+            setConfirmationModal(true);
+            handleClose2()
+        } else {
+            toast.error("Please select booking slot!", { theme: "colored" })
+        }
+    }
+
+    const ConfirmationModalClose = () => {
+        setConfirmationModal(false);
     }
 
     console.log("bookingTrialSelector", bookingTrialSelector);
@@ -176,13 +191,42 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                     BtnType="submit"
                                     BtnColor="primary w-100"
                                     BtnText="Confirm"
-                                    hasSpinner={bookingSubmit === true && bookingTrialSelector.loading}
-                                    disabled={bookingSubmit === true && bookingTrialSelector.loading}
+                                    // hasSpinner={bookingSubmit === true && bookingTrialSelector.loading}
+                                    // disabled={bookingSubmit === true && bookingTrialSelector.loading}
                                 />
                             </div>
                         </form>
                         :
                         <LogoLoader />
+                }
+            />
+
+            <CommonModal show={ConfirmationModal} onHide={ConfirmationModalClose} keyboard={false} size="md"
+                onClick={ConfirmationModalClose}
+                ModalData={
+                    <>
+                        <button type="button" className="btn-close" aria-label="Close" onClick={ConfirmationModalClose}></button>
+                        <div className='congrats-bx'>
+                            <h2 className='mb-5'>Confirm Booking!</h2>
+                            <p>This is to inform you that Clinical Trial will use this information.</p>
+                        </div>
+                        <div className='clnicaltrial-detail-ftr'>
+                            <Button
+                                isButton="true"
+                                BtnColor="green w-50"
+                                BtnText="Disagree"
+                                onClick={ConfirmationModalClose}
+                            />
+                            <Button
+                                isButton="true"
+                                BtnColor="primary w-50"
+                                BtnText="Agree"
+                                hasSpinner={bookingSubmit === true && bookingTrialSelector.loading}
+                                disabled={bookingSubmit === true && bookingTrialSelector.loading}
+                                onClick={ConfirmAppointmentSubmit}
+                            />
+                        </div>
+                    </>
                 }
             />
 

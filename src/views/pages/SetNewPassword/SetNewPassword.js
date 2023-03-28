@@ -22,6 +22,9 @@ const SetNewPassword = () => {
         confirm_password: ""
     });
 
+    console.log("new URLSearchParams(location.search)", new URLSearchParams(location.search).get("token"));
+    console.log("location", location);
+
     /* Password show hide */
     const [Password, SetPassword] = useState(false);
     const [confirmPassword, SetConfirmPassword] = useState(false);
@@ -60,7 +63,7 @@ const SetNewPassword = () => {
     const handleCreatePasswordSubmit = (e) => {
         e.preventDefault();
         let data = {
-            token: new URLSearchParams(location.search).get("token"),
+            token: new URLSearchParams(location.search).get("token") ? new URLSearchParams(location.search).get("token") : location?.state,
             password: formData.password,
             confirm_password: formData.confirm_password
         }

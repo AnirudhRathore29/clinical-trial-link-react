@@ -73,7 +73,6 @@ function App() {
 	return (
 		<>
 			<ToastContainer autoClose={false} draggable={false} theme="colored"/>
-			{/* <ScrollToTop /> */}
 			<React.Suspense fallback={loading} onReset={() => window.location.reload()}>
 				<Switch>
 					<Route exact path="/" name="Home" render={(props) => <FrontLayout {...props} />} />

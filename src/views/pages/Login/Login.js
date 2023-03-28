@@ -89,6 +89,12 @@ const Login = (props) => {
                 if (loginSelector.auth.error.isEmailNotVerifiedError === 1) {
                     setEmailNotVerified(true)
                 }
+                if(loginSelector.auth.error.resetPwdNeeded === 1){
+                    history.push({
+                        pathname: '/new-password',
+                        state: loginSelector.auth.error.resetPwdToken
+                    });
+                }
                 setSubmitClick(false)
             }
         }
