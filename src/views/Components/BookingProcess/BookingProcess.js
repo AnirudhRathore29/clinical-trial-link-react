@@ -134,7 +134,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
                                     BtnColor="green"
                                     BtnText={!viewDetails.data.alreadyApplied ? "Book Now" : "Already Booked"}
                                     onClick={() => handleShow2(viewDetails.data.id)}
-                                    disabled={viewDetails.data.alreadyApplied == false ? viewDetails.data.is_recruiting === 0 ? true : false : viewDetails.data.alreadyApplied}
+                                    disabled={viewDetails.data.alreadyApplied == false ? viewDetails.data.is_recruiting === 1 ? false : true : viewDetails.data.alreadyApplied}
                                 />
                                 <a href="tel:+496170961709" className="btn-action btn-primary"><box-icon name='phone' color="#ffffff"></box-icon></a>
 

@@ -55,7 +55,9 @@ const ClinicDetails = () => {
                     <div className="row">
                         <div className="col-lg-8">
                             <div className="trialClinic-detail-bx">
-                                <h1>Barnes Jewish Hospital <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                <h1>Barnes Jewish Hospital 
+                                    {/* <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button> */}
+                                    </h1>
                                 <div className="trialClinic-location">
                                     <span><box-icon name='map' color="#356AA0"></box-icon> Atlanta, Georgia, United States</span>
                                     <span><box-icon name='map-alt' color="#356AA0"></box-icon> 5000.52 Mi</span>

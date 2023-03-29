@@ -229,6 +229,7 @@ const ClinicSponsorsTrialListing = (props) => {
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                     }
                                                     id={sponsorsTrialListSelector.data.id}
+                                                    ShareFav={true}
                                                     favBtnDisable={true}
                                                 />
                                             </React.Fragment>

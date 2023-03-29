@@ -279,6 +279,7 @@ const PatientTrialListing = () => {
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>
                                                     }
                                                     onClickFav={() => MyFavTrial(value.id)}
+                                                    ShareFav={true}
                                                     iconType={value.is_favourite === 1 ? "solid" : null}
                                                     id={id}
                                                 />

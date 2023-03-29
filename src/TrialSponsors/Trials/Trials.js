@@ -319,7 +319,7 @@ const SponsorsTrials = () => {
                                                             <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>
                                                     }
                                                     iconColor="#356AA0"
-                                                    ShareFav="false"
+                                                    ShareFav={true}
                                                 />
                                             </div>
                                         )

@@ -65,6 +65,7 @@ const SponsorsMyStudies = () => {
                                                                 }
                                                                 // dateTime="Jan 25, 2022 (09:00 AM)"
                                                                 trialAmount={value.compensation}
+                                                                ShareFav={true}
                                                                 // ShareFav="false"
                                                             />
                                                         </div>
@@ -113,7 +114,8 @@ const SponsorsMyStudies = () => {
                                                                         :
                                                                         <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close </span>
                                                                 }
-                                                                dateTime="Jan 25, 2022 (09:00 AM)"
+                                                                // dateTime="Jan 25, 2022 (09:00 AM)"
+                                                                ShareFav={true}
                                                                 trialAmount={value.compensation}
                                                                 // ShareFav="false"
                                                             />

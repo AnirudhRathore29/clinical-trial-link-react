@@ -110,7 +110,9 @@ const TrialClinicDetails = () => {
                         <div className="row">
                             <div className="col-lg-8">
                                 <div className="trialClinic-detail-bx">
-                                    <h1> {patientClinicDetails.data.clinic_name} <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                    <h1> {patientClinicDetails.data.clinic_name} 
+                                    {/* <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button> */}
+                                    </h1>
                                     <div className="trialClinic-location">
                                         <span><box-icon name='map' color="#356AA0"></box-icon>  {patientClinicDetails.data.address}, {patientClinicDetails.data.state_info.name} </span>
                                         <span><box-icon name='map-alt' color="#356AA0"></box-icon> {patientClinicDetails.data.distance && patientClinicDetails.data.distance.toFixed(3)} Mi</span>
@@ -189,6 +191,7 @@ const TrialClinicDetails = () => {
                                                             }
                                                             onClickFav={() => MyFavTrial(value.id)}
                                                             iconType={value.is_favourite === 1 ? "solid" : null}
+                                                            ShareFav={true}
                                                             id={patientClinicDetails.data.id}
                                                         />
                                                     </React.Fragment>

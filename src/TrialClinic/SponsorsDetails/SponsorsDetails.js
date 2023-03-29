@@ -117,7 +117,9 @@ const ClinicSponsorsDetails = () => {
                         <div className="row">
                             <div className="col-lg-8">
                                 <div className="trialClinic-detail-bx">
-                                    <h1>{sponsoreDetails.data.sponsor_name}<button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button></h1>
+                                    <h1>{sponsoreDetails.data.sponsor_name} 
+                                    {/* <button className="share-btn"><box-icon name='share-alt' type='solid' color="#356AA0"></box-icon></button> */}
+                                    </h1>
                                     <div className="trialClinic-location">
                                         <span><box-icon name='map' color="#356AA0"></box-icon> {sponsoreDetails.data.address}, {sponsoreDetails.data.state_info.name}</span>
                                         <span><box-icon name='map-alt' color="#356AA0"></box-icon> {sponsoreDetails.data.distance && sponsoreDetails.data.distance.toFixed(3)} Mi</span>
@@ -191,6 +193,7 @@ const ClinicSponsorsDetails = () => {
                                                                     <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Close</span>
                                                             }
                                                             id={sponsoreDetails.data.id}
+                                                            ShareFav={true}
                                                         />
                                                     </React.Fragment>
                                                 )
