@@ -28,6 +28,7 @@ const SponsorTrialRequests = () => {
     const [loadMoreData, setLoadMoreData] = useState(1);
     const [clickStatusReject, setClickStatusReject] = useState(false)
 
+    console.log("requestDetailSelector", requestDetailSelector);
 
     useEffect(() => {
         requestDetailSelector !== undefined && setRequestDetailData(requestDetailSelector.data)
@@ -54,7 +55,11 @@ const SponsorTrialRequests = () => {
         if (status === "1") {
             history.push({
                 pathname: "/trial-sponsors/payment",
-                state: { trial_clinic_appointment_id: id, status }
+                state: {
+                    trial_clinic_appointment_id: id, status,
+                    isClinicBankDetailSet: requestDetailSelector?.data.isClinicBankDetailSet,
+                    isSponsorBankDetailSet: requestDetailSelector?.data.isSponsorBankDetailSet
+                }
             })
         } else {
             dispatch(TrialRequestAppStatusUpdateAction({ trial_clinic_appointment_id: id, status }))

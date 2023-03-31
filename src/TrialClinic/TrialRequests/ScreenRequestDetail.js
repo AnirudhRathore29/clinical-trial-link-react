@@ -19,23 +19,14 @@ const ClinicTrialScreenRequestDetail = (props) => {
     const loadingSelector = useSelector(state => state.trial_clinic)
     const screenPatientDetail = useSelector(state => state.trial_clinic.new_screen_trial_detail.data)
 
-    const [addVisitModal, setAddVisitModal] = useState(false);
-
     const [ConfirmationModal, setConfirmationModal] = useState(false);
     const [ReadMore, setReadMore] = useState();
     const [SelectedStatus, setSelectedStatus] = useState();
     const [PatientAppointmentId, setPatientAppointmentId] = useState();
-    const [startDate, setStartDate] = useState(new Date());
-    const [StatusUpdateFields, setStatusUpdateFields] = useState({
-        visit_note: "",
-        available_time: ''
-    })
 
-    console.log("StatusUpdateFields", StatusUpdateFields);
     console.log("screenPatientDetail", screenPatientDetail);
     console.log("loadingSelector", loadingSelector);
     console.log("SelectedStatus", typeof SelectedStatus);
-    console.log("startDate", startDate);
 
     const { id } = useParams()
     const dispatch = useDispatch()
@@ -44,24 +35,9 @@ const ClinicTrialScreenRequestDetail = (props) => {
         dispatch(NewScreenTrialRequestDetailAction(id))
     }, [dispatch])
 
-    const addVisitModalClose = () => {
-        setSelectedStatus(0)
-        setAddVisitModal(false)
-    }
-
     const ConfirmationModalClose = () => {
         setSelectedStatus(0)
         setConfirmationModal(false)
-    }
-
-    const onchange = (e) => {
-        const { name, value } = e.target
-        setStatusUpdateFields((preValue) => {
-            return {
-                ...preValue,
-                [name]: value
-            }
-        })
     }
 
     const OnChangeStatus = (data) => {
@@ -78,7 +54,9 @@ const ClinicTrialScreenRequestDetail = (props) => {
                 slots: screenPatientDetail?.trialAppointmentSlots,
                 PatientAppointmentId: PatientAppointmentId,
                 page: "screening",
-                paramsID: id
+                paramsID: id,
+                isClinicBankDetailSet: screenPatientDetail?.data.isClinicBankDetailSet,
+                isPatientBankDetailSet: screenPatientDetail?.data.isPatientBankDetailSet
             }
         })
     }
@@ -213,45 +191,6 @@ const ClinicTrialScreenRequestDetail = (props) => {
                     }
                 </div>
             </div>
-
-            {/* <CommonModal show={addVisitModal} onHide={addVisitModalClose} keyboard={false} size="md"
-                ModalTitle={SelectedStatus === "2" ? "Reschedule Screening" : "Trial Appointment"}
-                onClick={addVisitModalClose}
-                ModalData={
-                    <form onSubmit={addScreeningVisit} autoComplete="off">
-                        <div className='calender-outer'>
-                            <DatePicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                                minDate={moment().toDate()}
-                                inline
-                            />
-                        </div>
-                        <div className="available-time">
-                            <h2>Available Time</h2>
-                            <div className="time-row">
-                                {
-                                    screenPatientDetail && screenPatientDetail.trialAppointmentSlots.map((value, index) => {
-                                        return (
-                                            <label key={index}><input type="radio" onChange={onchange} value={value.id} name="available_time" /><span>{value.booking_slot_info.from_time} - {value.booking_slot_info.to_time}</span></label>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                        <div className='clnicaltrial-detail-ftr mt-0'>
-                            <Button
-                                isButton="true"
-                                BtnType="submit"
-                                BtnColor="primary w-100"
-                                BtnText="Confirm"
-                                hasSpinner={loadingSelector.loading}
-                                disabled={loadingSelector.loading}
-                            />
-                        </div>
-                    </form>
-                }
-            /> */}
 
             <CommonModal show={ConfirmationModal} onHide={ConfirmationModalClose} keyboard={false} size="md"
                 onClick={ConfirmationModalClose}

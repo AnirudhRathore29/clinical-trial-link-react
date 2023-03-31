@@ -68,7 +68,9 @@ const MyAppointmentsDetails = (props) => {
                 slots: AppointmentDetail?.trialAppointmentSlots,
                 PatientAppointmentId: PatientAppointmentId,
                 page: "appointment",
-                paramsID: id
+                paramsID: id,
+                isClinicBankDetailSet: AppointmentDetail?.data.isClinicBankDetailSet,
+                isPatientBankDetailSet: AppointmentDetail?.data.isPatientBankDetailSet
             }
         })
     }

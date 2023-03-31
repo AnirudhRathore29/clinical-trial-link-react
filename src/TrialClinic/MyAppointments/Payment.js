@@ -117,8 +117,14 @@ const Payment = (props) => {
                 } else {
                     setAddVisitModal(true)
                 }
-            } else {
-                toast.error("Bank option not available", { theme: "colored" });
+            } else if(props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isPatientBankDetailSet === 0) {
+                toast.error("Patient and your bank details are not added to your profile.", { theme: "colored" });
+            } else if(props?.location?.state?.isClinicBankDetailSet === 0){
+                toast.error("Please add your bank details to your profile.", { theme: "colored" });
+            } else if(props?.location?.state?.isPatientBankDetailSet === 0){
+                toast.error("Patient has not added bank details to the profile.", { theme: "colored" });
+            } else if(props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isPatientBankDetailSet === 1) {
+                toast.success("Payment done static", { theme: "colored" });
             }
         }
         else {
@@ -165,7 +171,7 @@ const Payment = (props) => {
                         {
                             paymentOption === "Bank" &&
                             <>
-                                <InputText
+                                {/* <InputText
                                     type="text"
                                     name="bank_name"
                                     placeholder="Enter Bank Name"
@@ -192,7 +198,7 @@ const Payment = (props) => {
                                     placeholder="Enter Routing Number"
                                     labelText="Routing Number"
                                     onChange={onChange}
-                                />
+                                /> */}
                             </>
                         }
                         <InputText
