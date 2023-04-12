@@ -58,7 +58,9 @@ const PhysicianTrialListing = () => {
         let data = {
             page: loadMoreData,
         }
-        dispatch(PhysicianClinicAppTrialListAction(ApiUrl, data))
+        if(id){
+            dispatch(PhysicianClinicAppTrialListAction(ApiUrl, data))
+        }
     }, [dispatch, id, loadMoreData, ApiUrl])
     useEffect(() => {
         let data = {

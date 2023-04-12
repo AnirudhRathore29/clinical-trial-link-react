@@ -37,22 +37,23 @@ const SponsorPayment = (props) => {
         });
     };
 
-    const CompletePayment = () => {
-        const ApiData = { 
-            ...props?.location?.state, 
-            amount: FieldData?.amount, 
-            paid_by: paymentOption, 
-            transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS") 
+    const CompletePayment = (e) => {
+        e.preventDefault()
+        const ApiData = {
+            ...props?.location?.state,
+            amount: FieldData?.amount,
+            paid_by: paymentOption,
+            transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS")
         }
-        if(paymentOption === "Cash"){
+        if (paymentOption === "Cash") {
             dispatch(TrialRequestAppStatusUpdateAction(ApiData))
-        } else if(props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
-            toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000});
-        } else if(props?.location?.state?.isClinicBankDetailSet === 0){
-            toast.error("Clinic has not added bank details to the profile.", { theme: "colored", autoClose: 5000});
-        } else if(props?.location?.state?.isSponsorBankDetailSet === 0){
-            toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000});
-        } else if(props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isSponsorBankDetailSet === 1) {
+        } else if (props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
+            toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000 });
+        } else if (props?.location?.state?.isClinicBankDetailSet === 0) {
+            toast.error("Clinic has not added bank details to the profile.", { theme: "colored", autoClose: 5000 });
+        } else if (props?.location?.state?.isSponsorBankDetailSet === 0) {
+            toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000 });
+        } else if (props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isSponsorBankDetailSet === 1) {
             dispatch(TrialRequestAppStatusUpdateAction(ApiData))
         }
     }
@@ -61,10 +62,10 @@ const SponsorPayment = (props) => {
 
     useEffect(() => {
         if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
-            toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored", autoClose: 5000})
-            history.push("/trial-sponsors/trial-requests")
+            toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored", autoClose: 5000 })
+            history.replace({ pathname: "/trial-sponsors/trial-requests", state:{}});
         } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
-            toast.error(requestStatusSelector.error.message, { theme: "colored", autoClose: 5000});
+            toast.error(requestStatusSelector.error.message, { theme: "colored", autoClose: 5000 });
         }
     }, [requestStatusSelector])
     return (
@@ -82,8 +83,8 @@ const SponsorPayment = (props) => {
                         </div>
                         {
                             paymentOption === "Bank" &&
-                                <>
-                                    {/* <InputText
+                            <>
+                                {/* <InputText
                                         type="text"
                                         name="bank_name"
                                         placeholder="Enter Bank Name"
@@ -111,24 +112,25 @@ const SponsorPayment = (props) => {
                                         labelText="Routing Number"
                                         onChange={onChange}
                                     /> */}
-                                </>
+                            </>
                         }
-                        <InputText
-                            type="text"
-                            name="amount"
-                            placeholder="Enter Amount"
-                            labelText="Amount ($)"
-                            onChange={onChange}
-                        />
-                        <Button
-                            isButton="true"
-                            BtnType="submit"
-                            BtnColor="primary w-100"
-                            BtnText="Pay"
-                            hasSpinner={requestStatusSelector?.loading}
-                            disabled={requestStatusSelector?.loading}
-                            onClick={CompletePayment}
-                        />
+                        <form onSubmit={CompletePayment}>
+                            <InputText
+                                type="text"
+                                name="amount"
+                                placeholder="Enter Amount"
+                                labelText="Amount ($)"
+                                onChange={onChange}
+                            />
+                            <Button
+                                isButton="true"
+                                BtnType="submit"
+                                BtnColor="primary w-100"
+                                BtnText="Pay"
+                                hasSpinner={requestStatusSelector?.loading}
+                                disabled={requestStatusSelector?.loading}
+                            />
+                        </form>
                     </div>
                 </div>
             </div>

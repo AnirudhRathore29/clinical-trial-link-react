@@ -103,7 +103,9 @@ const ClinicSponsorsListing = () => {
     }
 
     useEffect(() => {
-        dispatch(SponsorListAction({ page: loadMoreData, }))
+        if(!location?.search){
+            dispatch(SponsorListAction({ page: loadMoreData, }))
+        }
     }, [dispatch, loadMoreData])
     useEffect(() => {
         setsponsoreListFilter({

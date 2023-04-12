@@ -104,7 +104,9 @@ const SponsorsClinicListing = () => {
         })
     }
     useEffect(() => {
-        dispatch(TrialClinicListAction({ page: loadMoreData}))
+        if(!location?.search){
+            dispatch(TrialClinicListAction({ page: loadMoreData}))
+        }
     }, [dispatch, loadMoreData])
 
     useEffect(() => {

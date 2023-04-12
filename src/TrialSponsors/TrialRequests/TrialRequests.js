@@ -29,6 +29,7 @@ const SponsorTrialRequests = () => {
     const [clickStatusReject, setClickStatusReject] = useState(false)
 
     console.log("requestDetailSelector", requestDetailSelector);
+    console.log("historyReq", history);
 
     useEffect(() => {
         requestDetailSelector !== undefined && setRequestDetailData(requestDetailSelector.data)
@@ -74,6 +75,7 @@ const SponsorTrialRequests = () => {
                 setShow(false);
                 setClickStatusReject(false)
                 setRequestDetailData(undefined)
+                history.replace({ state: {} })
                 dispatch(NewTrialRequestAction({ page: loadMoreData }))
             } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
                 toast.error(requestStatusSelector.error.message, { theme: "colored", autoClose: 5000});

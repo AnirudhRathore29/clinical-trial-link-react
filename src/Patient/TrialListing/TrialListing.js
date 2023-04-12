@@ -41,6 +41,9 @@ const PatientTrialListing = () => {
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
 
+    console.log("TrialListState", TrialListState);
+    console.log("PatientTrialListSelector", PatientTrialListSelector);
+
     useEffect(() => {
         setViewTrialDetails(viewTrialDetailSelector)
         return () => { setViewTrialDetails(undefined) }
@@ -64,7 +67,9 @@ const PatientTrialListing = () => {
         let data = {
             page: loadMoreData
         }
-        dispatch(PatientClinicAppTrialListAction(ApiUrl, data))
+        if(id){
+            dispatch(PatientClinicAppTrialListAction(ApiUrl, data))
+        }
     }, [dispatch, id, loadMoreData, ApiUrl])
     
     useEffect(() => {
