@@ -110,7 +110,7 @@ const Payment = (props) => {
         if(data){
             setEndStudy(true)
         }
-        if (StatusUpdateFields?.amount !== '') {
+        if (StatusUpdateFields?.amount.trim()) {
             if (paymentOption === "Cash") {
                 if (status === "1" || data === "endStudy") {
                     setCancelReasonModal(true)

@@ -22,7 +22,9 @@ const SponsorPayment = (props) => {
     const requestStatusSelector = useSelector(state => state.My_trials)
 
     const [paymentOption, setPaymentOption] = useState("Cash");
-    const [FieldData, setFieldData] = useState({});
+    const [FieldData, setFieldData] = useState({
+        amount: ''
+    });
 
     console.log("props?.location?.state", props?.location?.state);
     console.log("FieldData", FieldData);
@@ -45,16 +47,21 @@ const SponsorPayment = (props) => {
             paid_by: paymentOption,
             transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS")
         }
-        if (paymentOption === "Cash") {
-            dispatch(TrialRequestAppStatusUpdateAction(ApiData))
-        } else if (props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
-            toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000 });
-        } else if (props?.location?.state?.isClinicBankDetailSet === 0) {
-            toast.error("Clinic has not added bank details to the profile.", { theme: "colored", autoClose: 5000 });
-        } else if (props?.location?.state?.isSponsorBankDetailSet === 0) {
-            toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000 });
-        } else if (props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isSponsorBankDetailSet === 1) {
-            dispatch(TrialRequestAppStatusUpdateAction(ApiData))
+        if (FieldData?.amount.trim()) {
+            if (paymentOption === "Cash") {
+                dispatch(TrialRequestAppStatusUpdateAction(ApiData))
+            } else if (props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
+                toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000 });
+            } else if (props?.location?.state?.isClinicBankDetailSet === 0) {
+                toast.error("Clinic has not added bank details to the profile.", { theme: "colored", autoClose: 5000 });
+            } else if (props?.location?.state?.isSponsorBankDetailSet === 0) {
+                toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000 });
+            } else if (props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isSponsorBankDetailSet === 1) {
+                dispatch(TrialRequestAppStatusUpdateAction(ApiData))
+            }
+        }
+        else {
+            toast.error("Please add amount first!", { theme: "colored", autoClose: 5000});
         }
     }
 
