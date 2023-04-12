@@ -15,7 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { db, getTokenFunc } from "../../../utils/Firebase";
 
 var jwt = require('jsonwebtoken');
-toast.configure();
+// toast.configure();
 const Header = (props, { colorHeader, headerColor }) => {
     const [sideMenu, setSideMenu] = useState(false);
     const [AllNotification, setAllNotification] = useState(undefined);

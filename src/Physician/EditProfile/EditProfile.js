@@ -20,7 +20,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { authHeader } from "../../redux/actions/authHeader";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 var specialityListAPI = []
 
 const PhysicianEditProfile = () => {
@@ -121,7 +121,7 @@ const PhysicianEditProfile = () => {
                     };
                     setBinary(binaryData[0])
                 } else {
-                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored", autoClose: 5000});
                 }
             }
         }
@@ -167,13 +167,13 @@ const PhysicianEditProfile = () => {
         const isLastNameVaild = isValidOnlyLetters(value.last_name, "last name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         if (!isFirstNameVaild.status) {
-            toast.error(isFirstNameVaild.message, { theme: "colored" })
+            toast.error(isFirstNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isLastNameVaild.status) {
-            toast.error(isLastNameVaild.message, { theme: "colored" })
+            toast.error(isLastNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isZipcodeVaild.status) {
-            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            toast.error(isZipcodeVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true
@@ -214,11 +214,11 @@ const PhysicianEditProfile = () => {
     useEffect(() => {
         if (profileSubmitClick) {
             if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored" })
+                toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored", autoClose: 5000})
                 history.push("/physician/dashboard")
                 dispatch(ProfileAction())
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
+                toast.error(UpdateProfileSelector.error.message, { theme: "colored", autoClose: 5000})
                 setProfileSubmitClick(false)
             }
         }

@@ -39,14 +39,14 @@ const TrialClinic = () => {
     useEffect(() => {
         if (submitClick === true) {
             if (Object.keys(trialClinicSelector.auth.user).length !== 0 && trialClinicSelector.auth.loading === false) {
-                toast.success(trialClinicSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(trialClinicSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push({
                     pathname: '/verify-email',
                     state: trialClinicSelector.auth.user.data.data
                 });
             } else if (Object.keys(trialClinicSelector.auth.error).length !== 0 && trialClinicSelector.auth.loading === false) {
                 let err = trialClinicSelector.auth?.error?.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
             }
         }
     }, [trialClinicSelector, submitClick, history]);
@@ -67,13 +67,13 @@ const TrialClinic = () => {
         const isEmailVaild = isValidEmailAddress(value.email);
         const isPasswordVaild = isValidPassword(value.password);
         if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
+            toast.error(isEmailVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPhoneVaild.status) {
-            toast.error(isPhoneVaild.message, { theme: "colored" })
+            toast.error(isPhoneVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPasswordVaild.status) {
-            toast.error(isPasswordVaild.message, { theme: "colored" })
+            toast.error(isPasswordVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

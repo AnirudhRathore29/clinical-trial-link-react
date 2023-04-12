@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CryptoJS from 'crypto-js';
 
 
-toast.configure();
+// toast.configure();
 
 
 const SponsorsMyChats = (props) => {
@@ -199,7 +199,7 @@ const SponsorsMyChats = (props) => {
                         attachmentInput.current.value = ""
                         setImgUrl(downloadURL)
                         setProgresspercent(null)
-                        toast.success("File uploaded!", { theme: "colored" })
+                        toast.success("File uploaded!", { theme: "colored", autoClose: 5000})
                     });
                 }
             );
@@ -305,10 +305,14 @@ const SponsorsMyChats = (props) => {
 
     const decryptMessage = (text) => {
         console.log("originalTextText", text);
-        var bytes  = CryptoJS.AES.decrypt(text.toString(), process.env.REACT_APP_SECRET_KEY);
-        var originalText = bytes.toString(CryptoJS.enc.Utf8);
-        console.log("originalText", originalText);
-        return originalText.replace(/['"]+/g, '')
+        if(text){
+            var bytes  = CryptoJS.AES.decrypt(text?.toString(), process.env.REACT_APP_SECRET_KEY);
+            var originalText = bytes?.toString(CryptoJS.enc.Utf8);
+            console.log("originalText", originalText);
+            return originalText.replace(/['"]+/g, '')
+        } else {
+            return text
+        }
     }
 
     const sendNotification = (data) => {
@@ -400,7 +404,7 @@ const SponsorsMyChats = (props) => {
                                     {setDateValue(item, index)}
                                     <div className={`message ${item.reciverId.toString() !== currentUserDetail.id.toString() ? 'fromme' : ''}`}>
                                         <div className="content">
-                                            {typeof item?.photoUrl === "string" && "jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) ? <img src={item?.photoUrl} alt={item?.photoUrl} /> :
+                                            {typeof item?.photoUrl === "string" && "jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) ? <img src={item?.photoUrl} alt="Photo" /> :
                                                 typeof item?.photoUrl === "string" && !"jpeg, jpg, png".includes(item?.photoUrl?.split('.')?.pop()?.split('?')[0]) &&
                                                 <div className='fileInChat'>
                                                     <h2><i>{item?.photoUrl?.split('%')?.pop()?.split('?')[0]}</i></h2>

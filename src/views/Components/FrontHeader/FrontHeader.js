@@ -6,7 +6,7 @@ import "./FrontHeader.css";
 import { connect, useDispatch } from "react-redux";
 import { LogoutAction } from "../../../redux/actions/authAction";
 
-toast.configure();
+// toast.configure();
 var jwt = require('jsonwebtoken');
 const Header = (props) => {
     const dispatch = useDispatch()

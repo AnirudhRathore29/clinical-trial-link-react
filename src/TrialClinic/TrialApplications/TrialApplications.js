@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { InputText } from '../../views/Components/Common/Inputs/Inputs';
 import { useLocation } from 'react-router-dom';
 
-toast.configure();
+// toast.configure();
 const ClinicTrialApplication = () => {
     const dispatch = useDispatch();
     const location = useLocation()
@@ -121,9 +121,9 @@ const ClinicTrialApplication = () => {
                 handleClose()
                 setRecruitingClickBtn(false)
                 setRecruitingCompletedClickBtn(false)
-                toast.success(trialAppStatusSelector.trial_status.data.message, { theme: "colored" })
+                toast.success(trialAppStatusSelector.trial_status.data.message, { theme: "colored", autoClose: 5000})
             } else if (Object.keys(trialAppStatusSelector.error).length > 0 && !trialAppStatusSelector.loading) {
-                toast.error(trialAppStatusSelector.error.message, { theme: "colored" })
+                toast.error(trialAppStatusSelector.error.message, { theme: "colored", autoClose: 5000})
                 setStatusLoading(false)
                 setRecruitingClickBtn(false)
                 setRecruitingCompletedClickBtn(false)
@@ -142,7 +142,7 @@ const ClinicTrialApplication = () => {
             compensation: Formdata.compensation
         }
         if(Formdata.compensation === "" && trialAppDetailData?.data?.is_recruiting !== 1){
-            toast.error("Please add compensation!", { theme: "colored" })
+            toast.error("Please add compensation!", { theme: "colored", autoClose: 5000})
             return
         }
         dispatch(TrialApplicationsStatusUpdateAction(data))

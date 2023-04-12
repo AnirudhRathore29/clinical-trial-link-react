@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 
 export function Request() {
     return {

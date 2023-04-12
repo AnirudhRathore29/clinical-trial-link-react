@@ -20,7 +20,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import "./../../Patient/EditProfile/EditProfile.css"
 
-toast.configure();
+// toast.configure();
 var jwt = require('jsonwebtoken');
 const ClinicCompleteProfile = (props) => {
     const dispatch = useDispatch();
@@ -141,11 +141,11 @@ const ClinicCompleteProfile = (props) => {
     useEffect(() => {
         if (CPSubmitClick === true) {
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
-                toast.success(profileComSelector.data.data.message, { theme: "colored" })
+                toast.success(profileComSelector.data.data.message, { theme: "colored", autoClose: 5000})
                 history.push("/trial-sponsors/dashboard");
             } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
                 let err = profileComSelector.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setCPSubmitClick(false)
             }
         }
@@ -155,10 +155,10 @@ const ClinicCompleteProfile = (props) => {
         const isSponsorNameVaild = isValidOnlyLetters(value.sponsor_name, "sponsor name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         if (!isSponsorNameVaild.status) {
-            toast.error(isSponsorNameVaild.message, { theme: "colored" })
+            toast.error(isSponsorNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isZipcodeVaild.status) {
-            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            toast.error(isZipcodeVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

@@ -12,7 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-toast.configure();
+// toast.configure();
 
 /* Layout */
 const FrontLayout = React.lazy(() => import('./containers/FrontLayout'));
@@ -53,7 +53,7 @@ function App() {
 		}
 	}).catch(err => console.log('failed: ', err));
 
-	const Msg = ({ closeToast, toastProps }) => (
+	const Msg = () => (
 		<div className='chatNotification'>
 			<div className='icon'><box-icon name='message-rounded-dots' color="#ffffff" size="26px"></box-icon></div>
 			<Link to={`/${pathname.split('/')[1]}/my-chats`}>
@@ -66,7 +66,8 @@ function App() {
 	useEffect(() => {
 		if(notification){
 			toast.info(<Msg />, {
-				icon: false
+				icon: false,
+				autoClose: 5000
 			})
 		}
 	}, [notification])

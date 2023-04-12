@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { isValidPassword } from "../../views/Components/Validation/Validation";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 const ChangePassword = () => {
     const [Password, SetPassword] = useState(false);
     const [oldPassword, SetOldPassword] = useState(false);
@@ -33,10 +33,10 @@ const ChangePassword = () => {
         const isPasswordVaild = isValidPassword(Formdata.new_password)
 
         if ((Formdata.new_password !== Formdata.confirm_password) && (Formdata.new_password !== "" && Formdata.confirm_password !== "")) {
-            toast.error("Confirm password is not matched! ", { theme: "colored" })
+            toast.error("Confirm password is not matched! ", { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPasswordVaild.status) {
-            toast.error(isPasswordVaild.message, { theme: "colored" })
+            toast.error(isPasswordVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true
@@ -56,7 +56,7 @@ const ChangePassword = () => {
                 .then((response) => response.json())
                 .then((response) => {
                     if (response.status_code === 200) {
-                        toast.success(response.message, { theme: "colored" })
+                        toast.success(response.message, { theme: "colored", autoClose: 5000})
                         setFormdata({
                             old_password: "",
                             new_password: "",
@@ -64,7 +64,7 @@ const ChangePassword = () => {
                         })
                         setLoading(false)
                     } else {
-                        toast.error(response.message, { theme: "colored" })
+                        toast.error(response.message, { theme: "colored", autoClose: 5000})
                         setLoading(false)
                     }
                     console.log("response", response);

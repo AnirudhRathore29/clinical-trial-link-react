@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Download } from '../../views/Components/Common/Download/Download';
 
-toast.configure();
+// toast.configure();
 
 const ManageAllPatient = () => {
     const loadingSelector = useSelector(state => state.trial_clinic)
@@ -71,7 +71,7 @@ const ManageAllPatient = () => {
     const FilterHandle = (e) => {
         e.preventDefault()
         if (formData.to_age_filter < formData.from_age_filter) {
-            toast.error("Max age should be greater then min age", { theme: "colored" })
+            toast.error("Max age should be greater then min age", { theme: "colored", autoClose: 5000})
         } else {
             dispatch(PhysicianManageAllPatientListAction({ page: loadMoreData, ...formData }))
         }

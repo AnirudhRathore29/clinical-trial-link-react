@@ -21,7 +21,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 var jwt = require('jsonwebtoken');
 const ClinicCompleteProfile = () => {
     const dispatch = useDispatch();
@@ -168,7 +168,7 @@ const ClinicCompleteProfile = () => {
                 setUploadFile(uploadedFile);
             }
         } else (
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
         )
         e.target.value = null;
     }
@@ -176,11 +176,11 @@ const ClinicCompleteProfile = () => {
     useEffect(() => {
         if (CPSubmitClick === true) {
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
-                toast.success(profileComSelector.data.data.message, { theme: "colored" })
+                toast.success(profileComSelector.data.data.message, { theme: "colored", autoClose: 5000})
                 history.push("/trial-clinic/dashboard");
             } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
                 let err = profileComSelector.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setCPSubmitClick(false)
             }
         }
@@ -190,13 +190,13 @@ const ClinicCompleteProfile = () => {
         const isClinicNameVaild = isValidOnlyLetters(value.clinic_name, "clinic name")
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         if (!isClinicNameVaild.status) {
-            toast.error(isClinicNameVaild.message, { theme: "colored" })
+            toast.error(isClinicNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isZipcodeVaild.status) {
-            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            toast.error(isZipcodeVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (file?.length > 5) {
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
             return false
         }
         return true
@@ -236,7 +236,7 @@ const ClinicCompleteProfile = () => {
             }
         }
         else (
-            toast.error("Document is required", { theme: "colored" })
+            toast.error("Document is required", { theme: "colored", autoClose: 5000})
         )
     }
 

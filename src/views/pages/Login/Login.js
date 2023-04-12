@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CommonModal from './../../Components/Common/Modal/Modal';
 import { isValidEmailAddress, isValidPassword } from "./../../Components/Validation/Validation"
 
-toast.configure();
+// toast.configure();
 const Login = (props) => {
     let history = useHistory();
     const dispatch = useDispatch()
@@ -56,7 +56,7 @@ const Login = (props) => {
         if (submitClick === true) {
             if (Object.keys(loginSelector.auth.user).length !== 0 && loginSelector.auth.loading === false) {
                 if (loginSelector.auth.user.data) {
-                    toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
+                    toast.success(loginSelector.auth.user.data.message, { theme: "colored", autoClose: 5000,})
                     if (loginSelector.auth.user.data?.data?.role === 2) {
                         if (loginSelector.auth.user.data.data.isProfileCompleted) {
                             history.push('/patient/dashboard');
@@ -85,7 +85,7 @@ const Login = (props) => {
                 }
             } else if (Object.keys(loginSelector.auth.error).length !== 0 && loginSelector.auth.loading === false) {
                 let err = loginSelector.auth.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 if (loginSelector.auth.error.isEmailNotVerifiedError === 1) {
                     setEmailNotVerified(true)
                 }
@@ -101,7 +101,7 @@ const Login = (props) => {
 
         if (clickVerifyEmail === true) {
             if (Object.keys(loginSelector.auth.user).length !== 0 && loginSelector.auth.loading === false) {
-                toast.success(loginSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(loginSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push({
                     pathname: '/verify-email',
                     state: {
@@ -110,7 +110,7 @@ const Login = (props) => {
                 });
             } else if (Object.keys(loginSelector.auth.error).length !== 0 && loginSelector.auth.loading === false) {
                 let err = loginSelector.auth.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setClickVerifyEmail(false)
             }
         }
@@ -121,10 +121,10 @@ const Login = (props) => {
         const isEmailVaild = isValidEmailAddress(value.email);
         const isPasswordVaild = isValidPassword(value.password);
         if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
+            toast.error(isEmailVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPasswordVaild.status) {
-            toast.error(isPasswordVaild.message, { theme: "colored" })
+            toast.error(isPasswordVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

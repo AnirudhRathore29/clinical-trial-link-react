@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "./ContactUs.css";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 
 const ContactUs = () => {
     const ContactPageDetailSelector = useSelector(state => state.cms_content.contact_page_detail.data)
@@ -49,7 +49,7 @@ const ContactUs = () => {
             .then(response => {
                 setLoader(false)
                 if (response.status_code === 200) {
-                    toast.success(response.message, { theme: "colored" })
+                    toast.success(response.message, { theme: "colored", autoClose: 5000})
                     setFormData({
                         first_name: '',
                         last_name: '',
@@ -58,7 +58,7 @@ const ContactUs = () => {
                         message: ''
                     })
                 } else {
-                    toast.error(response.message, { theme: "colored" })
+                    toast.error(response.message, { theme: "colored", autoClose: 5000})
                 }
             })
             .catch((error) => {

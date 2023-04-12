@@ -24,7 +24,7 @@ import HandleError from "./HandleError";
 import "react-toastify/dist/ReactToastify.css";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 export function isLoading() {
     return {
         type: LOADING
@@ -106,11 +106,11 @@ export const CreateTrialsAction = (FieldData) => async (dispatch) => {
         })
         .then(response => {
             dispatch(CreateTrialSuccess(response));
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));
-            toast.error(error.response.data.message, { theme: "colored" })
+            toast.error(error.response.data.message, { theme: "colored", autoClose: 5000})
             HandleError(error.response.data)
         });
 }
@@ -123,11 +123,11 @@ export const SendTrialInvitation = (FieldData) => async (dispatch) => {
         })
         .then(response => {
             dispatch(CreateTrialSuccess(response));
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch(CreateTrialError(error.response.data));
-            toast.error(error.response.data.message, { theme: "colored" })
+            toast.error(error.response.data.message, { theme: "colored", autoClose: 5000})
             HandleError(error.response.data)
         });
 }
@@ -151,12 +151,12 @@ export const TrialRecruitingUpdateAction = (data) => async (dispatch) => {
             headers: authHeader()
         })
         .then(response => {
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
             dispatch(RecruitingStatusSuccess(response));
         })
         .catch(error => {
             dispatch(RecruitingStatusError(error.response.data));
-            toast.error(error.response.data.message, { theme: "colored" })
+            toast.error(error.response.data.message, { theme: "colored", autoClose: 5000})
             HandleError(error.response.data)
         });
 }

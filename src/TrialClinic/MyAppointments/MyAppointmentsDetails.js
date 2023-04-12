@@ -18,7 +18,7 @@ import { GetCancelReasonsAction } from '../../redux/actions/commonAction';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 
 const MyAppointmentsDetails = (props) => {
     const history = useHistory()

@@ -191,7 +191,6 @@ const TrialClinicDetails = () => {
                                                             }
                                                             onClickFav={() => MyFavTrial(value.id)}
                                                             iconType={value.is_favourite === 1 ? "solid" : null}
-                                                            ShareFav={true}
                                                             id={patientClinicDetails.data.id}
                                                         />
                                                     </React.Fragment>

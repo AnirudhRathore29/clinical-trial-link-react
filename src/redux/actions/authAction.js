@@ -8,7 +8,7 @@ import HandleError from "./HandleError";
 import { Encryption } from "../../utils/PayloadEncryption";
 
 
-toast.configure();
+// // toast.configure();
 var jwt = require('jsonwebtoken');
 
 export const setCurrentUser = (decoded) => {
@@ -183,7 +183,7 @@ export const LogoutAction = (data) => async (dispatch) => {
             dispatch(LogoutSuccess(response));
             dispatch(setCurrentUser({}));
             localStorage.removeItem("auth_security");
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             console.log("error", error)

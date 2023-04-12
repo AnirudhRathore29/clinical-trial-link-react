@@ -10,7 +10,7 @@ import { CreateNewPassAction } from "./../../../redux/actions/authAction"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 const SetNewPassword = () => {
     const dispatch = useDispatch();
     const newPassSelector = useSelector(state => state.auth);
@@ -50,11 +50,11 @@ const SetNewPassword = () => {
     useEffect(() => {
         if (clickSubmit === true) {
             if (Object.keys(newPassSelector.user).length !== 0 && newPassSelector.loading === false) {
-                toast.success(newPassSelector.user.data.message, { theme: "colored" })
+                toast.success(newPassSelector.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push("/login");
             } else if (Object.keys(newPassSelector.error).length !== 0 && newPassSelector.loading === false) {
                 let err = newPassSelector.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setClickSubmit(false)
             }
         }

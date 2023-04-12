@@ -14,7 +14,7 @@ import moment from 'moment';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 
 const Payment = (props) => {
     const id = props?.location?.state?.AppointmentDetailId
@@ -118,17 +118,21 @@ const Payment = (props) => {
                     setAddVisitModal(true)
                 }
             } else if(props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isPatientBankDetailSet === 0) {
-                toast.error("Patient and your bank details are not added to your profile.", { theme: "colored" });
+                toast.error("Patient and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000});
             } else if(props?.location?.state?.isClinicBankDetailSet === 0){
-                toast.error("Please add your bank details to your profile.", { theme: "colored" });
+                toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000});
             } else if(props?.location?.state?.isPatientBankDetailSet === 0){
-                toast.error("Patient has not added bank details to the profile.", { theme: "colored" });
+                toast.error("Patient has not added bank details to the profile.", { theme: "colored", autoClose: 5000});
             } else if(props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isPatientBankDetailSet === 1) {
-                toast.success("Payment done static", { theme: "colored" });
+                if (status === "1" || data === "endStudy") {
+                    setCancelReasonModal(true)
+                } else {
+                    setAddVisitModal(true)
+                }
             }
         }
         else {
-            toast.error("Please add amount first!", { theme: "colored" });
+            toast.error("Please add amount first!", { theme: "colored", autoClose: 5000});
         }
     }
 

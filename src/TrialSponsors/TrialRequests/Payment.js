@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-toast.configure();
+// toast.configure();
 
 const SponsorPayment = (props) => {
     const dispatch = useDispatch();
@@ -38,16 +38,22 @@ const SponsorPayment = (props) => {
     };
 
     const CompletePayment = () => {
+        const ApiData = { 
+            ...props?.location?.state, 
+            amount: FieldData?.amount, 
+            paid_by: paymentOption, 
+            transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS") 
+        }
         if(paymentOption === "Cash"){
-            dispatch(TrialRequestAppStatusUpdateAction({ ...props?.location?.state, amount: FieldData?.amount, paid_by: paymentOption, transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS") }))
+            dispatch(TrialRequestAppStatusUpdateAction(ApiData))
         } else if(props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
-            toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored" });
+            toast.error("Clinic and your bank details are not added to your profile.", { theme: "colored", autoClose: 5000});
         } else if(props?.location?.state?.isClinicBankDetailSet === 0){
-            toast.error("Clinic has not added bank details to the profile.", { theme: "colored" });
+            toast.error("Clinic has not added bank details to the profile.", { theme: "colored", autoClose: 5000});
         } else if(props?.location?.state?.isSponsorBankDetailSet === 0){
-            toast.error("Please add your bank details to your profile.", { theme: "colored" });
+            toast.error("Please add your bank details to your profile.", { theme: "colored", autoClose: 5000});
         } else if(props?.location?.state?.isClinicBankDetailSet === 1 && props?.location?.state?.isSponsorBankDetailSet === 1) {
-            toast.success("Payment done static", { theme: "colored" });
+            dispatch(TrialRequestAppStatusUpdateAction(ApiData))
         }
     }
 
@@ -55,10 +61,10 @@ const SponsorPayment = (props) => {
 
     useEffect(() => {
         if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
-            toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
+            toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored", autoClose: 5000})
             history.push("/trial-sponsors/trial-requests")
         } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
-            toast.error(requestStatusSelector.error.message, { theme: "colored" });
+            toast.error(requestStatusSelector.error.message, { theme: "colored", autoClose: 5000});
         }
     }, [requestStatusSelector])
     return (

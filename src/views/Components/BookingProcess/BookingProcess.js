@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputText } from '../Common/Inputs/Inputs';
 
-toast.configure();
+// toast.configure();
 const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3, onlyChat, bookingSlotData, bookingId }) => {
     const dispatch = useDispatch();
     const bookingTrialSelector = useSelector(state => state.patient);
@@ -30,12 +30,13 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
     useEffect(() => {
         if (bookingSubmit) {
             if (Object.keys(bookingTrialSelector.book_appointment).length !== 0 && !bookingTrialSelector.loading) {
-                toast.success(bookingTrialSelector.book_appointment.data.message, { theme: "colored" });
+                toast.success(bookingTrialSelector.book_appointment.data.message, { theme: "colored", autoClose: 5000});
                 setThanksObj(bookingTrialSelector.book_appointment.data.data);
+                setConfirmationModal(false)
                 handleShow3();
                 setBookingSubmit(false)
             } else if (Object.keys(bookingTrialSelector.error).length !== 0 && !bookingTrialSelector.loading) {
-                toast.error(bookingTrialSelector.error.message, { theme: "colored" })
+                toast.error(bookingTrialSelector.error.message, { theme: "colored", autoClose: 5000})
                 setBookingSubmit(false)
             }
         }
@@ -59,7 +60,7 @@ const PatientBookingProcess = ({ viewDetails, show, handleClose, onClickChat, sh
             setConfirmationModal(true);
             handleClose2()
         } else {
-            toast.error("Please select booking slot!", { theme: "colored" })
+            toast.error("Please select booking slot!", { theme: "colored", autoClose: 5000})
         }
     }
 

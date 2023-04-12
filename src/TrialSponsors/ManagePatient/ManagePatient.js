@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Form } from 'react-bootstrap';
 import { Download } from '../../views/Components/Common/Download/Download';
 
-toast.configure();
+// toast.configure();
 
 const SponsorsManagePatient = () => {
     const loadingSelector = useSelector(state => state.My_trials)
@@ -72,7 +72,7 @@ const SponsorsManagePatient = () => {
     const FilterHandle = (e) => {
         e.preventDefault()
         if(formData.to_age_filter < formData.from_age_filter){
-            toast.error("Max age should be greater then min age", { theme: "colored" })
+            toast.error("Max age should be greater then min age", { theme: "colored", autoClose: 5000})
         } else {
             setDownloadDocData(formData)
             dispatch(SponsorManagePatientListAction({ page: loadMoreData, ...formData}))

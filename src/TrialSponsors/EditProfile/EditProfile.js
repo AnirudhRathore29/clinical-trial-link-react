@@ -23,7 +23,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 const conditionListAPI = []
 const specialityListAPI = []
 const SponsorsEditProfile = () => {
@@ -189,7 +189,7 @@ const SponsorsEditProfile = () => {
                     };
                     setBinary(binaryData[0])
                 } else {
-                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored", autoClose: 5000});
                 }
             }
         }
@@ -223,7 +223,7 @@ const SponsorsEditProfile = () => {
                 };
                 setListingBinary(listingBinaryData[0])
             } else {
-                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored", autoClose: 5000});
             }
         }
     }
@@ -231,7 +231,7 @@ const SponsorsEditProfile = () => {
     //form validation handler
     const validate = (values) => {
         if (!ALLOW_LETTERS_ONLY.test(values.sponsor_name)) {
-            toast.error("The sponsor name must not contain numbers or special characters.", { theme: "colored" })
+            toast.error("The sponsor name must not contain numbers or special characters.", { theme: "colored", autoClose: 5000})
             return false;
         }
         return true;
@@ -283,11 +283,11 @@ const SponsorsEditProfile = () => {
     useEffect(() => {
         if (profileSubmitClick) {
             if (Object.keys(UpdateProfileSelector.profile_edit).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored" })
+                toast.success(UpdateProfileSelector.profile_edit.message, { theme: "colored", autoClose: 5000})
                 history.push("/trial-sponsors/dashboard")
                 dispatch(ProfileAction())
             } else if (Object.keys(UpdateProfileSelector.error).length !== 0 && !UpdateProfileSelector.loading) {
-                toast.error(UpdateProfileSelector.error.message, { theme: "colored" })
+                toast.error(UpdateProfileSelector.error.message, { theme: "colored", autoClose: 5000})
                 setProfileSubmitClick(false)
             }
         }

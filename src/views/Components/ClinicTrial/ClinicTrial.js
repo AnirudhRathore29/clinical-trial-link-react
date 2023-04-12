@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Encryption } from '../../../utils/PayloadEncryption';
 
-toast.configure();
+// toast.configure();
 
 var jwt = require('jsonwebtoken');
 
@@ -47,6 +47,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
                     setTimeout(() => {
                         setTooltip(false)
                     }, 1000);
+                    toast.success("Only that patient can see this trial, whose specialty can be match with this trail specialty.", { theme: "colored", autoClose: 5000})
                 })
                 .catch(() => {
                     alert("something went wrong");
@@ -70,7 +71,7 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
 
     const CloseReferTrialModal = () => {
         setReferTrialModal(false)
-        setFieldData({...fieldData, patient_ids: []})
+        setFieldData({ ...fieldData, patient_ids: [] })
     }
 
     const OnChange = (e) => {
@@ -84,23 +85,26 @@ const ClinicTrial = ({ onClick, onClickFav, id, title, description, status, icon
         const requestOptions = {
             method: 'POST',
             headers: authHeader(),
-            body: JSON.stringify({body: Encryption({
-                trial_clinic_appointment_id: trialId,
-                patient_ids: patientIds
-            })})
+            body: JSON.stringify({
+                body: Encryption({
+                    trial_clinic_appointment_id: trialId,
+                    patient_ids: patientIds
+                })
+            })
         };
         fetch(getCurrentHost() + `/physician/send-referal-mail`, requestOptions)
             .then(data => data.json())
             .then((response) => {
                 setFieldData({ ...fieldData, loading: false })
-                
+
                 console.log("responseresponse", response);
-                if(response.status){
-                    toast.success(response.message, { theme: "colored" })
+                if (response.status) {
+                    toast.success(response.message, { theme: "colored", autoClose: 5000})
                     setReferTrialModal(false)
-                    setFieldData({...fieldData, patient_ids: []})
+                    setFieldData({ ...fieldData, patient_ids: [] })
                 } else {
-                    toast.error(response.message, { theme: "colored" })
+                    // 400 bad request not going in catch need to check from backend side
+                    toast.error(response.message, { theme: "colored", autoClose: 5000})
                 }
             })
             .catch(err => {

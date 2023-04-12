@@ -12,7 +12,7 @@ import 'boxicons';
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 
-toast.configure();
+// toast.configure();
 
 const Footer = () => {
     const dispatch = useDispatch()
@@ -41,9 +41,9 @@ const Footer = () => {
             .then(data => data.json())
             .then((response) => {
                 if(response?.status){
-                    toast.success(response.message, { theme: "colored" })
+                    toast.success(response.message, { theme: "colored", autoClose: 5000})
                 } else {
-                    toast.error(response.message, { theme: "colored" })
+                    toast.error(response.message, { theme: "colored", autoClose: 5000})
                 }
                 setLoading(false)
                 setEmail("")
@@ -51,7 +51,7 @@ const Footer = () => {
             .catch(err => {
                 setLoading(false)
                 setEmail("")
-                toast.error(err.response.message, { theme: "colored" })
+                toast.error(err.response.message, { theme: "colored", autoClose: 5000})
             })
 
     }

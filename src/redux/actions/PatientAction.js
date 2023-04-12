@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 
 export function Request() {
     return {
@@ -91,7 +91,7 @@ export const PatientMyFavTrialAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch({ type: PATIENT_MY_FAV_TRIAL_SUCCESS, payload: response });
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch({ type: PATIENT_MY_FAV_TRIAL_ERROR, payload: error.response.data });
@@ -182,7 +182,7 @@ export const CancelAppointmentAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch({ type: PATIENT_APPOINTMENT_CANCEL_SUCCESS, payload: response });
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch({ type: PATIENT_APPOINTMENT_CANCEL_ERROR, payload: error.response.data });

@@ -38,14 +38,14 @@ const PharmaCompanies = () => {
     useEffect(() => {
         if (submitClick === true) {
             if (Object.keys(pharmaSelector.auth.user).length !== 0 && pharmaSelector.auth.loading === false) {
-                toast.success(pharmaSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(pharmaSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push({
                     pathname: '/verify-email',
                     state: pharmaSelector.auth.user.data.data
                 });
             } else if (Object.keys(pharmaSelector.auth.error).length !== 0 && pharmaSelector.auth.loading === false) {
                 let err = pharmaSelector.auth?.error?.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
             }
         }
     }, [pharmaSelector, submitClick, history]);
@@ -66,13 +66,13 @@ const PharmaCompanies = () => {
         const isEmailVaild = isValidEmailAddress(value.email);
         const isPasswordVaild = isValidPassword(value.password);
         if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
+            toast.error(isEmailVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPhoneVaild.status) {
-            toast.error(isPhoneVaild.message, { theme: "colored" })
+            toast.error(isPhoneVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPasswordVaild.status) {
-            toast.error(isPasswordVaild.message, { theme: "colored" })
+            toast.error(isPasswordVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

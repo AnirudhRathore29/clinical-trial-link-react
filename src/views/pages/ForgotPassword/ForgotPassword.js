@@ -9,7 +9,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { ForgotPasswordAction } from "./../../../redux/actions/authAction"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-toast.configure();
+// toast.configure();
 
 const ForgotPassword = (props) => {
     const history = useHistory();
@@ -29,11 +29,11 @@ const ForgotPassword = (props) => {
     useEffect(() => {
         if (clickable === true) {
             if (Object.keys(ForgotSelector.auth.user).length !== 0 && ForgotSelector.auth.loading === false) {
-                toast.success(ForgotSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(ForgotSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push("/login");
             } else if (Object.keys(ForgotSelector.auth.error).length !== 0 && ForgotSelector.auth.loading === false) {
                 let err = ForgotSelector.auth.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setClickable(false)
             }
         }

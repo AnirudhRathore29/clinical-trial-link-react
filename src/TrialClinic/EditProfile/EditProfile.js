@@ -231,7 +231,7 @@ const ClinicEditProfile = () => {
                     };
                     setBinary(binaryData[0])
                 } else {
-                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+                    toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored", autoClose: 5000});
                 }
             }
         }
@@ -278,7 +278,7 @@ const ClinicEditProfile = () => {
                 };
                 setListingBinary(listingBinaryData[0])
             } else {
-                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored" });
+                toast.error("Only image with .jpeg, .jpg, .png extentions are valid.", { theme: "colored", autoClose: 5000});
             }
         }
     }
@@ -308,7 +308,7 @@ const ClinicEditProfile = () => {
             file_upload = []
             e.target.value = '';
         } else (
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
         )
         e.target.value = null;
     }
@@ -324,13 +324,13 @@ const ClinicEditProfile = () => {
         const isClinicNameVaild = isValidOnlyLetters(values.clinic_name, "clinic name")
         const isZipcodeVaild = isValidZipcode(values.zip_code)
         if (!isClinicNameVaild.status) {
-            toast.error(isClinicNameVaild.message, { theme: "colored" })
+            toast.error(isClinicNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isZipcodeVaild.status) {
-            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            toast.error(isZipcodeVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (values.documents.length > 5) {
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
             return false
         }
         return true;
@@ -395,11 +395,11 @@ const ClinicEditProfile = () => {
     useEffect(() => {
         if (profileSubmitClick) {
             if (Object.keys(profileUploadSelector.profile_edit).length !== 0 && !profileUploadSelector.loading) {
-                toast.success(profileUploadSelector.profile_edit.message, { theme: "colored" })
+                toast.success(profileUploadSelector.profile_edit.message, { theme: "colored", autoClose: 5000})
                 history.push("/trial-clinic/dashboard")
                 dispatch(ProfileAction())
             } else if (Object.keys(profileUploadSelector.error).length !== 0 && !profileUploadSelector.loading) {
-                toast.error(profileUploadSelector.error.message, { theme: "colored" })
+                toast.error(profileUploadSelector.error.message, { theme: "colored", autoClose: 5000})
                 setProfileSubmitClick(false)
             }
         }

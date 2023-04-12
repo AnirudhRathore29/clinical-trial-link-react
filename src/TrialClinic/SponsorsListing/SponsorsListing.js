@@ -15,7 +15,7 @@ import { NoDataFound } from '../../views/Components/Common/NoDataFound/NoDataFou
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
-// toast.configure();
+// // toast.configure();
 const ClinicSponsorsListing = () => {
     const dispatch = useDispatch()
     const location = useLocation()

@@ -41,14 +41,14 @@ const Physician = () => {
     useEffect(() => {
         if (submitClick === true) {
             if (Object.keys(physicianSelector.auth.user).length !== 0 && physicianSelector.auth.loading === false) {
-                toast.success(physicianSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(physicianSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
                 history.push({
                     pathname: '/verify-email',
                     state: physicianSelector.auth.user.data.data
                 });
             } else if (Object.keys(physicianSelector.auth.error).length !== 0 && physicianSelector.auth.loading === false) {
                 let err = physicianSelector.auth?.error?.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
             }
         }
     }, [physicianSelector, submitClick, history]);
@@ -71,19 +71,19 @@ const Physician = () => {
         const isLastNameVaild = isValidOnlyLetters(value.last_name, "last name")
         const isPasswordVaild = isValidPassword(value.password);
         if (!isFirstNameVaild.status) {
-            toast.error(isFirstNameVaild.message, { theme: "colored" })
+            toast.error(isFirstNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isLastNameVaild.status) {
-            toast.error(isLastNameVaild.message, { theme: "colored" })
+            toast.error(isLastNameVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isEmailVaild.status) {
-            toast.error(isEmailVaild.message, { theme: "colored" })
+            toast.error(isEmailVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPhoneVaild.status) {
-            toast.error(isPhoneVaild.message, { theme: "colored" })
+            toast.error(isPhoneVaild.message, { theme: "colored", autoClose: 5000})
             return false
         } else if (!isPasswordVaild.status) {
-            toast.error(isPasswordVaild.message, { theme: "colored" })
+            toast.error(isPasswordVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

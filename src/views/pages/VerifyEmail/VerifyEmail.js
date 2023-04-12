@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 const VerifyEmail = (props) => {
     const dispatch = useDispatch()
     const verifyEmailSelector = useSelector(state => state)
@@ -22,10 +22,10 @@ const VerifyEmail = (props) => {
     useEffect(() => {
         if (submitClick === true) {
             if (Object.keys(verifyEmailSelector.auth.user).length !== 0 && verifyEmailSelector.auth.loading === false) {
-                toast.success(verifyEmailSelector.auth.user.data.message, { theme: "colored" })
+                toast.success(verifyEmailSelector.auth.user.data.message, { theme: "colored", autoClose: 5000})
             } else if (Object.keys(verifyEmailSelector.auth.error).length !== 0 && verifyEmailSelector.auth.loading === false) {
                 let err = verifyEmailSelector.auth?.error?.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
             }
         }
     }, [verifyEmailSelector, submitClick]);

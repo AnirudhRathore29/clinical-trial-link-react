@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Encryption } from "../../utils/PayloadEncryption";
 
-toast.configure();
+// toast.configure();
 
 export function Request() {
     return {
@@ -207,11 +207,11 @@ export const NewTrialRequestStatusUpdateAction = (data) => async (dispatch) => {
         })
         .then(response => {
             dispatch({ type: NEW_TRIAL_REQUEST_STATUS_SUCCESS, payload: response });
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch({ type: NEW_TRIAL_REQUEST_STATUS_ERROR, payload: error.response.data });
-            toast.error(error.response.data.message, { theme: "colored" })
+            toast.error(error.response.data.message, { theme: "colored", autoClose: 5000})
             HandleError(error.response.data)
         });
 }
@@ -254,7 +254,7 @@ export const NewScreenTrialRequestStatusUpdateAction = (data) => async (dispatch
         })
         .then(response => {
             dispatch({ type: TRIAL_APPLICATION_STATUS_SUCCESS, payload: response });
-            toast.success(response.data.message, { theme: "colored" })
+            toast.success(response.data.message, { theme: "colored", autoClose: 5000})
         })
         .catch(error => {
             dispatch({ type: TRIAL_APPLICATION_STATUS_ERROR, payload: error.response.data });

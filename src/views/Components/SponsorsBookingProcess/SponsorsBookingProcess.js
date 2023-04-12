@@ -11,7 +11,7 @@ import { ApplyForTrialAction } from '../../../redux/actions/TrialClinicAction';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose, onClickChat, show2, handleClose2, handleShow2, show3, handleClose3, handleShow3 }) => {
     const dispatch = useDispatch();
     const applyTrialSelector = useSelector(state => state.trial_clinic);
@@ -42,10 +42,10 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
                 }
             }
             else {
-                toast.error("The Document must be a file of type: doc, pdf, docx.", { theme: "colored" });
+                toast.error("The Document must be a file of type: doc, pdf, docx.", { theme: "colored", autoClose: 5000});
             }
         } else (
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
         )
         e.target.value = null;
     }
@@ -53,14 +53,14 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
     useEffect(() => {
         if (applySubmit === true) {
             if (Object.keys(applyTrialSelector.apply_trial).length !== 0) {
-                toast.success(applyTrialSelector.apply_trial.data.message, { theme: "colored" });
+                toast.success(applyTrialSelector.apply_trial.data.message, { theme: "colored", autoClose: 5000});
                 setThanksObj(applyTrialSelector.apply_trial.data.data);
                 handleShow3();
                 setApplySubmit(false)
                 setTrialBriefIntro();
                 setUploadFile([]);
             } else if (Object.keys(applyTrialSelector.error).length !== 0) {
-                toast.error(applyTrialSelector.error.message, { theme: "colored" })
+                toast.error(applyTrialSelector.error.message, { theme: "colored", autoClose: 5000})
                 setApplySubmit(false)
             }
         }
@@ -75,15 +75,15 @@ const ClinicSponsorsBookingProcess = ({ trialId, trialDetails, show, handleClose
 
     const Validation = (intro, file) => {
         // if (file.length === 0) {
-        //     toast.error(`The Document field is required.`, { theme: "colored" })
+        //     toast.error(`The Document field is required.`, { theme: "colored", autoClose: 5000})
         //     return false
         // } 
         if (file.length > totalFiles) {
-            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored" })
+            toast.error(`You can't upload more then ${totalFiles} files`, { theme: "colored", autoClose: 5000})
             return false
         }
         if (intro === undefined || intro.length === 0) {
-            toast.error(`The Brief intro field is required.`, { theme: "colored" })
+            toast.error(`The Brief intro field is required.`, { theme: "colored", autoClose: 5000})
             return false
         }
         return true

@@ -13,7 +13,7 @@ import { NewTrialRequestAction, TrialRequestDetailAction, TrialRequestAppStatusU
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
+// toast.configure();
 const SponsorTrialRequests = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -70,13 +70,13 @@ const SponsorTrialRequests = () => {
     useEffect(() => {
         if (clickStatusReject) {
             if (Object.keys(requestStatusSelector.new_request_status).length > 0 && !requestStatusSelector.loading) {
-                toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored" })
+                toast.success(requestStatusSelector.new_request_status.data.message, { theme: "colored", autoClose: 5000})
                 setShow(false);
                 setClickStatusReject(false)
                 setRequestDetailData(undefined)
                 dispatch(NewTrialRequestAction({ page: loadMoreData }))
             } else if (Object.keys(requestStatusSelector.error).length > 0 && !requestStatusSelector.loading) {
-                toast.error(requestStatusSelector.error.message, { theme: "colored" });
+                toast.error(requestStatusSelector.error.message, { theme: "colored", autoClose: 5000});
                 setClickStatusReject(false)
             }
         }

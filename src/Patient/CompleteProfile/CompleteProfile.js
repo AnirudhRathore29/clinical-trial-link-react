@@ -23,7 +23,7 @@ import PlacesAutocomplete, {
     getLatLng
 } from "react-places-autocomplete";
 
-toast.configure();
+// toast.configure();
 var jwt = require('jsonwebtoken');
 const PatientCompleteProfile = () => {
     const dispatch = useDispatch();
@@ -156,11 +156,11 @@ const PatientCompleteProfile = () => {
     useEffect(() => {
         if (CPSubmitClick === true) {
             if (Object.keys(profileComSelector.data).length !== 0 && profileComSelector.loading === false) {
-                toast.success(profileComSelector.data.data.message, { theme: "colored" })
+                toast.success(profileComSelector.data.data.message, { theme: "colored", autoClose: 5000})
                 history.push("/patient/dashboard");
             } else if (Object.keys(profileComSelector.error).length !== 0 && profileComSelector.loading === false) {
                 let err = profileComSelector.error.message;
-                toast.error(err, { theme: "colored" });
+                toast.error(err, { theme: "colored", autoClose: 5000});
                 setCPSubmitClick(false)
             }
         }
@@ -170,7 +170,7 @@ const PatientCompleteProfile = () => {
         console.log("value", value);
         const isZipcodeVaild = isValidZipcode(value.zip_code)
         if (!isZipcodeVaild.status) {
-            toast.error(isZipcodeVaild.message, { theme: "colored" })
+            toast.error(isZipcodeVaild.message, { theme: "colored", autoClose: 5000})
             return false
         }
         return true
