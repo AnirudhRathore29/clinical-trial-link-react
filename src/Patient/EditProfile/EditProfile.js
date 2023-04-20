@@ -37,9 +37,6 @@ const PatientEditProfile = () => {
     const profileSelector = useSelector(state => state.profile.data.data);
     const UpdateProfileSelector = useSelector(state => state.profile)
 
-    console.log("profileSelector", profileSelector);
-    console.log("UpdateProfileSelector", UpdateProfileSelector);
-
     const [specialityList, setSpecialityList] = useState([]);
     const [conditionList, setConditionList] = useState([]);
     const [binary, setBinary] = useState();
@@ -77,6 +74,12 @@ const PatientEditProfile = () => {
     });
 
     console.log("profileInputData", profileInputData);
+    console.log("profileSelector", profileSelector);
+    console.log("UpdateProfileSelector", UpdateProfileSelector);
+    console.log("conditionListAPI", conditionListAPI);
+    console.log("conditionList", conditionList);
+    console.log("specialityList", specialityList);
+    console.log("specialityListAPI", specialityListAPI);
 
     useEffect(() => {
         dispatch(ProfileAction())
@@ -184,14 +187,26 @@ const PatientEditProfile = () => {
     }
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, speciality: e })
-        const speArr = e.map(value => value.id)
+        console.log("eeeeee", e);
+        setProfileInputData({ ...profileInputData, speciality: e, condition: [], })
+        const speArr = e.map(value => value.value)
         let data = {
             speciality: speArr
         }
-
+        
         ConditionsAction(data);
     }
+
+    useEffect(() => {
+        if(specialityListAPI.length > 0){
+            const speArr = specialityListAPI.map(value => value.value)
+            let data = {
+                speciality: speArr
+            }
+    
+            ConditionsAction(data);
+        }
+    }, [specialityListAPI])
 
     useEffect(() => {
         SpecialitiesAction()

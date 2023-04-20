@@ -189,14 +189,26 @@ const ClinicEditProfile = () => {
     }
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, speciality: e })
-        const speArr = e.map(value => value.id)
+        console.log("eeeee", e);
+        setProfileInputData({ ...profileInputData, speciality: e, condition: [], })
+        const speArr = e.map(value => value.value)
         let data = {
             speciality: speArr
         }
 
         ConditionsAction(data);
     }
+
+    useEffect(() => {
+        if(specialityListAPI.length > 0){
+            const speArr = specialityListAPI.map(value => value.value)
+            let data = {
+                speciality: speArr
+            }
+    
+            ConditionsAction(data);
+        }
+    }, [specialityListAPI])
 
     useEffect(() => {
         SpecialitiesAction()

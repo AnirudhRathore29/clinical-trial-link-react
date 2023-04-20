@@ -47,7 +47,8 @@ const SponsorPayment = (props) => {
             paid_by: paymentOption,
             transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS")
         }
-        if (FieldData?.amount.trim()) {
+        console.log("ApiDataApiData", ApiData);
+        if (FieldData?.amount.trim() && /^\d+(\.\d+)?$/.test(FieldData?.amount.trim())) {
             if (paymentOption === "Cash") {
                 dispatch(TrialRequestAppStatusUpdateAction(ApiData))
             } else if (props?.location?.state?.isClinicBankDetailSet === 0 && props?.location?.state?.isSponsorBankDetailSet === 0) {
@@ -61,7 +62,7 @@ const SponsorPayment = (props) => {
             }
         }
         else {
-            toast.error("Please add amount first!", { theme: "colored", autoClose: 5000});
+            toast.error("Please add a valid amount!", { theme: "colored", autoClose: 5000});
         }
     }
 

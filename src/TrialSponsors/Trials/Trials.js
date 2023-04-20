@@ -90,14 +90,14 @@ const SponsorsTrials = () => {
             method: 'GET',
             headers: authHeader()
         };
-        return fetch(getCurrentHost() + "/get-clinical-specialities", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-specialitites", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 let data = response.data;
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].speciality_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].speciality_info.speciality_title;
+                    obj.value = data[i].speciality_info.id;
                     setSpecialityList(oldArray => [...oldArray, obj]);
                 }
             })
@@ -109,18 +109,18 @@ const SponsorsTrials = () => {
     async function ConditionsAction(data) {
         const requestOptions = {
             method: 'POST',
-            headers: authHeader(true),
+            headers: authHeader(),
             body: JSON.stringify(data)
         };
-        return fetch(getCurrentHost() + "/get-clinical-conditions", requestOptions)
+        return fetch(getCurrentHost() + "/get-user-conditions", requestOptions)
             .then(data => data.json())
             .then((response) => {
                 var data = response.data;
                 var conditionsArr = [];
                 for (var i = 0; i < data?.length; i++) {
                     const obj = Object.assign({}, data[i]);
-                    obj.label = data[i].condition_title;
-                    obj.value = data[i].id;
+                    obj.label = data[i].condition_info.condition_title;
+                    obj.value = data[i].condition_info.id;
                     conditionsArr.push(obj)
                 }
                 setConditionList(conditionsArr);
@@ -131,10 +131,11 @@ const SponsorsTrials = () => {
     }
 
     const specialityOnChange = (e) => {
-        setCreateTrialFieldData({ ...createTrialFieldData, speciality: e })
-        const speArr = e.map(value => value.id)
+        console.log("eee", e);
+        setCreateTrialFieldData({ ...createTrialFieldData, speciality: e, condition: [], })
+        const speArr = e.map(value => value.value)
         let data = {
-            speciality: speArr
+            speciality_ids: speArr
         }
         ConditionsAction(data);
     }
@@ -193,8 +194,8 @@ const SponsorsTrials = () => {
 
     const handleCreateTrialSubmit = (event) => {
         event.preventDefault();
-        const specialityArr = createTrialFieldData.speciality.map(value => value.id);
-        const conditionArr = createTrialFieldData.condition.map(value => value.id);
+        const specialityArr = createTrialFieldData.speciality.map(value => value.value);
+        const conditionArr = createTrialFieldData.condition.map(value => value.value);
         const fieldData = {
             trial_name: createTrialFieldData.trial_name,
             compensation: createTrialFieldData.compensation,
@@ -203,8 +204,9 @@ const SponsorsTrials = () => {
             description: createTrialFieldData.description,
             invite_sent_to_clinics: createTrialFieldData.invite_sent_to_clinics
         }
+        console.log("fieldDatafieldDatafieldData", fieldData);
         dispatch(CreateTrialsAction(fieldData))
-        dispatch(ListTrials({ page: loadMoreData }))
+        // dispatch(ListTrials({ page: loadMoreData }))
     }
 
     //Trial Details Modal Funciton

@@ -145,7 +145,7 @@ const PatientCompleteProfile = () => {
     };
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, speciality: e })
+        setProfileInputData({ ...profileInputData, speciality: e, conditions: [], })
         const speArr = e.map(value => value.id)
         let data = {
             speciality: speArr

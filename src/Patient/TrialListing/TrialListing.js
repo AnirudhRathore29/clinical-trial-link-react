@@ -148,7 +148,7 @@ const PatientTrialListing = () => {
     }, [])
 
     const specialityOnChange = (e) => {
-        setTrialClinicFilter({ ...trialClinicFilter, specialities: e })
+        setTrialClinicFilter({ ...trialClinicFilter, specialities: e, conditions: [], })
         const speArr = e.map(value => value.speciality_info.id)
         let data = {
             speciality_ids: speArr

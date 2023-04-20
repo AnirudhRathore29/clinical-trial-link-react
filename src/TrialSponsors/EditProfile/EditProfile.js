@@ -24,8 +24,8 @@ import PlacesAutocomplete, {
 import { Encryption } from "../../utils/PayloadEncryption";
 
 // toast.configure();
-const conditionListAPI = []
-const specialityListAPI = []
+var conditionListAPI = []
+var specialityListAPI = []
 const SponsorsEditProfile = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -59,6 +59,9 @@ const SponsorsEditProfile = () => {
         routing_number: "",
         listing_image: "",
     });
+
+    console.log("specialityListAPI", specialityListAPI);
+    console.log("profileSelector", profileSelector);
 
     useEffect(() => {
         dispatch(ProfileAction())
@@ -98,6 +101,11 @@ const SponsorsEditProfile = () => {
                 routing_number: profileSelector.data.user_bank_detail !== null ? profileSelector.data.user_bank_detail.routing_number : "",
                 listing_image: profileSelector.data.listing_image
             });
+        }
+        return () => {
+            setProfileInputData()
+            conditionListAPI = []
+            specialityListAPI = []
         }
     }, [profileSelector])
 
@@ -147,14 +155,25 @@ const SponsorsEditProfile = () => {
     }
 
     const specialityOnChange = (e) => {
-        setProfileInputData({ ...profileInputData, speciality: e })
-        const speArr = e.map(value => value.id)
+        setProfileInputData({ ...profileInputData, speciality: e, condition: [], })
+        const speArr = e.map(value => value.value)
         let data = {
             speciality: speArr
         }
 
         ConditionsAction(data);
     }
+
+    useEffect(() => {
+        if(specialityListAPI.length > 0){
+            const speArr = specialityListAPI.map(value => value.value)
+            let data = {
+                speciality: speArr
+            }
+    
+            ConditionsAction(data);
+        }
+    }, [specialityListAPI])
 
     useEffect(() => {
         SpecialitiesAction()

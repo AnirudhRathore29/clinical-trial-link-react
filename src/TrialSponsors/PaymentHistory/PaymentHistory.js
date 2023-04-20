@@ -68,7 +68,19 @@ const SponsorsPaymentHistory = () => {
                                                             <div className='payment-history-details'>
                                                                 <h2 className='mb-0'><span><strong>Transaction ID :</strong> {value?.transaction_id}</span> <span className='amount'>${value?.amount}</span></h2>
                                                                 <small>{moment(value?.transaction_datetime).format("MMMM DD, YYYY (HH:MM:SS)")}</small>
-                                                                <p><strong>Visit Number :</strong> {value?.trial_clinic_appointment_info?.visit_number}</p>
+                                                                <p><strong>Visit Number : </strong>
+                                                                    {value?.payment_type === 1 ?
+                                                                        value?.trial_clinic_appointment_info?.visit_number
+                                                                        :
+                                                                        value?.payment_type === 2 ?
+                                                                            value?.patient_appointment_visit_info?.visit_number
+                                                                            :
+                                                                            value?.payment_type === 3 || value?.payment_type === 4 ?
+                                                                                "-"
+                                                                                :
+                                                                                null
+                                                                    }
+                                                                </p>
                                                                 <p><strong>Type :</strong> {value?.paid_by}</p>
                                                             </div>
                                                         </div>

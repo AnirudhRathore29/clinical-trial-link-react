@@ -117,8 +117,8 @@ const SponsorsManageClinics = () => {
 
     const specialityOnchange = (data) => {
         const id = data.map((value) => value.speciality_info.id)
-        setFormData({ ...formData, specialities: id })
-        setSpecialitySelected({...specialitySelected, specialities: data })
+        setFormData({ ...formData, specialities: id, conditions: [] })
+        setSpecialitySelected({...specialitySelected, specialities: data, conditions: [] })
         const updatedData = {
             speciality_ids: id
         }

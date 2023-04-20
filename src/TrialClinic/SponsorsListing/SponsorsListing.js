@@ -94,7 +94,7 @@ const ClinicSponsorsListing = () => {
     }
 
     const specialityOnChange = (e) => {
-        setsponsoreListFilter({ ...sponsoreListFilter, specialities: e })
+        setsponsoreListFilter({ ...sponsoreListFilter, specialities: e, conditions: [], })
         const speArr = e.map(value => value.speciality_info.id)
         let data = {
             speciality_ids: speArr

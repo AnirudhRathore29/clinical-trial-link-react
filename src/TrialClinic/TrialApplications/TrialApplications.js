@@ -43,6 +43,7 @@ const ClinicTrialApplication = () => {
     });
 
     console.log("trialAppDetailSelector", trialAppDetailSelector);
+    console.log("trialAppDetailData", trialAppDetailData);
     console.log("location", location);
     console.log("tabName", tabName);
     console.log("bookingSlotData", bookingSlotData);
@@ -270,7 +271,7 @@ const ClinicTrialApplication = () => {
                                                                 onClick={() => handleTrialDetailModalOpen(value.id)}
                                                                 imgUrl={value.sponsor_user_info.listing_image}
                                                                 title={value.clinic_trial_info.trial_name}
-                                                                status={value.status === 3 ? "Completed" : "Cancelled"}
+                                                                status={value.status === 3 ? "Completed" : "Rejected"}
                                                                 statusClass={value.status === 3 ? "success" : "danger"}
                                                                 location={value.sponsor_user_info.address}
                                                                 state={value.sponsor_user_info.state_info.name}
@@ -319,7 +320,10 @@ const ClinicTrialApplication = () => {
                         <h2> {trialAppDetailData.data.clinic_trial_info.trial_name} </h2>
                         <div className="trialClinic-location">
                             <span><box-icon name='edit-alt' color="#356AA0" size="18px"></box-icon> Updated on {moment(trialAppDetailData.data.updated_date).format("MMMM DD, YYYY")} </span>
-                            {trialAppDetailData.data.is_recruiting === 1 ?
+                            { trialAppDetailData.data.status === 2 || trialAppDetailData.data.status === 3 ||  trialAppDetailData.data.status === 0 ?
+                                <span className={trialAppDetailData.data.status === 2 ? 'badge badge-danger' : trialAppDetailData.data.status === 3 ? 'badge badge-success' : 'badge badge-primary'}>{trialAppDetailData.data.status === 2 ? "Rejected" : trialAppDetailData.data.status === 3 ? "Completed" : "Pending"}</span>
+                                :
+                                trialAppDetailData.data.is_recruiting === 1 ?
                                 <span className='badge badge-success'><box-icon name='check' size="18px" color="#356AA0"></box-icon> Recruiting</span>
                                 :
                                 <span className='badge badge-danger'><box-icon name='x' size="18px" color="#ffffff"></box-icon> Recruiting stopped</span>

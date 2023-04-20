@@ -103,6 +103,7 @@ const Payment = (props) => {
             amount: StatusUpdateFields?.amount,
             transaction_datetime: moment(new Date()).format("YYYY-MM-DD HH:MM:SS"),
         }
+        console.log("ApiDataApiData", data);
         dispatch(NewScreenTrialRequestStatusUpdateAction(data))
     }
 
@@ -110,7 +111,7 @@ const Payment = (props) => {
         if(data){
             setEndStudy(true)
         }
-        if (StatusUpdateFields?.amount.trim()) {
+        if (StatusUpdateFields?.amount.trim() && /^\d+(\.\d+)?$/.test(StatusUpdateFields?.amount.trim())) {
             if (paymentOption === "Cash") {
                 if (status === "1" || data === "endStudy") {
                     setCancelReasonModal(true)
@@ -132,7 +133,7 @@ const Payment = (props) => {
             }
         }
         else {
-            toast.error("Please add amount first!", { theme: "colored", autoClose: 5000});
+            toast.error("Please add a valid amount!", { theme: "colored", autoClose: 5000});
         }
     }
 

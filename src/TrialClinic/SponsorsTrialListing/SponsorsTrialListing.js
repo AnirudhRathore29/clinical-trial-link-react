@@ -100,15 +100,15 @@ const ClinicSponsorsTrialListing = (props) => {
 
     const handleRedirectUser2Chat = () => {
         let values = {
-            full_name: clinicDetails.data.sponsor_name,
-            id: clinicDetails.data.id,
-            profile_image: clinicDetails.data.listing_image,
+            full_name: clinicDetails.data.user_info.sponsor_name,
+            id: clinicDetails.data.user_info.id,
+            profile_image: clinicDetails.data.user_info.listing_image,
         }
-        console.log("values", values);
-        // history.push({
-        //     pathname: "/trial-clinic/my-chats",
-        //     state: values
-        // })
+        console.log("valuesvalues", values);
+        history.push({
+            pathname: "/trial-clinic/my-chats",
+            state: values
+        })
     }
 
     useEffect(() => {
