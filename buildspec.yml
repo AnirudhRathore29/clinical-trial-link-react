@@ -21,6 +21,5 @@ artifacts:
     - public/**/*
     - src/**/*
     - package.json
-    - server.js
     - appspec.yml
     - scripts/**/*
