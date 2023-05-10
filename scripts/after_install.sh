@@ -3,7 +3,7 @@
 cd /home/ubuntu/server
 
 # install dependencies
-npm install --legacy-peer-deps
+npm install
 
 # install create-react-app and react-scripts
 # without react-scripts application cannot be started
