@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#cd /home/ubuntu/server
+cd /home/ubuntu/server
 
 # install dependencies
 npm install
