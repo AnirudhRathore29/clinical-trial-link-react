@@ -7,7 +7,6 @@ phases:
    
     commands:
         # install npm
-        - npm cache clean --force
         - npm install 
        
   build:
